@@ -79,20 +79,16 @@ class Iobat extends CI_Controller
         $data['admin'] = $this->db->get_where('admin', ['email' =>
         $this->session->userdata('email')])->row_array();
         $data['obat'] = $this->Iobat_model->get_obat();
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('tgl_masuk', 'Tanggal Masuk', 'required');
-        $this->form_validation->set_rules('expired', 'Expired', 'required');
-        $this->form_validation->set_rules('jumlah_masuk', 'Jumlah Masuk', 'required|numeric');
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/inventaris_obat/sidebar', $data);
+        $this->load->view('templates/admin/topbar', $data);
+        $this->load->view('admin/inventaris_obat/add_data', $data);
+        $this->load->view('templates/footer');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('admin/inventaris_obat/sidebar', $data);
-            $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/inventaris_obat/add_data', $data);
-            $this->load->view('templates/footer');
-        } else {
+        $nama = $this->input->post('nama');
+        if (isset($nama)) {
             $data = [
-                'id_obat' => $this->input->post('id_obat'),
+                'id_obat' => $this->input->post('nama'),
                 'tgl_masuk' => $this->input->post('tgl_masuk'),
                 'expired' => $this->input->post('expired'),
                 'jumlah_masuk' => $this->input->post('jumlah_masuk'),
@@ -111,29 +107,26 @@ class Iobat extends CI_Controller
         $this->session->userdata('email')])->row_array();
         $data['obat'] = $this->Iobat_model->get_obat();
         $data['iobat'] = $this->Iobat_model->getById($id);
-        $this->form_validation->set_rules('id_obat', 'Nama', 'required');
-        $this->form_validation->set_rules('tgl_masuk', 'Tanggal Masuk', 'required');
-        $this->form_validation->set_rules('expired', 'Expired', 'required');
-        $this->form_validation->set_rules('jumlah_masuk', 'Jumlah Masuk', 'required|numeric');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('admin/inventaris_obat/sidebar', $data);
-            $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/inventaris_obat/edit_data', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $data = [
-                'id_obat' => $this->input->post('id_obat'),
-                'tgl_masuk' => $this->input->post('tgl_masuk'),
-                'expired' => $this->input->post('expired'),
-                'jumlah_masuk' => $this->input->post('jumlah_masuk'),
-            ];
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/inventaris_obat/sidebar', $data);
+        $this->load->view('templates/admin/topbar', $data);
+        $this->load->view('admin/inventaris_obat/edit_data', $data);
+        $this->load->view('templates/footer');
+    }
 
-            $this->Iobat_model->edit_data(array('id_inventaris_obat' => $this->input->post('id')), $data);
-            $this->session->set_flashdata('flash', 'diubah');
-            redirect('iobat');
-        }
+    public function update()
+    {
+        $data = [
+            'id_obat' => $this->input->post('nama'),
+            'tgl_masuk' => $this->input->post('tgl_masuk'),
+            'expired' => $this->input->post('expired'),
+            'jumlah_masuk' => $this->input->post('jumlah_masuk'),
+        ];
+
+        $this->Iobat_model->edit_data(array('id_inventaris_obat' => $this->input->post('id')), $data);
+        $this->session->set_flashdata('flash', 'diubah');
+        redirect('iobat');
     }
 
     public function delete($id)

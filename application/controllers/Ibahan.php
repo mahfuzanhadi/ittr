@@ -77,20 +77,17 @@ class Ibahan extends CI_Controller
         $data['admin'] = $this->db->get_where('admin', ['email' =>
         $this->session->userdata('email')])->row_array();
         $data['bahan'] = $this->Ibahan_model->get_bahan();
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('tgl_masuk', 'Tanggal Masuk', 'required');
-        $this->form_validation->set_rules('expired', 'Expired', 'required');
-        $this->form_validation->set_rules('jumlah_masuk', 'Jumlah Masuk', 'required|numeric');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('admin/inventaris_bahan/sidebar', $data);
-            $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/inventaris_bahan/add_data', $data);
-            $this->load->view('templates/footer');
-        } else {
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/inventaris_bahan/sidebar', $data);
+        $this->load->view('templates/admin/topbar', $data);
+        $this->load->view('admin/inventaris_bahan/add_data', $data);
+        $this->load->view('templates/footer');
+
+        $nama = $this->input->post('nama');
+        if (isset($nama)) {
             $data = [
-                'id_bahan' => $this->input->post('id_bahan'),
+                'id_bahan' => $this->input->post('nama'),
                 'tgl_masuk' => $this->input->post('tgl_masuk'),
                 'expired' => $this->input->post('expired'),
                 'jumlah_masuk' => $this->input->post('jumlah_masuk')
@@ -109,29 +106,26 @@ class Ibahan extends CI_Controller
         $this->session->userdata('email')])->row_array();
         $data['bahan'] = $this->Ibahan_model->get_bahan();
         $data['ibahan'] = $this->Ibahan_model->getById($id);
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('tgl_masuk', 'Tanggal Masuk', 'required');
-        $this->form_validation->set_rules('expired', 'Expired', 'required');
-        $this->form_validation->set_rules('jumlah_masuk', 'Jumlah Masuk', 'required|numeric');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('admin/inventaris_bahan/sidebar', $data);
-            $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/inventaris_bahan/edit_data', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $data = [
-                'id_bahan' => $this->input->post('id_bahan'),
-                'tgl_masuk' => $this->input->post('tgl_masuk'),
-                'expired' => $this->input->post('expired'),
-                'jumlah_masuk' => $this->input->post('jumlah_masuk'),
-            ];
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/inventaris_bahan/sidebar', $data);
+        $this->load->view('templates/admin/topbar', $data);
+        $this->load->view('admin/inventaris_bahan/edit_data', $data);
+        $this->load->view('templates/footer');
+    }
 
-            $this->Ibahan_model->edit_data(array('id_inventaris_bahan' => $this->input->post('id')), $data);
-            $this->session->set_flashdata('flash', 'diubah');
-            redirect('ibahan');
-        }
+    public function update()
+    {
+        $data = [
+            'id_bahan' => $this->input->post('nama'),
+            'tgl_masuk' => $this->input->post('tgl_masuk'),
+            'expired' => $this->input->post('expired'),
+            'jumlah_masuk' => $this->input->post('jumlah_masuk'),
+        ];
+
+        $this->Ibahan_model->edit_data(array('id_inventaris_bahan' => $this->input->post('id')), $data);
+        $this->session->set_flashdata('flash', 'diubah');
+        redirect('ibahan');
     }
 
     public function delete($id)

@@ -15,40 +15,40 @@
             <b class="text-gray-800"><?= $title; ?></b>
         </div>
         <div class="card-body">
-            <form action="" method="post">
+            <form action="" method="post" id="form_ibahan">
                 <div class="form-row">
                     <div class="form-group col-sm-2">
                         <label for="nama">Nama <font color="red">*</font></label>
-                        <select class="form-control form-control-sm" name="nama">
-                            <option value="">Choose one</option>
+                        <select class="form-control form-control-sm" name="nama" id="nama">
+                            <option value="">Pilih salah satu</option>
                             <?php
                             foreach ($bahan as $row) {
                                 echo '<option value="' . $row->id_bahan . '" ' . set_select('nama', $row->id_bahan) . '>' . $row->nama . ' --- ' . $row->satuan . '</option>';
                             } ?>
                         </select>
-                        <small class="form-text text-danger"><?= form_error('nama'); ?></small>
+                        <span id="error_nama" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
                         <?php date_default_timezone_set('Asia/Jakarta'); ?>
                         <label>Tanggal Masuk <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="tgl_masuk" id="picker" placeholder="Tanggal Masuk" value="<?= set_value('tgl_masuk'); ?>" /> <small>(tahun-bulan-hari)</small>
-                        <small class="form-text text-danger"><?= form_error('tgl_masuk'); ?></small>
+                        <input class="form-control form-control-sm" type="text" name="tgl_masuk" id="picker" placeholder="Tanggal Masuk" /> <small>(tahun-bulan-hari)</small><br />
+                        <span id="error_picker" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-2">
                         <?php date_default_timezone_set('Asia/Jakarta'); ?>
                         <label>Expired <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="expired" id="datepicker" placeholder="Expired" value="<?= set_value('expired'); ?>" /> <small>(tahun-bulan-hari)</small>
-                        <small class="form-text text-danger"><?= form_error('expired'); ?></small>
+                        <input class="form-control form-control-sm" type="text" name="expired" id="datepicker" placeholder="Expired" /> <small>(tahun-bulan-hari)</small><br />
+                        <span id="error_datepicker" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
                         <label for="jumlah_masuk">Jumlah Masuk <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="jumlah_masuk" placeholder="Jumlah Masuk " value="<?= set_value('jumlah_masuk'); ?>" />
-                        <small class="form-text text-danger"><?= form_error('jumlah_masuk'); ?></small>
+                        <input class="form-control form-control-sm" type="text" name="jumlah_masuk" id="jumlah_masuk" placeholder="Jumlah Masuk" onkeypress="javascript:return isNumber(event)" />
+                        <span id="error_jumlah_masuk" class="text-danger"></span>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-primary" type="button" name="tambah" id="tambah">Save</button>
             </form>
 
         </div>
@@ -93,4 +93,70 @@
             dayOfWeek: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
         }
     })
+</script>
+<script>
+    // WRITE THE VALIDATION SCRIPT.
+    function isNumber(evt) {
+        var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+        if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+            return false;
+
+        return true;
+    }
+</script>
+<script>
+    $(document).ready(function() {
+        $('#tambah').click(function() {
+            var error_nama = '';
+            var error_picker = '';
+            var error_datepicker = '';
+            var error_jumlah_masuk = '';
+
+            if ($.trim($('#nama').val()).length == 0) {
+                error_nama = 'Nama wajib diisi';
+                $('#error_nama').text(error_nama);
+                $('#nama').addClass('has-error');
+            } else {
+                error_nama = '';
+                $('#error_nama').text(error_nama);
+                $('#nama').removeClass('has-error');
+            }
+
+            if ($.trim($('#picker').val()).length == 0 || $.trim($('#picker').val()) == '____-__-__') {
+                error_picker = 'Tanggal masuk wajib diisi';
+                $('#error_picker').text(error_picker);
+                $('#picker').addClass('has-error');
+            } else {
+                error_picker = '';
+                $('#error_picker').text(error_picker);
+                $('#picker').removeClass('has-error');
+            }
+
+            if ($.trim($('#datepicker').val()).length == 0 || $.trim($('#datepicker').val()) == '____-__-__') {
+                error_datepicker = 'Expired wajib diisi';
+                $('#error_datepicker').text(error_datepicker);
+                $('#datepicker').addClass('has-error');
+            } else {
+                error_datepicker = '';
+                $('#error_datepicker').text(error_datepicker);
+                $('#datepicker').removeClass('has-error');
+            }
+
+            if ($.trim($('#jumlah_masuk').val()).length == 0) {
+                error_jumlah_masuk = 'Jumlah masuk wajib diisi';
+                $('#error_jumlah_masuk').text(error_jumlah_masuk);
+                $('#jumlah_masuk').addClass('has-error');
+            } else {
+                error_jumlah_masuk = '';
+                $('#error_jumlah_masuk').text(error_jumlah_masuk);
+                $('#jumlah_masuk').removeClass('has-error');
+            }
+
+            if (error_nama != '' || error_picker != '' || error_datepicker != '' || error_jumlah_masuk != '') {
+                return false;
+            } else {
+                $('#form_ibahan').submit();
+            }
+        });
+    });
 </script>

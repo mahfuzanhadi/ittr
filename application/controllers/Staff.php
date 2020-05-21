@@ -113,7 +113,7 @@ class Staff extends CI_Controller
     public function isExist()
     {
         $username = $this->input->post('username');
-        if ($this->Staf_model->is_available($username)) {
+        if ($this->Staf_model->is_exist($username)) {
             echo "Username sudah terdaftar!";
         } else {
             echo "";

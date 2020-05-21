@@ -168,11 +168,8 @@ class Transaksi extends CI_Controller
                 ];
                 $this->Dtindakan_model->add_data($data2);
                 $this->Dtindakan_model->total_biaya_tindakan();
-
-                // redirect('dobat/add');
             } else {
                 $this->Dtindakan_model->total_biaya_tindakan();
-                // redirect('dobat/add');
             }
 
             $biaya_obat = $this->input->post('harga');

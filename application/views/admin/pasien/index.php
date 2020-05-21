@@ -219,21 +219,11 @@
                 {
                     "width": "60px",
                     "targets": 3,
-                    // "type": "num"
-                    // render: function(data) {
-                    //     const a = data;
-                    //     const b = moment().format('YYYY-MM-DD');
-                    //     const c = moment().diff(a, 'years');
-                    //     // const sortedArray = array.sort((a, b) => a.diff(b));
-                    //     // return sortedArray;
-                    //     return c;
-                    //     return moment().diff(data, 'years');
-                    // return moment().diff(moment(data, "DD-MM-YYYY"), 'years');
-                    // }
+                    "type": "num"
                 },
                 {
                     "width": "102px",
-                    "targets": 4
+                    "targets": 4,
                 },
                 {
                     "width": "250px",

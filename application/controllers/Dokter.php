@@ -123,7 +123,7 @@ class dokter extends CI_Controller
     public function isExist()
     {
         $username = $this->input->post('username');
-        if ($this->Dokter_model->is_available($username)) {
+        if ($this->Dokter_model->is_exist($username)) {
             echo "Username sudah terdaftar!";
         } else {
             echo "";

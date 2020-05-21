@@ -11,7 +11,8 @@ class Dokter_model extends CI_Model
 
     var $table = 'dokter';
     var $select_column = array('id_dokter', 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'email', 'no_sip', 'no_str', 'tanggal_berlaku_sip',  'tanggal_berlaku_str', 'username', 'password', 'email');
-    var $order_column = array(null, 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'email', 'no_sip', 'no_str', 'tanggal_berlaku_sip', 'tanggal_berlaku_str', null, null, 'email'); //set column field database for datatable orderable
+    // var $order_column = array(null, 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'email', 'no_sip', 'no_str', 'tanggal_berlaku_sip', 'tanggal_berlaku_str', null, null, 'email'); //set column field database for datatable orderable
+    var $order_column = array(null, 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'email', 'tanggal_berlaku_sip', 'tanggal_berlaku_str', null, null, 'email'); //set column field database for datatable orderable
     var $order = array('id_dokter' => 'asc'); // default order 
 
     public function make_query()
@@ -94,7 +95,7 @@ class Dokter_model extends CI_Model
         $this->db->delete($this->table);
     }
 
-    function is_available($username)
+    function is_exist($username)
     {
         $this->db->where('username', $username);
         $query = $this->db->get('dokter');

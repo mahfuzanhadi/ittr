@@ -105,4 +105,15 @@ class Pasien_model extends CI_Model
         $this->db->where('id_pasien', $id);
         $this->db->delete($this->table);
     }
+
+    function is_exist($no_rekam_medis)
+    {
+        $this->db->where('no_rekam_medis', $no_rekam_medis);
+        $query = $this->db->get('pasien');
+        if ($query->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

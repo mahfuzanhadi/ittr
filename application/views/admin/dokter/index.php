@@ -201,7 +201,7 @@
                 type: "POST"
             },
             "columnDefs": [{
-                    "targets": [0, 13, 14],
+                    "targets": [0, 6, 7, 13, 14],
                     "orderable": false
                 },
                 {
@@ -241,11 +241,11 @@
                 },
                 {
                     "width": "102px",
-                    "targets": 6
+                    "targets": 6,
                 },
                 {
                     "width": "102px",
-                    "targets": 7
+                    "targets": 7,
                 },
                 {
                     "width": "150px",

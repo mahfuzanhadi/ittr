@@ -127,7 +127,7 @@ class Perawat extends CI_Controller
     public function isExist()
     {
         $username = $this->input->post('username');
-        if ($this->Perawat_model->is_available($username)) {
+        if ($this->Perawat_model->is_exist($username)) {
             echo "Username sudah terdaftar!";
         } else {
             echo "";

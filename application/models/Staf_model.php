@@ -89,7 +89,7 @@ class Staf_model extends CI_Model
         $this->db->delete($this->table);
     }
 
-    function is_available($username)
+    function is_exist($username)
     {
         $this->db->where('username', $username);
         $query = $this->db->get("staf");

@@ -48,7 +48,7 @@
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="no_telp">No. Telp <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="no_telp" id="no_telp" placeholder="No. Telp" />
+                        <input class="form-control form-control-sm" type="text" name="no_telp" id="no_telp" placeholder="No. Telp" onkeypress="javascript:return isNumber(event)" />
                         <span id="error_no_telp" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
@@ -155,7 +155,7 @@
             var error_password = '';
             var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             var mobile_validation = /^\d{10,12}$/;
-            var password_validation = /^\d{6}$/;
+            var password_validation = /^.{8,}$/;
 
             if ($.trim($('#nama').val()).length == 0) {
                 error_nama = 'Nama wajib diisi';
@@ -235,7 +235,7 @@
                 $('#password').removeClass('has-error');
             } else {
                 if (!password_validation.test($('#password').val())) {
-                    error_password = 'Password harus berisi minimal 6 karakter';
+                    error_password = 'Password harus berisi minimal 8 karakter';
                     $('#error_password').text(error_password);
                     $('#password').addClass('has-error');
                 } else {

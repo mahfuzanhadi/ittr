@@ -78,21 +78,21 @@ class Staff extends CI_Controller
         $data['title'] = 'Tambah Data Staf Administrasi';
         $data['admin'] = $this->db->get_where('admin', ['email' =>
         $this->session->userdata('email')])->row_array();
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
-        $this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'required');
-        $this->form_validation->set_rules('no_telp', 'No. Telp', 'required|numeric');
-        $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required');
-        $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email');
-        $this->form_validation->set_rules('username', 'Username', 'is_unique[staf.username]');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('admin/staff/sidebar', $data);
-            $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/staff/add_data', $data);
-            $this->load->view('templates/footer');
-        } else {
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/staff/sidebar', $data);
+        $this->load->view('templates/admin/topbar', $data);
+        $this->load->view('admin/staff/add_data', $data);
+        $this->load->view('templates/footer');
+
+        $nama = $this->input->post('nama');
+        if (isset($nama)) {
+            $password = $this->input->post('password');
+            if ($password == '') {
+                $password = '';
+            } else {
+                $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+            }
             $data = [
                 'nama' => $this->input->post('nama'),
                 'alamat' => $this->input->post('alamat'),
@@ -101,7 +101,7 @@ class Staff extends CI_Controller
                 'no_telp' => $this->input->post('no_telp'),
                 'email' => $this->input->post('email'),
                 'username' => $this->input->post('username'),
-                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT)
+                'password' => $password
             ];
 
             $this->Staf_model->add_data($data);
@@ -126,35 +126,36 @@ class Staff extends CI_Controller
         $data['staf'] = $this->Staf_model->getById($id);
         $data['admin'] = $this->db->get_where('admin', ['email' =>
         $this->session->userdata('email')])->row_array();
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
-        $this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'required');
-        $this->form_validation->set_rules('no_telp', 'No. Telp', 'required|numeric');
-        $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required');
-        $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('admin/staff/sidebar', $data);
-            $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/staff/edit_data', $data);
-            $this->load->view('templates/footer');
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/staff/sidebar', $data);
+        $this->load->view('templates/admin/topbar', $data);
+        $this->load->view('admin/staff/edit_data', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function update()
+    {
+        $password = $this->input->post('password');
+        if ($password == '') {
+            $password = $this->input->post('password2');
         } else {
-            $data = [
-                'nama' => $this->input->post('nama'),
-                'alamat' => $this->input->post('alamat'),
-                'tanggal_lahir' => $this->input->post('tanggal_lahir'),
-                'jenis_kelamin' => $this->input->post('jenis_kelamin'),
-                'no_telp' => $this->input->post('no_telp'),
-                'email' => $this->input->post('email'),
-                'username' => $this->input->post('username'),
-                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT)
-            ];
-
-            $this->Staf_model->edit_data(array('id_staf' => $this->input->post('id')), $data);
-            $this->session->set_flashdata('flash', 'diubah');
-            redirect('staff');
+            $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
         }
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'alamat' => $this->input->post('alamat'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+            'no_telp' => $this->input->post('no_telp'),
+            'email' => $this->input->post('email'),
+            'username' => $this->input->post('username'),
+            'password' => $password
+        ];
+
+        $this->Staf_model->edit_data(array('id_staf' => $this->input->post('id')), $data);
+        $this->session->set_flashdata('flash', 'diubah');
+        redirect('staff');
     }
 
     public function detail_data($id)

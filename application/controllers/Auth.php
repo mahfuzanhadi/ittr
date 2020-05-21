@@ -32,10 +32,9 @@ class Auth extends CI_Controller
 
 		// $admin = $this->db->get_where('admin', ['email' => $email])->row_array();
 		$admin = $this->db->where('email', $email)->or_where('username', $email)->get('admin')->row_array();
-		$staf = $this->db->where('email', $email)->or_where('username', $email)->get('staf')->row_array();
 		$dokter = $this->db->where('email', $email)->or_where('username', $email)->get('dokter')->row_array();
-		// $dokter = $this->db->get_where('dokter', ['email' => $email])->row_array();
 		$perawat = $this->db->where('email', $email)->or_where('username', $email)->get('perawat')->row_array();
+		$staf = $this->db->where('email', $email)->or_where('username', $email)->get('staf')->row_array();
 
 		if ($admin) {
 			//usernya ada
@@ -50,6 +49,23 @@ class Auth extends CI_Controller
 				$this->session->set_userdata('masuk', TRUE);
 				$this->session->set_userdata('akses', '1');
 				redirect('admin/dashboard');
+			} else {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
+				redirect(base_url());
+			}
+		} else if ($dokter) {
+			//usernya ada
+			if (password_verify($password, $dokter['password'])) {
+				$data = [
+					'id_dokter' => $dokter['id_dokter'],
+					// 'username' => $dokter['username'],
+					'nama' => $dokter['nama'],
+					'email' => $dokter['email']
+				];
+				$this->session->set_userdata($data);
+				$this->session->set_userdata('masuk', TRUE);
+				$this->session->set_userdata('akses', '2');
+				redirect('dokter');
 			} else {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
 				redirect(base_url());

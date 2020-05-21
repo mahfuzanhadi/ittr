@@ -155,7 +155,7 @@
             var error_password = '';
             var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             var mobile_validation = /^\d{10,12}$/;
-            var password_validation = /^.{8,}$/;
+            var password_validation = /^.{6,}$/;
 
             if ($.trim($('#nama').val()).length == 0) {
                 error_nama = 'Nama wajib diisi';
@@ -235,7 +235,7 @@
                 $('#password').removeClass('has-error');
             } else {
                 if (!password_validation.test($('#password').val())) {
-                    error_password = 'Password harus berisi minimal 8 karakter';
+                    error_password = 'Password harus berisi minimal 6 karakter';
                     $('#error_password').text(error_password);
                     $('#password').addClass('has-error');
                 } else {

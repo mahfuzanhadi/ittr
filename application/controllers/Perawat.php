@@ -89,24 +89,21 @@ class Perawat extends CI_Controller
         $data['title'] = 'Tambah Data Perawat';
         $data['admin'] = $this->db->get_where('admin', ['email' =>
         $this->session->userdata('email')])->row_array();
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
-        $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'required');
-        $this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'required');
-        $this->form_validation->set_rules('no_telp', 'No. Telp', 'required|numeric');
-        $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required');
-        // $this->form_validation->set_rules('no_str', 'No. STR', 'required|numeric');
-        // $this->form_validation->set_rules('tanggal_berlaku_str', 'Tanggal Berlaku STR', 'required');
-        $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email');
-        $this->form_validation->set_rules('username', 'Username', 'is_unique[perawat.username]');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('admin/perawat/sidebar', $data);
-            $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/perawat/add_data', $data);
-            $this->load->view('templates/footer');
-        } else {
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/perawat/sidebar', $data);
+        $this->load->view('templates/admin/topbar', $data);
+        $this->load->view('admin/perawat/add_data', $data);
+        $this->load->view('templates/footer');
+
+        $nama = $this->input->post('nama');
+        if (isset($nama)) {
+            $password = $this->input->post('password');
+            if ($password == '') {
+                $password = '';
+            } else {
+                $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+            }
             $data = [
                 'nama' => $this->input->post('nama'),
                 'alamat' => $this->input->post('alamat'),
@@ -117,7 +114,7 @@ class Perawat extends CI_Controller
                 'no_str' => $this->input->post('no_str'),
                 'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
                 'username' => $this->input->post('username'),
-                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                'password' => $password,
                 'email' => $this->input->post('email')
             ];
 
@@ -127,47 +124,55 @@ class Perawat extends CI_Controller
         }
     }
 
+    public function isExist()
+    {
+        $username = $this->input->post('username');
+        if ($this->Perawat_model->is_available($username)) {
+            echo "Username sudah terdaftar!";
+        } else {
+            echo "";
+        }
+    }
+
     public function edit($id)
     {
         $data['title'] = 'Edit Data Perawat';
         $data['perawat'] = $this->Perawat_model->getById($id);
         $data['admin'] = $this->db->get_where('admin', ['email' =>
         $this->session->userdata('email')])->row_array();
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
-        $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'required');
-        $this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'required');
-        $this->form_validation->set_rules('no_telp', 'No. Telp', 'required|numeric');
-        $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required');
-        // $this->form_validation->set_rules('no_str', 'No. STR', 'required|numeric');
-        // $this->form_validation->set_rules('tanggal_berlaku_str', 'Tanggal Berlaku STR', 'required');
-        $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('admin/perawat/sidebar', $data);
-            $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/perawat/edit_data', $data);
-            $this->load->view('templates/footer');
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/perawat/sidebar', $data);
+        $this->load->view('templates/admin/topbar', $data);
+        $this->load->view('admin/perawat/edit_data', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function update()
+    {
+        $password = $this->input->post('password');
+        if ($password == '') {
+            $password = $this->input->post('password2');
         } else {
-            $data = [
-                'nama' => $this->input->post('nama'),
-                'alamat' => $this->input->post('alamat'),
-                'tempat_lahir' => $this->input->post('tempat_lahir'),
-                'tanggal_lahir' => $this->input->post('tanggal_lahir'),
-                'jenis_kelamin' => $this->input->post('jenis_kelamin'),
-                'no_telp' => $this->input->post('no_telp'),
-                'no_str' => $this->input->post('no_str'),
-                'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
-                'username' => $this->input->post('username'),
-                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-                'email' => $this->input->post('email')
-            ];
-
-            $this->Perawat_model->edit_data(array('id_perawat' => $this->input->post('id')), $data);
-            $this->session->set_flashdata('flash', 'diubah');
-            redirect('perawat');
+            $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
         }
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'alamat' => $this->input->post('alamat'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+            'no_telp' => $this->input->post('no_telp'),
+            'no_str' => $this->input->post('no_str'),
+            'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
+            'username' => $this->input->post('username'),
+            'password' => $password,
+            'email' => $this->input->post('email')
+        ];
+
+        $this->Perawat_model->edit_data(array('id_perawat' => $this->input->post('id')), $data);
+        $this->session->set_flashdata('flash', 'diubah');
+        redirect('perawat');
     }
 
     public function detail_data($id)

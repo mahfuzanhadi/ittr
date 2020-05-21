@@ -51,7 +51,7 @@ class Pasien extends CI_Controller
             $no++;
             $tanggal_lahir = $pasien->tanggal_lahir;
             $umur = floor((time() - strtotime($tanggal_lahir)) / 31556926);
-            // $age = intval($umur);
+            $age = intval($umur);
             $jk = $pasien->jenis_kelamin;
             if ($jk == 1) {
                 $jk = "Laki-laki";
@@ -63,7 +63,7 @@ class Pasien extends CI_Controller
             $row[] = $no;
             $row[] = $pasien->no_rekam_medis;
             $row[] = '<a onclick="detail_data(' . $pasien->id_pasien . ')" >' . $pasien->nama . '</a>';
-            $row[] = $umur;
+            $row[] = $age;
             $row[] = $jk;
             $row[] = $pasien->alamat;
             // $row[] = $umur;

@@ -83,26 +83,21 @@ class dokter extends CI_Controller
         $data['title'] = 'Tambah Data Dokter';
         $data['admin'] = $this->db->get_where('admin', ['email' =>
         $this->session->userdata('email')])->row_array();
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
-        $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'required');
-        $this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'required');
-        $this->form_validation->set_rules('no_telp', 'No. Telp', 'numeric');
-        $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required');
-        $this->form_validation->set_rules('no_sip', 'No. SIP', 'required');
-        $this->form_validation->set_rules('no_str', 'No. STR', 'required');
-        $this->form_validation->set_rules('tanggal_berlaku_sip', 'Tanggal Berlaku SIP', 'required');
-        $this->form_validation->set_rules('tanggal_berlaku_str', 'Tanggal Berlaku STR', 'required');
-        $this->form_validation->set_rules('email', 'E-mail', 'valid_email');
-        $this->form_validation->set_rules('username', 'Username', 'is_unique[dokter.username]');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('admin/dokter/sidebar', $data);
-            $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/dokter/add_data', $data);
-            $this->load->view('templates/footer');
-        } else {
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/dokter/sidebar', $data);
+        $this->load->view('templates/admin/topbar', $data);
+        $this->load->view('admin/dokter/add_data', $data);
+        $this->load->view('templates/footer');
+
+        $nama = $this->input->post('nama');
+        if (isset($nama)) {
+            $password = $this->input->post('password');
+            if ($password == '') {
+                $password = '';
+            } else {
+                $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+            }
             $data = [
                 'nama' => $this->input->post('nama'),
                 'alamat' => $this->input->post('alamat'),
@@ -116,12 +111,22 @@ class dokter extends CI_Controller
                 'tanggal_berlaku_sip' => $this->input->post('tanggal_berlaku_sip'),
                 'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
                 'username' => $this->input->post('username'),
-                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT)
+                'password' => $password
             ];
 
             $this->Dokter_model->add_data($data);
             $this->session->set_flashdata('flash', 'ditambahkan');
             redirect('dokter');
+        }
+    }
+
+    public function isExist()
+    {
+        $username = $this->input->post('username');
+        if ($this->Dokter_model->is_available($username)) {
+            echo "Username sudah terdaftar!";
+        } else {
+            echo "";
         }
     }
 
@@ -131,45 +136,41 @@ class dokter extends CI_Controller
         $data['dokter'] = $this->Dokter_model->getById($id);
         $data['admin'] = $this->db->get_where('admin', ['email' =>
         $this->session->userdata('email')])->row_array();
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
-        $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'required');
-        $this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'required');
-        // $this->form_validation->set_rules('no_telp', 'No. Telp', 'required|numeric');
-        $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required');
-        $this->form_validation->set_rules('no_sip', 'No. SIP', 'required');
-        $this->form_validation->set_rules('no_str', 'No. STR', 'required');
-        $this->form_validation->set_rules('tanggal_berlaku_sip', 'Tanggal Berlaku SIP', 'required');
-        $this->form_validation->set_rules('tanggal_berlaku_str', 'Tanggal Berlaku STR', 'required');
-        $this->form_validation->set_rules('email', 'E-mail', 'valid_email');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('admin/dokter/sidebar', $data);
-            $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/dokter/edit_data', $data);
-            $this->load->view('templates/footer');
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/dokter/sidebar', $data);
+        $this->load->view('templates/admin/topbar', $data);
+        $this->load->view('admin/dokter/edit_data', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function update()
+    {
+        $password = $this->input->post('password');
+        if ($password == '') {
+            $password = $this->input->post('password2');
         } else {
-            $data = [
-                'nama' => $this->input->post('nama'),
-                'alamat' => $this->input->post('alamat'),
-                'tempat_lahir' => $this->input->post('tempat_lahir'),
-                'tanggal_lahir' => $this->input->post('tanggal_lahir'),
-                'jenis_kelamin' => $this->input->post('jenis_kelamin'),
-                'no_telp' => $this->input->post('no_telp'),
-                'email' => $this->input->post('email'),
-                'no_sip' => $this->input->post('no_sip'),
-                'no_str' => $this->input->post('no_str'),
-                'tanggal_berlaku_sip' => $this->input->post('tanggal_berlaku_sip'),
-                'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
-                'username' => $this->input->post('username'),
-                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT)
-            ];
-
-            $this->Dokter_model->edit_data(array('id_dokter' => $this->input->post('id')), $data);
-            $this->session->set_flashdata('flash', 'diubah');
-            redirect('dokter');
+            $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
         }
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'alamat' => $this->input->post('alamat'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+            'no_telp' => $this->input->post('no_telp'),
+            'email' => $this->input->post('email'),
+            'no_sip' => $this->input->post('no_sip'),
+            'no_str' => $this->input->post('no_str'),
+            'tanggal_berlaku_sip' => $this->input->post('tanggal_berlaku_sip'),
+            'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
+            'username' => $this->input->post('username'),
+            'password' => $password
+        ];
+
+        $this->Dokter_model->edit_data(array('id_dokter' => $this->input->post('id')), $data);
+        $this->session->set_flashdata('flash', 'diubah');
+        redirect('dokter');
     }
 
     public function detail_data($id)

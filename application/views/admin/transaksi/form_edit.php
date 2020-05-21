@@ -585,6 +585,15 @@
         });
     });
 </script>
+<!-- <script>
+    $(document).ready(function() {
+        var id_tindakan1 = "<?php echo $detail_tindakan1['id_tindakan'] ?>";
+        console.log(id_tindakan1);
+        $('#tindakan').select2('data', {
+            id: id_tindakan1
+        });
+    });
+</script> -->
 <script type="text/javascript">
     $(document).ready(function() {
         $("#tindakan").select2({

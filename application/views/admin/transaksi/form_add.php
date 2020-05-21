@@ -282,6 +282,30 @@
 </script>
 <script>
     $(document).ready(function() {
+        $('#no_rekam_medis').keyup(function() {
+            var no_rekam_medis = $('#no_rekam_medis').val();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url() ?>transaksi/isExist",
+                data: "no_rekam_medis=" + no_rekam_medis,
+                success: function(response) {
+                    if (response != '') {
+                        $('#error_no_rm').text(response);
+                        $('#no_rekam_medis').addClass('has-error');
+                        $('#btn_rekam_medis').attr('disabled', true);
+                    } else {
+                        error_no_rm = response;
+                        $('#error_no_rm').text(error_no_rm);
+                        $('#no_rekam_medis').removeClass('has-error');
+                        $('#btn_rekam_medis').removeAttr('disabled');
+                    }
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
         $('#btn_rekam_medis').click(function() {
             var error_no_rm = '';
             var error_dokter = '';
@@ -297,47 +321,25 @@
                 $('#no_rekam_medis').removeClass('has-error');
             }
 
-            // $('#no_rekam_medis').keyup(function() {
-            //     var no_rekam_medis = $('#no_rekam_medis').val();
-            //     $.ajax({
-            //         type: "POST",
-            //         url: "<?php echo base_url() ?>transaksi/isExist",
-            //         data: "no_rekam_medis=" + no_rekam_medis,
-            //         success: function(response) {
-            //             if (response != '') {
-            //                 $('#error_no_rm').text(response);
-            //                 $('#no_rekam_medis').addClass('has-error');
-            //             } else {
-            //                 error_no_rm = response;
-            //                 $('#error_no_rm').text(error_no_rm);
-            //                 $('#no_rekam_medis').removeClass('has-error');
-            //             }
-            //         }
-            //     });
-            // });
-
-            var return_first = function() {
-                var no_rekam_medis = $('#no_rekam_medis').val();
-                error_no_rm = '';
-                $.ajax({
-                    type: "POST",
-                    // async: false,
-                    url: "<?php echo base_url() ?>transaksi/isExist",
-                    data: "no_rekam_medis=" + no_rekam_medis,
-                    success: function(response) {
-                        if (response != '') {
-                            $('#error_no_rm').text(response);
-                            $('#no_rekam_medis').addClass('has-error');
-                        } else {
-                            error_no_rm = '';
-                            $('#error_no_rm').text(error_no_rm);
-                            $('#no_rekam_medis').removeClass('has-error');
-                        }
+            var no_rekam_medis = $('#no_rekam_medis').val();
+            $.ajax({
+                type: "POST",
+                // async: false,
+                url: "<?php echo base_url() ?>transaksi/isExist",
+                data: "no_rekam_medis=" + no_rekam_medis,
+                success: function(response) {
+                    if (response != '') {
+                        $('#error_no_rm').text(response);
+                        $('#no_rekam_medis').addClass('has-error');
+                        // $('#btn_rekam_medis').attr('disabled', true);
+                    } else {
+                        error_no_rm = '';
+                        $('#error_no_rm').text(error_no_rm);
+                        $('#no_rekam_medis').removeClass('has-error');
+                        // $('#btn_rekam_medis').removeAttr('disabled');
                     }
-                });
-                return error_no_rm;
-                console.log("error_no_rm : " + error_no_rm);
-            }();
+                }
+            });
 
 
             if ($.trim($('#dokter').val()).length == 0) {

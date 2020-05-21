@@ -110,6 +110,16 @@ class Staff extends CI_Controller
         }
     }
 
+    public function isExist()
+    {
+        $username = $this->input->post('username');
+        if ($this->Staf_model->is_available($username)) {
+            echo "Username sudah terdaftar!";
+        } else {
+            echo "";
+        }
+    }
+
     public function edit($id)
     {
         $data['title'] = 'Edit Data Staf Administrasi';

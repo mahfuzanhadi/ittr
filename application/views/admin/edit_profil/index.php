@@ -5,26 +5,28 @@
     <!-- <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1> -->
 
     <form method="post" id="myForm">
+        <input type="hidden" name="id" value="<?= $admin['id_admin']; ?>">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Edit Data</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username" id="username" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" id="password" class="form-control" />
-                </div>
-                <div class="form-group">
                     <label>Nama</label>
-                    <input type="text" name="nama" id="nama" class="form-control" />
+                    <input type="text" name="nama" id="nama" class="form-control" value="<?= $admin['nama']; ?>" />
                 </div>
                 <div class="form-group">
                     <label>E-mail</label>
-                    <input type="text" name="email" id="email" class="form-control" />
+                    <input type="text" name="email" id="email" class="form-control" value="<?= $admin['email']; ?>" />
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" id="username" class="form-control" value="<?= $admin['username']; ?>" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <!-- <input type="password" name="password" id="password" class="form-control" value="<?= $admin['password']; ?>" /> -->
+                    <input type="password" name="password" id="password" class="form-control" />
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="id_staf" id="id_staf" />

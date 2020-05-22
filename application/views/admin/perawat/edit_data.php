@@ -152,8 +152,8 @@
     $(document).ready(function() {
         $('#username').keyup(function() {
             var username = $('#username').val();
-            // var uname = <?php echo $perawat['username'] ?>;
-            if (username != '') {
+            var uname = '<?php echo $perawat['username'] ?>';
+            if (username != '' && username != uname) {
                 $.ajax({
                     type: "POST",
                     url: "<?php echo base_url() ?>perawat/isExist",

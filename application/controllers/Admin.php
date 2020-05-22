@@ -28,6 +28,7 @@ class Admin extends CI_Controller
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/dashboard/index', $data);
         $this->load->view('templates/footer');
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function dashboard()
@@ -45,6 +46,7 @@ class Admin extends CI_Controller
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/dashboard/index', $data);
         $this->load->view('templates/footer');
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function profil()
@@ -58,6 +60,7 @@ class Admin extends CI_Controller
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/profil/index', $data);
         $this->load->view('templates/footer');
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function edit_profil()
@@ -71,5 +74,20 @@ class Admin extends CI_Controller
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/edit_profil/index', $data);
         $this->load->view('templates/footer');
+        $this->session->set_userdata('previous_url', current_url());
+    }
+
+    public function update_profil()
+    {
+        $data = [
+            'id' => $this->input->post('id'),
+            'username' => $this->input->post('username'),
+            'password' => $this->input->post('password'),
+            'nama' => $this->input->post('nama'),
+            'email' => $this->input->post('email')
+        ];
+
+        $this->db->update('admin', $data, ["id_pasien" => $this->input->post('id')]);
+        return $this->db->affected_rows();
     }
 }

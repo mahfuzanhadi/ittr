@@ -17,13 +17,6 @@ class Perawat extends CI_Controller
 
     public function index()
     {
-        // if ($this->session->userdata('akses') != 0) {
-        //     $previous_url = $this->session->userdata('previous_url');
-        //     redirect($previous_url);
-        // } else if ($this->session->userdata('akses') == 1) {
-        //     redirect('perawat/profil');
-        // }
-
         if ($this->session->userdata('akses') == 1) {
             $this->load->helper('url');
             $this->load->model('Perawat_model', 'perawat');
@@ -36,6 +29,7 @@ class Perawat extends CI_Controller
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/perawat/index', $data);
             $this->load->view('templates/footer');
+            $this->session->set_userdata('previous_url', current_url());
         } else if ($this->session->userdata('akses') == 3) {
             redirect('perawat/profil');
         }
@@ -95,6 +89,7 @@ class Perawat extends CI_Controller
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/perawat/add_data', $data);
         $this->load->view('templates/footer');
+        $this->session->set_userdata('previous_url', current_url());
 
         $nama = $this->input->post('nama');
         if (isset($nama)) {
@@ -146,6 +141,7 @@ class Perawat extends CI_Controller
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/perawat/edit_data', $data);
         $this->load->view('templates/footer');
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function update()
@@ -189,6 +185,10 @@ class Perawat extends CI_Controller
 
     public function profil()
     {
+        if ($this->session->userdata('akses') != 3) {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
         $data['title'] = 'Profil Saya';
         $data['perawat'] = $this->db->get_where('perawat', ['id_perawat' =>
         $this->session->userdata('id_perawat')])->row_array();
@@ -206,6 +206,10 @@ class Perawat extends CI_Controller
 
     public function edit_profil()
     {
+        if ($this->session->userdata('akses') != 3) {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
         $data['title'] = 'Edit Profil';
         $data['perawat'] = $this->db->get_where('perawat', ['email' =>
         $this->session->userdata('email')])->row_array();

@@ -103,6 +103,7 @@ class Pasien extends CI_Controller
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/pasien/add_data', $data);
             $this->load->view('templates/footer');
+            $this->session->set_userdata('previous_url', current_url());
         } else if ($this->session->userdata('akses') == 3) {
             $data['perawat'] = $this->db->get_where('perawat', ['email' =>
             $this->session->userdata('email')])->row_array();
@@ -111,6 +112,7 @@ class Pasien extends CI_Controller
             $this->load->view('templates/perawat/topbar', $data);
             $this->load->view('perawat/pasien/add_data', $data);
             $this->load->view('templates/footer');
+            $this->session->set_userdata('previous_url', current_url());
         }
 
         $nama = $this->input->post('nama');
@@ -156,14 +158,6 @@ class Pasien extends CI_Controller
     {
         $data['title'] = 'Edit Data Pasien';
         $data['pasien'] = $this->Pasien_model->getById($id);
-        $this->form_validation->set_rules('no_rekam_medis', 'Nomor Rekam Medis', 'required|numeric');
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
-        $this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'required');
-        $this->form_validation->set_rules('pekerjaan', 'Pekerjaan', 'required');
-        $this->form_validation->set_rules('no_telp', 'No. Telp', 'numeric');
-        $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required');
-        $this->form_validation->set_rules('email', 'E-mail', 'valid_email');
 
         if ($this->session->userdata('akses') == 1) {
             $data['admin'] = $this->db->get_where('admin', ['email' =>
@@ -173,6 +167,7 @@ class Pasien extends CI_Controller
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/pasien/edit_data', $data);
             $this->load->view('templates/footer');
+            $this->session->set_userdata('previous_url', current_url());
         } else if ($this->session->userdata('akses') == 3) {
             $data['perawat'] = $this->db->get_where('perawat', ['email' =>
             $this->session->userdata('email')])->row_array();
@@ -181,6 +176,7 @@ class Pasien extends CI_Controller
             $this->load->view('templates/perawat/topbar', $data);
             $this->load->view('perawat/pasien/edit_data', $data);
             $this->load->view('templates/footer');
+            $this->session->set_userdata('previous_url', current_url());
         }
     }
 

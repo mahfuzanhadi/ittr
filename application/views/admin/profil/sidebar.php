@@ -1,16 +1,23 @@
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-    <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('admin/dashboard'); ?>">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-tooth"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">Riona Dental Care</div>
-    </a>
+    <?php if ($this->session->userdata('akses') == '3') : ?>
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('perawat'); ?>">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-tooth"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">Riona Dental Care</div>
+        </a>
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
-    <?php if ($this->session->userdata('akses') == '1') : ?>
-        <li class="nav-item">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Menu
+        </div>
+
+        <li class="nav-item active">
             <a class="nav-link" href="<?= base_url('pasien'); ?>">
                 <i class="fas fa-fw fa-bed"></i>
                 <span>Data Pasien</span></a>
@@ -25,7 +32,7 @@
         </div>
 
         <!-- Nav Item - My Profile -->
-        <li class="nav-item active">
+        <li class="nav-item">
             <a class="nav-link" href="<?= base_url('perawat/profil'); ?>">
                 <i class="fas fa-fw fa-user"></i>
                 <span>Profil Saya</span></a>
@@ -38,6 +45,14 @@
 
 
     <?php else : ?>
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('admin/dashboard'); ?>">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-tooth"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">Riona Dental Care</div>
+        </a>
+
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('admin/dashboard'); ?>">
@@ -59,7 +74,7 @@
                 <span>Rekam Medis</span></a>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item active">
             <a class="nav-link" href="<?= base_url('pasien'); ?>">
                 <i class="fas fa-fw fa-bed"></i>
                 <span>Data Pasien</span></a>

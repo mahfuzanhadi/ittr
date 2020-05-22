@@ -140,31 +140,43 @@
         return true;
     }
 </script>
-<!-- <script>
+<script>
     $(document).ready(function() {
-        $('#no_rekam_medis').keyup(function() {
-            var no_rekam_medis = $('#no_rekam_medis').val();
-            var no_rm = '<?php echo $pasien['no_rekam_medis'] ?>';
-            $.ajax({
-                type: "POST",
-                url: "<?php echo base_url() ?>pasien/isExist",
-                data: "no_rekam_medis=" + no_rekam_medis,
-                success: function(response) {
-                    if (response != '') {
-                        $('#error_no_rm').text(response);
-                        $('#no_rekam_medis').addClass('has-error');
-                        $('#update').attr('disabled', true);
-                    } else {
-                        error_no_rm = response;
-                        $('#error_no_rm').text(error_no_rm);
-                        $('#no_rekam_medis').removeClass('has-error');
-                        $('#update').removeAttr('disabled');
+        $('#username').keyup(function() {
+            var username = $('#username').val();
+            var uname = '<?php echo $pasien['username'] ?>';
+            if (username != '' && username != uname) {
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url() ?>pasien/isExist",
+                    data: "username=" + username,
+                    success: function(response) {
+                        if (response != '') {
+                            $('#error_username').text(response);
+                            $('#username').addClass('has-error');
+                            $('#update').attr('disabled', true);
+                        } else {
+                            error_username = response;
+                            $('#error_username').text(error_username);
+                            $('#username').removeClass('has-error');
+                            $('#update').removeAttr('disabled');
+                        }
                     }
-                }
-            });
+                });
+            } else if (username == uname) {
+                var error_username = '';
+                $('#error_username').text(error_username);
+                $('#username').removeClass('has-error');
+                $('#update').removeAttr('disabled');
+            } else {
+                var error_username = '';
+                $('#error_username').text(error_username);
+                $('#username').removeClass('has-error');
+                $('#update').removeAttr('disabled');
+            }
         });
     });
-</script> -->
+</script>
 <script>
     $(document).ready(function() {
         $('#update').click(function() {

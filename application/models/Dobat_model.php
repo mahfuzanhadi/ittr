@@ -8,6 +8,7 @@ class Dobat_model extends CI_Model
         parent::__construct();
         $this->load->database();
     }
+    var $table = 'detail_biaya_obat';
 
     public function get_by_id($id)
     {
@@ -86,6 +87,23 @@ class Dobat_model extends CI_Model
         return $this->db->affected_rows();
     }
 
+    public function edit_total_biaya_obat($id)
+    {
+
+        $this->db->select('*');
+        $this->db->from('detail_biaya_obat');
+        $this->db->where('id_transaksi', $id);
+        $query = $this->db->get()->result();
+        foreach ($query as $row) {
+            $total_biaya_obat += $row->biaya_obat;
+        }
+
+        $this->db->set('total_biaya_obat', $total_biaya_obat);
+        $this->db->where('id_transaksi', $id);
+        $this->db->update('transaksi');
+        return $this->db->affected_rows();
+    }
+
     public function total_biaya_keseluruhan()
     {
         $last_transaksi = $this->db->select('id_transaksi')->order_by('id_transaksi', "desc")->limit(1)->get('transaksi')->row();
@@ -138,5 +156,88 @@ class Dobat_model extends CI_Model
             $data[] = array("id" => $t['id_obat'], "text" => $t['nama']);
         }
         return $data;
+    }
+
+    public function getDobat1($id)
+    {
+        $this->db->select('id_detail_biaya_obat');
+        // $this->db->select_min('id_detail_biaya_obat');
+        $this->db->from('detail_biaya_obat');
+        $this->db->where('id_transaksi', $id);
+        $row = $this->db->get()->first_row();
+        if (isset($row)) {
+            $first = $row->id_detail_biaya_obat;
+        }
+
+        return $this->db->get_where('detail_biaya_obat', ["id_detail_biaya_obat" => $first])->row_array();
+    }
+
+
+    public function getObat1($id)
+    {
+        $this->db->select('id_detail_biaya_obat');
+        // $this->db->select_min('id_detail_biaya_obat');
+        $this->db->from('detail_biaya_obat');
+        $this->db->where('id_transaksi', $id);
+        $row = $this->db->get()->first_row();
+        if (isset($row)) {
+            $first = $row->id_detail_biaya_obat;
+        }
+
+        $this->db->select('*');
+        $this->db->from('detail_biaya_obat');
+        $this->db->where('id_detail_biaya_obat', $first);
+        $row2 = $this->db->get()->row();
+        if (isset($row2)) {
+            $id_obat = $row2->id_obat;
+        }
+
+        return $this->db->get_where('obat', ["id_obat" => $id_obat])->row_array();
+    }
+
+    public function getDobat2($id)
+    {
+        $this->db->select('id_detail_biaya_obat');
+        $this->db->from('detail_biaya_obat');
+        $this->db->where('id_transaksi', $id);
+        $row = $this->db->get();
+        if ($row->num_rows() > 1) {
+            $this->db->select('id_detail_biaya_obat');
+            $this->db->from('detail_biaya_obat');
+            $this->db->where('id_transaksi', $id);
+            $row2 = $this->db->get()->last_row();
+            if (isset($row2)) {
+                $last = $row2->id_detail_biaya_obat;
+            }
+
+            return $this->db->get_where('detail_biaya_obat', ["id_detail_biaya_obat" => $last])->row_array();
+        }
+    }
+
+    public function getObat2($id)
+    {
+        $this->db->select('id_detail_biaya_obat');
+        $this->db->from('detail_biaya_obat');
+        $this->db->where('id_transaksi', $id);
+        $row = $this->db->get();
+        if ($row->num_rows() > 1) {
+            $this->db->select('id_detail_biaya_obat');
+            $this->db->from('detail_biaya_obat');
+            $this->db->where('id_transaksi', $id);
+            $row2 = $this->db->get()->last_row();
+            if (isset($row2)) {
+                $last = $row2->id_detail_biaya_obat;
+            }
+
+            $this->db->select('*');
+            $this->db->from('detail_biaya_obat');
+            $this->db->where('id_detail_biaya_obat', $last);
+            $row2 = $this->db->get()->row();
+            if (isset($row2)) {
+                $id_obat = $row2->id_obat;
+            }
+
+            return $this->db->get_where('obat', ["id_obat" => $id_obat])->row_array();
+        }
     }
 }

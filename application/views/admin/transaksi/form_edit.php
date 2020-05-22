@@ -3,6 +3,7 @@
 
     <!-- Page Heading -->
     <a href="<?php echo base_url('transaksi') ?>"><i class="fas fa-arrow-left"></i> Back</a>
+    <p></p>
 
     <?php if ($this->session->flashdata('success')) : ?>
         <div class="alert alert-success" role="alert">
@@ -46,9 +47,13 @@
                         <div class="panel panel-default">
                             <!-- <div class="panel-heading">Data Rekam Medis</div> -->
                             <div class="panel-body">
-                                <input type="hidden" name="id_transaksi" value="<?= $transaksi['id_transaksi']; ?>">
-                                <input type="hidden" name="jam_selesai" value="<?= $transaksi['jam_selesai']; ?>">
-                                <input type="hidden" name="old_image" value="<?= $transaksi['foto_rontgen']; ?>">
+                                <input type="hidden" name="id_transaksi" value="<?= $transaksi['id_transaksi']; ?>" />
+                                <input type="hidden" name="id_detail_tindakan1" value="<?= $detail_tindakan['id_detail_tindakan']; ?>" />
+                                <input type="hidden" name="id_detail_tindakan2" value="<?= $detail_tindakan2['id_detail_tindakan']; ?>" />
+                                <input type="hidden" name="id_detail_biaya_obat1" value="<?= $detail_obat['id_detail_biaya_obat']; ?>" />
+                                <input type="hidden" name="id_detail_biaya_obat2" value="<?= $detail_obat2['id_detail_biaya_obat']; ?>" />
+                                <input type="hidden" name="jam_selesai" value="<?= $transaksi['jam_selesai']; ?>" />
+                                <input type="hidden" name="old_image" value="<?= $transaksi['foto_rontgen']; ?>" />
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="no_rekam_medis">No. Rekam Medis <font color="red">*</font></label>
@@ -161,20 +166,23 @@
                                     <label for="tindakan">Tindakan 1<font color="red">*</font>
                                         <p style="margin-bottom: 0.5rem"></p>
                                         <select class="itemName form-control form-control-sm" name="tindakan" id="tindakan" style="width: 350px">
+                                            <option value="<?= $detail_tindakan['id_tindakan']; ?>"><?= $nama_tindakan['nama']; ?></option>
                                         </select>
                                     </label>
                                     <span id="error_tindakan" class="text-danger"></span>
                                 </div>
                                 <div class="form-group col-sm-2">
                                     <label>Biaya<font color="red">*</font></label>
-                                    <input class="form-control form-control-sm" type="text" name="biaya" id="biaya" placeholder="Biaya" onkeypress="javascript:return isNumber(event)" value="<?= $detail_tindakan1['biaya_tindakan']; ?>" />
+                                    <input class="form-control form-control-sm" type="text" name="biaya" id="biaya" placeholder="Biaya" onkeypress="javascript:return isNumber(event)" value="<?= $detail_tindakan['biaya_tindakan']; ?>" />
                                     <span id="error_biaya" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-sm-4">
                                     <label for="tindakan2">Tindakan 2 (kosongkan jika tidak ada)<p style="margin-bottom: 0.5rem"></p>
-                                        <select class="itemName form-control form-control-sm" name="tindakan2" id="tindakan2" style="width: 350px"></select>
+                                        <select class="itemName form-control form-control-sm" name="tindakan2" id="tindakan2" style="width: 350px">
+                                            <option value="<?= $detail_tindakan2['id_tindakan']; ?>"><?= $nama_tindakan2['nama']; ?></option>
+                                        </select>
                                     </label>
                                 </div>
                                 <div class="form-group col-sm-2">
@@ -195,55 +203,47 @@
                                 <div class="form-row">
                                     <div class="form-group col-sm-4">
                                         <label for="obat">Obat 1<font color="red">*</font></label>
-                                        <select class="itemName form-control form-control-sm" name="obat" id="obat">
-                                            <option value="">Choose one</option>
-                                            <?php
-                                            foreach ($obat as $row) {
-                                                echo '<option value="' . $row->id_obat . '" ' . set_select('obat', $row->id_obat) . '> ' . $row->nama . ' </option>';
-                                            } ?>
+                                        <select class="itemName form-control form-control-sm" name="obat" id="obat" style="width: 350px">
+                                            <option value="<?= $detail_obat['id_obat']; ?>"><?= $nama_obat['nama']; ?></option>
                                         </select>
                                         <span id="error_obat" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-sm-2">
                                         <label>Harga<font color="red">*</font></label>
-                                        <input class="form-control form-control-sm" type="text" name="harga" id="harga" placeholder="Harga" onkeypress="javascript:return isNumber(event)" />
+                                        <input class="form-control form-control-sm" type="text" name="harga" id="harga" placeholder="Harga" onkeypress="javascript:return isNumber(event)" value="<?= $nama_obat['harga']; ?>" />
                                         <span id="error_harga" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-sm-2">
                                         <label>Dosis<font color="red">*</font></label>
-                                        <input class="form-control form-control-sm" type="text" name="dosis" id="dosis" placeholder="Dosis" />
+                                        <input class="form-control form-control-sm" type="text" name="dosis" id="dosis" placeholder="Dosis" value="<?= $detail_obat['dosis']; ?>" />
                                         <span id="error_dosis" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-sm-2">
                                         <label>Jumlah Obat<font color="red">*</font></label>
-                                        <input class="form-control form-control-sm" type="text" name="jumlah" id="jumlah" placeholder="Jumlah Obat" />
+                                        <input class="form-control form-control-sm" type="text" name="jumlah" id="jumlah" placeholder="Jumlah Obat" value="<?= $detail_obat['jumlah_obat']; ?>" />
                                         <span id="error_jumlah" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-sm-4">
                                         <label for="obat2">Obat 2 (kosongkan jika tidak ada)</label>
-                                        <select class="itemName form-control form-control-sm" name="obat2" id="obat2">
-                                            <option value="">Choose one</option>
-                                            <?php
-                                            foreach ($obat as $row) {
-                                                echo '<option value="' . $row->id_obat . '" ' . set_select('obat', $row->id_obat) . '> ' . $row->nama . ' </option>';
-                                            } ?>
+                                        <select class="itemName form-control form-control-sm" name="obat2" id="obat2" style="width: 350px">
+                                            <option value="<?= $detail_obat2['id_obat']; ?>"><?= $nama_obat2['nama']; ?></option>
                                         </select>
                                     </div>
                                     <div class="form-group col-sm-2">
                                         <label>Harga</label>
-                                        <input class="form-control form-control-sm harga" type="text" name="harga2" id="harga2" placeholder="Harga" onkeypress="javascript:return isNumber(event)" />
+                                        <input class="form-control form-control-sm harga" type="text" name="harga2" id="harga2" placeholder="Harga" onkeypress="javascript:return isNumber(event)" value="<?= $nama_obat2['harga']; ?>" />
                                         <span id="error_harga2" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-sm-2">
                                         <label>Dosis</label>
-                                        <input class="form-control form-control-sm" type="text" name="dosis2" id="dosis2" placeholder="Dosis" />
+                                        <input class="form-control form-control-sm" type="text" name="dosis2" id="dosis2" placeholder="Dosis" value="<?= $detail_obat2['dosis']; ?>" />
                                         <span id="error_dosis2" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-sm-2">
                                         <label>Jumlah Obat</label>
-                                        <input class="form-control form-control-sm" type="text" name="jumlah2" id="jumlah2" placeholder="Jumlah Obat" />
+                                        <input class="form-control form-control-sm" type="text" name="jumlah2" id="jumlah2" placeholder="Jumlah Obat" value="<?= $detail_obat2['jumlah_obat']; ?>" />
                                         <span id="error_jumlah2" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -685,6 +685,8 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("#obat").select2({
+            placeholder: 'Pilih salah satu',
+            width: 'resolve',
             ajax: {
                 url: '<?= base_url() ?>dobat/get_obat',
                 type: "post",
@@ -704,6 +706,8 @@
             }
         });
         $("#obat2").select2({
+            placeholder: 'Pilih salah satu',
+            width: 'resolve',
             ajax: {
                 url: '<?= base_url() ?>dobat/get_obat',
                 type: "post",

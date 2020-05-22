@@ -239,75 +239,28 @@ class Transaksi extends CI_Controller
         $data['transaksi'] = $this->Transaksi_model->getById($id);
         // $data['detail_tindakan'] = $this->Transaksi_model->getDetailTindakan($id);
         // $data['detail_obat'] = $this->Transaksi_model->getDetailObat($id);
-        $data['detail_tindakan1'] = $this->Dtindakan_model->getDtindakan1($id);
+        $data['detail_tindakan'] = $this->Dtindakan_model->getDtindakan1($id);
+        $data['nama_tindakan'] = $this->Dtindakan_model->getTindakan1($id);
         $data['detail_tindakan2'] = $this->Dtindakan_model->getDtindakan2($id);
-        // $this->form_validation->set_rules('no_rekam_medis', 'Nomor Rekam Medis', 'required|callback_norm_check');
-        // $this->form_validation->set_rules('dokter', 'Dokter', 'required');
-        // $this->form_validation->set_rules('perawat', 'Perawat', 'required');
-        // $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
-        // $this->form_validation->set_rules('diagnosa', 'Diagnosa', 'required');
-        // $this->form_validation->set_rules('jam_mulai', 'Jam Mulai', 'required');
-        // $this->form_validation->set_rules('jam_selesai', 'Jam Selesai', 'required');
-        // $this->form_validation->set_rules('metode_pembayaran', 'Metode Pembayaran', 'required');
-        // $this->form_validation->set_rules('foto_rontgen', 'Foto Rontgen', 'trim|xss_clean');
+        $data['nama_tindakan2'] = $this->Dtindakan_model->getTindakan2($id);
 
-        // if ($this->form_validation->run() == false) {
+        $data['detail_obat'] = $this->Dobat_model->getDobat1($id);
+        $data['nama_obat'] = $this->Dobat_model->getObat1($id);
+        $data['detail_obat2'] = $this->Dobat_model->getDobat2($id);
+        $data['nama_obat2'] = $this->Dobat_model->getObat2($id);
+
         $this->load->view('templates/header', $data);
         $this->load->view('admin/transaksi/sidebar', $data);
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/transaksi/form_edit', $data);
         $this->load->view('templates/footer');
-        // } else {
-        //     $no_rekam_medis = $this->input->post('no_rekam_medis');
-        //     $id_pasien = $this->Transaksi_model->get_id_pasien($no_rekam_medis);
-
-        //     if (!empty($_FILES["foto_rontgen"])) {
-        //         // $this->foto_rontgen = $this->Transaksi_model->_uploadImage();
-        //         $config['upload_path'] = './uploads/rontgen/';
-        //         $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        //         $config['overwrite'] = true;
-
-        //         $this->load->library('upload', $config);
-        //         if (!$this->upload->do_upload('foto_rontgen')) {
-        //             $error = array('error' => $this->upload->display_errors());
-        //             $this->load->view('admin/transaksi/edit_data', $error);
-        //             // $foto = "default.jpg";
-        //             $foto = $this->input->post('old_image');
-        //         } else {
-        //             // $foto = $this->upload->data();
-        //             $sukses = array('file' => $this->upload->data());
-        //             $foto = $sukses['file']['file_name'];
-        //         }
-        //     } else {
-        //         $foto = $this->input->post('old_image');
-        //     }
-
-        //     $data = [
-        //         'id_transaksi' => $this->input->post('id_transaksi'),
-        //         'id_pasien' => $id_pasien,
-        //         'id_dokter' => $this->input->post('dokter'),
-        //         'id_perawat' => $this->input->post('perawat'),
-        //         'tanggal' => $this->input->post('tanggal'),
-        //         'diagnosa' => $this->input->post('diagnosa'),
-        //         'total_biaya_tindakan' => $this->input->post('total_biaya_tindakan'),
-        //         'total_biaya_obat' => $this->input->post('total_biaya_obat'),
-        //         'foto_rontgen' => $foto,
-        //         'keterangan' => $this->input->post('keterangan'),
-        //         'jam_mulai' => $this->input->post('jam_mulai'),
-        //         'jam_selesai' => $this->input->post('jam_selesai'),
-        //         'total_biaya_keseluruhan' => $this->input->post('total_biaya_keseluruhan'),
-        //         'metode_pembayaran' => $this->input->post('metode_pembayaran'),
-        //     ];
-
-        //     $this->Transaksi_model->edit_data(array('id_transaksi' => $this->input->post('id')), $data);
-        //     $this->session->set_flashdata('flash', 'diubah');
-        //     redirect('transaksi');
-        //     redirect('dtindakan/edit/' . $id);
-        // }
     }
 
     public function update()
     {
+        $this->load->model('Transaksi_model');
+        $this->load->model('Dtindakan_model');
+        $this->load->model('Dobat_model');
         $no_rekam_medis = $this->input->post('no_rekam_medis');
         if (isset($no_rekam_medis)) {
             $id_pasien = $this->Transaksi_model->get_id_pasien($no_rekam_medis);
@@ -333,8 +286,6 @@ class Transaksi extends CI_Controller
                 $foto = $this->input->post('old_image');
             }
 
-            // $jam_selesai = date('H:i');
-            // $tanggal = date('Y-m-d');
             $data = [
                 'id_transaksi' => $this->input->post('id_transaksi'),
                 'id_pasien' => $id_pasien,
@@ -355,42 +306,49 @@ class Transaksi extends CI_Controller
             $this->Transaksi_model->edit_data(array('id_transaksi' => $this->input->post('id_transaksi')), $data);
 
             $data = [
-                'id_detail_tindakan' => $this->input->post('id_detail_tindakan'),
+                'id_detail_tindakan' => $this->input->post('id_detail_tindakan1'),
                 'id_transaksi' => $this->input->post('id_transaksi'),
                 'id_tindakan' => $this->input->post('tindakan'),
                 'biaya_tindakan' => $this->input->post('biaya')
             ];
-            $this->Dtindakan_model->edit_data(array('id_transaksi' => $this->input->post('id_transaksi')), $data);
+            $this->Dtindakan_model->edit_data(array('id_detail_tindakan' => $this->input->post('id_detail_tindakan1')), $data);
 
             $tindakan2 = $this->input->post('tindakan2');
+            $id_detail_tindakan2 = $this->input->post('id_detail_tindakan2');
             if ($tindakan2 != '') {
                 $data2 = [
-                    'id_detail_tindakan' => $this->input->post('id_detail_tindakan'),
+                    'id_detail_tindakan' => $this->input->post('id_detail_tindakan2'),
                     'id_transaksi' => $this->input->post('id_transaksi'),
                     'id_tindakan' => $this->input->post('tindakan2'),
                     'biaya_tindakan' => $this->input->post('biaya2')
                 ];
-                $this->Dtindakan_model->edit_data(array('id_transaksi' => $this->input->post('id_transaksi')), $data2);
-                $this->Dtindakan_model->total_biaya_tindakan();
-
-                // redirect('dobat/add');
+                $this->Dtindakan_model->edit_data(array('id_detail_tindakan' => $this->input->post('id_detail_tindakan2')), $data2);
+                $this->Dtindakan_model->edit_total_biaya_tindakan($this->input->post('id_transaksi'));
+            } else if ($id_detail_tindakan2 == '') {
+                $data2 = [
+                    'id_detail_tindakan' => $this->input->post('id_detail_tindakan2'),
+                    'id_transaksi' => $this->input->post('id_transaksi'),
+                    'id_tindakan' => $this->input->post('tindakan2'),
+                    'biaya_tindakan' => $this->input->post('biaya2')
+                ];
+                $this->Dtindakan_model->add_data($data2);
+                $this->Dtindakan_model->edit_total_biaya_tindakan($this->input->post('id_transaksi'));
             } else {
-                $this->Dtindakan_model->total_biaya_tindakan();
-                // redirect('dobat/add');
+                $this->Dtindakan_model->edit_total_biaya_tindakan($this->input->post('id_transaksi'));
             }
 
             $biaya_obat = $this->input->post('harga');
             $jumlah_obat = $this->input->post('jumlah');
             $total_biaya_obat = $biaya_obat * $jumlah_obat;
             $data = [
-                'id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat'),
+                'id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat1'),
                 'id_transaksi' => $this->input->post('id_transaksi'),
                 'id_obat' => $this->input->post('obat'),
                 'dosis' => $this->input->post('dosis'),
                 'jumlah_obat' => $this->input->post('jumlah'),
                 'biaya_obat' => $total_biaya_obat
             ];
-            $this->Dobat_model->edit_data(array('id_transaksi' => $this->input->post('id_transaksi')), $data);
+            $this->Dobat_model->edit_data(array('id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat1')), $data);
 
             $obat2 = $this->input->post('obat2');
             if ($obat2 != '') {
@@ -399,21 +357,23 @@ class Transaksi extends CI_Controller
                 $jumlah_obat2 = $this->input->post('jumlah2');
                 $total_biaya_obat2 = $biaya_obat2 * $jumlah_obat2;
                 $data2 = [
-                    'id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat'),
+                    'id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat2'),
                     'id_transaksi' => $this->input->post('id_transaksi'),
                     'id_obat' => $this->input->post('obat2'),
                     'dosis' => $this->input->post('dosis2'),
                     'jumlah_obat' => $this->input->post('jumlah2'),
                     'biaya_obat' => $total_biaya_obat2
                 ];
-                $this->Dobat_model->edit_data(array('id_transaksi' => $this->input->post('id_transaksi')), $data2);
-                $this->Dobat_model->total_biaya_obat();
+                $this->Dobat_model->edit_data(array('id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat2')), $data2);
+                // $this->Dobat_model->total_biaya_obat();
+                $this->Dobat_model->edit_total_biaya_obat($this->input->post('id_transaksi'));
                 $this->Dobat_model->total_biaya_keseluruhan();
 
                 $this->session->set_flashdata('flash', 'ditambahkan');
                 redirect('transaksi');
             } else {
-                $this->Dobat_model->total_biaya_obat();
+                // $this->Dobat_model->total_biaya_obat();
+                $this->Dobat_model->edit_total_biaya_obat($this->input->post('id_transaksi'));
                 $this->Dobat_model->total_biaya_keseluruhan();
                 $this->session->set_flashdata('flash', 'ditambahkan');
                 redirect('transaksi');

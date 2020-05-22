@@ -126,6 +126,26 @@ class Dtindakan_model extends CI_Model
         return $this->db->affected_rows();
     }
 
+    public function edit_total_biaya_tindakan($id)
+    {
+        // $last_transaksi = $this->db->select('id_transaksi')->order_by('id_transaksi', "desc")->limit(1)->get('transaksi')->row();
+        // $last = $last_transaksi->id_transaksi;
+
+        $this->db->select('*');
+        $this->db->from('detail_tindakan');
+        $this->db->where('id_transaksi', $id);
+        $query = $this->db->get()->result();
+        foreach ($query as $row) {
+            $total_biaya_tindakan += $row->biaya_tindakan;
+        }
+        // $this->db->update('transaksi');
+
+        $this->db->set('total_biaya_tindakan', $total_biaya_tindakan);
+        $this->db->where('id_transaksi', $id);
+        $this->db->update('transaksi');
+        return $this->db->affected_rows();
+    }
+
     function getTindakan($searchTerm = "")
     {
         // Fetch users
@@ -155,16 +175,70 @@ class Dtindakan_model extends CI_Model
         return $this->db->get_where('detail_tindakan', ["id_detail_tindakan" => $min])->row_array();
     }
 
-    public function getDtindakan2($id)
+    public function getTindakan1($id)
     {
-        $this->db->select_max('id_detail_tindakan');
+        $this->db->select_min('id_detail_tindakan');
         $this->db->from('detail_tindakan');
         $this->db->where('id_transaksi', $id);
         $row = $this->db->get()->row();
         if (isset($row)) {
-            $max = $row->id_detail_tindakan;
+            $min = $row->id_detail_tindakan;
         }
 
-        return $this->db->get_where('detail_tindakan', ["id_detail_tindakan" => $max])->row_array();
+        $this->db->select('*');
+        $this->db->from('detail_tindakan');
+        $this->db->where('id_detail_tindakan', $min);
+        $row2 = $this->db->get()->row();
+        if (isset($row2)) {
+            $id_tindakan = $row2->id_tindakan;
+        }
+
+        return $this->db->get_where('tindakan', ["id_tindakan" => $id_tindakan])->row_array();
+    }
+
+    public function getDtindakan2($id)
+    {
+        $this->db->select('id_detail_tindakan');
+        $this->db->from('detail_tindakan');
+        $this->db->where('id_transaksi', $id);
+        $row = $this->db->get();
+        if ($row->num_rows() > 1) {
+            $this->db->select('id_detail_tindakan');
+            $this->db->from('detail_tindakan');
+            $this->db->where('id_transaksi', $id);
+            $row2 = $this->db->get()->last_row();
+            if (isset($row2)) {
+                $last = $row2->id_detail_tindakan;
+            }
+
+            return $this->db->get_where('detail_tindakan', ["id_detail_tindakan" => $last])->row_array();
+        }
+    }
+
+    public function getTindakan2($id)
+    {
+        $this->db->select('id_detail_tindakan');
+        $this->db->from('detail_tindakan');
+        $this->db->where('id_transaksi', $id);
+        $row = $this->db->get();
+        if ($row->num_rows() > 1) {
+            $this->db->select('id_detail_tindakan');
+            $this->db->from('detail_tindakan');
+            $this->db->where('id_transaksi', $id);
+            $row2 = $this->db->get()->last_row();
+            if (isset($row2)) {
+                $last = $row2->id_detail_tindakan;
+            }
+
+            $this->db->select('*');
+            $this->db->from('detail_tindakan');
+            $this->db->where('id_detail_tindakan', $last);
+            $row2 = $this->db->get()->row();
+            if (isset($row2)) {
+                $id_tindakan = $row2->id_tindakan;
+            }
+
+            return $this->db->get_where('tindakan', ["id_tindakan" => $id_tindakan])->row_array();
+        }
     }
 }

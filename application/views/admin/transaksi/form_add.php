@@ -311,6 +311,7 @@
             var error_dokter = '';
             var error_perawat = '';
             var error_diagnosa = '';
+
             if ($.trim($('#no_rekam_medis').val()).length == 0) {
                 error_no_rm = 'Nomor Rekam Medis wajib diisi';
                 $('#error_no_rm').text(error_no_rm);
@@ -331,12 +332,10 @@
                     if (response != '') {
                         $('#error_no_rm').text(response);
                         $('#no_rekam_medis').addClass('has-error');
-                        // $('#btn_rekam_medis').attr('disabled', true);
                     } else {
                         error_no_rm = '';
                         $('#error_no_rm').text(error_no_rm);
                         $('#no_rekam_medis').removeClass('has-error');
-                        // $('#btn_rekam_medis').removeAttr('disabled');
                     }
                 }
             });

@@ -3,6 +3,7 @@
 
     <!-- Page Heading -->
     <a href="<?php echo base_url('pasien') ?>"><i class="fas fa-arrow-left"></i> Back</a>
+    <p></p>
 
     <?php if ($this->session->flashdata('success')) : ?>
         <div class="alert alert-success" role="alert">

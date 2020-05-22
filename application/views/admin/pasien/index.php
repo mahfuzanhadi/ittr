@@ -18,6 +18,17 @@
                 $('#riwayat_penyakit').val(data.riwayat_penyakit);
                 $('#alergi_obat').val(data.alergi_obat);
                 $('#email').val(data.email);
+                // var jk = data.jenis_kelamin;
+                // if (jk == 1) {
+                //     jk = 'Laki-laki';
+                // } else {
+                //     jk = 'Perempuan';
+                // }
+                // var element = document.getElementById("test");
+                // element.innerHTML = jk;
+                var url = '<?php echo base_url('pasien/edit/') ?>';
+                $('#update').attr('href', url + data.id_pasien);
+                $('#delete').attr('onclick', 'delete_data(' + data.id_pasien + ')');
                 $('#myModal').modal('show');
                 $('#id_pasien').val(data.id_pasien);
             },
@@ -161,10 +172,17 @@
                             <div class="form-group col-sm-5">
                                 <label for="alergi_obat">Alergi Obat</label>
                                 <input class="form-control form-control-sm" type="text" name="alergi_obat" id="alergi_obat" disabled />
+                                <!-- <p id="test"></p> -->
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <input type="hidden" name="id_pasien" id="id_pasien" />
+                            <div class="container">
+                                <div class="center-block text-center">
+                                    <a type="button" name="update" id="update" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
+                                    <button type="button" name="delete" id="delete" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
+                                </div>
+                                <input type="hidden" name="id_pasien" id="id_pasien" />
+                            </div>
                         </div>
                     </div>
                 </div>

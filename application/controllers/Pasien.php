@@ -45,28 +45,28 @@ class Pasien extends CI_Controller
         $list = $this->Pasien_model->make_datatables();
         $data = array();
         $no = $_POST['start'];
-        // var_dump($now);
         foreach ($list as $pasien) {
             $row = array();
             $no++;
             $tanggal_lahir = $pasien->tanggal_lahir;
-            $umur = floor((time() - strtotime($tanggal_lahir)) / 31556926);
-            $age = intval($umur);
+            $dob = new DateTime($tanggal_lahir);
+            $now = new DateTime();
+            $difference = $now->diff($dob);
+            $age = $difference->y;
+            // $umur = floor((time() - strtotime($tanggal_lahir)) / 31556926);
+            // $age = intval($umur);
             $jk = $pasien->jenis_kelamin;
             if ($jk == 1) {
                 $jk = "Laki-laki";
             } else {
                 $jk = "Perempuan";
             }
-            // $tgl = $pasien->tanggal_lahir;
-            // $umur = $now - $tgl;
             $row[] = $no;
             $row[] = $pasien->no_rekam_medis;
             $row[] = '<a onclick="detail_data(' . $pasien->id_pasien . ')" >' . $pasien->nama . '</a>';
             $row[] = $age;
             $row[] = $jk;
             $row[] = $pasien->alamat;
-            // $row[] = $umur;
             $row[] = $pasien->tanggal_lahir;
             $row[] = $pasien->pekerjaan;
             $row[] = $pasien->no_telp;
@@ -93,40 +93,34 @@ class Pasien extends CI_Controller
     public function add()
     {
         $data['title'] = 'Tambah Data Pasien';
-        // $data['admin'] = $this->db->get_where('admin', ['email' =>
-        // $this->session->userdata('email')])->row_array();
-        // $data['last'] = $this->Pasien_model->get_last_record();
         $data['last'] = $this->Pasien_model->get_biggest_record();
-        $this->form_validation->set_rules('no_rekam_medis', 'Nomor Rekam Medis', 'required|numeric|is_unique[pasien.no_rekam_medis]');
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
-        $this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'required');
-        $this->form_validation->set_rules('pekerjaan', 'Pekerjaan', 'required');
-        $this->form_validation->set_rules('no_telp', 'No. Telp', 'numeric');
-        $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required');
-        // $this->form_validation->set_rules('riwayat_penyakit', 'Riwayat Penyakit', 'required');
-        // $this->form_validation->set_rules('alergi_obat', 'Alergi Obat', 'required');
-        $this->form_validation->set_rules('email', 'E-mail', 'valid_email');
 
-        if ($this->form_validation->run() == false) {
-            if ($this->session->userdata('akses') == 1) {
-                $data['admin'] = $this->db->get_where('admin', ['email' =>
-                $this->session->userdata('email')])->row_array();
-                $this->load->view('templates/header', $data);
-                $this->load->view('admin/pasien/sidebar', $data);
-                $this->load->view('templates/admin/topbar', $data);
-                $this->load->view('admin/pasien/add_data', $data);
-                $this->load->view('templates/footer');
-            } else if ($this->session->userdata('akses') == 3) {
-                $data['perawat'] = $this->db->get_where('perawat', ['email' =>
-                $this->session->userdata('email')])->row_array();
-                $this->load->view('templates/header', $data);
-                $this->load->view('perawat/pasien/sidebar', $data);
-                $this->load->view('templates/perawat/topbar', $data);
-                $this->load->view('perawat/pasien/add_data', $data);
-                $this->load->view('templates/footer');
+        if ($this->session->userdata('akses') == 1) {
+            $data['admin'] = $this->db->get_where('admin', ['email' =>
+            $this->session->userdata('email')])->row_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/pasien/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/pasien/add_data', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == 3) {
+            $data['perawat'] = $this->db->get_where('perawat', ['email' =>
+            $this->session->userdata('email')])->row_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('perawat/pasien/sidebar', $data);
+            $this->load->view('templates/perawat/topbar', $data);
+            $this->load->view('perawat/pasien/add_data', $data);
+            $this->load->view('templates/footer');
+        }
+
+        $nama = $this->input->post('nama');
+        if (isset($nama)) {
+            $password = $this->input->post('password');
+            if ($password == '') {
+                $password = '';
+            } else {
+                $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
             }
-        } else {
             $data = [
                 'no_rekam_medis' => $this->input->post('no_rekam_medis'),
                 'nama' => $this->input->post('nama'),
@@ -138,7 +132,7 @@ class Pasien extends CI_Controller
                 'riwayat_penyakit' => $this->input->post('riwayat_penyakit'),
                 'alergi_obat' => $this->input->post('alergi_obat'),
                 'username' => $this->input->post('username'),
-                'password' => $this->input->post('password'),
+                'password' => $password,
                 'email' => $this->input->post('email')
             ];
 
@@ -148,12 +142,20 @@ class Pasien extends CI_Controller
         }
     }
 
+    public function isExist()
+    {
+        $no_rekam_medis = $this->input->post('no_rekam_medis');
+        if ($this->Pasien_model->is_exist($no_rekam_medis)) {
+            echo "Nomor Rekam Medis sudah terdaftar!";
+        } else {
+            echo "";
+        }
+    }
+
     public function edit($id)
     {
         $data['title'] = 'Edit Data Pasien';
         $data['pasien'] = $this->Pasien_model->getById($id);
-        // $data['admin'] = $this->db->get_where('admin', ['email' =>
-        // $this->session->userdata('email')])->row_array();
         $this->form_validation->set_rules('no_rekam_medis', 'Nomor Rekam Medis', 'required|numeric');
         $this->form_validation->set_rules('nama', 'Nama', 'required');
         $this->form_validation->set_rules('alamat', 'Alamat', 'required');
@@ -161,48 +163,53 @@ class Pasien extends CI_Controller
         $this->form_validation->set_rules('pekerjaan', 'Pekerjaan', 'required');
         $this->form_validation->set_rules('no_telp', 'No. Telp', 'numeric');
         $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required');
-        // $this->form_validation->set_rules('riwayat_penyakit', 'Riwayat Penyakit', 'required');
-        // $this->form_validation->set_rules('alergi_obat', 'Alergi Obat', 'required');
         $this->form_validation->set_rules('email', 'E-mail', 'valid_email');
 
-        if ($this->form_validation->run() == false) {
-            if ($this->session->userdata('akses') == 1) {
-                $data['admin'] = $this->db->get_where('admin', ['email' =>
-                $this->session->userdata('email')])->row_array();
-                $this->load->view('templates/header', $data);
-                $this->load->view('admin/pasien/sidebar', $data);
-                $this->load->view('templates/admin/topbar', $data);
-                $this->load->view('admin/pasien/edit_data', $data);
-                $this->load->view('templates/footer');
-            } else if ($this->session->userdata('akses') == 3) {
-                $data['perawat'] = $this->db->get_where('perawat', ['email' =>
-                $this->session->userdata('email')])->row_array();
-                $this->load->view('templates/header', $data);
-                $this->load->view('perawat/pasien/sidebar', $data);
-                $this->load->view('templates/perawat/topbar', $data);
-                $this->load->view('perawat/pasien/edit_data', $data);
-                $this->load->view('templates/footer');
-            }
-        } else {
-            $data = [
-                'no_rekam_medis' => $this->input->post('no_rekam_medis'),
-                'nama' => $this->input->post('nama'),
-                'alamat' => $this->input->post('alamat'),
-                'tanggal_lahir' => $this->input->post('tanggal_lahir'),
-                'pekerjaan' => $this->input->post('pekerjaan'),
-                'no_telp' => $this->input->post('no_telp'),
-                'jenis_kelamin' => $this->input->post('jenis_kelamin'),
-                'riwayat_penyakit' => $this->input->post('riwayat_penyakit'),
-                'alergi_obat' => $this->input->post('alergi_obat'),
-                'username' => $this->input->post('username'),
-                'password' => $this->input->post('password'),
-                'email' => $this->input->post('email')
-            ];
-
-            $this->Pasien_model->edit_data(array('id_pasien' => $this->input->post('id')), $data);
-            $this->session->set_flashdata('flash', 'diubah');
-            redirect('pasien');
+        if ($this->session->userdata('akses') == 1) {
+            $data['admin'] = $this->db->get_where('admin', ['email' =>
+            $this->session->userdata('email')])->row_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/pasien/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/pasien/edit_data', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == 3) {
+            $data['perawat'] = $this->db->get_where('perawat', ['email' =>
+            $this->session->userdata('email')])->row_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('perawat/pasien/sidebar', $data);
+            $this->load->view('templates/perawat/topbar', $data);
+            $this->load->view('perawat/pasien/edit_data', $data);
+            $this->load->view('templates/footer');
         }
+    }
+
+    public function update()
+    {
+        $password = $this->input->post('password');
+        if ($password == '') {
+            $password = $this->input->post('password2');
+        } else {
+            $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+        }
+        $data = [
+            'no_rekam_medis' => $this->input->post('no_rekam_medis'),
+            'nama' => $this->input->post('nama'),
+            'alamat' => $this->input->post('alamat'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'pekerjaan' => $this->input->post('pekerjaan'),
+            'no_telp' => $this->input->post('no_telp'),
+            'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+            'riwayat_penyakit' => $this->input->post('riwayat_penyakit'),
+            'alergi_obat' => $this->input->post('alergi_obat'),
+            'username' => $this->input->post('username'),
+            'password' => $password,
+            'email' => $this->input->post('email')
+        ];
+
+        $this->Pasien_model->edit_data(array('id_pasien' => $this->input->post('id')), $data);
+        $this->session->set_flashdata('flash', 'diubah');
+        redirect('pasien');
     }
 
     public function detail_data($id)

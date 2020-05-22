@@ -128,9 +128,6 @@ class Dtindakan_model extends CI_Model
 
     public function edit_total_biaya_tindakan($id)
     {
-        // $last_transaksi = $this->db->select('id_transaksi')->order_by('id_transaksi', "desc")->limit(1)->get('transaksi')->row();
-        // $last = $last_transaksi->id_transaksi;
-
         $this->db->select('*');
         $this->db->from('detail_tindakan');
         $this->db->where('id_transaksi', $id);

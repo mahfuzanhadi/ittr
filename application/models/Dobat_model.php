@@ -122,6 +122,22 @@ class Dobat_model extends CI_Model
         return $this->db->affected_rows();
     }
 
+    public function edit_total_biaya_keseluruhan($id)
+    {
+        $this->db->select('*');
+        $this->db->from('transaksi');
+        $this->db->where('id_transaksi', $id);
+        $query = $this->db->get()->result();
+        foreach ($query as $row) {
+            $total_biaya_keseluruhan = $row->total_biaya_tindakan + $row->total_biaya_obat;
+        }
+
+        $this->db->set('total_biaya_keseluruhan', $total_biaya_keseluruhan);
+        $this->db->where('id_transaksi', $id);
+        $this->db->update('transaksi');
+        return $this->db->affected_rows();
+    }
+
     // public function kurangiStok()
     // {
     //     $last_transaksi = $this->db->select('id_transaksi')->order_by('id_transaksi', "desc")->limit(1)->get('transaksi')->row();

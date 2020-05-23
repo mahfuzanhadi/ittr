@@ -48,24 +48,24 @@ class Pasien extends CI_Controller
         foreach ($list as $pasien) {
             $row = array();
             $no++;
-            $tanggal_lahir = $pasien->tanggal_lahir;
-            $dob = new DateTime($tanggal_lahir);
-            $now = new DateTime();
-            $difference = $now->diff($dob);
-            $age = $difference->y;
+            // $tanggal_lahir = $pasien->tanggal_lahir;
+            // $dob = new DateTime($tanggal_lahir);
+            // $now = new DateTime();
+            // $difference = $now->diff($dob);
+            // $age = $difference->y;
             // $umur = floor((time() - strtotime($tanggal_lahir)) / 31556926);
             // $age = intval($umur);
-            $jk = $pasien->jenis_kelamin;
-            if ($jk == 1) {
-                $jk = "Laki-laki";
-            } else {
-                $jk = "Perempuan";
-            }
+            // $jk = $pasien->jenis_kelamin;
+            // if ($jk == 1) {
+            //     $jk = "Laki-laki";
+            // } else {
+            //     $jk = "Perempuan";
+            // }
             $row[] = $no;
             $row[] = $pasien->no_rekam_medis;
             $row[] = '<a onclick="detail_data(' . $pasien->id_pasien . ')" >' . $pasien->nama . '</a>';
-            $row[] = $age;
-            $row[] = $jk;
+            $row[] = $pasien->tanggal_lahir;
+            $row[] = $pasien->jenis_kelamin;
             $row[] = $pasien->alamat;
             $row[] = $pasien->tanggal_lahir;
             $row[] = $pasien->pekerjaan;

@@ -43,18 +43,12 @@ class dokter extends CI_Controller
         foreach ($list as $dokter) {
             $row = array();
             $no++;
-            $jk = $dokter->jenis_kelamin;
-            if ($jk == 1) {
-                $jk = "Laki-laki";
-            } else {
-                $jk = "Perempuan";
-            }
             $row[] = $no;
             $row[] = '<a onclick="detail_data(' . $dokter->id_dokter . ')" >' . $dokter->nama . '</a>';
             $row[] = $dokter->alamat;
             $row[] = $dokter->tempat_lahir;
             $row[] = $dokter->tanggal_lahir;
-            $row[] = $jk;
+            $row[] = $dokter->jenis_kelamin;
             $row[] = $dokter->no_sip;
             $row[] = $dokter->no_str;
             $row[] = $dokter->tanggal_berlaku_sip;

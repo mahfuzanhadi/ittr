@@ -11,8 +11,7 @@ class Dokter_model extends CI_Model
 
     var $table = 'dokter';
     var $select_column = array('id_dokter', 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'email', 'no_sip', 'no_str', 'tanggal_berlaku_sip',  'tanggal_berlaku_str', 'username', 'password', 'email');
-    // var $order_column = array(null, 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'email', 'no_sip', 'no_str', 'tanggal_berlaku_sip', 'tanggal_berlaku_str', null, null, 'email'); //set column field database for datatable orderable
-    var $order_column = array(null, 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'email', 'tanggal_berlaku_sip', 'tanggal_berlaku_str', null, null, 'email'); //set column field database for datatable orderable
+    var $order_column = array(null, 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', null, null, 'tanggal_berlaku_sip', 'tanggal_berlaku_str', 'no_telp', 'email', 'username', null); //set column field database for datatable orderable
     var $order = array('id_dokter' => 'asc'); // default order 
 
     public function make_query()

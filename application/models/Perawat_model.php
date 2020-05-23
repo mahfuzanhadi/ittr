@@ -11,7 +11,7 @@ class Perawat_model extends CI_Model
 
     var $table = 'perawat';
     var $select_column = array('id_perawat', 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'no_str', 'tanggal_berlaku_str', 'username', 'password', 'email');
-    var $order_column = array(null, 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'no_str', 'tanggal_berlaku_str', 'username', null, 'email'); //set column field database for datatable orderable
+    var $order_column = array(null, 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'no_str', 'tanggal_berlaku_str', 'email', 'username', null); //set column field database for datatable orderable
     var $order = array('id_perawat' => 'asc'); // default order 
 
     public function make_query()

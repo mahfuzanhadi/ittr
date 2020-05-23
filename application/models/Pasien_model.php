@@ -11,7 +11,7 @@ class Pasien_model extends CI_Model
 
     var $table = 'pasien';
     var $select_column = array('id_pasien', 'no_rekam_medis', 'nama', 'alamat', 'tanggal_lahir', 'pekerjaan',  'no_telp', 'jenis_kelamin', 'riwayat_penyakit', 'alergi_obat', 'username', 'password', 'email');
-    var $order_column = array(null, 'no_rekam_medis', 'nama', 'alamat', 'tanggal_lahir', 'pekerjaan',  'no_telp', 'jenis_kelamin', 'riwayat_penyakit', 'alergi_obat', 'username', null, 'email'); //set column field database for datatable orderable
+    var $order_column = array(null, 'no_rekam_medis', 'nama',  'tanggal_lahir',  'jenis_kelamin', 'alamat', 'tanggal_lahir', 'pekerjaan',  'no_telp', 'riwayat_penyakit', 'alergi_obat', 'username', null, 'email'); //set column field database for datatable orderable
     var $order = array('no_rekam_medis' => 'desc'); // default order 
 
     public function make_query()

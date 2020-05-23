@@ -8,14 +8,73 @@
             method: "GET",
             dataType: "JSON",
             success: function(data) {
-                $('#nama').val(data.nama);
-                $('#alamat').val(data.alamat);
-                $('#tanggal_lahir').val(data.tanggal_lahir);
-                $('#jenis_kelamin').val(data.jenis_kelamin);
-                $('#no_telp').val(data.no_telp);
-                $('#email').val(data.email);
-                $('#no_str').val(data.no_str);
-                $('#tanggal_berlaku_str').val(data.tanggal_berlaku_str);
+                var nama = document.getElementById("nama");
+                nama.innerHTML = data.nama;
+                var alamat = document.getElementById("alamat");
+                alamat.innerHTML = data.alamat;
+                var tanggal_lahir = document.getElementById("tanggal_lahir");
+
+                var date = new Date(data.tanggal_lahir);
+                var tahun = date.getFullYear();
+                var bulan = date.getMonth();
+                var tanggal = date.getDate();
+                switch (bulan) {
+                    case 0:
+                        bulan = "Januari";
+                        break;
+                    case 1:
+                        bulan = "Februari";
+                        break;
+                    case 2:
+                        bulan = "Maret";
+                        break;
+                    case 3:
+                        bulan = "April";
+                        break;
+                    case 4:
+                        bulan = "Mei";
+                        break;
+                    case 5:
+                        bulan = "Juni";
+                        break;
+                    case 6:
+                        bulan = "Juli";
+                        break;
+                    case 7:
+                        bulan = "Agustus";
+                        break;
+                    case 8:
+                        bulan = "September";
+                        break;
+                    case 9:
+                        bulan = "Oktober";
+                        break;
+                    case 10:
+                        bulan = "November";
+                        break;
+                    case 11:
+                        bulan = "Desember";
+                        break;
+                }
+                var tgl_lahir = tanggal + ' ' + bulan + ' ' + tahun;
+                tanggal_lahir.innerHTML = tgl_lahir;
+                var no_telp = document.getElementById("no_telp");
+                no_telp.innerHTML = data.no_telp;
+                var jk = data.jenis_kelamin;
+                if (jk == 1) {
+                    jk = 'Laki-laki';
+                } else {
+                    jk = 'Perempuan';
+                }
+                var jenis_kelamin = document.getElementById("jenis_kelamin");
+                jenis_kelamin.innerHTML = jk;
+                var email = document.getElementById("email");
+                email.innerHTML = data.email;
+                var username = document.getElementById("username");
+                username.innerHTML = data.username;
+                var url = '<?php echo base_url('staff/edit/') ?>';
+                $('#update').attr('href', url + data.id_staf);
+                $('#delete').attr('onclick', 'delete_data(' + data.id_staf + ')');
                 $('#myModal').modal('show');
                 $('#id_staf').val(data.id_staf);
             },
@@ -105,47 +164,44 @@
                     <div class="modal-body">
                         <div class="form-row">
                             <div class="form-group col-sm-4">
-                                <label for="name">Nama</label>
-                                <input class="form-control form-control-sm" type="text" name="nama" id="nama" disabled />
+                                <label for="name" style="font-weight: bold">Nama</label>
+                                <p id="nama"></p>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for="alamat">Alamat</label>
-                                <textarea class="form-control form-control-sm" name="alamat" id="alamat" disabled></textarea>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-sm-4">
-                                <label for="tanggal_lahir">Tanggal Lahir</label>
-                                <input class="form-control form-control-sm" type="text" name="tanggal_lahir" id="tanggal_lahir" disabled />
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label for="jenis_kelamin">Jenis Kelamin</label>
-                                <select class="form-control  form-control-sm required" id="jenis_kelamin" name="jenis_kelamin" disabled>
-                                    <option value="">Pilih jenis kelamin</option>
-                                    <option value="1" <?= set_select('jenis_kelamin', '1'); ?>>Laki-laki</option>
-                                    <option value="2" <?= set_select('jenis_kelamin', '2'); ?>>Perempuan</option>
-                                </select>
+                                <label for="alamat" style="font-weight: bold">Alamat</label>
+                                <p id="alamat"></p>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-4">
-                                <label for="no_telp">No. Telp</label>
-                                <input class="form-control form-control-sm" type="text" name="no_telp" id="no_telp" disabled />
+                                <label for="tanggal_lahir" style="font-weight: bold">Tanggal Lahir</label>
+                                <p id="tanggal_lahir"></p>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for="name">E-mail</label>
-                                <input class="form-control form-control-sm" type="text" name="email" id="email" disabled />
+                                <label for="jenis_kelamin" style="font-weight: bold">Jenis Kelamin</label>
+                                <p id="jenis_kelamin"></p>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-4">
-                                <label>Username</label>
-                                <input type="text" name="username" id="username" class="form-control" disabled />
+                                <label for="no_telp" style="font-weight: bold">No. Telp</label>
+                                <p id="no_telp"></p>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="email" style="font-weight: bold">E-mail</label>
+                                <p id="email"></p>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label for="username" style="font-weight: bold">Username</label>
+                                <p id="username"></p>
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <a type="button" name="update" id="update" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
+                            <button type="button" name="delete" id="delete" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
                             <input type="hidden" name="id_staf" id="id_staf" />
-                            <button type="reset" class="btn btn-secondary">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -205,12 +261,19 @@
                     "width": "120px",
                     "targets": 3,
                     render: function(data) {
-                        return moment(data).locale("id").format('DD MMMM YYYY');
+                        return moment(data).locale("id").format('D MMMM YYYY');
                     }
                 },
                 {
                     "width": "102px",
-                    "targets": 4
+                    "targets": 4,
+                    render: function(data) {
+                        if (data == '1') {
+                            return 'Laki-laki';
+                        } else {
+                            return 'Perempuan';
+                        }
+                    }
                 },
                 {
                     "width": "102px",

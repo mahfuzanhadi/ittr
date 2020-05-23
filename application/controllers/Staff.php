@@ -43,17 +43,11 @@ class Staff extends CI_Controller
         foreach ($list as $staf) {
             $row = array();
             $no++;
-            $jk = $staf->jenis_kelamin;
-            if ($jk == 1) {
-                $jk = "Laki-laki";
-            } else {
-                $jk = "Perempuan";
-            }
             $row[] = $no;
             $row[] = '<a onclick="detail_data(' . $staf->id_staf . ')" >' . $staf->nama . '</a>';
             $row[] = $staf->alamat;
             $row[] = $staf->tanggal_lahir;
-            $row[] = $jk;
+            $row[] = $staf->jenis_kelamin;
             $row[] = $staf->no_telp;
             $row[] = $staf->email;
             $row[] = $staf->username;

@@ -45,22 +45,32 @@ class Perawat extends CI_Controller
         foreach ($list as $perawat) {
             $row = array();
             $no++;
-            $jk = $perawat->jenis_kelamin;
-            if ($jk == 1) {
-                $jk = "Laki-laki";
-            } else {
-                $jk = "Perempuan";
-            }
+            // $jk = $perawat->jenis_kelamin;
+            // if ($jk == 1) {
+            //     $jk = "Laki-laki";
+            // } else {
+            //     $jk = "Perempuan";
+            // }
             $row[] = $no;
             $row[] = '<a onclick="detail_data(' . $perawat->id_perawat . ')" >' . $perawat->nama . '</a>';
             $row[] = $perawat->alamat;
             $row[] = $perawat->tempat_lahir;
             $row[] = $perawat->tanggal_lahir;
-            $row[] = $jk;
+            $row[] = $perawat->jenis_kelamin;
             $row[] = $perawat->no_telp;
+            if ($perawat->no_str == '') {
+                $no_str = 'Tidak ada';
+            } else {
+                $no_str = $perawat->no_str;
+            }
+            $row[] = $no_str;
+            if ($perawat->tanggal_berlaku_str == '0000-00-00') {
+                $tanggal_berlaku_str = '';
+            } else {
+                $tanggal_berlaku_str = $perawat->tanggal_berlaku_str;
+            }
+            $row[] = $tanggal_berlaku_str;
             $row[] = $perawat->email;
-            $row[] = $perawat->no_str;
-            $row[] = $perawat->tanggal_berlaku_str;
             $row[] = $perawat->username;
             $row[] = $perawat->password;
             $row[] = '<a href="perawat/edit/' . $perawat->id_perawat . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $perawat->id_perawat . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';

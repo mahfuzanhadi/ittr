@@ -116,4 +116,31 @@ class Pasien_model extends CI_Model
             return false;
         }
     }
+
+    public function get_transaksi_by_id($id)
+    {
+        return $this->db->get_where('transaksi', ["id_pasien" => $id])->result_array();
+    }
+
+    public function get_detail_tindakan($id)
+    {
+        $query2 = array();
+        $query = $this->db->get_where('transaksi', ["id_pasien" => $id])->result();
+        foreach ($query as $row) {
+            $id_transaksi = $row->id_transaksi;
+            return $this->db->get_where('detail_tindakan', ["id_transaksi" => $id_transaksi])->result_array();
+        }
+        // return $query2;
+    }
+
+    public function get_tindakan()
+    {
+        return $this->db->query('SELECT * from tindakan')->result();
+    }
+
+
+    public function get_obat()
+    {
+        return $this->db->query('SELECT * from obat')->result();
+    }
 }

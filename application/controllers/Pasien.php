@@ -62,7 +62,7 @@ class Pasien extends CI_Controller
             //     $jk = "Perempuan";
             // }
             $row[] = $no;
-            $row[] = $pasien->no_rekam_medis;
+            $row[] = '<a href="pasien/detail_rm/' . $pasien->id_pasien . '" >' . $pasien->no_rekam_medis;
             $row[] = '<a onclick="detail_data(' . $pasien->id_pasien . ')" >' . $pasien->nama . '</a>';
             $row[] = $pasien->tanggal_lahir;
             $row[] = $pasien->jenis_kelamin;
@@ -212,6 +212,28 @@ class Pasien extends CI_Controller
     {
         $data = $this->Pasien_model->get_by_id($id);
         echo json_encode($data);
+    }
+
+    public function detail_rm($id)
+    {
+        $data['title'] = 'Detail Data Rekam Medis';
+        $this->load->model('Transaksi_model');
+        $data['pasien'] = $this->Pasien_model->getById($id);
+        $data['transaksi'] = $this->Pasien_model->get_transaksi_by_id($id);
+        $data['dokter'] = $this->Transaksi_model->get_dokter();
+        $data['perawat'] = $this->Transaksi_model->get_perawat();
+        $data['detail_tindakan'] = $this->Pasien_model->get_detail_tindakan($id);
+        $data['tindakan'] = $this->Pasien_model->get_tindakan();
+        $data['obat'] = $this->Pasien_model->get_obat();
+        $data['admin'] = $this->db->get_where('admin', ['email' =>
+        $this->session->userdata('email')])->row_array();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/pasien/sidebar', $data);
+        $this->load->view('templates/admin/topbar', $data);
+        $this->load->view('admin/pasien/detail_rm', $data);
+        $this->load->view('templates/footer');
+        // echo json_encode($data);
     }
 
     public function delete($id)

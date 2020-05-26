@@ -236,9 +236,8 @@ class Transaksi extends CI_Controller
         $data['perawat'] = $this->Transaksi_model->get_perawat();
         $data['admin'] = $this->db->get_where('admin', ['email' =>
         $this->session->userdata('email')])->row_array();
+
         $data['transaksi'] = $this->Transaksi_model->getById($id);
-        // $data['detail_tindakan'] = $this->Transaksi_model->getDetailTindakan($id);
-        // $data['detail_obat'] = $this->Transaksi_model->getDetailObat($id);
         $data['detail_tindakan'] = $this->Dtindakan_model->getDtindakan1($id);
         $data['nama_tindakan'] = $this->Dtindakan_model->getTindakan1($id);
         $data['detail_tindakan2'] = $this->Dtindakan_model->getDtindakan2($id);

@@ -63,7 +63,7 @@ class Pasien extends CI_Controller
             // }
             $row[] = $no;
             $row[] = '<a href="pasien/detail_rm/' . $pasien->id_pasien . '" >' . $pasien->no_rekam_medis;
-            $row[] = '<a style="color:#007bff; onclick="detail_data(' . $pasien->id_pasien . ')" >' . $pasien->nama . '</a>';
+            $row[] = '<a style="cursor: pointer" onclick="detail_data(' . $pasien->id_pasien . ')" >' . $pasien->nama . '</a>';
             $row[] = $pasien->tanggal_lahir;
             $row[] = $pasien->jenis_kelamin;
             $row[] = $pasien->alamat;
@@ -218,8 +218,6 @@ class Pasien extends CI_Controller
     {
         $data['title'] = 'Detail Data Rekam Medis';
         $this->load->model('Transaksi_model');
-        // $this->load->model('Dtindakan_model');
-        // $this->load->model('Dobat_model');
 
         $data['pasien'] = $this->Pasien_model->getById($id);
         $data['transaksi'] = $this->Pasien_model->get_transaksi_by_id($id);
@@ -233,12 +231,23 @@ class Pasien extends CI_Controller
         $data['admin'] = $this->db->get_where('admin', ['email' =>
         $this->session->userdata('email')])->row_array();
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/pasien/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/pasien/detail_rm', $data);
-        $this->load->view('templates/footer');
-        // echo json_encode($data);
+
+        if ($this->session->userdata('akses') == '1') {
+            $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/pasien/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/pasien/detail_rm', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '3') {
+            $data['perawat'] = $this->db->get_where('perawat', ['email' => $this->session->userdata('email')])->row_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('perawat/pasien/sidebar', $data);
+            $this->load->view('templates/perawat/topbar', $data);
+            $this->load->view('perawat/pasien/detail_rm', $data);
+            $this->load->view('templates/footer');
+        }
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function delete($id)

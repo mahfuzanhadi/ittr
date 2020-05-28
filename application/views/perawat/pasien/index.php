@@ -1,6 +1,13 @@
 <script type="text/javascript">
     var table;
 
+    function _calculateAge(tanggal_lahir) { // tanggal_lahir is a date
+        var tgl = new Date(tanggal_lahir).getTime();
+        var ageDifMs = Date.now() - tgl;
+        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
+
     function detail_data(id) {
         $('#myForm')[0].reset();
         $.ajax({
@@ -8,16 +15,96 @@
             method: "GET",
             dataType: "JSON",
             success: function(data) {
-                $('#no_rekam_medis').val(data.no_rekam_medis);
-                $('#nama').val(data.nama);
-                $('#alamat').val(data.alamat);
-                $('#tanggal_lahir').val(data.tanggal_lahir);
-                $('#pekerjaan').val(data.pekerjaan);
-                $('#no_telp').val(data.no_telp);
-                $('#jenis_kelamin').val(data.jenis_kelamin);
-                $('#riwayat_penyakit').val(data.riwayat_penyakit);
-                $('#alergi_obat').val(data.alergi_obat);
-                $('#email').val(data.email);
+                var no_rekam_medis = document.getElementById("no_rekam_medis");
+                no_rekam_medis.innerHTML = data.no_rekam_medis;
+                var nama = document.getElementById("nama");
+                nama.innerHTML = data.nama;
+                var alamat = document.getElementById("alamat");
+                alamat.innerHTML = data.alamat;
+                var age = _calculateAge(data.tanggal_lahir);
+
+                var umur = document.getElementById("umur");
+                var umur_pasien = age + ' tahun';
+                umur.innerHTML = umur_pasien;
+
+                var date = new Date(data.tanggal_lahir);
+                var tahun = date.getFullYear();
+                var bulan = date.getMonth();
+                var tanggal = date.getDate();
+                switch (bulan) {
+                    case 0:
+                        bulan = "Januari";
+                        break;
+                    case 1:
+                        bulan = "Februari";
+                        break;
+                    case 2:
+                        bulan = "Maret";
+                        break;
+                    case 3:
+                        bulan = "April";
+                        break;
+                    case 4:
+                        bulan = "Mei";
+                        break;
+                    case 5:
+                        bulan = "Juni";
+                        break;
+                    case 6:
+                        bulan = "Juli";
+                        break;
+                    case 7:
+                        bulan = "Agustus";
+                        break;
+                    case 8:
+                        bulan = "September";
+                        break;
+                    case 9:
+                        bulan = "Oktober";
+                        break;
+                    case 10:
+                        bulan = "November";
+                        break;
+                    case 11:
+                        bulan = "Desember";
+                        break;
+                }
+                var tgl_lahir = tanggal + ' ' + bulan + ' ' + tahun;
+                var tanggal_lahir = document.getElementById("tanggal_lahir");
+                tanggal_lahir.innerHTML = tgl_lahir;
+                var pekerjaan = document.getElementById("pekerjaan");
+                pekerjaan.innerHTML = data.pekerjaan;
+                var no_telp = document.getElementById("no_telp");
+                no_telp.innerHTML = data.no_telp;
+                var jk = data.jenis_kelamin;
+                if (jk == 1) {
+                    jk = 'Laki-laki';
+                } else {
+                    jk = 'Perempuan';
+                }
+                var jenis_kelamin = document.getElementById("jenis_kelamin");
+                jenis_kelamin.innerHTML = jk;
+                var riwayat_penyakit = document.getElementById("riwayat_penyakit");
+                if (data.riwayat_penyakit == '') {
+                    riwayat = 'Tidak ada';
+                } else {
+                    riwayat = data.riwayat_penyakit;
+                }
+                riwayat_penyakit.innerHTML = riwayat;
+                var alergi_obat = document.getElementById("alergi_obat");
+                if (data.alergi_obat == '') {
+                    alergi = 'Tidak ada';
+                } else {
+                    alergi = data.alergi_obat;
+                }
+                alergi_obat.innerHTML = alergi;
+                var email = document.getElementById("email");
+                email.innerHTML = data.email;
+                var username = document.getElementById("username");
+                username.innerHTML = data.username;
+                var url = '<?php echo base_url('pasien/edit/') ?>';
+                $('#update').attr('href', url + data.id_pasien);
+                $('#delete').attr('onclick', 'delete_data(' + data.id_pasien + ')');
                 $('#myModal').modal('show');
                 $('#id_pasien').val(data.id_pasien);
             },
@@ -79,6 +166,7 @@
                             <th>#</th>
                             <th>No. Rekam Medis</th>
                             <th>Nama</th>
+                            <th>Umur</th>
                             <th>Jenis Kelamin</th>
                             <th>Alamat</th>
                             <th>Tanggal Lahir</th>
@@ -110,60 +198,72 @@
                     <div class="modal-body">
                         <div class="form-row">
                             <div class="form-group col-sm-5">
-                                <label for="no_rekam_medis">Nomor Rekam Medis</label>
-                                <input class="form-control form-control-sm" type="text" name="no_rekam_medis" id="no_rekam_medis" disabled />
+                                <label for="no_rekam_medis" style="font-weight: bold">Nomor Rekam Medis</label>
+                                <p id="no_rekam_medis"></p>
                             </div>
                             <div class="form-group col-sm-5">
-                                <label for="name">Nama</label>
-                                <input class="form-control form-control-sm" type="text" name="nama" id="nama" disabled />
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-sm-5">
-                                <label for="alamat">Alamat</label>
-                                <textarea class="form-control form-control-sm" name="alamat" id="alamat" disabled></textarea>
-                            </div>
-                            <div class="form-group col-sm-5">
-                                <label for="tanggal_lahir">Tanggal Lahir</label>
-                                <input class="form-control form-control-sm" type="text" name="tanggal_lahir" id="tanggal_lahir" disabled />
+                                <label for="name" style="font-weight: bold">Nama</label>
+                                <p id="nama"></p>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-5">
-                                <label for="pekerjaan">Pekerjaan</label>
-                                <input class="form-control form-control-sm" type="text" name="pekerjaan" id="pekerjaan" disabled />
+                                <label for="jenis_kelamin" style="font-weight: bold">Jenis Kelamin</label>
+                                <p id="jenis_kelamin"></p>
                             </div>
                             <div class="form-group col-sm-5">
-                                <label for="no_telp">No. Telp</label>
-                                <input class="form-control form-control-sm" type="text" name="no_telp" id="no_telp" disabled />
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-sm-5">
-                                <label for="jenis_kelamin">Jenis Kelamin</label>
-                                <select class="form-control  form-control-sm required" id="jenis_kelamin" name="jenis_kelamin" disabled>
-                                    <option value="">Pilih jenis kelamin</option>
-                                    <option value="1" <?= set_select('jenis_kelamin', '1'); ?>>Laki-laki</option>
-                                    <option value="2" <?= set_select('jenis_kelamin', '2'); ?>>Perempuan</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-sm-5">
-                                <label for="name">E-mail</label>
-                                <input class="form-control form-control-sm" type="text" name="email" id="email" disabled />
+                                <label for="umur" style="font-weight: bold">Umur</label>
+                                <p id="umur"></p>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-5">
-                                <label for="riwayat_penyakit">Riwayat Penyakit</label>
-                                <input class="form-control form-control-sm" type="text" name="riwayat_penyakit" id="riwayat_penyakit" disabled />
+                                <label for="alamat" style="font-weight: bold">Alamat</label>
+                                <p id="alamat"></p>
                             </div>
                             <div class="form-group col-sm-5">
-                                <label for="alergi_obat">Alergi Obat</label>
-                                <input class="form-control form-control-sm" type="text" name="alergi_obat" id="alergi_obat" disabled />
+                                <label for="tanggal_lahir" style="font-weight: bold">Tanggal Lahir</label>
+                                <p id="tanggal_lahir"></p>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-5">
+                                <label for="pekerjaan" style="font-weight: bold">Pekerjaan</label>
+                                <p id="pekerjaan"></p>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <label for="no_telp" style="font-weight: bold">No. Telp</label>
+                                <p id="no_telp"></p>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-5">
+                                <label for="riwayat_penyakit" style="font-weight: bold">Riwayat Penyakit</label>
+                                <p id="riwayat_penyakit"></p>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <label for="alergi_obat" style="font-weight: bold">Alergi Obat</label>
+                                <p id="alergi_obat"></p>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-5">
+                                <label for="email" style="font-weight: bold">E-mail</label>
+                                <p id="email"></p>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <label for="username" style="font-weight: bold">Username</label>
+                                <p id="username"></p>
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <!-- <div class="container">
+                                <div class="center-block text-center"> -->
+                            <a type="button" name="update" id="update" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
+                            <button type="button" name="delete" id="delete" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
+                            <!-- </div> -->
                             <input type="hidden" name="id_pasien" id="id_pasien" />
+                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
@@ -173,14 +273,21 @@
 </div>
 <!-- /.container-fluid -->
 
-
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
         var dataTable = $('#dataTable').DataTable({
             "processing": true,
             "serverSide": true,
             "scrollX": true,
-            "scrollY": true,
+            "scrollY": "400px",
+            fixedColumns: {
+                leftColumns: 1,
+                rightColumns: 1,
+                heightMatch: 'auto'
+            },
             "order": [],
             "lengthMenu": [20, 50, 100],
             "ajax": {
@@ -192,7 +299,7 @@
                     "orderable": false
                 },
                 {
-                    "targets": [10, 11],
+                    "targets": [11, 12, 13],
                     "visible": false
                 },
                 {
@@ -209,46 +316,81 @@
                     "targets": 2
                 },
                 {
-                    "width": "102px",
-                    "targets": 3
-                },
-                {
-                    "width": "250px",
-                    "targets": 4
-                },
-                {
-                    "width": "120px",
-                    "targets": 5
-                },
-                {
-                    "targets": 5,
+                    "width": "60px",
+                    "targets": 3,
                     render: function(data) {
-                        return moment(data).locale("id").format('DD MMMM YYYY');
+                        var tgl = new Date(data).getTime();
+                        var ageDifMs = Date.now() - tgl;
+                        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+                        // return Math.abs(ageDate.getUTCFullYear() - 1970);
+                        var age = Math.abs(ageDate.getUTCFullYear() - 1970);
+                        var umur = parseInt(age);
+                        return umur;
                     }
                 },
                 {
                     "width": "102px",
-                    "targets": 6
+                    "targets": 4,
+                    render: function(data) {
+                        if (data == '1') {
+                            return 'Laki-laki';
+                        } else {
+                            return 'Perempuan';
+                        }
+                    }
+                },
+                {
+                    "width": "250px",
+                    "targets": 5
+                },
+                // {
+
+                //     "targets": 6
+                // },
+                {
+                    "width": "120px",
+                    "targets": 6,
+                    render: function(data) {
+                        return moment(data).locale("id").format('D MMMM YYYY');
+                    }
                 },
                 {
                     "width": "102px",
                     "targets": 7
                 },
                 {
-                    "width": "200px",
+                    "width": "102px",
                     "targets": 8
                 },
                 {
                     "width": "200px",
-                    "targets": 9
+                    "targets": 9,
+                    render: function(data) {
+                        if (data == '') {
+                            return '-';
+                        } else {
+                            return data;
+                        }
+                    }
+                },
+                {
+                    "width": "200px",
+                    "targets": 10,
+                    render: function(data) {
+                        if (data == '') {
+                            return '-';
+                        } else {
+                            return data;
+                        }
+                    }
                 },
                 {
                     "width": "120px",
-                    "targets": 12
+                    "targets": 13
                 },
                 {
                     "width": "80px",
-                    "targets": 13
+                    "targets": 14
                 },
             ]
         });

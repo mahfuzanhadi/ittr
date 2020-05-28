@@ -227,52 +227,44 @@ class Perawat extends CI_Controller
 
         $data['perawat'] = $this->Perawat_model->getById($id);
 
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
-        $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'required');
-        $this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'required');
-        $this->form_validation->set_rules('no_telp', 'No. Telp', 'required|numeric');
-        $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required');
-        // $this->form_validation->set_rules('no_str', 'No. STR', 'required|numeric');
-        // $this->form_validation->set_rules('tanggal_berlaku_str', 'Tanggal Berlaku STR', 'required');
-        $this->form_validation->set_rules('email', 'E-mail', 'required|valid_email');
-        $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[5]|matches[password2]', [
-            'matches' => 'Password dont match!',
-            'min_length' => 'Password too short'
-        ]);
-        $this->form_validation->set_rules('password2', 'Ulangi Password', 'required|trim|matches[password1]');
+        // $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[5]|matches[password2]', [
+        //     'matches' => 'Password dont match!',
+        //     'min_length' => 'Password too short'
+        // ]);
+        // $this->form_validation->set_rules('password2', 'Ulangi Password', 'required|trim|matches[password1]');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('perawat/edit_profil/sidebar', $data);
-            $this->load->view('templates/perawat/topbar', $data);
-            $this->load->view('perawat/edit_profil/index', $data);
-            $this->load->view('templates/footer');
-            $this->session->set_userdata('previous_url', current_url());
+        $this->load->view('templates/header', $data);
+        $this->load->view('perawat/edit_profil/sidebar', $data);
+        $this->load->view('templates/perawat/topbar', $data);
+        $this->load->view('perawat/edit_profil/index', $data);
+        $this->load->view('templates/footer');
+        $this->session->set_userdata('previous_url', current_url());
+    }
+
+    public function update_profil()
+    {
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'alamat' => $this->input->post('alamat'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+            'no_telp' => $this->input->post('no_telp'),
+            'no_str' => $this->input->post('no_str'),
+            'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
+            'username' => $this->input->post('username'),
+            'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+            // 'password' => $this->input->post('password'),
+            'email' => $this->input->post('email')
+        ];
+        if (!empty($data['password'])) {
+            $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
         } else {
-            $data = [
-                'nama' => $this->input->post('nama'),
-                'alamat' => $this->input->post('alamat'),
-                'tempat_lahir' => $this->input->post('tempat_lahir'),
-                'tanggal_lahir' => $this->input->post('tanggal_lahir'),
-                'jenis_kelamin' => $this->input->post('jenis_kelamin'),
-                'no_telp' => $this->input->post('no_telp'),
-                'no_str' => $this->input->post('no_str'),
-                'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
-                'username' => $this->input->post('username'),
-                // 'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-                'password' => $this->input->post('password1'),
-                'email' => $this->input->post('email')
-            ];
-            if (!empty($data['password'])) {
-                $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
-            } else {
-                // We don't save an empty password
-                unset($data['password']);
-            }
-            $this->Perawat_model->edit_data(array('id_perawat' => $this->input->post('id')), $data);
-            $this->session->set_flashdata('flash', 'diubah');
-            redirect('perawat/profil');
+            // We don't save an empty password
+            unset($data['password']);
         }
+        $this->Perawat_model->edit_data(array('id_perawat' => $this->input->post('id')), $data);
+        $this->session->set_flashdata('flash', 'diubah');
+        redirect('perawat/profil');
     }
 }

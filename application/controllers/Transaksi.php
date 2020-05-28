@@ -12,7 +12,7 @@ class Transaksi extends CI_Controller
             $url = base_url();
             redirect($url);
         }
-        if ($this->session->userdata('akses') != 1) {
+        if ($this->session->userdata('akses') == 4) {
             $previous_url = $this->session->userdata('previous_url');
             redirect($previous_url);
         }
@@ -26,13 +26,23 @@ class Transaksi extends CI_Controller
         $data['pasien'] = $this->Transaksi_model->get_pasien();
         $data['dokter'] = $this->Transaksi_model->get_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
-        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/transaksi/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/transaksi/index', $data);
-        $this->load->view('templates/footer');
+        if ($this->session->userdata('akses') == '1') {
+            $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/pasien/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/pasien/index', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '3') {
+            $data['perawat'] = $this->db->get_where('perawat', ['email' => $this->session->userdata('email')])->row_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('perawat/transaksi/sidebar', $data);
+            $this->load->view('templates/perawat/topbar', $data);
+            $this->load->view('perawat/transaksi/index', $data);
+            $this->load->view('templates/footer');
+        }
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function fetch_data()
@@ -60,7 +70,7 @@ class Transaksi extends CI_Controller
             }
 
             $row[] = $no;
-            $row[] = '<a style="color:#007bff;" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $transaksi->no_rekam_medis . '</a>';
+            $row[] = '<a style="color:#007bff; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $transaksi->no_rekam_medis . '</a>';
             // $row[] = $transaksi->no_rekam_medis;
             $row[] = $transaksi->nama_pasien;
             $row[] = $transaksi->nama_dokter;

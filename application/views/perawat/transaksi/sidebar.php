@@ -1,6 +1,7 @@
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
+    <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('perawat'); ?>">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-tooth"></i>
@@ -16,7 +17,7 @@
     </div>
 
     <!-- Nav Item - Rekam Medis -->
-    <li class="nav-item">
+    <li class="nav-item active">
         <a class="nav-link" href="<?= base_url('transaksi'); ?>">
             <i class="fas fa-fw fa-notes-medical"></i>
             <span>Rekam Medis</span></a>
@@ -37,7 +38,7 @@
     </div>
 
     <!-- Nav Item - My Profile -->
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" href="<?= base_url('perawat/profil'); ?>">
             <i class="fas fa-fw fa-user"></i>
             <span>Profil Saya</span></a>

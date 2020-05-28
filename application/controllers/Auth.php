@@ -58,7 +58,7 @@ class Auth extends CI_Controller
 			if (password_verify($password, $dokter['password'])) {
 				$data = [
 					'id_dokter' => $dokter['id_dokter'],
-					// 'username' => $dokter['username'],
+					'username' => $dokter['username'],
 					'nama' => $dokter['nama'],
 					'email' => $dokter['email']
 				];
@@ -75,7 +75,7 @@ class Auth extends CI_Controller
 			if (password_verify($password, $perawat['password'])) {
 				$data = [
 					'id_perawat' => $perawat['id_perawat'],
-					// 'username' => $perawat['username'],
+					'username' => $perawat['username'],
 					'nama' => $perawat['nama'],
 					'email' => $perawat['email']
 				];

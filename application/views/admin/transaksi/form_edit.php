@@ -277,6 +277,31 @@
     }
 </script>
 <script>
+    var biaya = '<?php echo $detail_tindakan['biaya_tindakan']; ?>';
+    var biaya_tindakan = new Intl.NumberFormat().format(biaya);
+    $('#biaya').val(biaya_tindakan);
+
+    var biaya2 = '<?php echo $detail_tindakan2['biaya_tindakan']; ?>';
+    if (biaya2 != '') {
+        var biaya_tindakan2 = new Intl.NumberFormat().format(biaya2);
+        $('#biaya2').val(biaya_tindakan2);
+    } else {
+        $('#biaya2').val();
+    }
+
+    var harga = '<?php echo $nama_obat['harga']; ?>';
+    var harga_obat = new Intl.NumberFormat().format(harga);
+    $('#harga').val(harga_obat);
+
+    var harga2 = '<?php echo $nama_obat2['harga']; ?>';
+    if (harga2 != '') {
+        var harga_obat2 = new Intl.NumberFormat().format(harga2);
+        $('#harga2').val(harga_obat2);
+    } else {
+        $('#harga2').val();
+    }
+</script>
+<script>
     $('#biaya').on('input', function() {
 
         var number, s_number, f_number;

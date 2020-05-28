@@ -179,4 +179,24 @@ class Transaksi_model extends CI_Model
             return false;
         }
     }
+
+    public function get_transaksi_id($id)
+    {
+        $this->db->select('transaksi.id_transaksi as id_transaksi, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien,transaksi.tanggal as tanggal, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat,  transaksi.keterangan as keterangan,transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan, transaksi.metode_pembayaran as metode_pembayaran');
+        $this->db->from($this->table);
+        $this->db->where('id_transaksi', $id);
+        $this->db->join('pasien', 'pasien.id_pasien = transaksi.id_pasien', 'left');
+        return $this->db->get()->row();
+
+        // $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
+        // $this->db->join('perawat', 'perawat.id_perawat = transaksi.id_perawat', 'left');
+    }
+
+    public function update_metode_pembayaran($id, $data)
+    {
+        $this->db->set('metode_pembayaran', $data);
+        $this->db->where('id_transaksi', $id);
+        $this->db->update($this->table);
+        return $this->db->affected_rows();
+    }
 }

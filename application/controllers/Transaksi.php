@@ -60,7 +60,8 @@ class Transaksi extends CI_Controller
             }
 
             $row[] = $no;
-            $row[] = '<a href="transaksi/detail/' . $transaksi->id_transaksi . '" >' . $transaksi->no_rekam_medis . '</a>';
+            $row[] = '<a style="color:#007bff;" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $transaksi->no_rekam_medis . '</a>';
+            // $row[] = $transaksi->no_rekam_medis;
             $row[] = $transaksi->nama_pasien;
             $row[] = $transaksi->nama_dokter;
             $row[] = $transaksi->nama_perawat;
@@ -402,22 +403,19 @@ class Transaksi extends CI_Controller
         }
     }
 
-    public function detail($id)
+    public function detail_data($id)
     {
-        $data['title'] = 'Detail Data Rekam Medis';
-        $data['pasien'] = $this->Transaksi_model->get_pasien();
-        $data['dokter'] = $this->Transaksi_model->get_dokter();
-        $data['perawat'] = $this->Transaksi_model->get_perawat();
-        // $data['dtindakan'] = $this->Transaksi_model->get_dtindakan();
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
-        $data['transaksi'] = $this->Transaksi_model->getById($id);
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/transaksi/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/transaksi/detail_data', $data);
-        $this->load->view('templates/footer');
-        // echo json_encode($data);
+        $data = $this->Transaksi_model->get_transaksi_id($id);
+        echo json_encode($data);
+    }
+
+    public function update_transaksi()
+    {
+        $data = $this->input->post('metode_pembayaran');
+        $id = $this->input->post('id_transaksi');
+        $this->Transaksi_model->update_metode_pembayaran($id, $data);
+        $this->session->set_flashdata('flash', 'diubah');
+        redirect('transaksi');
     }
 
     public function delete($id)

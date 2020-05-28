@@ -63,7 +63,7 @@ class Pasien extends CI_Controller
             // }
             $row[] = $no;
             $row[] = '<a href="pasien/detail_rm/' . $pasien->id_pasien . '" >' . $pasien->no_rekam_medis;
-            $row[] = '<a onclick="detail_data(' . $pasien->id_pasien . ')" >' . $pasien->nama . '</a>';
+            $row[] = '<a style="color:#007bff; onclick="detail_data(' . $pasien->id_pasien . ')" >' . $pasien->nama . '</a>';
             $row[] = $pasien->tanggal_lahir;
             $row[] = $pasien->jenis_kelamin;
             $row[] = $pasien->alamat;

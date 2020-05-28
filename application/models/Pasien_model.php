@@ -122,22 +122,51 @@ class Pasien_model extends CI_Model
         return $this->db->get_where('transaksi', ["id_pasien" => $id])->result_array();
     }
 
-    public function get_detail_tindakan($id)
+    public function get_detail_tindakan()
     {
-        $query2 = array();
-        $query = $this->db->get_where('transaksi', ["id_pasien" => $id])->result();
-        foreach ($query as $row) {
-            $id_transaksi = $row->id_transaksi;
-            return $this->db->get_where('detail_tindakan', ["id_transaksi" => $id_transaksi])->result_array();
-        }
-        // return $query2;
+        // $this->db->select('*');
+        // $this->db->from('transaksi');
+        // $this->db->where('id_pasien', $id);
+        // $query = $this->db->get()->result_array();
+        // foreach ($query as $query) {
+        //     $id_transaksi = $query['id_transaksi'];
+        // }
+
+        // $this->db->select('*');
+        // $this->db->from('detail_tindakan');
+        // $this->db->where('id_transaksi', $id_transaksi);
+
+        // return $this->db->get()->result();
+        return $this->db->query('SELECT * from detail_tindakan')->result();
     }
+
+    // public function getDtindakan1($id)
+    // {
+    //     $query = $this->db->get_where('transaksi', ["id_pasien" => $id])->result_array();
+    //     if (isset($query)) {
+    //         $id_transaksi = $query['id_transaksi'];
+    //     }
+
+    //     $this->db->select_min('id_detail_tindakan');
+    //     $this->db->from('detail_tindakan');
+    //     $this->db->where('id_transaksi', $id_transaksi);
+    //     $row = $this->db->get()->row();
+    //     if (isset($row)) {
+    //         $min = $row->id_detail_tindakan;
+    //     }
+
+    //     return $this->db->get_where('detail_tindakan', ["id_detail_tindakan" => $min])->row_array();
+    // }
 
     public function get_tindakan()
     {
         return $this->db->query('SELECT * from tindakan')->result();
     }
 
+    public function get_detail_biaya_obat()
+    {
+        return $this->db->query('SELECT * from detail_biaya_obat')->result();
+    }
 
     public function get_obat()
     {

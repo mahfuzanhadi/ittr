@@ -218,12 +218,17 @@ class Pasien extends CI_Controller
     {
         $data['title'] = 'Detail Data Rekam Medis';
         $this->load->model('Transaksi_model');
+        // $this->load->model('Dtindakan_model');
+        // $this->load->model('Dobat_model');
+
         $data['pasien'] = $this->Pasien_model->getById($id);
         $data['transaksi'] = $this->Pasien_model->get_transaksi_by_id($id);
         $data['dokter'] = $this->Transaksi_model->get_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
-        $data['detail_tindakan'] = $this->Pasien_model->get_detail_tindakan($id);
+        $data['detail_tindakan'] = $this->Pasien_model->get_detail_tindakan();
+        // $data['dtindakan1'] = $this->Pasien_model->getDtindakan1($id);
         $data['tindakan'] = $this->Pasien_model->get_tindakan();
+        $data['detail_obat'] = $this->Pasien_model->get_detail_biaya_obat();
         $data['obat'] = $this->Pasien_model->get_obat();
         $data['admin'] = $this->db->get_where('admin', ['email' =>
         $this->session->userdata('email')])->row_array();

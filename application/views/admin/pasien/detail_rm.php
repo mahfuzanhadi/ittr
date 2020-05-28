@@ -13,6 +13,21 @@
     $age = $difference->y;
     $umur = floor((time() - strtotime($tanggal_lahir)) / 31556926);
     $age = intval($umur);
+
+    // foreach ($tindakan as $tindakan) {
+    //     $id_tindakan = $tindakan->id_tindakan;
+    //     $nama_tindakan = $tindakan->nama;
+    // }
+    // foreach ($transaksi as $transaksi) {
+    //     foreach ($detail_tindakan as $detail_tindakan) {
+    //         if ($detail_tindakan->id_transaksi == $transaksi['id_transaksi']) {
+    //             if ($detail_tindakan->id_tindakan == $id_tindakan) {
+    //                 echo $id_tindakan;
+    //             }
+    //         }
+    //     }
+    // }
+
     ?>
 
     <div class="card mb-3">
@@ -40,7 +55,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-sm-3">
-                    <p>Pasien : <?= $pasien['nama']; ?></p>
+                    <p>Nama Pasien : <?= $pasien['nama']; ?></p>
                 </div>
                 <div class="form-group col-sm-3">
                     <p>Umur : <?= $age; ?> tahun</p>
@@ -93,11 +108,28 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
-                        <?php foreach ($detail_tindakan as $row) : ?>
-                            <?php if ($row['id_transaksi'] == $transaksi['id_transaksi']) : ?>
-                                <?= $row['biaya_tindakan']; ?>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
+                        <?php foreach ($detail_tindakan as $dt) {
+                            if ($dt->id_transaksi == $transaksi['id_transaksi']) {
+                                $id_tindakan = $dt->id_tindakan;
+                                foreach ((array) $tindakan as $t) {
+                                    if ($t->id_tindakan == $id_tindakan) {
+                                        echo '<p>Tindakan : ' . $t->nama . '</p>';
+                                    }
+                                }
+                            }
+                        } ?>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <?php foreach ($detail_obat as $do) {
+                            if ($do->id_transaksi == $transaksi['id_transaksi']) {
+                                $id_obat = $do->id_obat;
+                                foreach ((array) $obat as $o) {
+                                    if ($o->id_obat == $id_obat) {
+                                        echo '<p>Obat : ' . $o->nama . '</p>';
+                                    }
+                                }
+                            }
+                        } ?>
                     </div>
                 </div>
                 <div class="form-row">

@@ -54,24 +54,22 @@ class Auth extends CI_Controller
 				redirect(base_url());
 			}
 		} else if ($dokter) {
-			//usernya ada
 			if (password_verify($password, $dokter['password'])) {
 				$data = [
 					'id_dokter' => $dokter['id_dokter'],
 					'username' => $dokter['username'],
 					'nama' => $dokter['nama'],
-					'email' => $dokter['email']
+					'email' => $dokter['email'],
 				];
 				$this->session->set_userdata($data);
 				$this->session->set_userdata('masuk', TRUE);
 				$this->session->set_userdata('akses', '2');
-				redirect('dokter');
+				redirect('transaksi');
 			} else {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
 				redirect(base_url());
 			}
 		} else if ($perawat) {
-			//usernya ada
 			if (password_verify($password, $perawat['password'])) {
 				$data = [
 					'id_perawat' => $perawat['id_perawat'],
@@ -88,7 +86,6 @@ class Auth extends CI_Controller
 				redirect(base_url());
 			}
 		} else if ($staf) {
-			//usernya ada
 			if (password_verify($password, $staf['password'])) {
 				$data = [
 					'id_staf' => $staf['id_staf'],
@@ -108,6 +105,16 @@ class Auth extends CI_Controller
 			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">User is not registered!</div>');
 			redirect(base_url());
 		}
+	}
+
+	public function logout()
+	{
+		$this->session->unset_userdata('email');
+		$this->session->unset_userdata('masuk');
+		$this->session->unset_userdata('akses');
+		$this->session->sess_destroy();
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">You have been logged out!</div>');
+		redirect(base_url());
 	}
 
 	// public function registration()
@@ -139,12 +146,4 @@ class Auth extends CI_Controller
 	// 		redirect('auth');
 	// 	}
 	// }
-
-	public function logout()
-	{
-		$this->session->unset_userdata('email');
-		$this->session->sess_destroy();
-		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">You have been logged out!</div>');
-		redirect(base_url());
-	}
 }

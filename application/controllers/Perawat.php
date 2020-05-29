@@ -195,50 +195,42 @@ class Perawat extends CI_Controller
 
     public function profil()
     {
-        if ($this->session->userdata('akses') != 3) {
+        if ($this->session->userdata('akses') != '3') {
             $previous_url = $this->session->userdata('previous_url');
             redirect($previous_url);
+        } else {
+            $data['title'] = 'Profil Saya';
+            $id = $this->session->userdata('id_perawat');
+
+            $data['perawat'] = $this->Perawat_model->getById($id);
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('perawat/profil/sidebar', $data);
+            $this->load->view('templates/perawat/topbar', $data);
+            $this->load->view('perawat/profil/index', $data);
+            $this->load->view('templates/footer');
+            $this->session->set_userdata('previous_url', current_url());
         }
-        $data['title'] = 'Profil Saya';
-        $data['perawat'] = $this->db->get_where('perawat', ['id_perawat' =>
-        $this->session->userdata('id_perawat')])->row_array();
-        $id = $this->session->userdata('id_perawat');
-
-        $data['perawat'] = $this->Perawat_model->getById($id);
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('perawat/profil/sidebar', $data);
-        $this->load->view('templates/perawat/topbar', $data);
-        $this->load->view('perawat/profil/index', $data);
-        $this->load->view('templates/footer');
-        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function edit_profil()
     {
-        if ($this->session->userdata('akses') != 3) {
+        if ($this->session->userdata('akses') != '3') {
             $previous_url = $this->session->userdata('previous_url');
             redirect($previous_url);
+        } else {
+            $data['title'] = 'Edit Profil';
+            $id = $this->session->userdata('id_perawat');
+
+            $data['perawat'] = $this->Perawat_model->getById($id);
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('perawat/edit_profil/sidebar', $data);
+            $this->load->view('templates/perawat/topbar', $data);
+            $this->load->view('perawat/edit_profil/index', $data);
+            $this->load->view('templates/footer');
+            $this->session->set_userdata('previous_url', current_url());
         }
-        $data['title'] = 'Edit Profil';
-        $data['perawat'] = $this->db->get_where('perawat', ['email' =>
-        $this->session->userdata('email')])->row_array();
-        $id = $this->session->userdata('id_perawat');
-
-        $data['perawat'] = $this->Perawat_model->getById($id);
-
-        // $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[5]|matches[password2]', [
-        //     'matches' => 'Password dont match!',
-        //     'min_length' => 'Password too short'
-        // ]);
-        // $this->form_validation->set_rules('password2', 'Ulangi Password', 'required|trim|matches[password1]');
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('perawat/edit_profil/sidebar', $data);
-        $this->load->view('templates/perawat/topbar', $data);
-        $this->load->view('perawat/edit_profil/index', $data);
-        $this->load->view('templates/footer');
-        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function update_profil()

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class dokter extends CI_Controller
+class Dokter extends CI_Controller
 {
     public function __construct()
     {
@@ -11,10 +11,6 @@ class dokter extends CI_Controller
         if ($this->session->userdata('masuk') != TRUE) {
             $url = base_url();
             redirect($url);
-        }
-        if ($this->session->userdata('akses') != 1) {
-            $previous_url = $this->session->userdata('previous_url');
-            redirect($previous_url);
         }
     }
 
@@ -177,5 +173,74 @@ class dokter extends CI_Controller
     {
         $this->Dokter_model->delete_data($id);
         echo json_encode(array("status" => true));
+    }
+
+    public function profil()
+    {
+        if ($this->session->userdata('akses') != '2') {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        } else {
+            $data['title'] = 'Profil Saya';
+            $id = $this->session->userdata('id_dokter');
+
+            $data['dokter'] = $this->Dokter_model->getById($id);
+            $this->load->view('templates/header', $data);
+            $this->load->view('dokter/profil/sidebar', $data);
+            $this->load->view('templates/dokter/topbar', $data);
+            $this->load->view('dokter/profil/index', $data);
+            $this->load->view('templates/footer');
+            $this->session->set_userdata('previous_url', current_url());
+        }
+    }
+
+    public function edit_profil()
+    {
+        if ($this->session->userdata('akses') != '2') {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        } else {
+            $data['title'] = 'Edit Profil';
+            $data['dokter'] = $this->db->get_where('dokter', ['email' =>
+            $this->session->userdata('email')])->row_array();
+            $id = $this->session->userdata('id_dokter');
+
+            $data['dokter'] = $this->Dokter_model->getById($id);
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('dokter/edit_profil/sidebar', $data);
+            $this->load->view('templates/dokter/topbar', $data);
+            $this->load->view('dokter/edit_profil/index', $data);
+            $this->load->view('templates/footer');
+            $this->session->set_userdata('previous_url', current_url());
+        }
+    }
+
+    public function update_profil()
+    {
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'alamat' => $this->input->post('alamat'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+            'no_telp' => $this->input->post('no_telp'),
+            'email' => $this->input->post('email'),
+            'no_sip' => $this->input->post('no_sip'),
+            'no_str' => $this->input->post('no_str'),
+            'tanggal_berlaku_sip' => $this->input->post('tanggal_berlaku_sip'),
+            'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
+            'username' => $this->input->post('username'),
+            'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+        ];
+        if (!empty($data['password'])) {
+            $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+        } else {
+            // We don't save an empty password
+            unset($data['password']);
+        }
+        $this->Dokter_model->edit_data(array('id_dokter' => $this->input->post('id')), $data);
+        $this->session->set_flashdata('flash', 'diubah');
+        redirect('dokter/profil');
     }
 }

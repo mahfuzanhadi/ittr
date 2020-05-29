@@ -14,6 +14,20 @@
     $umur = floor((time() - strtotime($tanggal_lahir)) / 31556926);
     $age = intval($umur);
 
+    // foreach ($tindakan as $tindakan) {
+    //     $id_tindakan = $tindakan->id_tindakan;
+    //     $nama_tindakan = $tindakan->nama;
+    // }
+    // foreach ($transaksi as $transaksi) {
+    //     foreach ($detail_tindakan as $detail_tindakan) {
+    //         if ($detail_tindakan->id_transaksi == $transaksi['id_transaksi']) {
+    //             if ($detail_tindakan->id_tindakan == $id_tindakan) {
+    //                 echo $id_tindakan;
+    //             }
+    //         }
+    //     }
+    // }
+
     ?>
 
     <div class="card mb-3">

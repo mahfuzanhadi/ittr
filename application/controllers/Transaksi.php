@@ -12,10 +12,10 @@ class Transaksi extends CI_Controller
             $url = base_url();
             redirect($url);
         }
-        if ($this->session->userdata('akses') == 4) {
-            $previous_url = $this->session->userdata('previous_url');
-            redirect($previous_url);
-        }
+        // if ($this->session->userdata('akses') == 4) {
+        //     $previous_url = $this->session->userdata('previous_url');
+        //     redirect($previous_url);
+        // }
     }
 
     public function index()
@@ -28,18 +28,28 @@ class Transaksi extends CI_Controller
         $data['perawat'] = $this->Transaksi_model->get_perawat();
 
         if ($this->session->userdata('akses') == '1') {
-            $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/pasien/sidebar', $data);
+            $this->load->view('admin/transaksi/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/pasien/index', $data);
+            $this->load->view('admin/transaksi/index', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '2') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('dokter/transaksi/sidebar', $data);
+            $this->load->view('templates/dokter/topbar', $data);
+            $this->load->view('dokter/transaksi/index', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '3') {
-            $data['perawat'] = $this->db->get_where('perawat', ['email' => $this->session->userdata('email')])->row_array();
             $this->load->view('templates/header', $data);
             $this->load->view('perawat/transaksi/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
             $this->load->view('perawat/transaksi/index', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/header', $data);
+            $this->load->view('staf/transaksi/sidebar', $data);
+            $this->load->view('templates/staf/topbar', $data);
+            $this->load->view('staf/transaksi/index', $data);
             $this->load->view('templates/footer');
         }
         $this->session->set_userdata('previous_url', current_url());
@@ -109,15 +119,23 @@ class Transaksi extends CI_Controller
         $this->load->model('Dobat_model');
         $data['dokter'] = $this->Transaksi_model->get_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
-        // $data['tindakan'] = $this->Dtindakan_model->get_tindakan();
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/transaksi/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/transaksi/form_add', $data);
-        $this->load->view('templates/footer');
-
+        if ($this->session->userdata('akses') == 1) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/transaksi/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/transaksi/form_add', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == 2) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('dokter/transaksi/sidebar', $data);
+            $this->load->view('templates/dokter/topbar', $data);
+            $this->load->view('dokter/transaksi/form_add', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
+        $this->session->set_userdata('previous_url', current_url());
 
         $no_rekam_medis = $this->input->post('no_rekam_medis');
         if (isset($no_rekam_medis)) {
@@ -245,8 +263,6 @@ class Transaksi extends CI_Controller
         $data['pasien'] = $this->Transaksi_model->get_pasien();
         $data['dokter'] = $this->Transaksi_model->get_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
 
         $data['transaksi'] = $this->Transaksi_model->getById($id);
         $data['detail_tindakan'] = $this->Dtindakan_model->getDtindakan1($id);
@@ -259,11 +275,23 @@ class Transaksi extends CI_Controller
         $data['detail_obat2'] = $this->Dobat_model->getDobat2($id);
         $data['nama_obat2'] = $this->Dobat_model->getObat2($id);
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/transaksi/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/transaksi/form_edit', $data);
-        $this->load->view('templates/footer');
+        if ($this->session->userdata('akses') == 1) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/transaksi/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/transaksi/form_edit', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == 2) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('dokter/transaksi/sidebar', $data);
+            $this->load->view('templates/dokter/topbar', $data);
+            $this->load->view('dokter/transaksi/form_edit', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function update()

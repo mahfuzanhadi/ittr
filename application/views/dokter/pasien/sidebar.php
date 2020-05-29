@@ -22,7 +22,7 @@
             <span>Rekam Medis</span></a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item active">
         <a class="nav-link" href="<?= base_url('pasien'); ?>">
             <i class="fas fa-fw fa-bed"></i>
             <span>Data Pasien</span></a>
@@ -37,13 +37,13 @@
     </div>
 
     <!-- Nav Item - My Profile -->
-    <li class="nav-item active">
-        <a class="nav-link" href="<?= base_url('perawat/profil'); ?>">
+    <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('dokter/profil'); ?>">
             <i class="fas fa-fw fa-user"></i>
             <span>Profil Saya</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('perawat/edit_profil'); ?>">
+        <a class="nav-link" href="<?= base_url('dokter/edit_profil'); ?>">
             <i class="fas fa-fw fa-user-edit"></i>
             <span>Edit Profil</span></a>
     </li>

@@ -74,7 +74,7 @@
                 <span>Rekam Medis</span></a>
         </li>
 
-        <li class="nav-item active">
+        <li class="nav-item">
             <a class="nav-link" href="<?= base_url('pasien'); ?>">
                 <i class="fas fa-fw fa-bed"></i>
                 <span>Data Pasien</span></a>
@@ -97,7 +97,6 @@
                 <i class="fas fa-fw fa-briefcase-medical"></i>
                 <span>Data Alat dan Bahan</span></a>
         </li>
-
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">

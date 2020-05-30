@@ -37,24 +37,6 @@
             <span>Data Pasien</span></a>
     </li>
 
-    <!-- <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('dokter'); ?>">
-            <i class="fas fa-fw fa-user-md"></i>
-            <span>Data Dokter</span></a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('perawat'); ?>">
-            <i class="fas fa-fw fa-user-nurse"></i>
-            <span>Data Perawat</span></a>
-    </li> 
-
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('staff'); ?>">
-            <i class="fas fa-fw fa-user-cog"></i>
-            <span>Data Staf Administrasi</span></a>
-    </li> -->
-
     <li class="nav-item">
         <a class="nav-link" href="<?= base_url('obat'); ?>">
             <i class="fas fa-fw fa-pills"></i>
@@ -72,7 +54,6 @@
             <i class="fas fa-fw fa-briefcase-medical"></i>
             <span>Data Alat dan Bahan</span></a>
     </li>
-
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item active">

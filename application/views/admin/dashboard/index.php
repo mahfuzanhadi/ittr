@@ -10,7 +10,7 @@
     <!-- Content Row -->
     <div class="row">
 
-        <!-- Earnings (Monthly) Card Example -->
+        <!-- Jumlah Data Rekam Medis -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <!-- Earnings (Monthly) Card Example -->
+        <!-- Jumlah Data Pasien -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <!-- Earnings (Monthly) Card Example -->
+        <!-- Jumlah Data Inventaris Obat -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <!-- Pending Requests Card Example -->
+        <!-- Jumlah Data Inventaris Alat dan Bahan -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
@@ -79,31 +79,30 @@
         </div>
     </div>
 
-
     <div class="row">
         <!-- Data Pasien Berdasarkan Jenis Kelamin -->
-        <div class="col-xl-5 col-lg-4">
+        <div class="col-xl-6 col-lg-6">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Data Pasien Berdasarkan Jenis Kelamin</h6>
                 </div>
                 <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
+                    <div class="chart-pie">
                         <canvas id="rekap_pasien_jk"></canvas>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Data Pasien Berdasarkan Usia -->
-        <div class="col-xl-7 col-lg-8">
+        <!-- Data Pasien Berdasarkan Riwayat Penyakit -->
+        <div class="col-xl-6 col-lg-6">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Data Pasien Berdasarkan Usia</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Data Pasien Berdasarkan Riwayat Penyakit</h6>
                 </div>
                 <div class="card-body">
-                    <div class="chart-pie">
-                        <canvas id="rekap_pasien_umur" style="max-width: 500px;"></canvas>
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="rekap_pasien_riwayat_penyakit" style="max-width: 500px;"></canvas>
                     </div>
                 </div>
             </div>
@@ -306,70 +305,20 @@
 </div>
 <!-- End of Main Content -->
 
-
-</div>
-<!-- End of Content Wrapper -->
-
-</div>
-<!-- End of Page Wrapper -->
-
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
-
-<!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Anda yakin ingin logout?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="<?= base_url('auth/logout') ?>">Logout</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Bootstrap core JavaScript-->
-<script src="<?= base_url('assets/'); ?>vendor/jquery/jquery.min.js"></script>
-<script src="<?= base_url('assets/'); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="<?= base_url('assets/'); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
-
 <!-- Page level plugins -->
 <script src="<?= base_url('assets/'); ?>vendor/chart.js/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
 <script src="<?= base_url('assets/'); ?>js/demo/chart-area-demo.js"></script>
 <script src="<?= base_url('assets/'); ?>js/demo/chart-pie-demo.js"></script>
+
 <?php
-// $this->db->select('*');
-// $this->db->from('pasien');
-// $query = $this->db->get()->result_array();
-// foreach ($query as $row) {
-//     if ($row['jenis_kelamin'] == 1) {
-//         $jenis_kelamin = 'Laki-laki';
-//     } else {
-//         $jenis_kelamin = 'Perempuan';
-//     }
-// }
 $query = $this->db->query("SELECT * FROM pasien WHERE jenis_kelamin=1");
 $jumlah_lk = $query->num_rows();
 $query2 = $this->db->query("SELECT * FROM pasien WHERE jenis_kelamin=2");
 $jumlah_pr = $query2->num_rows();
 ?>
+
 <script>
     var ctx = document.getElementById('rekap_pasien_jk').getContext('2d');
     var chart = new Chart(ctx, {
@@ -396,6 +345,35 @@ $jumlah_pr = $query2->num_rows();
     });
 </script>
 
-</body>
+<?php
+$query = $this->db->query("SELECT * FROM pasien WHERE riwayat_penyakit!=''");
+$jumlah_ada = $query->num_rows();
+$query2 = $this->db->query("SELECT * FROM pasien WHERE riwayat_penyakit=''");
+$jumlah_tidakada = $query2->num_rows();
+?>
 
-</html>
+<script>
+    var ctx = document.getElementById('rekap_pasien_riwayat_penyakit').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [
+                'Memiliki Riwayat Penyakit', 'Tidak Memiliki Riwayat Penyakit'
+            ],
+            datasets: [{
+                label: '',
+                data: [
+                    <?php echo $jumlah_ada; ?>,
+                    <?php echo $jumlah_tidakada; ?>
+                ],
+                backgroundColor: ['rgba(54, 162, 235, 0.87)', 'rgba(255, 159, 64, 0.87)'],
+                borderColor: ['rgba(54, 162, 235, 0.87)', 'rgba(255, 159, 64, 0.87)']
+            }]
+        },
+        options: {
+            legend: {
+                position: 'right'
+            },
+        }
+    });
+</script>

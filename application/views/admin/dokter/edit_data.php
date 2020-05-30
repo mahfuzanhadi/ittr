@@ -183,7 +183,7 @@
             if (username != '') {
                 $.ajax({
                     type: "POST",
-                    url: "<?php echo base_url() ?>perawat/isExist",
+                    url: "<?php echo base_url() ?>dokter/isExist",
                     data: "username=" + username,
                     success: function(response) {
                         if (response != '') {

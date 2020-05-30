@@ -27,13 +27,13 @@
                     <label"><b>Nama</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $dokter['nama']; ?></p>
+                    <p>: <?= $dokter['nama']; ?></p>
                 </div>
                 <div class="form-group col-sm-2">
                     <label"><b>Username</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $dokter['username']; ?></p>
+                    <p>: <?= $dokter['username']; ?></p>
                 </div>
             </div>
             <div class="form-row">
@@ -41,13 +41,13 @@
                     <label"><b>Alamat</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $dokter['alamat']; ?></p>
+                    <p>: <?= $dokter['alamat']; ?></p>
                 </div>
                 <div class="form-group col-sm-2">
                     <label"><b>No. SIP</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $dokter['no_sip']; ?></p>
+                    <p>: <?= $dokter['no_sip']; ?></p>
                 </div>
             </div>
             <div class="form-row">
@@ -57,7 +57,7 @@
                 <div class="form-group col-sm-2">
                     <?php setlocale(LC_ALL, 'id-ID', 'id_ID');
                     $tanggal_lahir = strftime("%d %B %Y", strtotime($dokter['tanggal_lahir'])) . "\n"; ?>
-                    <p><?= $dokter['tempat_lahir'] . ', ' . $tanggal_lahir ?></p>
+                    <p>: <?= $dokter['tempat_lahir'] . ', ' . $tanggal_lahir ?></p>
                 </div>
                 <div class="form-group col-sm-2">
                     <label"><b>Tanggal Berlaku SIP</b></label">
@@ -65,7 +65,7 @@
                 <div class="form-group col-sm-2">
                     <?php setlocale(LC_ALL, 'id-ID', 'id_ID');
                     $tanggal_berlaku_sip = strftime("%d %B %Y", strtotime($dokter['tanggal_berlaku_sip'])) . "\n"; ?>
-                    <p><?= $tanggal_berlaku_sip; ?></p>
+                    <p>: <?= $tanggal_berlaku_sip; ?></p>
                 </div>
             </div>
             <div class="form-row">
@@ -78,13 +78,13 @@
                     } else {
                         $dokter['jenis_kelamin'] = "Perempuan";
                     } ?>
-                    <p><?= $dokter['jenis_kelamin']; ?></p>
+                    <p>: <?= $dokter['jenis_kelamin']; ?></p>
                 </div>
                 <div class="form-group col-sm-2">
                     <label"><b>No. STR</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $dokter['no_str']; ?></p>
+                    <p>: <?= $dokter['no_str']; ?></p>
                 </div>
             </div>
             <div class="form-row">
@@ -92,7 +92,7 @@
                     <label"><b>No. Telp</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $dokter['no_telp']; ?></p>
+                    <p>: <?= $dokter['no_telp']; ?></p>
                 </div>
                 <div class="form-group col-sm-2">
                     <label"><b>Tanggal Berlaku STR</b></label">
@@ -100,7 +100,7 @@
                 <div class="form-group col-sm-2">
                     <?php setlocale(LC_ALL, 'id-ID', 'id_ID');
                     $tanggal_berlaku_str = strftime("%d %B %Y", strtotime($dokter['tanggal_berlaku_str'])) . "\n"; ?>
-                    <p><?= $tanggal_berlaku_str; ?></p>
+                    <p>: <?= $tanggal_berlaku_str; ?></p>
                 </div>
             </div>
             <div class="form-row">
@@ -108,7 +108,7 @@
                     <label"><b>Email</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $dokter['email']; ?></p>
+                    <p>: <?= $dokter['email']; ?></p>
                 </div>
             </div>
         </div>

@@ -12,10 +12,6 @@ class Staff extends CI_Controller
             $url = base_url();
             redirect($url);
         }
-        if ($this->session->userdata('akses') != 1) {
-            $previous_url = $this->session->userdata('previous_url');
-            redirect($previous_url);
-        }
     }
 
     public function index()
@@ -23,14 +19,18 @@ class Staff extends CI_Controller
         $this->load->helper('url');
         $this->load->model('Staf_model', 'staf');
         $data['title'] = 'Data Staf Administrasi';
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/staff/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/staff/index', $data);
-        $this->load->view('templates/footer');
+        if ($this->session->userdata('akses') == '1') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/staff/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/staff/index', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function fetch_data()
@@ -70,14 +70,18 @@ class Staff extends CI_Controller
     public function add()
     {
         $data['title'] = 'Tambah Data Staf Administrasi';
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/staff/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/staff/add_data', $data);
-        $this->load->view('templates/footer');
+        if ($this->session->userdata('akses') == '1') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/staff/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/staff/add_data', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
+        $this->session->set_userdata('previous_url', current_url());
 
         $nama = $this->input->post('nama');
         if (isset($nama)) {
@@ -118,14 +122,18 @@ class Staff extends CI_Controller
     {
         $data['title'] = 'Edit Data Staf Administrasi';
         $data['staf'] = $this->Staf_model->getById($id);
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/staff/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/staff/edit_data', $data);
-        $this->load->view('templates/footer');
+        if ($this->session->userdata('akses') == '1') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/staff/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/staff/edit_data', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function update()
@@ -162,5 +170,68 @@ class Staff extends CI_Controller
     {
         $this->Staf_model->delete_data($id);
         echo json_encode(array("status" => true));
+    }
+
+    public function profil()
+    {
+        if ($this->session->userdata('akses') != '4') {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        } else {
+            $data['title'] = 'Profil Saya';
+            $id = $this->session->userdata('id_staf');
+
+            $data['staf'] = $this->Staf_model->getById($id);
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('staf/profil/sidebar', $data);
+            $this->load->view('templates/staf/topbar', $data);
+            $this->load->view('staf/profil/index', $data);
+            $this->load->view('templates/footer');
+            $this->session->set_userdata('previous_url', current_url());
+        }
+    }
+
+    public function edit_profil()
+    {
+        if ($this->session->userdata('akses') != '4') {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        } else {
+            $data['title'] = 'Edit Profil';
+            $id = $this->session->userdata('id_staf');
+
+            $data['staf'] = $this->Staf_model->getById($id);
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('staf/edit_profil/sidebar', $data);
+            $this->load->view('templates/staf/topbar', $data);
+            $this->load->view('staf/edit_profil/index', $data);
+            $this->load->view('templates/footer');
+            $this->session->set_userdata('previous_url', current_url());
+        }
+    }
+
+    public function update_profil()
+    {
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'alamat' => $this->input->post('alamat'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+            'no_telp' => $this->input->post('no_telp'),
+            'email' => $this->input->post('email'),
+            'username' => $this->input->post('username'),
+            'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT)
+        ];
+        if (!empty($data['password'])) {
+            $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+        } else {
+            // We don't save an empty password
+            unset($data['password']);
+        }
+        $this->Staf_model->edit_data(array('id_staf' => $this->input->post('id')), $data);
+        $this->session->set_flashdata('flash', 'diubah');
+        redirect('staff/profil');
     }
 }

@@ -12,24 +12,16 @@ class Dobat extends CI_Controller
             $url = base_url();
             redirect($url);
         }
-        if ($this->session->userdata('akses') != 1) {
-            $previous_url = $this->session->userdata('previous_url');
-            redirect($previous_url);
-        }
     }
 
     public function add()
     {
         $data['title'] = 'Tambah Data Detail Obat';
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
         $last_transaksi = $this->Dobat_model->get_last_transaksi();
         foreach ($last_transaksi as $last) {
             $data['last'] = $last;
         }
-        // $data['transaksi'] = $this->Dtindakan_model->get_transaksi();
         $data['obat'] = $this->Dobat_model->get_obat();
-        // $this->form_validation->set_rules('nama', 'Nama', 'required');
         $this->form_validation->set_rules('obat', 'Obat', 'required');
         $this->form_validation->set_rules('harga', 'Harga', 'required');
 

@@ -12,10 +12,6 @@ class Obat extends CI_Controller
             $url = base_url();
             redirect($url);
         }
-        if ($this->session->userdata('akses') != 1) {
-            $previous_url = $this->session->userdata('previous_url');
-            redirect($previous_url);
-        }
     }
 
     public function index()
@@ -23,14 +19,24 @@ class Obat extends CI_Controller
         $this->load->helper('url');
         $this->load->model('Obat_model', 'obat');
         $data['title'] = 'Data Obat';
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/obat/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/obat/index', $data);
-        $this->load->view('templates/footer');
+        if ($this->session->userdata('akses') == '1') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/obat/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/obat/index', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '4') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('staf/obat/sidebar', $data);
+            $this->load->view('templates/staf/topbar', $data);
+            $this->load->view('staf/obat/index', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function fetch_data()
@@ -67,18 +73,25 @@ class Obat extends CI_Controller
     public function add()
     {
         $data['title'] = 'Tambah Data Obat';
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/obat/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/obat/add_data', $data);
-        $this->load->view('templates/footer');
-        // $this->form_validation->set_rules('nama', 'Nama', 'required');
-        // $this->form_validation->set_rules('satuan', 'Satuan', 'required');
-        // $this->form_validation->set_rules('jenis', 'Jenis', 'required');
-        // $this->form_validation->set_rules('ukuran', 'Ukuran', 'required');
-        // $this->form_validation->set_rules('harga', 'Harga', 'required|numeric');
+
+        if ($this->session->userdata('akses') == '1') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/obat/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/obat/add_data', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '4') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('staf/obat/sidebar', $data);
+            $this->load->view('templates/staf/topbar', $data);
+            $this->load->view('staf/obat/add_data', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
+        $this->session->set_userdata('previous_url', current_url());
+
         $nama = $this->input->post('nama');
         if (isset($nama)) {
             $data = [
@@ -99,14 +112,24 @@ class Obat extends CI_Controller
     {
         $data['title'] = 'Edit Data Obat';
         $data['obat'] = $this->Obat_model->getById($id);
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/obat/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/obat/edit_data', $data);
-        $this->load->view('templates/footer');
+        if ($this->session->userdata('akses') == '1') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/obat/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/obat/edit_data', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '4') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('staf/obat/sidebar', $data);
+            $this->load->view('templates/staf/topbar', $data);
+            $this->load->view('staf/obat/edit_data', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function update()

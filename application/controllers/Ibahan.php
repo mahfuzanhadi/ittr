@@ -12,10 +12,6 @@ class Ibahan extends CI_Controller
             $url = base_url();
             redirect($url);
         }
-        if ($this->session->userdata('akses') != 1) {
-            $previous_url = $this->session->userdata('previous_url');
-            redirect($previous_url);
-        }
     }
 
     public function index()
@@ -24,13 +20,24 @@ class Ibahan extends CI_Controller
         $this->load->model('Ibahan_model', 'bahan');
         $data['title'] = 'Data Inventaris Alat dan Bahan';
         $data['bahan'] = $this->Ibahan_model->get_bahan();
-        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/inventaris_bahan/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/inventaris_bahan/index', $data);
-        $this->load->view('templates/footer');
+        if ($this->session->userdata('akses') == '1') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/inventaris_bahan/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/inventaris_bahan/index', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '4') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('staf/inventaris_bahan/sidebar', $data);
+            $this->load->view('templates/staf/topbar', $data);
+            $this->load->view('staf/inventaris_bahan/index', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function fetch_data()
@@ -74,15 +81,25 @@ class Ibahan extends CI_Controller
     public function add()
     {
         $data['title'] = 'Tambah Data Inventaris Bahan';
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
         $data['bahan'] = $this->Ibahan_model->get_bahan();
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/inventaris_bahan/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/inventaris_bahan/add_data', $data);
-        $this->load->view('templates/footer');
+        if ($this->session->userdata('akses') == '1') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/inventaris_bahan/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/inventaris_bahan/add_data', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '4') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('staf/inventaris_bahan/sidebar', $data);
+            $this->load->view('templates/staf/topbar', $data);
+            $this->load->view('staf/inventaris_bahan/add_data', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
+        $this->session->set_userdata('previous_url', current_url());
 
         $nama = $this->input->post('nama');
         if (isset($nama)) {
@@ -102,16 +119,26 @@ class Ibahan extends CI_Controller
     public function edit($id)
     {
         $data['title'] = 'Edit Data Inventaris Bahan';
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
         $data['bahan'] = $this->Ibahan_model->get_bahan();
         $data['ibahan'] = $this->Ibahan_model->getById($id);
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/inventaris_bahan/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/inventaris_bahan/edit_data', $data);
-        $this->load->view('templates/footer');
+        if ($this->session->userdata('akses') == '1') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/inventaris_bahan/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/inventaris_bahan/edit_data', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '4') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('staf/inventaris_bahan/sidebar', $data);
+            $this->load->view('templates/staf/topbar', $data);
+            $this->load->view('staf/inventaris_bahan/edit_data', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
+        }
+        $this->session->set_userdata('previous_url', current_url());
     }
 
     public function update()

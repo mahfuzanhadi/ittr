@@ -119,6 +119,7 @@ class Transaksi extends CI_Controller
         $this->load->model('Dobat_model');
         $data['dokter'] = $this->Transaksi_model->get_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
+
         if ($this->session->userdata('akses') == 1) {
             $this->load->view('templates/header', $data);
             $this->load->view('admin/transaksi/sidebar', $data);

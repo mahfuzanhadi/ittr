@@ -121,8 +121,9 @@
 
     </div>
 </div>
-</div>
 <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -170,11 +171,11 @@
     $(document).ready(function() {
         $('#username').keyup(function() {
             var username = $('#username').val();
-            var uname = '<?php echo $perawat['username'] ?>';
+            var uname = '<?php echo $dokter['username']; ?>';
             if (username != '' && username != uname) {
                 $.ajax({
                     type: "POST",
-                    url: "<?php echo base_url() ?>perawat/isExist",
+                    url: "<?php echo base_url() ?>dokter/isExist",
                     data: "username=" + username,
                     success: function(response) {
                         if (response != '') {

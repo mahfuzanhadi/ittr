@@ -250,7 +250,7 @@
             "serverSide": true,
             "scrollX": true,
             "scrollY": "400px",
-            scrollCollapse: true,
+            "scrollCollapse": true,
             fixedColumns: {
                 leftColumns: 1,
                 rightColumns: 1,

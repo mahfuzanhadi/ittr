@@ -27,13 +27,13 @@
                     <label"><b>Nama</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $perawat['nama']; ?></p>
+                    <p>: <?= $perawat['nama']; ?></p>
                 </div>
                 <div class="form-group col-sm-2">
-                    <label"><b>No. Telp</b></label">
+                    <label"><b>Email</b></label">
                 </div>
-                <div class="form-group col-sm-2">
-                    <p><?= $perawat['no_telp']; ?></p>
+                <div class="form-group col-sm-3">
+                    <p>: <?= $perawat['email']; ?></p>
                 </div>
             </div>
             <div class="form-row">
@@ -41,41 +41,29 @@
                     <label"><b>Alamat</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $perawat['alamat']; ?></p>
-                </div>
-                <div class="form-group col-sm-2">
-                    <label"><b>Email</b></label">
-                </div>
-                <div class="form-group col-sm-2">
-                    <p><?= $perawat['email']; ?></p>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-sm-2">
-                    <label"><b>Tempat Lahir</b></label">
-                </div>
-                <div class="form-group col-sm-2">
-                    <p><?= $perawat['tempat_lahir']; ?></p>
+                    <p>: <?= $perawat['alamat']; ?></p>
                 </div>
                 <div class="form-group col-sm-2">
                     <label"><b>Username</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $perawat['username']; ?></p>
+                    <p>: <?= $perawat['username']; ?></p>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-sm-2">
-                    <label"><b>Tanggal Lahir</b></label">
+                    <label"><b>Tempat, Tanggal Lahir</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $perawat['tanggal_lahir']; ?></p>
+                    <?php setlocale(LC_ALL, 'id-ID', 'id_ID');
+                    $tanggal_lahir = strftime("%d %B %Y", strtotime($perawat['tanggal_lahir'])) . "\n"; ?>
+                    <p>: <?= $perawat['tempat_lahir'] . ', ' . $tanggal_lahir ?></p>
                 </div>
                 <div class="form-group col-sm-2">
                     <label"><b>No. STR</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $perawat['no_str']; ?></p>
+                    <p>: <?= $perawat['no_str']; ?></p>
                 </div>
             </div>
             <div class="form-row">
@@ -88,13 +76,23 @@
                     } else {
                         $perawat['jenis_kelamin'] = "Perempuan";
                     } ?>
-                    <p><?= $perawat['jenis_kelamin']; ?></p>
+                    <p>: <?= $perawat['jenis_kelamin']; ?></p>
                 </div>
                 <div class="form-group col-sm-2">
                     <label"><b>Tanggal Berlaku STR</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $perawat['tanggal_berlaku_str']; ?></p>
+                    <?php setlocale(LC_ALL, 'id-ID', 'id_ID');
+                    $tanggal_berlaku_str = strftime("%d %B %Y", strtotime($perawat['tanggal_berlaku_str'])) . "\n"; ?>
+                    <p>: <?= $tanggal_berlaku_str; ?></p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm-2">
+                    <label"><b>No. Telp</b></label">
+                </div>
+                <div class="form-group col-sm-2">
+                    <p>: <?= $perawat['no_telp']; ?></p>
                 </div>
             </div>
         </div>

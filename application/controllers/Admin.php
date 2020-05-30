@@ -20,8 +20,6 @@ class Admin extends CI_Controller
     public function index()
     {
         $data['title'] = 'Dashboard';
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/admin/sidebar', $data);
@@ -34,12 +32,11 @@ class Admin extends CI_Controller
     public function dashboard()
     {
         $data['title'] = 'Dashboard';
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
         $data['rekammedis'] = $this->db->count_all_results('transaksi');
         $data['pasien'] = $this->db->count_all_results('pasien');
         $data['obat'] = $this->db->count_all_results('inventaris_obat');
         $data['bahan'] = $this->db->count_all_results('inventaris_bahan');
+        // $data['graph'] = 
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/admin/sidebar', $data);

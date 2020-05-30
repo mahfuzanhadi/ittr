@@ -1,5 +1,3 @@
-<!-- <?php phpinfo() ?> -->
-
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -81,6 +79,36 @@
         </div>
     </div>
 
+
+    <div class="row">
+        <!-- Data Pasien Berdasarkan Jenis Kelamin -->
+        <div class="col-xl-5 col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Data Pasien Berdasarkan Jenis Kelamin</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="rekap_pasien_jk"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Pasien Berdasarkan Usia -->
+        <div class="col-xl-7 col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Data Pasien Berdasarkan Usia</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie">
+                        <canvas id="rekap_pasien_umur" style="max-width: 500px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Content Row -->
 
     <div class="row">
@@ -278,15 +306,6 @@
 </div>
 <!-- End of Main Content -->
 
-<!-- Footer -->
-<footer class="sticky-footer bg-white">
-    <div class="container my-auto">
-        <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-        </div>
-    </div>
-</footer>
-<!-- End of Footer -->
 
 </div>
 <!-- End of Content Wrapper -->
@@ -318,6 +337,7 @@
     </div>
 </div>
 
+
 <!-- Bootstrap core JavaScript-->
 <script src="<?= base_url('assets/'); ?>vendor/jquery/jquery.min.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -334,6 +354,47 @@
 <!-- Page level custom scripts -->
 <script src="<?= base_url('assets/'); ?>js/demo/chart-area-demo.js"></script>
 <script src="<?= base_url('assets/'); ?>js/demo/chart-pie-demo.js"></script>
+<?php
+// $this->db->select('*');
+// $this->db->from('pasien');
+// $query = $this->db->get()->result_array();
+// foreach ($query as $row) {
+//     if ($row['jenis_kelamin'] == 1) {
+//         $jenis_kelamin = 'Laki-laki';
+//     } else {
+//         $jenis_kelamin = 'Perempuan';
+//     }
+// }
+$query = $this->db->query("SELECT * FROM pasien WHERE jenis_kelamin=1");
+$jumlah_lk = $query->num_rows();
+$query2 = $this->db->query("SELECT * FROM pasien WHERE jenis_kelamin=2");
+$jumlah_pr = $query2->num_rows();
+?>
+<script>
+    var ctx = document.getElementById('rekap_pasien_jk').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [
+                'Laki-laki', 'Perempuan'
+            ],
+            datasets: [{
+                label: '',
+                data: [
+                    <?php echo $jumlah_lk; ?>,
+                    <?php echo $jumlah_pr; ?>
+                ],
+                backgroundColor: ['rgba(56, 86, 255, 0.87)', 'rgb(255, 99, 132)'],
+                borderColor: ['rgba(56, 86, 255, 0.87)', 'rgb(255, 99, 132)']
+            }]
+        },
+        options: {
+            legend: {
+                position: 'right'
+            },
+        }
+    });
+</script>
 
 </body>
 

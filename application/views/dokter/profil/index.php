@@ -30,10 +30,10 @@
                     <p><?= $dokter['nama']; ?></p>
                 </div>
                 <div class="form-group col-sm-2">
-                    <label"><b>No. Telp</b></label">
+                    <label"><b>Username</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $dokter['no_telp']; ?></p>
+                    <p><?= $dokter['username']; ?></p>
                 </div>
             </div>
             <div class="form-row">
@@ -44,38 +44,28 @@
                     <p><?= $dokter['alamat']; ?></p>
                 </div>
                 <div class="form-group col-sm-2">
-                    <label"><b>Email</b></label">
+                    <label"><b>No. SIP</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $dokter['email']; ?></p>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-sm-2">
-                    <label"><b>Tempat Lahir</b></label">
-                </div>
-                <div class="form-group col-sm-2">
-                    <p><?= $dokter['tempat_lahir']; ?></p>
-                </div>
-                <div class="form-group col-sm-2">
-                    <label"><b>Username</b></label">
-                </div>
-                <div class="form-group col-sm-2">
-                    <p><?= $dokter['username']; ?></p>
+                    <p><?= $dokter['no_sip']; ?></p>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-sm-2">
-                    <label"><b>Tanggal Lahir</b></label">
+                    <label"><b>Tempat, Tanggal Lahir</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $dokter['tanggal_lahir']; ?></p>
+                    <?php setlocale(LC_ALL, 'id-ID', 'id_ID');
+                    $tanggal_lahir = strftime("%d %B %Y", strtotime($dokter['tanggal_lahir'])) . "\n"; ?>
+                    <p><?= $dokter['tempat_lahir'] . ', ' . $tanggal_lahir ?></p>
                 </div>
                 <div class="form-group col-sm-2">
-                    <label"><b>No. STR</b></label">
+                    <label"><b>Tanggal Berlaku SIP</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $dokter['no_str']; ?></p>
+                    <?php setlocale(LC_ALL, 'id-ID', 'id_ID');
+                    $tanggal_berlaku_sip = strftime("%d %B %Y", strtotime($dokter['tanggal_berlaku_sip'])) . "\n"; ?>
+                    <p><?= $tanggal_berlaku_sip; ?></p>
                 </div>
             </div>
             <div class="form-row">
@@ -91,10 +81,34 @@
                     <p><?= $dokter['jenis_kelamin']; ?></p>
                 </div>
                 <div class="form-group col-sm-2">
+                    <label"><b>No. STR</b></label">
+                </div>
+                <div class="form-group col-sm-2">
+                    <p><?= $dokter['no_str']; ?></p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm-2">
+                    <label"><b>No. Telp</b></label">
+                </div>
+                <div class="form-group col-sm-2">
+                    <p><?= $dokter['no_telp']; ?></p>
+                </div>
+                <div class="form-group col-sm-2">
                     <label"><b>Tanggal Berlaku STR</b></label">
                 </div>
                 <div class="form-group col-sm-2">
-                    <p><?= $dokter['tanggal_berlaku_str']; ?></p>
+                    <?php setlocale(LC_ALL, 'id-ID', 'id_ID');
+                    $tanggal_berlaku_str = strftime("%d %B %Y", strtotime($dokter['tanggal_berlaku_str'])) . "\n"; ?>
+                    <p><?= $tanggal_berlaku_str; ?></p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm-2">
+                    <label"><b>Email</b></label">
+                </div>
+                <div class="form-group col-sm-2">
+                    <p><?= $dokter['email']; ?></p>
                 </div>
             </div>
         </div>

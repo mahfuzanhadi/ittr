@@ -311,9 +311,9 @@
             }
 
             if ($.trim($('#no_telp').val()).length == 0) {
-                error_no_telp = '';
+                error_no_telp = 'No. Telp wajib diisi';
                 $('#error_no_telp').text(error_no_telp);
-                $('#no_telp').removeClass('has-error');
+                $('#no_telp').addClass('has-error');
             } else {
                 if (!mobile_validation.test($('#no_telp').val())) {
                     error_no_telp = 'Mohon masukkan no telp yang valid';

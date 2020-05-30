@@ -64,7 +64,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
-                        <label for="no_telp">No. Telp </label>
+                        <label for="no_telp">No. Telp <font color="red">*</font></label>
                         <input class="form-control form-control-sm" type="text" name="no_telp" id="no_telp" placeholder="No. Telp" value="<?= $dokter['no_telp'] ?>" onkeypress="javascript:return isNumber(event)" />
                         <span id="error_no_telp" class="text-danger"></span>
                     </div>
@@ -318,9 +318,9 @@
             }
 
             if ($.trim($('#no_telp').val()).length == 0) {
-                error_no_telp = '';
+                error_no_telp = 'No. Telp wajib diisi';
                 $('#error_no_telp').text(error_no_telp);
-                $('#no_telp').removeClass('has-error');
+                $('#no_telp').addClass('has-error');
             } else {
                 if (!mobile_validation.test($('#no_telp').val())) {
                     error_no_telp = 'Mohon masukkan no telp yang valid';

@@ -120,6 +120,15 @@
                     <div class="chart-pie pt-4 pb-2">
                         <canvas id="rekap_pasien_jk" style="display: block; height: 245px; width: 360px;"></canvas>
                     </div>
+                    <div class="mt-4 text-center small">
+
+                        <span class="mr-2">
+                            <i class="fas fa-circle" style="color:rgba(56, 86, 255, 0.87)"></i> <span style="color:#666">Laki-laki</span>
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle" style="color:rgba(255, 99, 132, 0.87)"></i> <span style="color:#666">Perempuan</span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -325,7 +334,7 @@ $jumlah_pr = $query2->num_rows();
         },
         options: {
             legend: {
-                position: 'right'
+                display: false
             },
         }
     });

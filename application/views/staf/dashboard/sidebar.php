@@ -55,22 +55,6 @@
             <span>Data Alat dan Bahan</span></a>
     </li>
 
-
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Data User</span>
-        </a>
-        <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="<?= base_url('dokter'); ?>"><i class="fas fa-fw fa-user-md"></i>&nbsp&nbspData Dokter</a>
-                <a class="collapse-item" href="<?= base_url('perawat'); ?>"><i class="fas fa-fw fa-user-nurse"></i>&nbsp&nbspData Perawat</a>
-                <a class="collapse-item" href="<?= base_url('staff'); ?>"><i class="fas fa-fw fa-user-cog"></i>&nbsp&nbspData Staf Administrasi</a>
-            </div>
-        </div>
-    </li>
-
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInventaris" aria-expanded="true" aria-controls="collapseTwo">
@@ -110,12 +94,12 @@
 
     <!-- Nav Item - My Profile -->
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('admin/profil'); ?>">
+        <a class="nav-link" href="<?= base_url('staff/profil'); ?>">
             <i class="fas fa-fw fa-user"></i>
             <span>Profil Saya</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('admin/edit_profil'); ?>">
+        <a class="nav-link" href="<?= base_url('staff/edit_profil'); ?>">
             <i class="fas fa-fw fa-user-edit"></i>
             <span>Edit Profil</span></a>
     </li>

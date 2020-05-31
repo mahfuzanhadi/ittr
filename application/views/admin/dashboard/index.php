@@ -80,6 +80,23 @@
     </div>
 
     <div class="row">
+        <!-- Rekapitulasi Transaksi Berdasarkan Metode Pembayaran -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Transaksi Berdasarkan Metode Pembayaran</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="rekap_transaksi_metode_pembayaran" style="display: block; height: 320px; width: 791px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
         <!-- Data Pasien Berdasarkan Umur -->
         <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
@@ -222,6 +239,64 @@
 <!-- Page level custom scripts -->
 <script src="<?= base_url('assets/'); ?>js/demo/chart-area-demo.js"></script>
 <script src="<?= base_url('assets/'); ?>js/demo/chart-pie-demo.js"></script>
+
+<?php
+$query = $this->db->query("SELECT * FROM transaksi WHERE metode_pembayaran=1");
+$jumlah1 = $query->num_rows();
+$query2 = $this->db->query("SELECT * FROM transaksi WHERE metode_pembayaran=2");
+$jumlah2 = $query2->num_rows();
+$query3 = $this->db->query("SELECT * FROM transaksi WHERE metode_pembayaran=3");
+$jumlah3 = $query3->num_rows();
+$query4 = $this->db->query("SELECT * FROM transaksi WHERE metode_pembayaran=4");
+$jumlah4 = $query4->num_rows();
+?>
+
+<script>
+    var ctx = document.getElementById('rekap_transaksi_metode_pembayaran').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'horizontalBar',
+        data: {
+            labels: [
+                'Cash', 'Kredit', 'Debit', 'Transfer'
+            ],
+            datasets: [{
+                label: [],
+                data: [
+                    <?php echo $jumlah1; ?>,
+                    <?php echo $jumlah2; ?>,
+                    <?php echo $jumlah3; ?>,
+                    <?php echo $jumlah4; ?>
+                ],
+                backgroundColor: ['rgba(255, 99, 132, 0.87)',
+                    'rgba(54, 162, 235, 0.87)',
+                    'rgba(255, 206, 86, 0.87)',
+                    'rgba(75, 192, 192, 0.87)',
+                    'rgba(153, 102, 255, 0.87)'
+                ],
+                borderColor: ['rgba(255, 99, 132, 0.87)',
+                    'rgba(54, 162, 235, 0.87)',
+                    'rgba(255, 206, 86, 0.87)',
+                    'rgba(75, 192, 192, 0.87)',
+                    'rgba(153, 102, 255, 0.87)'
+                ]
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    stacked: true,
+                    barPercentage: 0.5
+                }]
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
+</script>
 
 <?php
 $query = $this->db->query("SELECT * FROM pasien WHERE jenis_kelamin=1");

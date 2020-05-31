@@ -2,13 +2,20 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('dashboard'); ?>">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-tooth"></i>
         </div>
         <div class="sidebar-brand-text mx-3">Riona Dental Care</div>
         <!-- <img src="<?= base_url('assets/img/logordc.png'); ?>" width="64px" height="64px"> -->
     </a>
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('dashboard'); ?>">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">

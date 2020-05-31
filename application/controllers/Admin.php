@@ -29,21 +29,21 @@ class Admin extends CI_Controller
         $this->session->set_userdata('previous_url', current_url());
     }
 
-    public function dashboard()
-    {
-        $data['title'] = 'Dashboard';
-        $data['rekammedis'] = $this->db->count_all_results('transaksi');
-        $data['pasien'] = $this->db->count_all_results('pasien');
-        $data['obat'] = $this->db->count_all_results('inventaris_obat');
-        $data['bahan'] = $this->db->count_all_results('inventaris_bahan');
+    // public function dashboard()
+    // {
+    //     $data['title'] = 'Dashboard';
+    //     $data['rekammedis'] = $this->db->count_all_results('transaksi');
+    //     $data['pasien'] = $this->db->count_all_results('pasien');
+    //     $data['obat'] = $this->db->count_all_results('inventaris_obat');
+    //     $data['bahan'] = $this->db->count_all_results('inventaris_bahan');
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('admin/dashboard/sidebar', $data);
-        $this->load->view('templates/admin/topbar', $data);
-        $this->load->view('admin/dashboard/index', $data);
-        $this->load->view('templates/footer');
-        $this->session->set_userdata('previous_url', current_url());
-    }
+    //     $this->load->view('templates/header', $data);
+    //     $this->load->view('admin/dashboard/sidebar', $data);
+    //     $this->load->view('templates/admin/topbar', $data);
+    //     $this->load->view('admin/dashboard/index', $data);
+    //     $this->load->view('templates/footer');
+    //     $this->session->set_userdata('previous_url', current_url());
+    // }
 
     public function profil()
     {

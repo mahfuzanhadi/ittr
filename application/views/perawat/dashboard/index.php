@@ -244,8 +244,8 @@ $jumlah_pr = $query2->num_rows();
                     <?php echo $jumlah_lk; ?>,
                     <?php echo $jumlah_pr; ?>
                 ],
-                backgroundColor: ['rgba(56, 86, 255, 0.87)', 'rgba(255, 99, 132, 0.87)'],
-                borderColor: ['rgba(56, 86, 255, 0.87)', 'rgba(255, 99, 132, 0.87)']
+                backgroundColor: ['rgba(56, 86, 255, 0.87)', 'rgb(255, 99, 132)'],
+                borderColor: ['rgba(56, 86, 255, 0.87)', 'rgb(255, 99, 132)']
             }]
         },
         options: {

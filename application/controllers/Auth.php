@@ -48,7 +48,7 @@ class Auth extends CI_Controller
 				$this->session->set_userdata($data);
 				$this->session->set_userdata('masuk', TRUE);
 				$this->session->set_userdata('akses', '1');
-				redirect('admin/dashboard');
+				redirect('dashboard');
 			} else {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
 				redirect(base_url());
@@ -64,7 +64,7 @@ class Auth extends CI_Controller
 				$this->session->set_userdata($data);
 				$this->session->set_userdata('masuk', TRUE);
 				$this->session->set_userdata('akses', '2');
-				redirect('transaksi');
+				redirect('dashboard');
 			} else {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
 				redirect(base_url());
@@ -80,7 +80,7 @@ class Auth extends CI_Controller
 				$this->session->set_userdata($data);
 				$this->session->set_userdata('masuk', TRUE);
 				$this->session->set_userdata('akses', '3');
-				redirect('pasien');
+				redirect('dashboard');
 			} else {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
 				redirect(base_url());
@@ -96,7 +96,7 @@ class Auth extends CI_Controller
 				$this->session->set_userdata($data);
 				$this->session->set_userdata('masuk', TRUE);
 				$this->session->set_userdata('akses', '4');
-				redirect('transaksi');
+				redirect('dashboard');
 			} else {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
 				redirect(base_url());

@@ -69,21 +69,6 @@
         </div>
     </li>
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRekap" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-chart-bar"></i>
-            <span>Rekapitulasi</span>
-        </a>
-        <div id="collapseRekap" class="collapse" aria-labelledby="headingRekap" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="buttons.html"><i class="fas fa-fw fa-notes-medical"></i>&nbsp&nbsp Rekam Medis</a>
-                <a class="collapse-item" href="cards.html"><i class="fas fa-fw fa-bed"></i>&nbsp&nbsp Pasien</a>
-                <a class="collapse-item" href="cards.html"><i class="fas fa-fw fa-boxes"></i>&nbsp&nbsp Inventaris</a>
-            </div>
-        </div>
-    </li>
-
     <!-- Divider -->
     <hr class="sidebar-divider">
 

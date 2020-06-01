@@ -212,8 +212,20 @@
                 $('#alamat').removeClass('has-error');
             }
 
+            var tanggal = $.trim($('#picker').val());
+            var dateMax = (new Date()).toISOString().split('T')[0];
+            var dateMin = '1950-01-01';
+
             if ($.trim($('#picker').val()).length == 0 || $.trim($('#picker').val()) == '____-__-__') {
                 error_picker = 'Tanggal Lahir wajib diisi';
+                $('#error_picker').text(error_picker);
+                $('#picker').addClass('has-error');
+            } else if (tanggal.localeCompare(dateMax) == 1) {
+                error_picker = 'Tanggal Lahir tidak valid';
+                $('#error_picker').text(error_picker);
+                $('#picker').addClass('has-error');
+            } else if (tanggal.localeCompare(dateMin) == -1) {
+                error_picker = 'Tanggal Lahir tidak valid';
                 $('#error_picker').text(error_picker);
                 $('#picker').addClass('has-error');
             } else {

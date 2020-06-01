@@ -199,4 +199,14 @@ class Transaksi_model extends CI_Model
         $this->db->update($this->table);
         return $this->db->affected_rows();
     }
+
+    public function fetch_year()
+    {
+        // $query = $this->db->query("SELECT year(tanggal) FROM transaksi GROUP by year(tanggal)");
+        $this->db->select('year(tanggal)');
+        $this->db->from('transaksi');
+        $this->db->group_by('year(tanggal)');
+        $this->db->order_by('year(tanggal)', 'desc');
+        return $this->db->get()->result_array();
+    }
 }

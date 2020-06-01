@@ -72,7 +72,7 @@ class Dobat_model extends CI_Model
     {
         $last_transaksi = $this->db->select('id_transaksi')->order_by('id_transaksi', "desc")->limit(1)->get('transaksi')->row();
         $last = $last_transaksi->id_transaksi;
-
+        $total_biaya_obat = 0;
         $this->db->select('*');
         $this->db->from('detail_biaya_obat');
         $this->db->where('id_transaksi', $last);
@@ -90,6 +90,7 @@ class Dobat_model extends CI_Model
     public function edit_total_biaya_obat($id)
     {
 
+        $total_biaya_obat = 0;
         $this->db->select('*');
         $this->db->from('detail_biaya_obat');
         $this->db->where('id_transaksi', $id);

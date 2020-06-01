@@ -80,6 +80,76 @@
     </div>
 
     <div class="row">
+        <!-- Rekapitulasi Transaksi Per Tahun -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Transaksi Per Tahun</h6>
+                    <div class="col-md-3">
+                        <select name="tahun" id="tahun" class="form-control">
+                            <option value="">Pilih Tahun</option>
+                            <?php
+                            foreach ($tahun as $tahun) {
+                                echo '<option value="' . $tahun['year(tanggal)'] . '"> ' . $tahun['year(tanggal)'] . ' </option>';
+                            } ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="rekap_transaksi_pertahun"></canvas>
+                    </div>
+                    <div class="mt-4 text-center small">
+                        <span class="mr-3">
+                        </span>
+                    </div>
+                    <div class="mt-4 text-center small">
+                        <span class="mr-3">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Rekapitulasi Transaksi Berdasarkan Metode Pembayaran -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Transaksi Berdasarkan Metode Pembayaran</h6>
+                    <div class="col-md-3" style="padding-bottom: 38px;"></div>
+                </div>
+                <div class="card-body">
+                    <div class="mt-4 text-center small">
+                        <span class="mr-2">
+                        </span>
+                    </div>
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="rekap_transaksi_metode_pembayaran" style="display: block; height: 245px; width: 360px;"></canvas>
+                    </div>
+                    <div class="mt-4 text-center small">
+                        <span class="mr-2">
+                            <i class="fas fa-circle" style="color:rgba(255, 206, 86, 0.87)"></i> <span style="color:#666">Cash</span>
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle" style="color:rgba(75, 192, 192, 0.87)"></i> <span style="color:#666">Kredit</span>
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle" style="color:rgba(153, 102, 255, 0.87)"></i> <span style="color:#666">Debit</span>
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle" style="color:rgba(255, 159, 64, 0.87)"></i> <span style="color:#666">Transfer</span>
+                        </span>
+                    </div>
+                    <div class="mt-4 text-center small">
+                        <span class="mr-2">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
         <!-- Data Pasien Berdasarkan Umur -->
         <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
@@ -102,6 +172,14 @@
                 <div class="card-body">
                     <div class="chart-pie pt-4 pb-2">
                         <canvas id="rekap_pasien_jk" style="display: block; height: 245px; width: 360px;"></canvas>
+                    </div>
+                    <div class="mt-4 text-center small">
+                        <span class="mr-2">
+                            <!-- <i class="fas fa-circle" style="color:rgba(56, 86, 255, 0.87)"></i> <span style="color:#666">Laki-laki</span> -->
+                        </span>
+                        <span class="mr-2">
+                            <!-- <i class="fas fa-circle" style="color:rgba(255, 99, 132, 0.87)"></i> <span style="color:#666">Perempuan</span> -->
+                        </span>
                     </div>
                 </div>
             </div>
@@ -139,79 +217,7 @@
     </div>
     <!-- Content Row -->
 
-    <div class="row">
-
-        <!-- Area Chart -->
-        <div class="col-xl-8 col-lg-7">
-            <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="myAreaChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pie Chart -->
-        <div class="col-xl-4 col-lg-5">
-            <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                        <canvas id="myPieChart"></canvas>
-                    </div>
-                    <div class="mt-4 text-center small">
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-primary"></i> Direct
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-success"></i> Social
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-info"></i> Referral
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-</div>
-<!-- /.container-fluid -->
+    <!-- /.container-fluid -->
 
 </div>
 <!-- End of Main Content -->
@@ -222,6 +228,257 @@
 <!-- Page level custom scripts -->
 <script src="<?= base_url('assets/'); ?>js/demo/chart-area-demo.js"></script>
 <script src="<?= base_url('assets/'); ?>js/demo/chart-pie-demo.js"></script>
+<!-- <script>
+    var tahun = $('#tahun').val();
+    if (tahun != '') {
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>dashboard/fetch_data",
+            data: {
+                id: tahun,
+            },
+            success: function(data) {
+                var jumlah = jQuery.parseJSON(data);
+                var januari = jumlah.bulan1;
+                var februari = jumlah.bulan2;
+                var maret = jumlah.bulan3;
+                var april = jumlah.bulan4;
+                var mei = jumlah.bulan5;
+                var juni = jumlah.bulan6;
+                var juli = jumlah.bulan7;
+                var agustus = jumlah.bulan8;
+                var september = jumlah.bulan9;
+                var oktober = jumlah.bulan10;
+                var november = jumlah.bulan11;
+                var desember = jumlah.bulan12;
+                var bulan = [januari, februari, maret, april, mei, juni, juli, agustus, september, oktober, november, desember];
+
+                var ctx = document.getElementById('rekap_transaksi_pertahun').getContext('2d');
+                if (window.bar != undefined)
+                    window.bar.destroy();
+                window.bar = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [
+                            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                        ],
+                        datasets: [{
+                            label: [],
+                            data: bulan,
+                            fill: false,
+                            lineTension: 0.1,
+                            backgroundColor: "rgba(75,192,192,0.4)",
+                            borderColor: "rgba(75,192,192,1)",
+                            borderCapStyle: 'butt',
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            pointBorderColor: "rgba(75,192,192,1)",
+                            pointBackgroundColor: "#fff",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                            pointHoverBorderColor: "rgba(220,220,220,1)",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 5,
+                            pointHitRadius: 10
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script> -->
+
+<script>
+    $(document).ready(function() {
+        $('#tahun').change(function() {
+            var tahun = $('#tahun').val();
+            if (tahun != '') {
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>dashboard/fetch_data",
+                    data: {
+                        id: tahun,
+                    },
+                    success: function(data) {
+                        var jumlah = jQuery.parseJSON(data);
+                        var januari = jumlah.bulan1;
+                        var februari = jumlah.bulan2;
+                        var maret = jumlah.bulan3;
+                        var april = jumlah.bulan4;
+                        var mei = jumlah.bulan5;
+                        var juni = jumlah.bulan6;
+                        var juli = jumlah.bulan7;
+                        var agustus = jumlah.bulan8;
+                        var september = jumlah.bulan9;
+                        var oktober = jumlah.bulan10;
+                        var november = jumlah.bulan11;
+                        var desember = jumlah.bulan12;
+                        var bulan = [januari, februari, maret, april, mei, juni, juli, agustus, september, oktober, november, desember];
+                        // showChart(bulan);
+                        // updateChart();
+
+                        var ctx = document.getElementById('rekap_transaksi_pertahun').getContext('2d');
+                        if (window.bar != undefined)
+                            window.bar.destroy();
+                        var chart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: [
+                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                                ],
+                                datasets: [{
+                                    label: [],
+                                    data: bulan,
+                                    fill: false,
+                                    lineTension: 0.1,
+                                    backgroundColor: "rgba(75,192,192,0.4)",
+                                    borderColor: "rgba(75,192,192,1)",
+                                    borderCapStyle: 'butt',
+                                    borderDash: [],
+                                    borderDashOffset: 0.0,
+                                    borderJoinStyle: 'miter',
+                                    pointBorderColor: "rgba(75,192,192,1)",
+                                    pointBackgroundColor: "#fff",
+                                    pointBorderWidth: 1,
+                                    pointHoverRadius: 5,
+                                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                                    pointHoverBorderWidth: 2,
+                                    pointRadius: 5,
+                                    pointHitRadius: 10
+                                }]
+                            },
+                            options: {
+                                legend: {
+                                    display: false
+                                }
+                            }
+                        });
+
+                        window.bar = chart;
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+
+<!-- $tahun = date('Y');
+$query = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '8' AND YEAR(tanggal) = '" . $tahun . "'");
+$jumlah1 = $query->num_rows(); -->
+
+<!-- <script>
+    function showChart(bulan) {
+        var januari = bulan[0];
+        var februari = bulan[1];
+        var maret = bulan[2];
+        var april = bulan[3];
+        var mei = bulan[4];
+        var juni = bulan[5];
+        var juli = bulan[6];
+        var agustus = bulan[7];
+        var september = bulan[8];
+        var oktober = bulan[9];
+        var november = bulan[10];
+        var desember = bulan[11];
+        var ctx = document.getElementById('rekap_transaksi_pertahun').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [
+                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                ],
+                datasets: [{
+                    label: [],
+                    data: [januari, februari, maret, april, mei, juni, juli,
+                        agustus, september, oktober, november, desember
+                    ],
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(75,192,192,0.4)",
+                    borderColor: "rgba(75,192,192,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHitRadius: 10
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                }
+            }
+        });
+    }
+</script> -->
+
+<?php
+$query = $this->db->query("SELECT * FROM transaksi WHERE metode_pembayaran=1");
+$jumlah1 = $query->num_rows();
+$query2 = $this->db->query("SELECT * FROM transaksi WHERE metode_pembayaran=2");
+$jumlah2 = $query2->num_rows();
+$query3 = $this->db->query("SELECT * FROM transaksi WHERE metode_pembayaran=3");
+$jumlah3 = $query3->num_rows();
+$query4 = $this->db->query("SELECT * FROM transaksi WHERE metode_pembayaran=4");
+$jumlah4 = $query4->num_rows();
+?>
+
+<script>
+    var ctx = document.getElementById('rekap_transaksi_metode_pembayaran').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [
+                'Cash', 'Kredit', 'Debit', 'Transfer'
+            ],
+            datasets: [{
+                label: [],
+                data: [
+                    <?php echo $jumlah1; ?>,
+                    <?php echo $jumlah2; ?>,
+                    <?php echo $jumlah3; ?>,
+                    <?php echo $jumlah4; ?>
+                ],
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.87)',
+                    'rgba(75, 192, 192, 0.87)',
+                    'rgba(153, 102, 255, 0.87)',
+                    'rgba(255, 159, 64, 0.87)'
+                ],
+                borderColor: [
+                    'rgba(255, 206, 86, 0.87)',
+                    'rgba(75, 192, 192, 0.87)',
+                    'rgba(153, 102, 255, 0.87)',
+                    'rgba(255, 159, 64, 0.87)'
+                ]
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            rotation: 0.5 * Math.PI,
+            cutoutPercentage: 80
+        }
+    });
+</script>
 
 <?php
 $query = $this->db->query("SELECT * FROM pasien WHERE jenis_kelamin=1");
@@ -233,7 +490,7 @@ $jumlah_pr = $query2->num_rows();
 <script>
     var ctx = document.getElementById('rekap_pasien_jk').getContext('2d');
     var chart = new Chart(ctx, {
-        type: 'doughnut',
+        type: 'horizontalBar',
         data: {
             labels: [
                 'Laki-laki', 'Perempuan'
@@ -244,13 +501,13 @@ $jumlah_pr = $query2->num_rows();
                     <?php echo $jumlah_lk; ?>,
                     <?php echo $jumlah_pr; ?>
                 ],
-                backgroundColor: ['rgba(56, 86, 255, 0.87)', 'rgb(255, 99, 132)'],
-                borderColor: ['rgba(56, 86, 255, 0.87)', 'rgb(255, 99, 132)']
+                backgroundColor: ['rgba(56, 86, 255, 0.87)', 'rgba(255, 99, 132, 0.87)'],
+                borderColor: ['rgba(56, 86, 255, 0.87)', 'rgba(255, 99, 132, 0.87)']
             }]
         },
         options: {
             legend: {
-                position: 'right'
+                display: false
             },
         }
     });

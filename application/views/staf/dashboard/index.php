@@ -321,6 +321,7 @@
                         var november = jumlah.bulan11;
                         var desember = jumlah.bulan12;
                         var bulan = [januari, februari, maret, april, mei, juni, juli, agustus, september, oktober, november, desember];
+                        var total = januari + februari + maret + april + mei + juni + juli + agustus + september + oktober + november + desember;
                         // showChart(bulan);
                         // updateChart();
 
@@ -334,7 +335,7 @@
                                     'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
                                 ],
                                 datasets: [{
-                                    label: [],
+                                    label: 'Total Data : ' + total,
                                     data: bulan,
                                     fill: false,
                                     lineTension: 0.1,
@@ -357,7 +358,13 @@
                             },
                             options: {
                                 legend: {
-                                    display: false
+                                    display: true,
+                                    position: 'bottom'
+                                },
+                                scales: {
+                                    yAxes: [{
+                                        stacked: true
+                                    }]
                                 }
                             }
                         });

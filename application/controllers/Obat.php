@@ -55,6 +55,7 @@ class Obat extends CI_Controller
             $row[] = $obat->jenis;
             $row[] = $obat->ukuran;
             $row[] = $obat->harga;
+            $row[] = $obat->stok;
             $row[] = '<a href="obat/edit/' . $obat->id_obat . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $obat->id_obat . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
             $data[] = $row;
         }
@@ -99,7 +100,8 @@ class Obat extends CI_Controller
                 'satuan' => $this->input->post('satuan'),
                 'jenis' => $this->input->post('jenis'),
                 'ukuran' => $this->input->post('ukuran'),
-                'harga' => $this->input->post('harga')
+                'harga' => $this->input->post('harga'),
+                'stok' => $this->input->post('stok')
             ];
 
             $this->Obat_model->add_data($data);
@@ -139,7 +141,8 @@ class Obat extends CI_Controller
             'satuan' => $this->input->post('satuan'),
             'jenis' => $this->input->post('jenis'),
             'ukuran' => $this->input->post('ukuran'),
-            'harga' => $this->input->post('harga')
+            'harga' => $this->input->post('harga'),
+            'stok' => $this->input->post('stok')
         ];
 
         $this->Obat_model->edit_data(array('id_obat' => $this->input->post('id')), $data);

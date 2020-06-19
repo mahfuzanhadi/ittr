@@ -126,7 +126,7 @@
             "serverSide": true,
             "scrollX": true,
             "order": [],
-            "lengthMenu": [5, 10, 20, 50],
+            "lengthMenu": [10, 20, 50],
             "ajax": {
                 url: "<?= base_url('iobat/fetch_data'); ?>",
                 type: "POST"

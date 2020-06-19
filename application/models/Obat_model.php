@@ -10,8 +10,8 @@ class Obat_model extends CI_Model
     }
 
     var $table = 'obat';
-    var $select_column = array('id_obat', 'nama', 'satuan', 'jenis', 'ukuran', 'harga');
-    var $order_column = array(null, 'nama', 'satuan', 'jenis', 'ukuran', 'harga'); //set column field database for datatable orderable
+    var $select_column = array('id_obat', 'nama', 'satuan', 'jenis', 'ukuran', 'harga', 'stok');
+    var $order_column = array(null, 'nama', 'satuan', 'jenis', 'ukuran', 'harga', 'stok'); //set column field database for datatable orderable
     var $order = array('id_obat' => 'asc'); // default order 
 
     public function make_query()

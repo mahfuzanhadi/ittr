@@ -93,4 +93,73 @@ class Iobat_model extends CI_Model
         $this->db->where('id_inventaris_obat', $id);
         $this->db->delete($this->table);
     }
+
+    function get_stok($where)
+    {
+        $this->db->select('*');
+        $this->db->from('obat');
+        $this->db->where($where);
+        return $this->db->get()->row();
+    }
+
+    public function add_stok($data, $where)
+    {
+        $jumlah_stok = 0;
+
+        $query = $this->get_stok($where);
+        $jumlah_stok += $query->stok + $data;
+
+        $this->db->set('stok', $jumlah_stok);
+        $this->db->where($where);
+        $this->db->update('obat'); //update obat set stok + jumlah masuk where id_obat = id
+        return $this->db->affected_rows();
+    }
+
+    public function update_stok($data, $id_obat, $id_inventaris)
+    {
+        $temp = 0;
+
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where($id_inventaris);
+        $query = $this->db->get()->row();
+        $jumlah_masuk = $query->jumlah_masuk;
+
+        $query2 = $this->get_stok($id_obat);
+        $temp += $query2->stok - $jumlah_masuk;
+
+        // $query = $this->get_stok($data, $id_obat);
+        $jumlah_stok = 0;
+
+        $jumlah_stok = $temp + $data;
+
+        $this->db->set('stok', $jumlah_stok);
+        $this->db->where($id_obat);
+        $this->db->update('obat'); //update obat set stok + jumlah masuk where id_obat = id
+        return $this->db->affected_rows();
+    }
+
+    public function delete_stok($id)
+    {
+        $jumlah_masuk = 0;
+
+        $this->db->select('*');
+        $this->db->from('inventaris_obat');
+        $this->db->where('id_inventaris_obat', $id);
+        $query = $this->db->get()->row();
+        $id_obat = $query->id_obat;
+        $jumlah_masuk = $query->jumlah_masuk;
+
+        $this->db->select('*');
+        $this->db->from('obat');
+        $this->db->where('id_obat', $id_obat);
+        $query2 = $this->db->get()->row();
+        $stok = $query2->stok;
+
+        $jumlah_stok = $stok - $jumlah_masuk;
+        $this->db->set('stok', $jumlah_stok);
+        $this->db->where('id_obat', $id_obat);
+        $this->db->update('obat'); //update obat set stok + jumlah masuk where id_obat = id
+        return $this->db->affected_rows();
+    }
 }

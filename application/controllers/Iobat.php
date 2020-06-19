@@ -113,6 +113,9 @@ class Iobat extends CI_Controller
             ];
 
             $this->Iobat_model->add_data($data);
+
+            $jumlah_masuk = $this->input->post('jumlah_masuk');
+            $this->Iobat_model->add_stok($jumlah_masuk, array('id_obat' => $this->input->post('nama'))); //fungsi update stok pada tabel obat
             $this->session->set_flashdata('flash', 'ditambahkan');
             redirect('iobat');
         }
@@ -152,13 +155,17 @@ class Iobat extends CI_Controller
             'jumlah_masuk' => $this->input->post('jumlah_masuk'),
         ];
 
+        $jumlah_masuk = $this->input->post('jumlah_masuk');
+        $this->Iobat_model->update_stok($jumlah_masuk, array('id_obat' => $this->input->post('nama')), array('id_inventaris_obat' => $this->input->post('id'))); //fungsi update stok pada tabel obat
         $this->Iobat_model->edit_data(array('id_inventaris_obat' => $this->input->post('id')), $data);
+
         $this->session->set_flashdata('flash', 'diubah');
         redirect('iobat');
     }
 
     public function delete($id)
     {
+        $this->Iobat_model->delete_stok($id);
         $this->Iobat_model->delete_data($id);
         echo json_encode(array("status" => true));
     }

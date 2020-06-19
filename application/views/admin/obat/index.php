@@ -47,7 +47,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -56,6 +56,7 @@
                             <th>Jenis</th>
                             <th>Ukuran</th>
                             <th>Harga</th>
+                            <th>Stok</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -113,8 +114,12 @@
                     render: $.fn.dataTable.render.number('.')
                 },
                 {
-                    "width": "80px",
+                    "width": "60px",
                     "targets": 6
+                },
+                {
+                    "width": "80px",
+                    "targets": 7
                 },
             ]
         });

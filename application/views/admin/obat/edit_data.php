@@ -47,6 +47,11 @@
                         <input class="form-control form-control-sm" type="text" name="harga" id="harga" placeholder="Harga " value="<?= $obat['harga'] ?>" />
                         <span id="error_harga" class="text-danger"></span>
                     </div>
+                    <div class="form-group col-sm-2">
+                        <label for="stok">Stok <font color="red">*</font></label>
+                        <input class="form-control form-control-sm" type="text" name="stok" id="stok" placeholder="stok " value="<?= $obat['stok'] ?>" />
+                        <span id="error_stok" class="text-danger"></span>
+                    </div>
                 </div>
                 <button class="btn btn-primary" type="submit" id="update" name="update">Update</button>
             </form>
@@ -102,6 +107,7 @@
             var error_jenis = '';
             var error_ukuran = '';
             var error_harga = '';
+            var error_stok = '';
 
             if ($.trim($('#nama').val()).length == 0) {
                 error_nama = 'Nama obat wajib diisi';
@@ -153,7 +159,17 @@
                 $('#harga').removeClass('has-error');
             }
 
-            if (error_nama != '' || error_satuan != '' || error_jenis != '' || error_ukuran != '' || error_harga != '') {
+            if ($.trim($('#stok').val()).length == 0) {
+                error_stok = 'stok obat wajib diisi';
+                $('#error_stok').text(error_stok);
+                $('#stok').addClass('has-error');
+            } else {
+                error_stok = '';
+                $('#error_stok').text(error_stok);
+                $('#stok').removeClass('has-error');
+            }
+
+            if (error_nama != '' || error_satuan != '' || error_jenis != '' || error_ukuran != '' || error_harga != '' || error_stok != '') {
                 return false;
             } else {
                 var harga = $('#harga').val();

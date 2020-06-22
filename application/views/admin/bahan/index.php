@@ -38,7 +38,7 @@
     <?php endif; ?>
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
+    <h3 class="h3 mb-4 text-gray-800"><?= $title; ?></h3>
 
     <!-- DataTables -->
     <div class="card mb-3">
@@ -48,7 +48,7 @@
         <div class="card-body">
             <!-- <h5>Results : <?= $total_rows; ?></h5> -->
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="50%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>#</th>

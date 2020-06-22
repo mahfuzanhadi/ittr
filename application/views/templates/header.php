@@ -58,6 +58,10 @@
             border-color: #cc0000;
             background-color: #ffff99;
         }
+
+        .table.dataTable {
+            font-size: 15px;
+        }
     </style>
 </head>
 

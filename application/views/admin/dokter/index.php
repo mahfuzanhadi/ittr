@@ -219,7 +219,7 @@
     <?php endif; ?>
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
+    <h3 class="h3 mb-4 text-gray-800"><?= $title; ?></h3>
 
     <!-- DataTables -->
     <div class="card mb-3">
@@ -227,7 +227,6 @@
             <a href="<?= base_url('dokter/add'); ?>" class="btn btn-info btn-sm"><i class="fas fa-plus"></i> Add Data</a>
         </div>
         <div class="card-body">
-            <!-- <h5>Results : <?= $total_rows; ?></h5> -->
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" cellspacing="0">
                     <thead>

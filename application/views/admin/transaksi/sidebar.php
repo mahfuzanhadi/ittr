@@ -4,10 +4,10 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('dashboard'); ?>">
         <div class="sidebar-brand-icon rotate-n-15">
+            <!-- <img src="<?= base_url('assets/img/logordc4.png'); ?>" width="80px" height="64px"> -->
             <i class="fas fa-tooth"></i>
         </div>
         <div class="sidebar-brand-text mx-3">Riona Dental Care</div>
-        <!-- <img src="<?= base_url('assets/img/logordc.png'); ?>" width="64px" height="64px"> -->
     </a>
 
     <!-- Nav Item - Dashboard -->

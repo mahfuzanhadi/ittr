@@ -58,7 +58,7 @@
                 </div>
             </div>
             <?php foreach ($transaksi as $transaksi) : ?>
-                <hr style="border: 2px solid #e0e0e0;">
+                <hr style="border: 2px solid #e0e0e0; border-radius: 5px;">
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <?php foreach ($dokter as $row) : ?>
@@ -94,24 +94,26 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
+                        <p>Tindakan : </p>
                         <?php foreach ($detail_tindakan as $dt) {
                             if ($dt->id_transaksi == $transaksi['id_transaksi']) {
                                 $id_tindakan = $dt->id_tindakan;
                                 foreach ((array) $tindakan as $t) {
                                     if ($t->id_tindakan == $id_tindakan) {
-                                        echo '<p>Tindakan : ' . $t->nama . '</p>';
+                                        echo '- ' . $t->nama . '</p>';
                                     }
                                 }
                             }
                         } ?>
                     </div>
                     <div class="form-group col-sm-3">
+                        <p>Obat : </p>
                         <?php foreach ($detail_obat as $do) {
                             if ($do->id_transaksi == $transaksi['id_transaksi']) {
                                 $id_obat = $do->id_obat;
                                 foreach ((array) $obat as $o) {
                                     if ($o->id_obat == $id_obat) {
-                                        echo '<p>Obat : ' . $o->nama . '</p>';
+                                        echo '- ' . $o->nama . '</p>';
                                     }
                                 }
                             }

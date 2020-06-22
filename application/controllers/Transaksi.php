@@ -7,6 +7,7 @@ class Transaksi extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Transaksi_model');
+        $this->load->model('Dobat_model');
         $this->load->library('form_validation');
         if ($this->session->userdata('masuk') != TRUE) {
             $url = base_url();
@@ -213,6 +214,8 @@ class Transaksi extends CI_Controller
                 'jumlah_obat' => $this->input->post('jumlah'),
                 'biaya_obat' => $total_biaya_obat
             ];
+
+            $this->Dobat_model->kurangi_stok($this->input->post('jumlah'), $this->input->post('obat')); //fungsi update stok pada tabel obat
             $this->Dobat_model->add_data($data);
 
             $obat2 = $this->input->post('obat2');
@@ -229,6 +232,8 @@ class Transaksi extends CI_Controller
                     'jumlah_obat' => $this->input->post('jumlah2'),
                     'biaya_obat' => $total_biaya_obat2
                 ];
+
+                $this->Dobat_model->kurangi_stok($this->input->post('jumlah2'), $this->input->post('obat2')); //fungsi update stok pada tabel obat
                 $this->Dobat_model->add_data($data2);
                 $this->Dobat_model->total_biaya_obat();
                 $this->Dobat_model->total_biaya_keseluruhan();
@@ -305,7 +310,6 @@ class Transaksi extends CI_Controller
             $id_pasien = $this->Transaksi_model->get_id_pasien($no_rekam_medis);
 
             if (!empty($_FILES["foto_rontgen"])) {
-                // $this->foto_rontgen = $this->Transaksi_model->_uploadImage();
                 $config['upload_path'] = './uploads/rontgen/';
                 $config['allowed_types'] = 'jpg|jpeg|png|gif';
                 $config['overwrite'] = true;
@@ -317,7 +321,6 @@ class Transaksi extends CI_Controller
                     // $foto = "default.jpg";
                     $foto = $this->input->post('old_image');
                 } else {
-                    // $foto = $this->upload->data();
                     $sukses = array('file' => $this->upload->data());
                     $foto = $sukses['file']['file_name'];
                 }
@@ -391,6 +394,12 @@ class Transaksi extends CI_Controller
                 'jumlah_obat' => $this->input->post('jumlah'),
                 'biaya_obat' => $total_biaya_obat
             ];
+
+            $jumlah = $this->input->post('jumlah');
+            $id_detail_biaya_obat = $this->input->post('id_detail_biaya_obat1');
+            $id_obat = $this->input->post('obat');
+
+            $this->Dobat_model->update_stok($jumlah, $id_obat, $id_detail_biaya_obat); //fungsi update stok pada tabel obat
             $this->Dobat_model->edit_data(array('id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat1')), $data);
 
             $obat2 = $this->input->post('obat2');
@@ -407,6 +416,12 @@ class Transaksi extends CI_Controller
                     'jumlah_obat' => $this->input->post('jumlah2'),
                     'biaya_obat' => $total_biaya_obat2
                 ];
+
+                $jumlah2 = $this->input->post('jumlah2');
+                $id_detail_biaya_obat2 = $this->input->post('id_detail_biaya_obat2');
+                $id_obat2 = $this->input->post('obat2');
+
+                $this->Dobat_model->update_stok($jumlah2, $id_obat2, $id_detail_biaya_obat2); //fungsi update stok pada tabel obat
                 $this->Dobat_model->edit_data(array('id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat2')), $data2);
                 $this->Dobat_model->edit_total_biaya_obat($this->input->post('id_transaksi'));
                 $this->Dobat_model->edit_total_biaya_keseluruhan($this->input->post('id_transaksi'));
@@ -425,6 +440,7 @@ class Transaksi extends CI_Controller
                     'jumlah_obat' => $this->input->post('jumlah2'),
                     'biaya_obat' => $total_biaya_obat2
                 ];
+                $this->Dobat_model->kurangi_stok($this->input->post('jumlah2'), $this->input->post('obat2')); //fungsi update stok pada tabel obat
                 $this->Dobat_model->add_data($data2);
                 $this->Dobat_model->total_biaya_obat();
                 $this->Dobat_model->total_biaya_keseluruhan();
@@ -459,6 +475,7 @@ class Transaksi extends CI_Controller
 
     public function delete($id)
     {
+        $this->Dobat_model->delete_stok($id);
         $this->Transaksi_model->delete_data($id);
         echo json_encode(array("status" => true));
     }

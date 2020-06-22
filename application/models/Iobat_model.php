@@ -82,19 +82,19 @@ class Iobat_model extends CI_Model
         $this->db->insert('inventaris_obat', $data);
     }
 
-    function edit_data($where, $data)
+    public function edit_data($where, $data)
     {
         $this->db->update($this->table, $data, $where);
         return $this->db->affected_rows();
     }
 
-    function delete_data($id)
+    public function delete_data($id)
     {
         $this->db->where('id_inventaris_obat', $id);
         $this->db->delete($this->table);
     }
 
-    function get_stok($where)
+    public function get_stok($where)
     {
         $this->db->select('*');
         $this->db->from('obat');
@@ -107,7 +107,7 @@ class Iobat_model extends CI_Model
         $jumlah_stok = 0;
 
         $query = $this->get_stok($where);
-        $jumlah_stok += $query->stok + $data;
+        $jumlah_stok = $query->stok + $data;
 
         $this->db->set('stok', $jumlah_stok);
         $this->db->where($where);
@@ -126,7 +126,7 @@ class Iobat_model extends CI_Model
         $jumlah_masuk = $query->jumlah_masuk;
 
         $query2 = $this->get_stok($id_obat);
-        $temp += $query2->stok - $jumlah_masuk;
+        $temp = $query2->stok - $jumlah_masuk;
 
         // $query = $this->get_stok($data, $id_obat);
         $jumlah_stok = 0;

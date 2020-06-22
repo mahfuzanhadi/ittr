@@ -139,25 +139,94 @@ class Dobat_model extends CI_Model
         return $this->db->affected_rows();
     }
 
-    // public function kurangiStok()
-    // {
-    //     $last_transaksi = $this->db->select('id_transaksi')->order_by('id_transaksi', "desc")->limit(1)->get('transaksi')->row();
-    //     $last = $last_transaksi->id_transaksi;
+    public function get_stok($id_obat)
+    {
+        $this->db->select('*');
+        $this->db->from('obat');
+        $this->db->where('id_obat', $id_obat);
+        return $this->db->get()->row();
+    }
 
-    //     $this->db->select('*');
-    //     $this->db->from('detail_biaya_obat');
-    //     $this->db->where('id_transaksi', $last);
-    //     $query = $this->db->get()->result();
-    //     foreach ($query as $row) {
-    //         $id_obat = $row->id_obat;
-    //         $jumlah_obat = $row->jumlah_obat;
-    //     }
+    public function kurangi_stok($data, $id)
+    {
+        $stok = 0;
 
-    //     $this->db->set('jumlah_masuk', $jumlah_obat);
-    //     $this->db->where('id_obat', $id_obat);
-    //     $this->db->update('inventaris_obat');
-    //     return $this->db->affected_rows();
-    // }
+        $query = $this->get_stok($id);
+        $stok = $query->stok;
+
+        $this->db->set('stok', $stok - $data);
+        $this->db->where('id_obat', $id);
+        $this->db->update('obat');
+        return $this->db->affected_rows();
+    }
+
+    public function update_stok($data, $id_obat, $id_detail)
+    {
+        $temp = 0;
+        $jumlah_stok = 0;
+
+        $this->db->select('*');
+        $this->db->from('detail_biaya_obat');
+        $this->db->where('id_detail_biaya_obat', $id_detail);
+        $query = $this->db->get()->row();
+        $jumlah_obat = $query->jumlah_obat; //dapat jumlah obat dari id detail biaya obat
+        $id = $query->id_obat;
+
+        if ($id_obat == $id) {
+            $query2 = $this->get_stok($id_obat);
+            $temp = $query2->stok + $jumlah_obat; //temp = stok dari tabel obat + jumlah obat dari detail biaya obat
+
+            $jumlah_stok = $temp - $data;
+
+            $this->db->set('stok', $jumlah_stok);
+            $this->db->where('id_obat', $id_obat);
+            $this->db->update('obat'); //update obat set stok + jumlah masuk where id_obat = id
+            return $this->db->affected_rows();
+        } else {
+            //balikin stok obat lama ke semula
+            $query2 = $this->get_stok($id);
+            $temp = $query2->stok + $jumlah_obat;
+            $this->db->set('stok', $temp);
+            $this->db->where('id_obat', $id);
+            $this->db->update('obat');
+
+            //kurangi stok obat baru
+            $query3 = $this->get_stok($id_obat);
+            $temp2 = $query3->stok - $data;
+
+            $this->db->set('stok', $temp2);
+            $this->db->where('id_obat', $id_obat);
+            $this->db->update('obat');
+            return $this->db->affected_rows();
+        }
+    }
+
+    public function delete_stok($id)
+    {
+        $jumlah_obat = 0;
+
+        $this->db->select('*');
+        $this->db->from('detail_biaya_obat');
+        $this->db->where('id_transaksi', $id);
+        $query2 = $this->db->get()->result();
+        foreach ($query2 as $row) {
+            $id_obat = $row->id_obat;
+            $jumlah_obat = $row->jumlah_obat;
+
+            $this->db->select('*');
+            $this->db->from('obat');
+            $this->db->where('id_obat', $id_obat);
+            $query3 = $this->db->get()->row();
+            $stok = $query3->stok;
+
+            $jumlah_stok = $stok + $jumlah_obat;
+            $this->db->set('stok', $jumlah_stok);
+            $this->db->where('id_obat', $id_obat);
+            $this->db->update('obat'); //update obat set stok + jumlah masuk where id_obat = id
+        }
+
+        return $this->db->affected_rows();
+    }
 
     function getObat($searchTerm = "")
     {

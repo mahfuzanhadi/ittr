@@ -128,7 +128,7 @@ class Pasien extends CI_Controller
             $data = [
                 'no_rekam_medis' => $this->input->post('no_rekam_medis'),
                 'nama' => $this->input->post('nama'),
-                'alamat' => $this->input->post('alamat'),
+                'alamat' => nl2br($this->input->post('alamat')),
                 'tanggal_lahir' => $this->input->post('tanggal_lahir'),
                 'pekerjaan' => $this->input->post('pekerjaan'),
                 'no_telp' => $this->input->post('no_telp'),

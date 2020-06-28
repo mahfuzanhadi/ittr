@@ -175,10 +175,8 @@
                     </div>
                     <div class="mt-4 text-center small">
                         <span class="mr-2">
-                            <!-- <i class="fas fa-circle" style="color:rgba(56, 86, 255, 0.87)"></i> <span style="color:#666">Laki-laki</span> -->
                         </span>
                         <span class="mr-2">
-                            <!-- <i class="fas fa-circle" style="color:rgba(255, 99, 132, 0.87)"></i> <span style="color:#666">Perempuan</span> -->
                         </span>
                     </div>
                 </div>
@@ -322,6 +320,9 @@
                         var desember = jumlah.bulan12;
                         var bulan = [januari, februari, maret, april, mei, juni, juli, agustus, september, oktober, november, desember];
                         var total = januari + februari + maret + april + mei + juni + juli + agustus + september + oktober + november + desember;
+                        var month = [
+                            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                        ]
                         // showChart(bulan);
                         // updateChart();
 
@@ -331,15 +332,13 @@
                         var chart = new Chart(ctx, {
                             type: 'line',
                             data: {
-                                labels: [
-                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                                ],
+                                labels: month,
                                 datasets: [{
-                                    label: 'Total Data : ' + total,
+                                    label: [],
                                     data: bulan,
                                     fill: false,
                                     lineTension: 0.1,
-                                    backgroundColor: "rgba(75,192,192,0.4)",
+                                    backgroundColor: "rgba(75,192,192,1)",
                                     borderColor: "rgba(75,192,192,1)",
                                     borderCapStyle: 'butt',
                                     borderDash: [],

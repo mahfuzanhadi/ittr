@@ -3,7 +3,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
+        <h3 class="h3 mb-0 text-gray-800"><?= $title; ?></h3>
         <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
     </div>
 
@@ -105,11 +105,13 @@
                     </div>
                     <div class="mt-4 text-center small">
                         <span class="mr-3">
+                            <p id="total_data" style="margin-top: 10px; margin-bottom: -10px; font-weight: 600; font-size: large; color: rgba(75,192,192,1)"></p>
                         </span>
                     </div>
                 </div>
             </div>
         </div>
+
         <!-- Rekapitulasi Transaksi Berdasarkan Metode Pembayaran -->
         <div class="col-xl-4 col-lg-5">
             <div class="card shadow mb-4">
@@ -175,10 +177,8 @@
                     </div>
                     <div class="mt-4 text-center small">
                         <span class="mr-2">
-                            <!-- <i class="fas fa-circle" style="color:rgba(56, 86, 255, 0.87)"></i> <span style="color:#666">Laki-laki</span> -->
                         </span>
                         <span class="mr-2">
-                            <!-- <i class="fas fa-circle" style="color:rgba(255, 99, 132, 0.87)"></i> <span style="color:#666">Perempuan</span> -->
                         </span>
                     </div>
                 </div>
@@ -295,6 +295,7 @@
     }
 </script> -->
 
+<!-- CHART REKAP TRANSAKSI PER TAHUN -->
 <script>
     $(document).ready(function() {
         $('#tahun').change(function() {
@@ -322,6 +323,12 @@
                         var desember = jumlah.bulan12;
                         var bulan = [januari, februari, maret, april, mei, juni, juli, agustus, september, oktober, november, desember];
                         var total = januari + februari + maret + april + mei + juni + juli + agustus + september + oktober + november + desember;
+                        var month = [
+                            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                        ];
+
+                        var total_data = document.getElementById("total_data");
+                        total_data.innerHTML = 'Total data : ' + total;
                         // showChart(bulan);
                         // updateChart();
 
@@ -331,15 +338,13 @@
                         var chart = new Chart(ctx, {
                             type: 'line',
                             data: {
-                                labels: [
-                                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                                ],
+                                labels: month,
                                 datasets: [{
-                                    label: 'Total Data : ' + total,
+                                    label: [],
                                     data: bulan,
                                     fill: false,
                                     lineTension: 0.1,
-                                    backgroundColor: "rgba(75,192,192,0.4)",
+                                    backgroundColor: "rgba(75,192,192,1)",
                                     borderColor: "rgba(75,192,192,1)",
                                     borderCapStyle: 'butt',
                                     borderDash: [],
@@ -358,7 +363,7 @@
                             },
                             options: {
                                 legend: {
-                                    display: true,
+                                    display: false,
                                     position: 'bottom'
                                 },
                                 scales: {
@@ -436,6 +441,7 @@ $jumlah1 = $query->num_rows(); -->
     }
 </script> -->
 
+<!-- CHART TRANSAKSI BERDASARKAN METODE PEMBAYARAN -->
 <?php
 $query = $this->db->query("SELECT * FROM transaksi WHERE metode_pembayaran=1");
 $jumlah1 = $query->num_rows();
@@ -487,6 +493,7 @@ $jumlah4 = $query4->num_rows();
     });
 </script>
 
+<!-- CHART PASIEN BERDASARKAN JENIS KELAMIN -->
 <?php
 $query = $this->db->query("SELECT * FROM pasien WHERE jenis_kelamin=1");
 $jumlah_lk = $query->num_rows();
@@ -520,6 +527,7 @@ $jumlah_pr = $query2->num_rows();
     });
 </script>
 
+<!-- CHART PASIEN BERDASARKAN UMUR -->
 <?php
 $query1 = $this->db->query("SELECT * from pasien where TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) < 10");
 $umur1 = $query1->num_rows();
@@ -577,6 +585,7 @@ $umur6 = $query6->num_rows();
     });
 </script>
 
+<!-- CHART PASIEN BERDASARKAN RIWAYAT PENYAKIT -->
 <?php
 $query = $this->db->query("SELECT * FROM pasien WHERE riwayat_penyakit!=''");
 $jumlah_ada = $query->num_rows();
@@ -610,6 +619,7 @@ $jumlah_tidakada = $query2->num_rows();
     });
 </script>
 
+<!-- CHART PASIEN BERDASARKAN ALERGI OBAT -->
 <?php
 $query = $this->db->query("SELECT * FROM pasien WHERE alergi_obat!=''");
 $jumlah_ada = $query->num_rows();

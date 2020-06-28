@@ -105,11 +105,13 @@
                     </div>
                     <div class="mt-4 text-center small">
                         <span class="mr-3">
+                            <p id="total_data" style="margin-top: 10px; margin-bottom: -10px; font-weight: 600; font-size: large; color: rgba(75,192,192,1)"></p>
                         </span>
                     </div>
                 </div>
             </div>
         </div>
+
         <!-- Rekapitulasi Transaksi Berdasarkan Metode Pembayaran -->
         <div class="col-xl-4 col-lg-5">
             <div class="card shadow mb-4">
@@ -293,6 +295,7 @@
     }
 </script> -->
 
+<!-- CHART REKAP TRANSAKSI PER TAHUN -->
 <script>
     $(document).ready(function() {
         $('#tahun').change(function() {
@@ -322,7 +325,10 @@
                         var total = januari + februari + maret + april + mei + juni + juli + agustus + september + oktober + november + desember;
                         var month = [
                             'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                        ]
+                        ];
+
+                        var total_data = document.getElementById("total_data");
+                        total_data.innerHTML = 'Total data : ' + total;
                         // showChart(bulan);
                         // updateChart();
 
@@ -357,7 +363,7 @@
                             },
                             options: {
                                 legend: {
-                                    display: true,
+                                    display: false,
                                     position: 'bottom'
                                 },
                                 scales: {
@@ -435,6 +441,7 @@ $jumlah1 = $query->num_rows(); -->
     }
 </script> -->
 
+<!-- CHART TRANSAKSI BERDASARKAN METODE PEMBAYARAN -->
 <?php
 $query = $this->db->query("SELECT * FROM transaksi WHERE metode_pembayaran=1");
 $jumlah1 = $query->num_rows();
@@ -486,6 +493,7 @@ $jumlah4 = $query4->num_rows();
     });
 </script>
 
+<!-- CHART PASIEN BERDASARKAN JENIS KELAMIN -->
 <?php
 $query = $this->db->query("SELECT * FROM pasien WHERE jenis_kelamin=1");
 $jumlah_lk = $query->num_rows();
@@ -519,6 +527,7 @@ $jumlah_pr = $query2->num_rows();
     });
 </script>
 
+<!-- CHART PASIEN BERDASARKAN UMUR -->
 <?php
 $query1 = $this->db->query("SELECT * from pasien where TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) < 10");
 $umur1 = $query1->num_rows();
@@ -576,6 +585,7 @@ $umur6 = $query6->num_rows();
     });
 </script>
 
+<!-- CHART PASIEN BERDASARKAN RIWAYAT PENYAKIT -->
 <?php
 $query = $this->db->query("SELECT * FROM pasien WHERE riwayat_penyakit!=''");
 $jumlah_ada = $query->num_rows();
@@ -609,6 +619,7 @@ $jumlah_tidakada = $query2->num_rows();
     });
 </script>
 
+<!-- CHART PASIEN BERDASARKAN ALERGI OBAT -->
 <?php
 $query = $this->db->query("SELECT * FROM pasien WHERE alergi_obat!=''");
 $jumlah_ada = $query->num_rows();

@@ -1,22 +1,12 @@
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('dashboard'); ?>">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('transaksi'); ?>">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-tooth"></i>
         </div>
         <div class="sidebar-brand-text mx-3">Riona Dental Care</div>
     </a>
-
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('dashboard'); ?>">
-            <i class="fas fa-fw fa-chart-line"></i>
-            <span>Dashboard</span></a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
 
     <!-- Heading -->
     <div class="sidebar-heading">
@@ -24,7 +14,7 @@
     </div>
 
     <!-- Nav Item - Rekam Medis -->
-    <li class="nav-item">
+    <li class="nav-item active">
         <a class="nav-link active" href="<?= base_url('transaksi'); ?>">
             <i class="fas fa-fw fa-notes-medical"></i>
             <span>Rekam Medis</span></a>

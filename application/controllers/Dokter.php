@@ -231,7 +231,7 @@ class Dokter extends CI_Controller
             'tanggal_berlaku_sip' => $this->input->post('tanggal_berlaku_sip'),
             'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
             'username' => $this->input->post('username'),
-            'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+            'password' => $this->input->post('password')
         ];
         if (!empty($data['password'])) {
             $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);

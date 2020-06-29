@@ -4,7 +4,7 @@
     <!-- Page Heading -->
     <!-- <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1> -->
 
-    <form method="post" id="myForm">
+    <form action="<?= base_url('admin/update_profil'); ?>" method="post" id="myForm">
         <input type="hidden" name="id" value="<?= $admin['id_admin']; ?>">
         <div class="modal-content">
             <div class="modal-header">
@@ -25,11 +25,10 @@
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <!-- <input type="password" name="password" id="password" class="form-control" value="<?= $admin['password']; ?>" /> -->
                     <input type="password" name="password" id="password" class="form-control" />
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" name="id_staf" id="id_staf" />
+                    <!-- <input type="hidden" name="id" id="id" /> -->
                     <button type="reset" class="btn btn-secondary">Reset</button>
                     <button type="submit" class="btn btn-success" onclick="save()">Save</button>
                 </div>

@@ -15,6 +15,7 @@
             <i class="fas fa-fw fa-chart-line"></i>
             <span>Dashboard</span></a>
     </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 
@@ -62,9 +63,9 @@
         </a>
         <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="<?= base_url('dokter'); ?>"><i class="fas fa-fw fa-user-md"></i>&nbsp&nbspData Dokter</a>
-                <a class="collapse-item" href="<?= base_url('perawat'); ?>"><i class="fas fa-fw fa-user-nurse"></i>&nbsp&nbspData Perawat</a>
-                <a class="collapse-item" href="<?= base_url('staff'); ?>"><i class="fas fa-fw fa-user-cog"></i>&nbsp&nbspData Staf Administrasi</a>
+                <a class="collapse-item" href="<?= base_url('dokter'); ?>"><i class="fas fa-fw fa-user-md"></i>&nbspData Dokter</a>
+                <a class="collapse-item" href="<?= base_url('perawat'); ?>"><i class="fas fa-fw fa-user-nurse"></i>&nbspData Perawat</a>
+                <a class="collapse-item" href="<?= base_url('staff'); ?>"><i class="fas fa-fw fa-user-cog"></i>&nbspData Staf Administrasi</a>
             </div>
         </div>
     </li>

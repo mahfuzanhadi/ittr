@@ -222,7 +222,7 @@ class Staff extends CI_Controller
             'no_telp' => $this->input->post('no_telp'),
             'email' => $this->input->post('email'),
             'username' => $this->input->post('username'),
-            'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT)
+            'password' => $this->input->post('password')
         ];
         if (!empty($data['password'])) {
             $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);

@@ -45,6 +45,7 @@ class Auth extends CI_Controller
 			//usernya ada
 			if (password_verify($password, $admin['password'])) {
 				$data = [
+					'id' => $admin['id_admin'],
 					'email' => $admin['email'],
 					'username' => $admin['username'],
 					'nama' => $admin['nama']
@@ -69,7 +70,7 @@ class Auth extends CI_Controller
 				$this->session->set_userdata($data);
 				$this->session->set_userdata('masuk', TRUE);
 				$this->session->set_userdata('akses', '2');
-				redirect('dashboard');
+				redirect('transaksi');
 			} else {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
 				redirect(base_url());
@@ -85,7 +86,7 @@ class Auth extends CI_Controller
 				$this->session->set_userdata($data);
 				$this->session->set_userdata('masuk', TRUE);
 				$this->session->set_userdata('akses', '3');
-				redirect('dashboard');
+				redirect('transaksi');
 			} else {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
 				redirect(base_url());

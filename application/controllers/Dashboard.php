@@ -29,24 +29,15 @@ class Dashboard extends CI_Controller
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/dashboard/index', $data);
             $this->load->view('templates/footer');
-        } else if ($this->session->userdata('akses') == '2') {
-            $this->load->view('templates/header', $data);
-            $this->load->view('dokter/dashboard/sidebar', $data);
-            $this->load->view('templates/dokter/topbar', $data);
-            $this->load->view('dokter/dashboard/index', $data);
-            $this->load->view('templates/footer');
-        } else if ($this->session->userdata('akses') == '3') {
-            $this->load->view('templates/header', $data);
-            $this->load->view('perawat/dashboard/sidebar', $data);
-            $this->load->view('templates/perawat/topbar', $data);
-            $this->load->view('perawat/dashboard/index', $data);
-            $this->load->view('templates/footer');
-        } else {
+        } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
             $this->load->view('staf/dashboard/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/dashboard/index', $data);
             $this->load->view('templates/footer');
+        } else {
+            $previous_url = $this->session->userdata('previous_url');
+            redirect($previous_url);
         }
         $this->session->set_userdata('previous_url', current_url());
     }

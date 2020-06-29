@@ -13,10 +13,6 @@ class Transaksi extends CI_Controller
             $url = base_url();
             redirect($url);
         }
-        // if ($this->session->userdata('akses') == 4) {
-        //     $previous_url = $this->session->userdata('previous_url');
-        //     redirect($previous_url);
-        // }
     }
 
     public function index()
@@ -80,25 +76,47 @@ class Transaksi extends CI_Controller
                 $metode_pembayaran = "";
             }
 
-            $row[] = $no;
-            $row[] = '<a style="color:#007bff; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $transaksi->no_rekam_medis . '</a>';
-            // $row[] = $transaksi->no_rekam_medis;
-            $row[] = $transaksi->nama_pasien;
-            $row[] = $transaksi->nama_dokter;
-            $row[] = $transaksi->nama_perawat;
-            $row[] = $transaksi->tanggal;
-            $row[] = $transaksi->diagnosa;
-            $row[] = $transaksi->total_biaya_tindakan;
-            $row[] = $transaksi->total_biaya_obat;
-            $row[] = '<img width="64px" height="64px" src="' . $base . '"/>';
-            // $row[] = $transaksi->foto_rontgen;
-            $row[] = $transaksi->keterangan;
-            $row[] = $transaksi->jam_mulai;
-            $row[] = $transaksi->jam_selesai;
-            $row[] = $transaksi->total_biaya_keseluruhan;
-            $row[] = $metode_pembayaran;
-            $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $transaksi->id_transaksi . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
-            $data[] = $row;
+            if ($this->session->userdata('akses') == '1') {
+                $row[] = $no;
+                $row[] = '<a style="color:#007bff; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $transaksi->no_rekam_medis . '</a>';
+                // $row[] = $transaksi->no_rekam_medis;
+                $row[] = $transaksi->nama_pasien;
+                $row[] = $transaksi->nama_dokter;
+                $row[] = $transaksi->nama_perawat;
+                $row[] = $transaksi->tanggal;
+                $row[] = $transaksi->diagnosa;
+                $row[] = $transaksi->total_biaya_tindakan;
+                $row[] = $transaksi->total_biaya_obat;
+                $row[] = '<img width="64px" height="64px" src="' . $base . '"/>';
+                // $row[] = $transaksi->foto_rontgen;
+                $row[] = $transaksi->keterangan;
+                $row[] = $transaksi->jam_mulai;
+                $row[] = $transaksi->jam_selesai;
+                $row[] = $transaksi->total_biaya_keseluruhan;
+                $row[] = $metode_pembayaran;
+                $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $transaksi->id_transaksi . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
+                $data[] = $row;
+            } else {
+                $row[] = $no;
+                $row[] = '<a style="color:#007bff; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $transaksi->no_rekam_medis . '</a>';
+                // $row[] = $transaksi->no_rekam_medis;
+                $row[] = $transaksi->nama_pasien;
+                $row[] = $transaksi->nama_dokter;
+                $row[] = $transaksi->nama_perawat;
+                $row[] = $transaksi->tanggal;
+                $row[] = $transaksi->diagnosa;
+                $row[] = $transaksi->total_biaya_tindakan;
+                $row[] = $transaksi->total_biaya_obat;
+                $row[] = '<img width="64px" height="64px" src="' . $base . '"/>';
+                // $row[] = $transaksi->foto_rontgen;
+                $row[] = $transaksi->keterangan;
+                $row[] = $transaksi->jam_mulai;
+                $row[] = $transaksi->jam_selesai;
+                $row[] = $transaksi->total_biaya_keseluruhan;
+                $row[] = $metode_pembayaran;
+                $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>';
+                $data[] = $row;
+            }
         }
 
         $output = array(

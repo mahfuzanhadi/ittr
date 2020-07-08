@@ -80,11 +80,11 @@
     </div>
 
     <div class="row">
-        <!-- Rekapitulasi Transaksi Per Tahun -->
+        <!-- Rekapitulasi Kunjungan Per Tahun -->
         <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Transaksi Per Tahun</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Kunjungan Per Tahun</h6>
                     <div class="col-md-3">
                         <select name="tahun" id="tahun" class="form-control">
                             <option value="">Pilih Tahun</option>
@@ -97,7 +97,7 @@
                 </div>
                 <div class="card-body">
                     <div class="chart-area">
-                        <canvas id="rekap_transaksi_pertahun"></canvas>
+                        <canvas id="rekap_kunjungan_pertahun"></canvas>
                     </div>
                     <div class="mt-4 text-center small">
                         <span class="mr-3">
@@ -253,7 +253,7 @@
                 var desember = jumlah.bulan12;
                 var bulan = [januari, februari, maret, april, mei, juni, juli, agustus, september, oktober, november, desember];
 
-                var ctx = document.getElementById('rekap_transaksi_pertahun').getContext('2d');
+                var ctx = document.getElementById('rekap_kunjungan_pertahun').getContext('2d');
                 if (window.bar != undefined)
                     window.bar.destroy();
                 window.bar = new Chart(ctx, {
@@ -295,7 +295,7 @@
     }
 </script> -->
 
-<!-- CHART REKAP TRANSAKSI PER TAHUN -->
+<!-- CHART REKAP KUNJUNGAN PER TAHUN -->
 <script>
     $(document).ready(function() {
         $('#tahun').change(function() {
@@ -332,7 +332,7 @@
                         // showChart(bulan);
                         // updateChart();
 
-                        var ctx = document.getElementById('rekap_transaksi_pertahun').getContext('2d');
+                        var ctx = document.getElementById('rekap_kunjungan_pertahun').getContext('2d');
                         if (window.bar != undefined)
                             window.bar.destroy();
                         var chart = new Chart(ctx, {
@@ -348,7 +348,7 @@
                                     borderColor: "rgba(75,192,192,1)",
                                     borderCapStyle: 'butt',
                                     borderDash: [],
-                                    borderDashOffset: 0.0,
+                                    borderDashOffset: 0,
                                     borderJoinStyle: 'miter',
                                     pointBorderColor: "rgba(75,192,192,1)",
                                     pointBackgroundColor: "#fff",
@@ -368,7 +368,12 @@
                                 },
                                 scales: {
                                     yAxes: [{
-                                        stacked: true
+                                        stacked: true,
+                                        ticks: {
+                                            beginAtZero: true,
+                                            stepValue: 5,
+                                            suggestedMax: 100,
+                                        }
                                     }]
                                 }
                             }
@@ -401,7 +406,7 @@ $jumlah1 = $query->num_rows(); -->
         var oktober = bulan[9];
         var november = bulan[10];
         var desember = bulan[11];
-        var ctx = document.getElementById('rekap_transaksi_pertahun').getContext('2d');
+        var ctx = document.getElementById('rekap_kunjungan_pertahun').getContext('2d');
         var chart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -502,6 +507,9 @@ $jumlah_pr = $query2->num_rows();
 ?>
 
 <script>
+    let lk = <?php echo $jumlah_lk ?>;
+    let pr = <?php echo $jumlah_pr ?>;
+
     var ctx = document.getElementById('rekap_pasien_jk').getContext('2d');
     var chart = new Chart(ctx, {
         type: 'horizontalBar',
@@ -512,8 +520,8 @@ $jumlah_pr = $query2->num_rows();
             datasets: [{
                 label: '',
                 data: [
-                    <?php echo $jumlah_lk; ?>,
-                    <?php echo $jumlah_pr; ?>
+                    lk,
+                    pr
                 ],
                 backgroundColor: ['rgba(56, 86, 255, 0.87)', 'rgba(255, 99, 132, 0.87)'],
                 borderColor: ['rgba(56, 86, 255, 0.87)', 'rgba(255, 99, 132, 0.87)']
@@ -523,6 +531,16 @@ $jumlah_pr = $query2->num_rows();
             legend: {
                 display: false
             },
+            scales: {
+                xAxes: [{
+                    stacked: true,
+                    ticks: {
+                        beginAtZero: true,
+                        // steps: 10,
+                        stepValue: 5,
+                    }
+                }]
+            }
         }
     });
 </script>
@@ -581,6 +599,15 @@ $umur6 = $query6->num_rows();
             legend: {
                 display: false
             },
+            scales: {
+                yAxes: [{
+                    stacked: true,
+                    ticks: {
+                        beginAtZero: true,
+                        stepValue: 5
+                    }
+                }]
+            }
         }
     });
 </script>

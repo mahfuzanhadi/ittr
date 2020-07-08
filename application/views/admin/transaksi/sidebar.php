@@ -3,11 +3,10 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('dashboard'); ?>">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <!-- <img src="<?= base_url('assets/img/logordc4.png'); ?>" width="80px" height="64px"> -->
-            <i class="fas fa-tooth"></i>
+        <img src="<?= base_url('assets/img/logordc_white.png'); ?>" width="64px" height="50px">
+        <div class="sidebar-brand-text mx-2">
+            <img src="<?= base_url('assets/img/rdc_white.png'); ?>" width="112px" height="50px">
         </div>
-        <div class="sidebar-brand-text mx-3">Riona Dental Care</div>
     </a>
 
     <!-- Nav Item - Dashboard -->

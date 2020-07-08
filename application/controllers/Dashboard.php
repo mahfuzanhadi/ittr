@@ -36,34 +36,80 @@ class Dashboard extends CI_Controller
         $this->session->set_userdata('previous_url', current_url());
     }
 
-    public function fetch_data()
+    public function fetch_kunjungan()
     {
         $tahun = $this->input->post('id', TRUE);
-        $query1 = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '1' AND YEAR(tanggal) = '" . $tahun . "'");
-        $data1 = $query1->num_rows();
-        $query2 = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '2' AND YEAR(tanggal) = '" . $tahun . "'");
-        $data2 = $query2->num_rows();
-        $query3 = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '3' AND YEAR(tanggal) = '" . $tahun . "'");
-        $data3 = $query3->num_rows();
-        $query4 = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '4' AND YEAR(tanggal) = '" . $tahun . "'");
-        $data4 = $query4->num_rows();
-        $query5 = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '5' AND YEAR(tanggal) = '" . $tahun . "'");
-        $data5 = $query5->num_rows();
-        $query6 = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '6' AND YEAR(tanggal) = '" . $tahun . "'");
-        $data6 = $query6->num_rows();
-        $query7 = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '7' AND YEAR(tanggal) = '" . $tahun . "'");
-        $data7 = $query7->num_rows();
-        $query8 = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '8' AND YEAR(tanggal) = '" . $tahun . "'");
-        $data8 = $query8->num_rows();
-        $query9 = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '9' AND YEAR(tanggal) = '" . $tahun . "'");
-        $data9 = $query9->num_rows();
-        $query10 = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '10' AND YEAR(tanggal) = '" . $tahun . "'");
-        $data10 = $query10->num_rows();
-        $query11 = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '11' AND YEAR(tanggal) = '" . $tahun . "'");
-        $data11 = $query11->num_rows();
-        $query12 = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '12' AND YEAR(tanggal) = '" . $tahun . "'");
-        $data12 = $query12->num_rows();
-        $data = array('bulan1' => $data1, 'bulan2' => $data2, 'bulan3' => $data3, 'bulan4' => $data4, 'bulan5' => $data5, 'bulan6' => $data6, 'bulan7' => $data7, 'bulan8' => $data8, 'bulan9' => $data9, 'bulan10' => $data10, 'bulan11' => $data11, 'bulan12' => $data12);
+        for ($i = 1; $i < 13; $i++) {
+            //query mengambil data kunjungan tiap bulan per tahun
+            $query = $this->db->query("SELECT * from transaksi where MONTH(tanggal) = '" . $i . "' AND YEAR(tanggal) = '" . $tahun . "'");
+            $data[] = $query->num_rows();
+        }
+        echo json_encode($data);
+    }
+
+    public function fetch_metode_pembayaran()
+    {
+        for ($i = 1; $i < 5; $i++) {
+            $query = $this->db->query("SELECT * FROM transaksi WHERE metode_pembayaran = '" . $i . "'");
+            $data[] = $query->num_rows();
+        }
+        echo json_encode($data);
+    }
+
+    public function fetch_jk()
+    {
+        for ($i = 1; $i < 3; $i++) {
+            $query = $this->db->query("SELECT * FROM pasien WHERE jenis_kelamin = '" . $i . "'");
+            $data[] = $query->num_rows();
+        }
+        echo json_encode($data);
+    }
+
+    public function fetch_umur()
+    {
+        //query pasien umur < 10 tahun
+        $query1 = $this->db->query("SELECT * from pasien where TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) < 10");
+        $data[0] = $query1->num_rows();
+        //query pasien umur >= 10 tahun dan < 20 tahun
+        $query2 = $this->db->query("SELECT * from pasien where TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) >= 10 and TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) < 20");
+        $data[1] = $query2->num_rows();
+        //query pasien umur >= 20 tahun dan < 30 tahun
+        $query3 = $this->db->query("SELECT * from pasien where TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) >= 20 and TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) < 30");
+        $data[2] = $query3->num_rows();
+        //query pasien umur >= 30 tahun dan < 40 tahun
+        $query4 = $this->db->query("SELECT * from pasien where TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) >= 30 and TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) < 40");
+        $data[3] = $query4->num_rows();
+        //query pasien umur >= 40 tahun dan < 50 tahun
+        $query5 = $this->db->query("SELECT * from pasien where TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) >= 40 and TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) < 50");
+        $data[4] = $query5->num_rows();
+        //query pasien umur >= 50 tahun
+        $query6 = $this->db->query("SELECT * from pasien where TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) >= 50");
+        $data[5] = $query6->num_rows();
+
+        echo json_encode($data);
+    }
+
+    public function fetch_riwayat_penyakit()
+    {
+        //query pasien dengan riwayat penyakit
+        $query1 = $this->db->query("SELECT * FROM pasien WHERE riwayat_penyakit!=''");
+        $data[] = $query1->num_rows();
+        //query pasien tanpa riwayat penyakit
+        $query2 = $this->db->query("SELECT * FROM pasien WHERE riwayat_penyakit=''");
+        $data[] = $query2->num_rows();
+
+        echo json_encode($data);
+    }
+
+    public function fetch_alergi_obat()
+    {
+        //query pasien dengan alergi obat
+        $query1 = $this->db->query("SELECT * FROM pasien WHERE alergi_obat!=''");
+        $data[] = $query1->num_rows();
+        //query pasien tanpa alergi obat
+        $query2 = $this->db->query("SELECT * FROM pasien WHERE alergi_obat=''");
+        $data[] = $query2->num_rows();
+
         echo json_encode($data);
     }
 }

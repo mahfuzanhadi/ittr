@@ -718,6 +718,7 @@
             });
             return false;
         });
+
         $('#obat2').change(function() {
             var id = $(this).val();
             $.ajax({
@@ -739,6 +740,7 @@
         });
     });
 </script>
+
 <script>
     $('#btn_detail_obat').click(function() {
         var biaya = $('#biaya').val();

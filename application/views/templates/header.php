@@ -62,6 +62,18 @@
         .table.dataTable {
             font-size: 15px;
         }
+
+        #total_data {
+            margin-bottom: 0rem !important;
+            font-weight: 400;
+            font-size: 16px;
+            color: rgba(75, 192, 192, 1);
+        }
+
+        .canvas_kunjungan {
+            width: 100% !important;
+            height: 320px !important;
+        }
     </style>
 </head>
 

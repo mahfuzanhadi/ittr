@@ -9,13 +9,6 @@
         <div class="sidebar-brand-text mx-3">Riona Dental Care</div>
     </a>
 
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('dashboard'); ?>">
-            <i class="fas fa-fw fa-chart-line"></i>
-            <span>Dashboard</span></a>
-    </li>
-
     <!-- Divider -->
     <hr class="sidebar-divider">
 

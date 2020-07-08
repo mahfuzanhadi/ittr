@@ -29,12 +29,6 @@ class Dashboard extends CI_Controller
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/dashboard/index', $data);
             $this->load->view('templates/footer');
-        } else if ($this->session->userdata('akses') == '4') {
-            $this->load->view('templates/header', $data);
-            $this->load->view('staf/dashboard/sidebar', $data);
-            $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/dashboard/index', $data);
-            $this->load->view('templates/footer');
         } else {
             $previous_url = $this->session->userdata('previous_url');
             redirect($previous_url);

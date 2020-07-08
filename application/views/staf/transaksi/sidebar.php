@@ -10,13 +10,6 @@
         <!-- <img src="<?= base_url('assets/img/logordc.png'); ?>" width="64px" height="64px"> -->
     </a>
 
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('dashboard'); ?>">
-            <i class="fas fa-fw fa-chart-line"></i>
-            <span>Dashboard</span></a>
-    </li>
-
     <!-- Divider -->
     <hr class="sidebar-divider">
 

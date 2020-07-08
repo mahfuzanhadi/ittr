@@ -112,4 +112,22 @@ class Dashboard extends CI_Controller
 
         echo json_encode($data);
     }
+
+    public function fetch_obat()
+    {
+        $data = array();
+        $query = $this->db->query("SELECT * FROM obat");
+
+        //mengambil semua nama obat
+        foreach ($query->result() as $row) {
+            $data[] = $row->nama;
+        }
+
+        //mengambil semua stok obat
+        foreach ($query->result() as $row) {
+            $data2[] = $row->stok;
+        }
+
+        echo json_encode(array($data, $data2));
+    }
 }

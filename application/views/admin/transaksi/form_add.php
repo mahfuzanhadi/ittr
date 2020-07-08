@@ -217,6 +217,8 @@
 <script src="<?php echo base_url('assets/jquery/jquery-3.3.1.min.js') ?>"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+<!-- SCRIPT INPUT NUMBER ONLY -->
 <script>
     // WRITE THE VALIDATION SCRIPT.
     function isNumber(evt) {
@@ -227,6 +229,8 @@
         return true;
     }
 </script>
+
+<!-- SCRIPT AMBIL DATA BIAYA TINDAKAN -->
 <script>
     $('#biaya').on('input', function() {
 
@@ -280,6 +284,8 @@
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 </script>
+
+<!-- SCRIPT IS_EXIST NO REKAM MEDIS -->
 <script>
     $(document).ready(function() {
         $('#no_rekam_medis').keyup(function() {
@@ -304,6 +310,7 @@
         });
     });
 </script>
+
 <script>
     $(document).ready(function() {
         $('#btn_rekam_medis').click(function() {
@@ -563,6 +570,8 @@
         });
     });
 </script>
+
+<!-- SCRIPT FETCH DATA TINDAKAN KE SELECT -->
 <script type="text/javascript">
     $(document).ready(function() {
         $("#tindakan").select2({
@@ -609,6 +618,9 @@
         });
     });
 </script>
+
+
+<!-- SCRIPT AMBIL BIAYA SETELAH PILIH TINDAKAN -->
 <script type="text/javascript">
     $(document).ready(function() {
         $('#tindakan').change(function() {
@@ -651,6 +663,8 @@
         });
     });
 </script>
+
+<!-- SCRIPT FETCH DATA OBAT KE SELECT -->
 <script type="text/javascript">
     $(document).ready(function() {
         $("#obat").select2({
@@ -697,6 +711,8 @@
         });
     });
 </script>
+
+<!-- SCRIPT AMBIL HARGA SETELAH PILIH OBAT -->
 <script type="text/javascript">
     $(document).ready(function() {
         $('#obat').change(function() {
@@ -741,6 +757,7 @@
     });
 </script>
 
+<!-- SCRIPT HILANGIN KOMA DI BIAYA TINDAKAN DAN HARGA OBAT -->
 <script>
     $('#btn_detail_obat').click(function() {
         var biaya = $('#biaya').val();

@@ -74,6 +74,11 @@
             width: 100% !important;
             height: 320px !important;
         }
+
+        .canvas_stok_obat {
+            width: 100% !important;
+            height: 330px !important;
+        }
     </style>
 </head>
 

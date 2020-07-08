@@ -4,12 +4,13 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h3 class="h3 mb-0 text-gray-800"><?= $title; ?></h3>
-        <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+        <!-- <div id="notif"> -->
+        <a href="#stok_obat" class="d-none btn btn-sm btn-danger shadow-sm" id="notif"><i class="fas fa-exclamation-circle fa-sm text-white-50"></i> Salah satu stok obat menipis!</a>
+        <!-- </div> -->
     </div>
 
     <!-- Content Row -->
     <div class="row">
-
         <!-- Jumlah Data Rekam Medis -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
@@ -79,8 +80,8 @@
         </div>
     </div>
 
+    <!-- Rekapitulasi Kunjungan Per Tahun -->
     <div class="row">
-        <!-- Rekapitulasi Kunjungan Per Tahun -->
         <div class="col-xl-12 col-lg-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -123,6 +124,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Data Pasien Berdasarkan Jenis Kelamin -->
         <div class="col-xl-4 col-lg-5">
             <div class="card shadow mb-4">
@@ -146,34 +148,46 @@
     </div>
 
 
-    <!-- Rekapitulasi Transaksi Berdasarkan Metode Pembayaran -->
-    <div class="col-xl-4 col-lg-5">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Transaksi Berdasarkan Metode Pembayaran</h6>
-                <div class="col-md-3" style="padding-bottom: 38px;"></div>
+    <div class="row">
+        <!-- Rekapitulasi Metode Pembayaran -->
+        <div class="col-xl-4 col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Metode Pembayaran</h6>
+                    <!-- <div class="col-md-3" style="padding-bottom: 38px;"></div> -->
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="rekap_transaksi_metode_pembayaran" style="display: block; height: 245px; width: 360px;"></canvas>
+                    </div>
+                    <div class="mt-4 text-center small">
+                        <span class="mr-2">
+                            <i class="fas fa-circle" style="color:rgba(255, 206, 86, 0.87)"></i> <span style="color:#666">Cash</span>
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle" style="color:rgba(75, 192, 192, 0.87)"></i> <span style="color:#666">Kredit</span>
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle" style="color:rgba(153, 102, 255, 0.87)"></i> <span style="color:#666">Debit</span>
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle" style="color:rgba(255, 159, 64, 0.87)"></i> <span style="color:#666">Transfer</span>
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                    </span>
+        </div>
+
+        <!-- Rekapitulasi Stok Obat -->
+        <div class="col-xl-8 col-lg-6" id="stok_obat">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Stok Obat</h6>
                 </div>
-                <div class="chart-pie pt-4 pb-2">
-                    <canvas id="rekap_transaksi_metode_pembayaran" style="display: block; height: 245px; width: 360px;"></canvas>
-                </div>
-                <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                        <i class="fas fa-circle" style="color:rgba(255, 206, 86, 0.87)"></i> <span style="color:#666">Cash</span>
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle" style="color:rgba(75, 192, 192, 0.87)"></i> <span style="color:#666">Kredit</span>
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle" style="color:rgba(153, 102, 255, 0.87)"></i> <span style="color:#666">Debit</span>
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle" style="color:rgba(255, 159, 64, 0.87)"></i> <span style="color:#666">Transfer</span>
-                    </span>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="rekap_stok_obat" class="canvas_stok_obat"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -217,9 +231,6 @@
 <!-- Page level plugins -->
 <script src="<?= base_url('assets/'); ?>vendor/chart.js/Chart.min.js"></script>
 
-<!-- Page level custom scripts -->
-<script src="<?= base_url('assets/'); ?>js/demo/chart-area-demo.js"></script>
-<script src="<?= base_url('assets/'); ?>js/demo/chart-pie-demo.js"></script>
 <!-- <script>
     var tahun = $('#tahun').val();
     if (tahun != '') {
@@ -304,9 +315,7 @@
             }
         });
     });
-</script>
 
-<script>
     $('#tahun').change(function() {
         let tahun = $('#tahun').val();
         $.ajax({
@@ -595,4 +604,100 @@
             }
         })
     })
+</script>
+
+<!-- CHART REKAP STOK OBAT -->
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo base_url('dashboard/fetch_obat') ?>",
+            success: function(data) {
+                let obat = jQuery.parseJSON(data);
+                let nama_obat = obat[0];
+                let stok_obat = obat[1];
+
+                /* MUNCULIN NOTIF JIKA STOK OBAT < 10 */
+                stok_obat.forEach(myFunction);
+
+                function myFunction(value) {
+                    if (value < 10) {
+                        $("#notif").removeClass('d-none');
+                        $("#notif").addClass('d-sm-inline-block');
+                    } else {
+                        $("#notif").addClass('d-none');
+                        $("#notif").removeClass('d-sm-inline-block');
+                    }
+                }
+
+                var ctx = document.getElementById('rekap_stok_obat').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: nama_obat,
+                        datasets: [{
+                            label: [],
+                            data: stok_obat,
+                            backgroundColor: ['rgba(255, 99, 132, 0.87)',
+                                'rgba(54, 162, 235, 0.87)',
+                                'rgba(255, 206, 86, 0.87)',
+                                'rgba(75, 192, 192, 0.87)',
+                                'rgba(153, 102, 255, 0.87)',
+                                'rgba(255, 159, 64, 0.87)'
+                            ],
+                            borderColor: ['rgba(255, 99, 132, 0.87)',
+                                'rgba(54, 162, 235, 0.87)',
+                                'rgba(255, 206, 86, 0.87)',
+                                'rgba(75, 192, 192, 0.87)',
+                                'rgba(153, 102, 255, 0.87)',
+                                'rgba(255, 159, 64, 0.87)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            yAxes: [{
+                                stacked: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    stepValue: 5
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+        })
+    })
+</script>
+
+<!-- SCROLL TO REKAP STOK OBAT -->
+<script>
+    $(document).ready(function() {
+        // Add smooth scrolling to all links
+        $("#notif").on('click', function(event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 800, function() {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    // window.location.hash = hash;
+                });
+            } // End if
+        });
+    });
 </script>

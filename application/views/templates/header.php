@@ -79,6 +79,33 @@
             width: 100% !important;
             height: 330px !important;
         }
+
+        .select2-container .select2-selection--single {
+            height: calc(1.8125rem + 2px) !important;
+            border: 1px solid #ced4da !important;
+            border-radius: 0.2rem !important;
+            width: 100% !important;
+        }
+
+        #btn_rekam_medis {
+            margin-top: 20px !important;
+        }
+
+        #previous_btn_tindakan {
+            margin-top: 20px !important;
+        }
+
+        #btn_detail_tindakan {
+            margin-top: 20px !important;
+        }
+
+        #previous_btn_obat {
+            margin-top: 20px !important;
+        }
+
+        #btn_detail_obat {
+            margin-top: 20px !important;
+        }
     </style>
 </head>
 

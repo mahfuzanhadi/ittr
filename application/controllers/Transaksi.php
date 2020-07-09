@@ -79,16 +79,13 @@ class Transaksi extends CI_Controller
             if ($this->session->userdata('akses') == '1') {
                 $row[] = $no;
                 $row[] = '<a style="color:#007bff; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $transaksi->no_rekam_medis . '</a>';
-                // $row[] = $transaksi->no_rekam_medis;
                 $row[] = $transaksi->nama_pasien;
                 $row[] = $transaksi->nama_dokter;
                 $row[] = $transaksi->nama_perawat;
                 $row[] = $transaksi->tanggal;
-                $row[] = $transaksi->diagnosa;
                 $row[] = $transaksi->total_biaya_tindakan;
                 $row[] = $transaksi->total_biaya_obat;
                 $row[] = '<img width="64px" height="64px" src="' . $base . '"/>';
-                // $row[] = $transaksi->foto_rontgen;
                 $row[] = $transaksi->keterangan;
                 $row[] = $transaksi->jam_mulai;
                 $row[] = $transaksi->jam_selesai;
@@ -99,7 +96,6 @@ class Transaksi extends CI_Controller
             } else {
                 $row[] = $no;
                 $row[] = '<a style="color:#007bff; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $transaksi->no_rekam_medis . '</a>';
-                // $row[] = $transaksi->no_rekam_medis;
                 $row[] = $transaksi->nama_pasien;
                 $row[] = $transaksi->nama_dokter;
                 $row[] = $transaksi->nama_perawat;
@@ -108,7 +104,6 @@ class Transaksi extends CI_Controller
                 $row[] = $transaksi->total_biaya_tindakan;
                 $row[] = $transaksi->total_biaya_obat;
                 $row[] = '<img width="64px" height="64px" src="' . $base . '"/>';
-                // $row[] = $transaksi->foto_rontgen;
                 $row[] = $transaksi->keterangan;
                 $row[] = $transaksi->jam_mulai;
                 $row[] = $transaksi->jam_selesai;
@@ -169,7 +164,6 @@ class Transaksi extends CI_Controller
                 $this->load->view('admin/transaksi/form_add', $error);
                 $foto = "default.jpg";
             } else {
-                // $foto = $this->upload->data();
                 $sukses = array('file' => $this->upload->data());
                 $foto = $sukses['file']['file_name'];
             }
@@ -182,7 +176,7 @@ class Transaksi extends CI_Controller
                 'id_dokter' => $this->input->post('dokter'),
                 'id_perawat' => $this->input->post('perawat'),
                 'tanggal' => $tanggal,
-                'diagnosa' => $this->input->post('diagnosa'),
+                // 'diagnosa' => $this->input->post('diagnosa'),
                 'total_biaya_tindakan' => $this->input->post('total_biaya_tindakan'),
                 'total_biaya_obat' => $this->input->post('total_biaya_obat'),
                 'foto_rontgen' => $foto,
@@ -199,71 +193,49 @@ class Transaksi extends CI_Controller
             foreach ($last_transaksi as $last) {
                 $last;
             }
-            $data = [
-                'id_detail_tindakan' => $this->input->post('id_detail_tindakan'),
-                'id_transaksi' => $last,
-                'id_tindakan' => $this->input->post('tindakan'),
-                'biaya_tindakan' => $this->input->post('biaya')
-            ];
-            $this->Dtindakan_model->add_data($data);
 
-            $tindakan2 = $this->input->post('tindakan2');
-            if ($tindakan2 != '') {
-                $data2 = [
-                    'id_detail_tindakan' => $this->input->post('id_detail_tindakan'),
-                    'id_transaksi' => $last,
-                    'id_tindakan' => $this->input->post('tindakan2'),
-                    'biaya_tindakan' => $this->input->post('biaya2')
-                ];
-                $this->Dtindakan_model->add_data($data2);
-                $this->Dtindakan_model->total_biaya_tindakan();
-            } else {
-                $this->Dtindakan_model->total_biaya_tindakan();
+            $tindakan = $this->input->post('tindakan');
+            $diagnosa = $this->input->post('diagnosa');
+            $biaya_tindakan = $this->input->post('biaya');
+            if ($tindakan != '') {
+                foreach ($tindakan as $key => $value) {
+                    $data = [
+                        'id_detail_tindakan' => $this->input->post('id_detail_tindakan'),
+                        'id_transaksi' => $last,
+                        'id_tindakan' => $value,
+                        'diagnosa' => $diagnosa[$key],
+                        'biaya_tindakan' => $biaya_tindakan[$key]
+                    ];
+                    $this->Dtindakan_model->add_data($data);
+                }
             }
+            $this->Dtindakan_model->total_biaya_tindakan();
 
-            $biaya_obat = $this->input->post('harga');
-            $jumlah_obat = $this->input->post('jumlah');
-            $total_biaya_obat = $biaya_obat * $jumlah_obat;
-            $data = [
-                'id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat'),
-                'id_transaksi' => $last,
-                'id_obat' => $this->input->post('obat'),
-                'dosis' => $this->input->post('dosis'),
-                'jumlah_obat' => $this->input->post('jumlah'),
-                'biaya_obat' => $total_biaya_obat
-            ];
+            $obat = $this->input->post('obat');
+            $dosis = $this->input->post('dosis');
+            $harga = $this->input->post('harga');
+            $jumlah = $this->input->post('jumlah');
 
-            $this->Dobat_model->kurangi_stok($this->input->post('jumlah'), $this->input->post('obat')); //fungsi update stok pada tabel obat
-            $this->Dobat_model->add_data($data);
+            if ($obat != '') {
+                foreach ($obat as $key => $value) {
+                    $total_biaya_obat = $harga[$key] * $jumlah[$key];
+                    $data = [
+                        'id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat'),
+                        'id_transaksi' => $last,
+                        'id_obat' => $value,
+                        'dosis' => $dosis[$key],
+                        'jumlah_obat' => $jumlah[$key],
+                        'biaya_obat' => $total_biaya_obat
+                    ];
 
-            $obat2 = $this->input->post('obat2');
-            if ($obat2 != '') {
-
-                $biaya_obat2 = $this->input->post('harga2');
-                $jumlah_obat2 = $this->input->post('jumlah2');
-                $total_biaya_obat2 = $biaya_obat2 * $jumlah_obat2;
-                $data2 = [
-                    'id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat'),
-                    'id_transaksi' => $last,
-                    'id_obat' => $this->input->post('obat2'),
-                    'dosis' => $this->input->post('dosis2'),
-                    'jumlah_obat' => $this->input->post('jumlah2'),
-                    'biaya_obat' => $total_biaya_obat2
-                ];
-
-                $this->Dobat_model->kurangi_stok($this->input->post('jumlah2'), $this->input->post('obat2')); //fungsi update stok pada tabel obat
-                $this->Dobat_model->add_data($data2);
-                $this->Dobat_model->total_biaya_obat();
-                $this->Dobat_model->total_biaya_keseluruhan();
-
-                $this->session->set_flashdata('flash', 'ditambahkan');
-                redirect('transaksi');
-            } else {
-                $this->Dobat_model->total_biaya_obat();
-                $this->Dobat_model->total_biaya_keseluruhan();
-                $this->session->set_flashdata('flash', 'ditambahkan');
-                redirect('transaksi');
+                    $this->Dobat_model->kurangi_stok($jumlah[$key], $value); //fungsi update stok pada tabel obat
+                    $this->Dobat_model->add_data($data);
+                }
             }
+            $this->Dobat_model->total_biaya_obat();
+            $this->Dobat_model->total_biaya_keseluruhan();
+            $this->session->set_flashdata('flash', 'ditambahkan');
+            redirect('transaksi');
         }
     }
 

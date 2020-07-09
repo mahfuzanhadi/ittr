@@ -10,13 +10,13 @@ class Transaksi_model extends CI_Model
     }
 
     var $table = 'transaksi';
-    var $select_column = array('transaksi.id_transaksi as id_transaksi', 'pasien.no_rekam_medis as no_rekam_medis', 'pasien.nama as nama_pasien', 'dokter.nama as nama_dokter', 'perawat.nama as nama_perawat', 'transaksi.tanggal as tanggal', 'transaksi.diagnosa as diagnosa', 'transaksi.total_biaya_tindakan as total_biaya_tindakan', 'transaksi.total_biaya_obat as total_biaya_obat', 'transaksi.foto_rontgen as foto_rontgen', 'transaksi.keterangan as keterangan', 'transaksi.jam_mulai as jam_mulai', 'transaksi.jam_selesai as jam_selesai', 'transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan', 'transaksi.metode_pembayaran as metode_pembayaran');
-    var $order_column = array(null, 'no_rekam_medis', 'nama_pasien', 'nama_dokter', 'nama_perawat', 'tanggal',  'diagnosa', 'total_biaya_tindakan', 'total_biaya_obat', null, 'keterangan', 'jam_mulai', 'jam_selesai', 'total_biaya_keseluruhan', 'metode_pembayaran'); //set column field database for datatable orderable
+    var $select_column = array('transaksi.id_transaksi as id_transaksi', 'pasien.no_rekam_medis as no_rekam_medis', 'pasien.nama as nama_pasien', 'dokter.nama as nama_dokter', 'perawat.nama as nama_perawat', 'transaksi.tanggal as tanggal', 'transaksi.total_biaya_tindakan as total_biaya_tindakan', 'transaksi.total_biaya_obat as total_biaya_obat', 'transaksi.foto_rontgen as foto_rontgen', 'transaksi.keterangan as keterangan', 'transaksi.jam_mulai as jam_mulai', 'transaksi.jam_selesai as jam_selesai', 'transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan', 'transaksi.metode_pembayaran as metode_pembayaran');
+    var $order_column = array(null, 'no_rekam_medis', 'nama_pasien', 'nama_dokter', 'nama_perawat', 'tanggal', 'total_biaya_tindakan', 'total_biaya_obat', null, 'keterangan', 'jam_mulai', 'jam_selesai', 'total_biaya_keseluruhan', 'metode_pembayaran'); //set column field database for datatable orderable
     var $order = array('id_transaksi' => 'desc'); // default order 
 
     public function make_query()
     {
-        $this->db->select('transaksi.id_transaksi as id_transaksi, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, perawat.nama as nama_perawat, transaksi.tanggal as tanggal, transaksi.diagnosa as diagnosa, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.foto_rontgen as foto_rontgen, transaksi.keterangan as keterangan, transaksi.jam_mulai as jam_mulai, transaksi.jam_selesai as jam_selesai, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan, transaksi.metode_pembayaran as metode_pembayaran');
+        $this->db->select('transaksi.id_transaksi as id_transaksi, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, perawat.nama as nama_perawat, transaksi.tanggal as tanggal, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.foto_rontgen as foto_rontgen, transaksi.keterangan as keterangan, transaksi.jam_mulai as jam_mulai, transaksi.jam_selesai as jam_selesai, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan, transaksi.metode_pembayaran as metode_pembayaran');
         $this->db->from($this->table);
         $this->db->join('pasien', 'pasien.id_pasien = transaksi.id_pasien', 'left');
         $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
@@ -27,7 +27,6 @@ class Transaksi_model extends CI_Model
             $this->db->or_like('dokter.nama', $_POST["search"]["value"]);
             $this->db->or_like('perawat.nama', $_POST["search"]["value"]);
             $this->db->or_like('tanggal', $_POST["search"]["value"]);
-            $this->db->or_like('diagnosa', $_POST["search"]["value"]);
             $this->db->or_like('total_biaya_tindakan', $_POST["search"]["value"]);
             $this->db->or_like('total_biaya_obat', $_POST["search"]["value"]);
             $this->db->or_like('keterangan', $_POST["search"]["value"]);
@@ -62,7 +61,7 @@ class Transaksi_model extends CI_Model
 
     public function get_all_data()
     {
-        $this->db->select('transaksi.id_transaksi as id_transaksi, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, perawat.nama as nama_perawat, transaksi.tanggal as tanggal, transaksi.diagnosa as diagnosa, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.foto_rontgen as foto_rontgen, transaksi.keterangan as keterangan, transaksi.jam_mulai as jam_mulai, transaksi.jam_selesai as jam_selesai, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan, transaksi.metode_pembayaran as metode_pembayaran');
+        $this->db->select('transaksi.id_transaksi as id_transaksi, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, perawat.nama as nama_perawat, transaksi.tanggal as tanggal, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.foto_rontgen as foto_rontgen, transaksi.keterangan as keterangan, transaksi.jam_mulai as jam_mulai, transaksi.jam_selesai as jam_selesai, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan, transaksi.metode_pembayaran as metode_pembayaran');
         $this->db->from($this->table);
         $this->db->join('pasien', 'pasien.id_pasien = transaksi.id_pasien', 'left');
         $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
@@ -113,16 +112,11 @@ class Transaksi_model extends CI_Model
     public function delete_data($id)
     {
 
-        // $this->db->select('*');
         $this->db->where('id_transaksi', $id);
         $this->db->delete('detail_tindakan');
 
-        // $this->db->select('*');
         $this->db->where('id_transaksi', $id);
         $this->db->delete('detail_biaya_obat');
-
-        // $this->delete_tindakan($id);
-        // $this->delete_biaya_obat($id);
 
         $_id = $this->db->get_where('transaksi', ["id_transaksi" => $id])->row();
         $image_path = '/uploads/rontgen/';

@@ -10,19 +10,20 @@ class Dtindakan_model extends CI_Model
     }
 
     var $table = 'detail_tindakan';
-    var $select_column = array('detail_tindakan.id_detail_tindakan as id_detail_tindakan', 'transaksi.id_transaksi as id_transaksi', 'tindakan.nama as nama_tindakan', 'detail_tindakan.biaya_tindakan as biaya_tindakan');
+    var $select_column = array('detail_tindakan.id_detail_tindakan as id_detail_tindakan', 'transaksi.id_transaksi as id_transaksi', 'tindakan.nama as nama_tindakan', 'detail_tindakan.diagnosa as diagnosa', 'detail_tindakan.biaya_tindakan as biaya_tindakan');
     var $order_column = array(null, 'id_transaksi', 'nama_tindakan', 'biaya_tindakan'); //set column field database for datatable orderable
     var $order = array('id_detail_tindakan' => 'asc'); // default order 
 
     public function make_query()
     {
-        $this->db->select('detail_tindakan.id_detail_tindakan as id_detail_tindakan, transaksi.id_transaksi as id_transaksi, tindakan.nama as nama_tindakan, detail_tindakan.biaya_tindakan as biaya_tindakan');
+        $this->db->select('detail_tindakan.id_detail_tindakan as id_detail_tindakan, transaksi.id_transaksi as id_transaksi, tindakan.nama as nama_tindakan, detail_tindakan.diagnosa as diagnosa, detail_tindakan.biaya_tindakan as biaya_tindakan');
         $this->db->from($this->table);
         $this->db->join('transaksi', 'transaksi.id_transaksi = transaksi.id_transaksi', 'left');
         $this->db->join('tindakan', 'tindakan.id_tindakan = transaksi.id_tindakan', 'left');
         if (isset($_POST["search"]["value"])) {
             $this->db->like('id_transaksi', $_POST["search"]["value"]);
             $this->db->or_like('nama_tindakan', $_POST["search"]["value"]);
+            $this->db->or_like('diagnosa', $_POST["search"]["value"]);
             $this->db->or_like('biaya_tindakan', $_POST["search"]["value"]);
         }
         if (isset($_POST["order"])) {
@@ -51,7 +52,7 @@ class Dtindakan_model extends CI_Model
 
     public function get_all_data()
     {
-        $this->db->select('detail_tindakan.id_detail_tindakan as id_detail_tindakan, transaksi.id_transaksi as id_transaksi, tindakan.nama as nama_tindakan, detail_tindakan.biaya_tindakan as biaya_tindakan');
+        $this->db->select('detail_tindakan.id_detail_tindakan as id_detail_tindakan, transaksi.id_transaksi as id_transaksi, tindakan.nama as nama_tindakan, detail_tindakan.diagnosa as diagnosa, detail_tindakan.biaya_tindakan as biaya_tindakan');
         $this->db->from($this->table);
         $this->db->join('transaksi', 'transaksi.id_transaksi = transaksi.id_transaksi', 'left');
         $this->db->join('tindakan', 'tindakan.id_tindakan = transaksi.id_tindakan', 'left');
@@ -66,7 +67,6 @@ class Dtindakan_model extends CI_Model
     public function add_data($data)
     {
         $this->db->insert('detail_tindakan', $data);
-        // return $this->db->affected_rows();
     }
 
 

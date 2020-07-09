@@ -4,9 +4,17 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h3 class="h3 mb-0 text-gray-800"><?= $title; ?></h3>
-        <!-- <div id="notif"> -->
-        <a href="#stok_obat" class="d-none btn btn-sm btn-danger shadow-sm" id="notif"><i class="fas fa-exclamation-circle fa-sm text-white-50"></i> Salah satu stok obat menipis!</a>
-        <!-- </div> -->
+        <!-- <a href="#stok_obat" class="d-none btn btn-sm btn-danger shadow-sm" id="notif"><i class="fas fa-exclamation-circle fa-sm text-white-50"></i> Salah satu stok obat menipis!</a> -->
+    </div>
+    <div class="row mt-3 d-none" id="row">
+        <div class="col-md-6">
+            <div class="alert alert-danger alert-dismissible fade hide" role="alert">
+                <a href="#stok_obat" class="d-none" id="notif"></i> Salah satu stok obat menipis!</a>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Content Row -->
@@ -618,15 +626,18 @@
                 let stok_obat = obat[1];
 
                 /* MUNCULIN NOTIF JIKA STOK OBAT < 10 */
-                stok_obat.forEach(myFunction);
+                stok_obat.forEach(cekStok);
 
-                function myFunction(value) {
+                function cekStok(value) {
                     if (value < 10) {
+                        $("#row").removeClass('d-none');
+                        $("div.alert").addClass('show');
                         $("#notif").removeClass('d-none');
                         $("#notif").addClass('d-sm-inline-block');
+                        $("#notif").css('color', '#721c24');
                     } else {
-                        $("#notif").addClass('d-none');
                         $("#notif").removeClass('d-sm-inline-block');
+                        $("#notif").addClass('d-none');
                     }
                 }
 
@@ -679,7 +690,6 @@
     $(document).ready(function() {
         // Add smooth scrolling to all links
         $("#notif").on('click', function(event) {
-
             // Make sure this.hash has a value before overriding default behavior
             if (this.hash !== "") {
                 // Prevent default anchor click behavior

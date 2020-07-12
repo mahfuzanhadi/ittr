@@ -66,13 +66,13 @@
                         <input class="form-control form-control-sm" type="text" name="username" id="username" placeholder="Username" value="<?= $staf['username'] ?>" />
                         <span id="error_username" class="text-danger"></span>
                     </div>
+                </div>
+                <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label>Password</label>
                         <input class="form-control form-control-sm" type="password" name="password" id="password" placeholder="Password" />
                         <span id="error_password" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label>Ulangi Password</label>
                         <input class="form-control form-control-sm" type="password" name="password2" id="password2" placeholder="Ulangi Password" />

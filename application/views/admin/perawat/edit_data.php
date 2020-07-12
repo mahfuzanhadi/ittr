@@ -91,6 +91,9 @@
                         <span id="error_password" class="text-danger"></span>
                         <input type="hidden" value="<?= $perawat['password'] ?>" name="password2" />
                     </div>
+                    <div class="form-group col-sm-3">
+                        <input type="checkbox" class="form-checkbox" style="margin-top: 40px"> Show password
+                    </div>
                 </div>
                 <button class="btn btn-primary" type="button" name="update" id="update">Update</button>
             </form>
@@ -110,6 +113,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+
+<!-- SCRIPT DATETIME PICKER -->
 <script>
     jQuery.datetimepicker.setLocale('id')
     $('#picker').datetimepicker({
@@ -124,6 +129,8 @@
         }
     })
 </script>
+
+<!-- SCRIPT DATETIME PICKER -->
 <script>
     jQuery.datetimepicker.setLocale('id')
     $('#datepicker').datetimepicker({
@@ -138,6 +145,8 @@
         }
     })
 </script>
+
+<!-- SCRIPT INPUT NUMBER ONLY -->
 <script>
     // WRITE THE VALIDATION SCRIPT.
     function isNumber(evt) {
@@ -148,6 +157,8 @@
         return true;
     }
 </script>
+
+<!-- SCRIPT CEK USERNAME EXIST -->
 <script>
     $(document).ready(function() {
         $('#username').keyup(function() {
@@ -185,6 +196,21 @@
         });
     });
 </script>
+
+<!-- SCRIPT SHOW/HIDE PASSWORD -->
+<script>
+    $(document).ready(function() {
+        $('.form-checkbox').click(function() {
+            if ($(this).is(':checked')) {
+                $('#password').attr('type', 'text');
+            } else {
+                $('#password').attr('type', 'password');
+            }
+        })
+    })
+</script>
+
+<!-- SCRIPT FORM VALIDATION -->
 <script>
     $(document).ready(function() {
         $('#update').click(function() {

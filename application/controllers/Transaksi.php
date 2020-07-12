@@ -100,7 +100,6 @@ class Transaksi extends CI_Controller
                 $row[] = $transaksi->nama_dokter;
                 $row[] = $transaksi->nama_perawat;
                 $row[] = $transaksi->tanggal;
-                $row[] = $transaksi->diagnosa;
                 $row[] = $transaksi->total_biaya_tindakan;
                 $row[] = $transaksi->total_biaya_obat;
                 $row[] = '<img width="64px" height="64px" src="' . $base . '"/>';
@@ -170,6 +169,12 @@ class Transaksi extends CI_Controller
 
             $jam_selesai = date('H:i');
             $tanggal = date('Y-m-d');
+            $metode_pembayaran = $this->input->post('metode_pembayaran');
+            if ($metode_pembayaran == '') {
+                $metode_pembayaran = 0;
+            } else {
+                $metode_pembayaran = $this->input->post('metode_pembayaran');
+            }
             $data = [
                 'id_transaksi' => $this->input->post('id_transaksi'),
                 'id_pasien' => $id_pasien,
@@ -184,7 +189,7 @@ class Transaksi extends CI_Controller
                 'jam_mulai' => $this->input->post('jam_mulai'),
                 'jam_selesai' => $jam_selesai,
                 'total_biaya_keseluruhan' => $this->input->post('total_biaya_keseluruhan'),
-                'metode_pembayaran' => $this->input->post('metode_pembayaran'),
+                'metode_pembayaran' => $metode_pembayaran,
             ];
 
             $this->Transaksi_model->add_data($data);
@@ -318,13 +323,19 @@ class Transaksi extends CI_Controller
                 $foto = $this->input->post('old_image');
             }
 
+            $metode_pembayaran = $this->input->post('metode_pembayaran');
+            if ($metode_pembayaran == '') {
+                $metode_pembayaran = 0;
+            } else {
+                $metode_pembayaran = $this->input->post('metode_pembayaran');
+            }
             $data = [
                 'id_transaksi' => $this->input->post('id_transaksi'),
                 'id_pasien' => $id_pasien,
                 'id_dokter' => $this->input->post('dokter'),
                 'id_perawat' => $this->input->post('perawat'),
                 'tanggal' => $this->input->post('tanggal'),
-                'diagnosa' => nl2br($this->input->post('diagnosa')),
+                // 'diagnosa' => nl2br($this->input->post('diagnosa')),
                 'total_biaya_tindakan' => $this->input->post('total_biaya_tindakan'),
                 'total_biaya_obat' => $this->input->post('total_biaya_obat'),
                 'foto_rontgen' => $foto,
@@ -332,7 +343,7 @@ class Transaksi extends CI_Controller
                 'jam_mulai' => $this->input->post('jam_mulai'),
                 'jam_selesai' => $this->input->post('jam_selesai'),
                 'total_biaya_keseluruhan' => $this->input->post('total_biaya_keseluruhan'),
-                'metode_pembayaran' => $this->input->post('metode_pembayaran'),
+                'metode_pembayaran' => $metode_pembayaran,
             ];
 
             $this->Transaksi_model->edit_data(array('id_transaksi' => $this->input->post('id_transaksi')), $data);

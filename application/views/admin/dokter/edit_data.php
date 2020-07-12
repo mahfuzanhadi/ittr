@@ -105,6 +105,9 @@
                         <span id="error_password" class="text-danger"></span>
                         <input type="hidden" value="<?= $dokter['password'] ?>" name="password2" />
                     </div>
+                    <div class="form-group col-sm-3">
+                        <input type="checkbox" class="form-checkbox" style="margin-top: 40px"> Show password
+                    </div>
                 </div>
                 <button class="btn btn-primary" type="button" name="update" id="update">Update</button>
             </form>
@@ -176,6 +179,19 @@
         return true;
     }
 </script>
+<!-- SCRIPT SHOW/HIDE PASSWORD -->
+<script>
+    $(document).ready(function() {
+        $('.form-checkbox').click(function() {
+            if ($(this).is(':checked')) {
+                $('#password').attr('type', 'text');
+            } else {
+                $('#password').attr('type', 'password');
+            }
+        })
+    })
+</script>
+
 <script>
     $(document).ready(function() {
         $('#username').keyup(function() {

@@ -152,7 +152,6 @@
                             <th>Dokter</th>
                             <th>Perawat</th>
                             <th>Tanggal</th>
-                            <th>Diagnosa</th>
                             <th>Total Biaya Tindakan</th>
                             <th>Total Biaya Obat</th>
                             <th>Foto Rontgen</th>
@@ -194,12 +193,6 @@
                                 <p id="tanggal"></p>
                             </div>
                         </div>
-                        <!-- <div class="form-row">
-                            <div class="form-group col-sm-4">
-                                <label for="keterangan" style="font-weight: bold">Keterangan</label>
-                                <p id="keterangan"></p>
-                            </div>
-                        </div> -->
                         <div class="form-row">
                             <div class="form-group col-sm-4">
                                 <label for="total_biaya_tindakan" style="font-weight: bold">Total Biaya Tindakan</label>
@@ -263,7 +256,7 @@
                 type: "POST"
             },
             "columnDefs": [{
-                    "targets": [0, 9, 15],
+                    "targets": [0, 8, 14],
                     "orderable": false
                 },
                 {
@@ -295,32 +288,28 @@
                     }
                 },
                 {
-                    "width": "180px",
-                    "targets": 6
-                },
-                {
                     "width": "160px",
-                    "targets": 7,
+                    "targets": 6,
                     render: $.fn.dataTable.render.number('.')
                 },
                 {
                     "width": "130px",
-                    "targets": 8,
+                    "targets": 7,
                     render: $.fn.dataTable.render.number('.')
                 },
                 {
                     "width": "180px",
                     "className": "text-center",
-                    "targets": 9
+                    "targets": 8
                 },
                 {
                     "width": "180px",
-                    "targets": 10
+                    "targets": 9
                 },
                 {
                     "type": "time-uni",
                     "width": "80px",
-                    "targets": 11,
+                    "targets": 10,
                     render: function(data) {
                         return moment(data, "HH:mm:ss").format('HH:mm');
                     }
@@ -328,23 +317,23 @@
                 {
                     "type": "time-uni",
                     "width": "90px",
-                    "targets": 12,
+                    "targets": 11,
                     render: function(data) {
                         return moment(data, "HH:mm:ss").format('HH:mm');
                     }
                 },
                 {
                     "width": "180px",
-                    "targets": 13,
+                    "targets": 12,
                     render: $.fn.dataTable.render.number('.')
                 },
                 {
                     "width": "157px",
-                    "targets": 14
+                    "targets": 13
                 },
                 {
                     "width": "80px",
-                    "targets": 15,
+                    "targets": 14,
                     "visible": false
                 },
             ]

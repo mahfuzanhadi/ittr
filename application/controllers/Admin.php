@@ -44,6 +44,16 @@ class Admin extends CI_Controller
         $this->session->set_userdata('previous_url', current_url());
     }
 
+    public function isExist()
+    {
+        $username = $this->input->post('username');
+        if ($this->Admin_model->is_exist($username)) {
+            echo "Username sudah terdaftar!";
+        } else {
+            echo "";
+        }
+    }
+
     public function edit_profil()
     {
         $data['title'] = 'Edit Profil';

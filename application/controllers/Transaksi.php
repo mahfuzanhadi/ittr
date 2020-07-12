@@ -145,6 +145,12 @@ class Transaksi extends CI_Controller
             $this->load->view('templates/dokter/topbar', $data);
             $this->load->view('dokter/transaksi/form_add', $data);
             $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == 3) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('perawat/transaksi/sidebar', $data);
+            $this->load->view('templates/perawat/topbar', $data);
+            $this->load->view('perawat/transaksi/form_add', $data);
+            $this->load->view('templates/footer');
         } else {
             $previous_url = $this->session->userdata('previous_url');
             redirect($previous_url);

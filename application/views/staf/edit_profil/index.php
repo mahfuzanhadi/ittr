@@ -173,6 +173,25 @@
 </script>
 <script>
     $(document).ready(function() {
+        $('#password2').keyup(function() {
+            if ($.trim($('#password2').val()).length == 0) {
+                error_password2 = 'Ulangi Password wajib diisi';
+                $('#error_password2').text(error_password2);
+                $('#password2').addClass('has-error');
+            } else {
+                if ($.trim($('#password').val()) != $.trim($('#password2').val())) {
+                    error_password2 = 'Password tidak cocok';
+                    $('#error_password2').text(error_password2);
+                    $('#password2').addClass('has-error');
+                    $('#update').attr('disabled', true);
+                } else {
+                    error_password2 = '';
+                    $('#error_password2').text(error_password2);
+                    $('#password2').removeClass('has-error');
+                    $('#update').removeAttr('disabled');
+                }
+            }
+        });
         $('#update').click(function() {
             var error_nama = '';
             var error_alamat = '';
@@ -182,7 +201,6 @@
             var error_email = '';
             var error_username = '';
             var error_password = '';
-            var error_password2 = '';
             var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             var mobile_validation = /^\d{10,12}$/;
             var password_validation = /^.{6,}$/;
@@ -279,23 +297,8 @@
                 }
             }
 
-            if ($.trim($('#password2').val()).length == 0) {
-                error_password2 = 'Ulangi Password wajib diisi';
-                $('#error_password2').text(error_password2);
-                $('#password2').addClass('has-error');
-            } else {
-                if ($.trim($('#password').val()) != $.trim($('#password2').val())) {
-                    error_password2 = 'Password tidak cocok';
-                    $('#error_password2').text(error_password2);
-                    $('#password2').addClass('has-error');
-                } else {
-                    error_password2 = '';
-                    $('#error_password2').text(error_password2);
-                    $('#password2').removeClass('has-error');
-                }
-            }
 
-            if (error_nama != '' || error_alamat != '' || error_picker != '' || error_jenis_kelamin != '' || error_no_telp != '' || error_email != '' || error_password != '' || error_password2 != '') {
+            if (error_nama != '' || error_alamat != '' || error_picker != '' || error_jenis_kelamin != '' || error_no_telp != '' || error_email != '' || error_password != '') {
                 return false;
             } else {
                 $('#form_staf').submit();

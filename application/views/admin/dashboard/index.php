@@ -53,13 +53,13 @@
             </div>
         </div>
 
-        <!-- Jumlah Data Inventaris Obat -->
+        <!-- Jumlah Data Obat -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Inventaris Obat</div>
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Obat</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $obat; ?></div>
                         </div>
                         <div class="col-auto">
@@ -70,13 +70,13 @@
             </div>
         </div>
 
-        <!-- Jumlah Data Inventaris Alat dan Bahan -->
+        <!-- Jumlah Data Alat dan Bahan -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Inventaris Alat dan Bahan</div>
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Alat dan Bahan</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $bahan; ?></div>
                         </div>
                         <div class="col-auto">
@@ -112,6 +112,28 @@
                     </div>
                     <div class="chart-area">
                         <canvas id="rekap_kunjungan_pertahun" class="canvas_kunjungan"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Rekapitulasi Tindakan-->
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card shadow mb-4" style="height: 1000px;">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Tindakan</h6>
+                </div>
+                <div class="card-body">
+                    <!-- <div class="text-center small">
+                        <span class="mr-3">
+                            <p id="total_data"></p>
+                        </span>
+                    </div> -->
+                    <div class="chart-area">
+                        <canvas id="rekap_tindakan" class="canvas_tindakan"></canvas>
                     </div>
                 </div>
             </div>
@@ -340,6 +362,7 @@
     });
 </script>
 
+<!-- FUNCTION SHOW CHART REKAP KUNJUNGAN -->
 <script>
     function showChart(jumlah) {
         let total = 0;
@@ -479,6 +502,7 @@
                             xAxes: [{
                                 stacked: true,
                                 ticks: {
+                                    suggestedMax: 100,
                                     beginAtZero: true,
                                     stepValue: 5,
                                 }
@@ -654,9 +678,19 @@
                                 'rgba(255, 206, 86, 0.87)',
                                 'rgba(75, 192, 192, 0.87)',
                                 'rgba(153, 102, 255, 0.87)',
+                                'rgba(255, 159, 64, 0.87)', 'rgba(255, 99, 132, 0.87)',
+                                'rgba(54, 162, 235, 0.87)',
+                                'rgba(255, 206, 86, 0.87)',
+                                'rgba(75, 192, 192, 0.87)',
+                                'rgba(153, 102, 255, 0.87)',
                                 'rgba(255, 159, 64, 0.87)'
                             ],
                             borderColor: ['rgba(255, 99, 132, 0.87)',
+                                'rgba(54, 162, 235, 0.87)',
+                                'rgba(255, 206, 86, 0.87)',
+                                'rgba(75, 192, 192, 0.87)',
+                                'rgba(153, 102, 255, 0.87)',
+                                'rgba(255, 159, 64, 0.87)', 'rgba(255, 99, 132, 0.87)',
                                 'rgba(54, 162, 235, 0.87)',
                                 'rgba(255, 206, 86, 0.87)',
                                 'rgba(75, 192, 192, 0.87)',
@@ -710,4 +744,69 @@
             } // End if
         });
     });
+</script>
+
+<!-- CHART REKAP TINDAKAN -->
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo base_url('dashboard/fetch_rekap_tindakan') ?>",
+            success: function(data) {
+                let data_tindakan = jQuery.parseJSON(data);
+                let total_tindakan = data_tindakan[0];
+                let nama_tindakan = data_tindakan[1];
+
+                var ctx = document.getElementById('rekap_tindakan').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'horizontalBar',
+                    data: {
+                        labels: nama_tindakan,
+                        datasets: [{
+                            label: [],
+                            data: total_tindakan,
+                            backgroundColor: ['rgba(255, 99, 132, 0.87)',
+                                'rgba(54, 162, 235, 0.87)',
+                                'rgba(255, 206, 86, 0.87)',
+                                'rgba(75, 192, 192, 0.87)',
+                                'rgba(153, 102, 255, 0.87)',
+                                'rgba(255, 159, 64, 0.87)', 'rgba(255, 99, 132, 0.87)',
+                                'rgba(54, 162, 235, 0.87)',
+                                'rgba(255, 206, 86, 0.87)',
+                                'rgba(75, 192, 192, 0.87)',
+                                'rgba(153, 102, 255, 0.87)',
+                                'rgba(255, 159, 64, 0.87)'
+                            ],
+                            borderColor: ['rgba(255, 99, 132, 0.87)',
+                                'rgba(54, 162, 235, 0.87)',
+                                'rgba(255, 206, 86, 0.87)',
+                                'rgba(75, 192, 192, 0.87)',
+                                'rgba(153, 102, 255, 0.87)',
+                                'rgba(255, 159, 64, 0.87)', 'rgba(255, 99, 132, 0.87)',
+                                'rgba(54, 162, 235, 0.87)',
+                                'rgba(255, 206, 86, 0.87)',
+                                'rgba(75, 192, 192, 0.87)',
+                                'rgba(153, 102, 255, 0.87)',
+                                'rgba(255, 159, 64, 0.87)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            yAxes: [{
+                                stacked: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    stepValue: 5
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+        })
+    })
 </script>

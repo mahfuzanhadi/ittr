@@ -75,6 +75,11 @@
             height: 320px !important;
         }
 
+        .canvas_tindakan {
+            width: 100% !important;
+            height: 920px !important;
+        }
+
         .canvas_stok_obat {
             width: 100% !important;
             height: 330px !important;

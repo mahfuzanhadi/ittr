@@ -181,7 +181,6 @@ class Transaksi extends CI_Controller
                 'id_dokter' => $this->input->post('dokter'),
                 'id_perawat' => $this->input->post('perawat'),
                 'tanggal' => $tanggal,
-                // 'diagnosa' => $this->input->post('diagnosa'),
                 'total_biaya_tindakan' => $this->input->post('total_biaya_tindakan'),
                 'total_biaya_obat' => $this->input->post('total_biaya_obat'),
                 'foto_rontgen' => $foto,

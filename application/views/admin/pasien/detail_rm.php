@@ -172,9 +172,6 @@
                 <a href="<?= base_url('pasien/delete/' . $pasien['id_pasien']); ?>" class="btn btn btn-danger"><i class="fas fa-trash"></i> Delete Data</a>
             </div> -->
         </div>
-        <!-- <div class="form-group col-sm-3">
-            <input class="form-control form-control-sm" type="text" name="tanggal" id="timepicker" value="<?= date('H:i:s'); ?>" />
-        </div> -->
         <div class="card-footer small text-muted">
         </div>
     </div>

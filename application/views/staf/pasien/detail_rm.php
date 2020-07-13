@@ -14,20 +14,6 @@
     $umur = floor((time() - strtotime($tanggal_lahir)) / 31556926);
     $age = intval($umur);
 
-    // foreach ($tindakan as $tindakan) {
-    //     $id_tindakan = $tindakan->id_tindakan;
-    //     $nama_tindakan = $tindakan->nama;
-    // }
-    // foreach ($transaksi as $transaksi) {
-    //     foreach ($detail_tindakan as $detail_tindakan) {
-    //         if ($detail_tindakan->id_transaksi == $transaksi['id_transaksi']) {
-    //             if ($detail_tindakan->id_tindakan == $id_tindakan) {
-    //                 echo $id_tindakan;
-    //             }
-    //         }
-    //     }
-    // }
-
     ?>
 
     <div class="card mb-3">
@@ -72,7 +58,7 @@
                 </div>
             </div>
             <?php foreach ($transaksi as $transaksi) : ?>
-                <hr style="border: 2px solid #e0e0e0;">
+                <hr style="border: 2px solid #e0e0e0; border-radius: 5px;">
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <?php foreach ($dokter as $row) : ?>
@@ -100,32 +86,39 @@
                         <p>Tanggal : <?= $transaksi['tanggal']; ?></p>
                     </div>
                     <div class="form-group col-sm-3">
-                        <p>Diagnosa : <?= $transaksi['diagnosa']; ?></p>
-                    </div>
-                    <div class="form-group col-sm-3">
                         <p>Keterangan : <?= $transaksi['keterangan']; ?></p>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
+                        <p>Diagnosa : </p>
+                        <?php foreach ($detail_tindakan as $dt) {
+                            if ($dt->id_transaksi == $transaksi['id_transaksi']) {
+                                echo '- ' . $dt->diagnosa . '</p>';
+                            }
+                        } ?>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <p>Tindakan : </p>
                         <?php foreach ($detail_tindakan as $dt) {
                             if ($dt->id_transaksi == $transaksi['id_transaksi']) {
                                 $id_tindakan = $dt->id_tindakan;
                                 foreach ((array) $tindakan as $t) {
                                     if ($t->id_tindakan == $id_tindakan) {
-                                        echo '<p>Tindakan : ' . $t->nama . '</p>';
+                                        echo '- ' . $t->nama . '</p>';
                                     }
                                 }
                             }
                         } ?>
                     </div>
                     <div class="form-group col-sm-3">
+                        <p>Obat : </p>
                         <?php foreach ($detail_obat as $do) {
                             if ($do->id_transaksi == $transaksi['id_transaksi']) {
                                 $id_obat = $do->id_obat;
                                 foreach ((array) $obat as $o) {
                                     if ($o->id_obat == $id_obat) {
-                                        echo '<p>Obat : ' . $o->nama . '</p>';
+                                        echo '- ' . $o->nama . '</p>';
                                     }
                                 }
                             }
@@ -179,9 +172,6 @@
                 <a href="<?= base_url('pasien/delete/' . $pasien['id_pasien']); ?>" class="btn btn btn-danger"><i class="fas fa-trash"></i> Delete Data</a>
             </div> -->
         </div>
-        <!-- <div class="form-group col-sm-3">
-            <input class="form-control form-control-sm" type="text" name="tanggal" id="timepicker" value="<?= date('H:i:s'); ?>" />
-        </div> -->
         <div class="card-footer small text-muted">
         </div>
     </div>

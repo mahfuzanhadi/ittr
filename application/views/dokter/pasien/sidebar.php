@@ -2,10 +2,10 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('transaksi'); ?>">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-tooth"></i>
+        <img src="<?= base_url('assets/img/logordc_white.png'); ?>" width="64px" height="50px">
+        <div class="sidebar-brand-text mx-2">
+            <img src="<?= base_url('assets/img/rdc_white.png'); ?>" width="112px" height="50px">
         </div>
-        <div class="sidebar-brand-text mx-3">Riona Dental Care</div>
     </a>
 
     <!-- Heading -->

@@ -160,7 +160,7 @@
     <!-- Rekapitulasi Metode Pembayaran dan Stok Obat -->
     <div class="row">
         <!-- Rekapitulasi Metode Pembayaran -->
-        <div class="col-xl-4 col-lg-6">
+        <div class="col-xl-3 col-lg-6">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Metode Pembayaran</h6>
@@ -170,7 +170,7 @@
                     <div class="chart-pie pt-4 pb-2">
                         <canvas id="rekap_transaksi_metode_pembayaran" style="display: block; height: 245px; width: 360px;"></canvas>
                     </div>
-                    <div class="mt-4 text-center small">
+                    <div class="text-center small">
                         <span class="mr-2">
                             <i class="fas fa-circle" style="color:rgba(255, 206, 86, 0.87)"></i> <span style="color:#666">Cash</span>
                         </span>
@@ -184,12 +184,13 @@
                             <i class="fas fa-circle" style="color:rgba(255, 159, 64, 0.87)"></i> <span style="color:#666">Transfer</span>
                         </span>
                     </div>
+                    <div class="mt-4 text-center small"></div>
                 </div>
             </div>
         </div>
 
         <!-- Rekapitulasi Stok Obat -->
-        <div class="col-xl-8 col-lg-6" id="stok_obat">
+        <div class="col-xl-9 col-lg-6" id="stok_obat">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Stok Obat</h6>

@@ -76,11 +76,8 @@ class Ibahan_model extends CI_Model
 
     public function get_bahan()
     {
-        $this->db->select('id_bahan', 'nama');
-        $this->db->from('bahan');
-        $query = $this->db->get();
-        $query2 = $this->db->query('SELECT * from bahan');
-        return $query2->result();
+        $query = $this->db->query('SELECT * from bahan ORDER BY nama');
+        return $query->result();
     }
 
     public function add_data($data)

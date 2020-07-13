@@ -483,46 +483,6 @@
                 $('#jumlah').removeClass('has-error');
             }
 
-            // var error_harga2 = '';
-            // var error_dosis2 = '';
-            // var error_jumlah2 = '';
-            // if ($.trim($('#obat2').val()).length != 0) {
-            //     if ($.trim($('#harga2').val()).length == 0) {
-            //         error_harga2 = 'Harga wajib diisi';
-            //         $('#error_harga2').text(error_harga2);
-            //         $('#harga2').addClass('has-error');
-            //     } else {
-            //         error_harga2 = '';
-            //         $('#error_harga2').text(error_harga2);
-            //         $('#harga2').removeClass('has-error');
-            //     }
-            //     if ($.trim($('#dosis2').val()).length == 0) {
-            //         error_dosis2 = 'Dosis wajib diisi';
-            //         $('#error_dosis2').text(error_dosis2);
-            //         $('#dosis2').addClass('has-error');
-            //     } else {
-            //         error_dosis2 = '';
-            //         $('#error_dosis2').text(error_dosis2);
-            //         $('#dosis2').removeClass('has-error');
-            //     }
-            //     if ($.trim($('#jumlah2').val()).length == 0) {
-            //         error_jumlah2 = 'Jumlah wajib diisi';
-            //         $('#error_jumlah2').text(error_jumlah2);
-            //         $('#jumlah2').addClass('has-error');
-            //     } else {
-            //         error_jumlah2 = '';
-            //         $('#error_jumlah2').text(error_jumlah2);
-            //         $('#jumlah2').removeClass('has-error');
-            //     }
-            // } else {
-            //     var harga2 = '';
-            //     var dosis2 = '';
-            //     var jumlah2 = '';
-            //     $('#harga2').val(harga2);
-            //     $('#dosis2').val(dosis2);
-            //     $('#jumlah2').val(jumlah2);
-            // }
-
             if (error_obat != '' || error_harga != '' || error_dosis != '' || error_jumlah != '') {
                 return false;
             } else {

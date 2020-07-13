@@ -73,13 +73,6 @@ class Iobat extends CI_Controller
         echo json_encode($output);
     }
 
-    // public function get_obat()
-    // {
-    //     $id_obat = $this->input->post('id_obat', TRUE);
-    //     $data = $this->Iobat_model->get_obat($id_obat)->result();
-    //     echo json_encode($data);
-    // }
-
     public function add()
     {
         $data['title'] = 'Tambah Data Inventaris Obat';

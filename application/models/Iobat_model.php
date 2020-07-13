@@ -73,7 +73,7 @@ class Iobat_model extends CI_Model
 
     public function get_obat()
     {
-        $query = $this->db->query('SELECT * from obat');
+        $query = $this->db->query('SELECT * FROM obat ORDER BY nama');
         return $query->result();
     }
 

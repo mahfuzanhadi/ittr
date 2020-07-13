@@ -86,13 +86,18 @@
                         <p>Tanggal : <?= $transaksi['tanggal']; ?></p>
                     </div>
                     <div class="form-group col-sm-3">
-                        <p>Diagnosa : <?= $transaksi['diagnosa']; ?></p>
-                    </div>
-                    <div class="form-group col-sm-3">
                         <p>Keterangan : <?= $transaksi['keterangan']; ?></p>
                     </div>
                 </div>
                 <div class="form-row">
+                    <div class="form-group col-sm-3">
+                        <p>Diagnosa : </p>
+                        <?php foreach ($detail_tindakan as $dt) {
+                            if ($dt->id_transaksi == $transaksi['id_transaksi']) {
+                                echo '- ' . $dt->diagnosa . '</p>';
+                            }
+                        } ?>
+                    </div>
                     <div class="form-group col-sm-3">
                         <p>Tindakan : </p>
                         <?php foreach ($detail_tindakan as $dt) {

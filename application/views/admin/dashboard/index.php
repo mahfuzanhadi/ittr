@@ -6,6 +6,7 @@
         <h3 class="h3 mb-0 text-gray-800"><?= $title; ?></h3>
         <!-- <a href="#stok_obat" class="d-none btn btn-sm btn-danger shadow-sm" id="notif"><i class="fas fa-exclamation-circle fa-sm text-white-50"></i> Salah satu stok obat menipis!</a> -->
     </div>
+    <!-- Show alert if stok obat < 10 -->
     <div class="row mt-3 d-none" id="row">
         <div class="col-md-6">
             <div class="alert alert-danger alert-dismissible fade hide" role="alert">
@@ -118,28 +119,7 @@
         </div>
     </div>
 
-
-    <!-- Rekapitulasi Tindakan-->
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="card shadow mb-4" style="height: 1000px;">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Tindakan</h6>
-                </div>
-                <div class="card-body">
-                    <!-- <div class="text-center small">
-                        <span class="mr-3">
-                            <p id="total_data"></p>
-                        </span>
-                    </div> -->
-                    <div class="chart-area">
-                        <canvas id="rekap_tindakan" class="canvas_tindakan"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Rekapitulasi Data Pasien Berdasarkan Umur dan Jenis Kelamin -->
     <div class="row">
         <!-- Data Pasien Berdasarkan Umur -->
         <div class="col-xl-8 col-lg-7">
@@ -177,7 +157,7 @@
 
     </div>
 
-
+    <!-- Rekapitulasi Metode Pembayaran dan Stok Obat -->
     <div class="row">
         <!-- Rekapitulasi Metode Pembayaran -->
         <div class="col-xl-4 col-lg-6">
@@ -223,6 +203,7 @@
         </div>
     </div>
 
+    <!-- Rekapitulasi Data Pasien Berdasarkan Riwayat Penyakit dan Alergi Obat -->
     <div class="row">
         <!-- Data Pasien Berdasarkan Riwayat Penyakit -->
         <div class="col-xl-6 col-lg-6">
@@ -246,6 +227,27 @@
                 <div class="card-body">
                     <div class="chart-pie pt-4 pb-2">
                         <canvas id="rekap_pasien_alergi_obat" style="max-width: 500px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rekapitulasi Tindakan -->
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card shadow mb-4" style="height: 1000px;">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Tindakan</h6>
+                </div>
+                <div class="card-body">
+                    <!-- <div class="text-center small">
+                        <span class="mr-3">
+                            <p id="total_data"></p>
+                        </span>
+                    </div> -->
+                    <div class="chart-area">
+                        <canvas id="rekap_tindakan" class="canvas_tindakan"></canvas>
                     </div>
                 </div>
             </div>

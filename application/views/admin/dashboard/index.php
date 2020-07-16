@@ -4,8 +4,8 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h3 class="h3 mb-0 text-gray-800"><?= $title; ?></h3>
-        <!-- <a href="#stok_obat" class="d-none btn btn-sm btn-danger shadow-sm" id="notif"><i class="fas fa-exclamation-circle fa-sm text-white-50"></i> Salah satu stok obat menipis!</a> -->
     </div>
+
     <!-- Show alert if stok obat < 10 -->
     <div class="row mt-3 d-none" id="row">
         <div class="col-md-6">
@@ -99,8 +99,8 @@
                         <select name="tahun" id="tahun" class="form-control">
                             <option value="">Pilih Tahun</option>
                             <?php
-                            foreach ($tahun as $tahun) {
-                                echo '<option value="' . $tahun['year(tanggal)'] . '"> ' . $tahun['year(tanggal)'] . ' </option>';
+                            foreach ($tahun as $year) {
+                                echo '<option value="' . $year['year(tanggal)'] . '"> ' . $year['year(tanggal)'] . ' </option>';
                             } ?>
                         </select>
                     </div>
@@ -111,8 +111,33 @@
                             <p id="total_data"></p>
                         </span>
                     </div>
-                    <div class="chart-area">
+                    <div class="chart-area" id="chart-kunjungan">
                         <canvas id="rekap_kunjungan_pertahun" class="canvas_kunjungan"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rekapitulasi Omzet Per Tahun -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Omzet Per Tahun</h6>
+                    <div class="col-md-3">
+                        <select name="tahun_omzet" id="tahun_omzet" class="form-control">
+                            <option value="">Pilih Tahun</option>
+                            <?php
+                            foreach ($tahun as $tahun) {
+                                echo '<option value="' . $tahun['year(tanggal)'] . '"> ' . $tahun['year(tanggal)'] . ' </option>';
+                            } ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area" id="chart-omzet">
+                        <canvas id="rekap_omzet_pertahun" class="canvas_omzet"></canvas>
                     </div>
                 </div>
             </div>
@@ -264,74 +289,7 @@
 <!-- Page level plugins -->
 <script src="<?= base_url('assets/'); ?>vendor/chart.js/Chart.min.js"></script>
 
-<!-- <script>
-    var tahun = $('#tahun').val();
-    if (tahun != '') {
-        $.ajax({
-            type: "POST",
-            url: "<?php echo base_url(); ?>dashboard/fetch_data",
-            data: {
-                id: tahun,
-            },
-            success: function(data) {
-                var jumlah = jQuery.parseJSON(data);
-                var januari = jumlah.bulan1;
-                var februari = jumlah.bulan2;
-                var maret = jumlah.bulan3;
-                var april = jumlah.bulan4;
-                var mei = jumlah.bulan5;
-                var juni = jumlah.bulan6;
-                var juli = jumlah.bulan7;
-                var agustus = jumlah.bulan8;
-                var september = jumlah.bulan9;
-                var oktober = jumlah.bulan10;
-                var november = jumlah.bulan11;
-                var desember = jumlah.bulan12;
-                var bulan = [januari, februari, maret, april, mei, juni, juli, agustus, september, oktober, november, desember];
-
-                var ctx = document.getElementById('rekap_kunjungan_pertahun').getContext('2d');
-                if (window.bar != undefined)
-                    window.bar.destroy();
-                window.bar = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: [
-                            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                        ],
-                        datasets: [{
-                            label: [],
-                            data: bulan,
-                            fill: false,
-                            lineTension: 0.1,
-                            backgroundColor: "rgba(75,192,192,0.4)",
-                            borderColor: "rgba(75,192,192,1)",
-                            borderCapStyle: 'butt',
-                            borderDash: [],
-                            borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
-                            pointBorderColor: "rgba(75,192,192,1)",
-                            pointBackgroundColor: "#fff",
-                            pointBorderWidth: 1,
-                            pointHoverRadius: 5,
-                            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                            pointHoverBorderColor: "rgba(220,220,220,1)",
-                            pointHoverBorderWidth: 2,
-                            pointRadius: 5,
-                            pointHitRadius: 10
-                        }]
-                    },
-                    options: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                });
-            }
-        });
-    }
-</script> -->
-
-<!-- CHART REKAP KUNJUNGAN PER TAHUN -->
+<!-- AMBIL DATA REKAP KUNJUNGAN PER TAHUN -->
 <script>
     $(document).ready(function() {
         let tahun = new Date().getFullYear();
@@ -359,6 +317,7 @@
             },
             success: function(data) {
                 let jumlah = jQuery.parseJSON(data);
+                resetCanvasKunjungan();
                 showChart(jumlah);
             }
         });
@@ -367,11 +326,17 @@
 
 <!-- FUNCTION SHOW CHART REKAP KUNJUNGAN -->
 <script>
+    var resetCanvasKunjungan = function() {
+        $('#rekap_kunjungan_pertahun').remove(); // this is my <canvas> element
+        $('#chart-kunjungan').append('<canvas id="rekap_kunjungan_pertahun" class="canvas_kunjungan"></canvas>');
+    };
+
     function showChart(jumlah) {
         let total = 0;
         for (let i in jumlah) {
             total += jumlah[i];
         }
+
         var month = [
             'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
         ];
@@ -418,6 +383,118 @@
                             beginAtZero: true,
                             stepValue: 5,
                             suggestedMax: 100,
+                        }
+                    }]
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+</script>
+
+<!-- AMBIL DATA REKAP OMZET PER TAHUN -->
+<script>
+    $(document).ready(function() {
+        let tahun_omzet = new Date().getFullYear();
+        $('#tahun_omzet').val(tahun_omzet);
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url('dashboard/fetch_omzet'); ?>",
+            data: {
+                year: tahun_omzet
+            },
+            success: function(data) {
+                let data_omzet = jQuery.parseJSON(data);
+                showOmzetChart(data_omzet);
+            }
+        });
+
+        $('#tahun_omzet').change(function() {
+            let tahun_omzet = $('#tahun_omzet').val();
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url('dashboard/fetch_omzet') ?>',
+                data: {
+                    year: tahun_omzet
+                },
+                success: function(data) {
+                    let data_omzet = jQuery.parseJSON(data);
+                    resetCanvasOmzet();
+                    showOmzetChart(data_omzet);
+                }
+            })
+        });
+    });
+</script>
+
+<!-- FUNCTION SHOW CHART OMZET -->
+<script>
+    var resetCanvasOmzet = function() {
+        $('#rekap_omzet_pertahun').remove(); // this is my <canvas> element
+        $('#chart-omzet').append('<canvas id="rekap_omzet_pertahun" class="canvas_omzet"></canvas>');
+    };
+
+    function showOmzetChart(data) {
+        let month = [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+
+        var ctx = document.getElementById('rekap_omzet_pertahun').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: month,
+                datasets: [{
+                    label: [],
+                    data: data,
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(75,192,192,1)",
+                    borderColor: "rgba(75,192,192,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHitRadius: 10
+                }]
+            },
+            options: {
+                tooltips: {
+                    callbacks: {
+                        label: function(t, d) {
+                            var xLabel = d.datasets[t.datasetIndex].label;
+                            var yLabel = t.yLabel >= 1000 ? 'Rp. ' + t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : 'Rp. ' + t.yLabel;
+                            return xLabel + ': ' + yLabel;
+                        }
+                    }
+                },
+                legend: {
+                    display: false,
+                    position: 'bottom'
+                },
+                scales: {
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true,
+                            stepValue: 5,
+                            suggestedMax: 100,
+                            callback: function(value, index, values) {
+                                if (parseInt(value) >= 1000) {
+                                    return 'Rp. ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                } else {
+                                    return 'Rp. ' + value;
+                                }
+                            }
                         }
                     }]
                 },

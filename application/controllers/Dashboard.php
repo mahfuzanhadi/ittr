@@ -47,6 +47,22 @@ class Dashboard extends CI_Controller
         echo json_encode($data);
     }
 
+    public function fetch_omzet()
+    {
+        $tahun = $this->input->post('year', TRUE);
+        for ($i = 1; $i < 13; $i++) {
+            $query = $this->db->query("SELECT SUM(total_biaya_keseluruhan) AS total FROM transaksi WHERE MONTH(tanggal) = '" . $i . "' AND YEAR(tanggal) = '" . $tahun . "'");
+            foreach ($query->result() as $row) {
+                if ($row->total == null) {
+                    $data[] = 0;
+                } else {
+                    $data[] = $row->total;
+                }
+            }
+        }
+        echo json_encode($data);
+    }
+
     public function fetch_metode_pembayaran()
     {
         for ($i = 1; $i < 5; $i++) {

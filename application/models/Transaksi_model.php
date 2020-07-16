@@ -181,9 +181,6 @@ class Transaksi_model extends CI_Model
         $this->db->where('id_transaksi', $id);
         $this->db->join('pasien', 'pasien.id_pasien = transaksi.id_pasien', 'left');
         return $this->db->get()->row();
-
-        // $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
-        // $this->db->join('perawat', 'perawat.id_perawat = transaksi.id_perawat', 'left');
     }
 
     public function update_metode_pembayaran($id, $data)

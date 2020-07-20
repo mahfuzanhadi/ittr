@@ -499,7 +499,7 @@
             placeholder: 'Pilih salah satu',
             width: '100%',
             ajax: {
-                url: '<?= base_url() ?>dtindakan/get_tindakan',
+                url: '<?= base_url() ?>transaksi/get_tindakan',
                 type: "post",
                 dataType: 'json',
                 delay: 250,
@@ -525,7 +525,7 @@
         $('#tindakan').change(function() {
             var id = $(this).val();
             $.ajax({
-                url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
+                url: "<?php echo site_url('transaksi/get_biaya'); ?>",
                 method: "POST",
                 data: {
                     id: id
@@ -544,7 +544,7 @@
         $('#tindakan2').change(function() {
             var id = $(this).val();
             $.ajax({
-                url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
+                url: "<?php echo site_url('transaksi/get_biaya'); ?>",
                 method: "POST",
                 data: {
                     id: id
@@ -570,7 +570,7 @@
             placeholder: 'Pilih salah satu',
             width: '100%',
             ajax: {
-                url: '<?= base_url() ?>dobat/get_obat',
+                url: '<?= base_url() ?>transaksi/get_obat',
                 type: "post",
                 dataType: 'json',
                 delay: 250,
@@ -596,7 +596,7 @@
         $('#obat').change(function() {
             var id = $(this).val();
             $.ajax({
-                url: "<?php echo site_url('dobat/get_harga'); ?>",
+                url: "<?php echo site_url('transaksi/get_harga'); ?>",
                 method: "POST",
                 data: {
                     id: id
@@ -667,7 +667,7 @@
                 placeholder: 'Pilih salah satu',
                 width: '100%',
                 ajax: {
-                    url: '<?= base_url() ?>dtindakan/get_tindakan',
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
                     type: "post",
                     dataType: 'json',
                     delay: 250,
@@ -687,7 +687,7 @@
             $('#tindakan2').change(function() {
                 var id = $(this).val();
                 $.ajax({
-                    url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
                     method: "POST",
                     data: {
                         id: id
@@ -708,7 +708,7 @@
                 placeholder: 'Pilih salah satu',
                 width: '100%',
                 ajax: {
-                    url: '<?= base_url() ?>dtindakan/get_tindakan',
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
                     type: "post",
                     dataType: 'json',
                     delay: 250,
@@ -728,7 +728,7 @@
             $('#tindakan3').change(function() {
                 var id = $(this).val();
                 $.ajax({
-                    url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
                     method: "POST",
                     data: {
                         id: id
@@ -749,7 +749,7 @@
                 placeholder: 'Pilih salah satu',
                 width: '100%',
                 ajax: {
-                    url: '<?= base_url() ?>dtindakan/get_tindakan',
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
                     type: "post",
                     dataType: 'json',
                     delay: 250,
@@ -769,7 +769,7 @@
             $('#tindakan4').change(function() {
                 var id = $(this).val();
                 $.ajax({
-                    url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
                     method: "POST",
                     data: {
                         id: id
@@ -790,7 +790,7 @@
                 placeholder: 'Pilih salah satu',
                 width: '100%',
                 ajax: {
-                    url: '<?= base_url() ?>dtindakan/get_tindakan',
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
                     type: "post",
                     dataType: 'json',
                     delay: 250,
@@ -810,7 +810,7 @@
             $('#tindakan5').change(function() {
                 var id = $(this).val();
                 $.ajax({
-                    url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
                     method: "POST",
                     data: {
                         id: id
@@ -831,7 +831,7 @@
                 placeholder: 'Pilih salah satu',
                 width: '100%',
                 ajax: {
-                    url: '<?= base_url() ?>dtindakan/get_tindakan',
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
                     type: "post",
                     dataType: 'json',
                     delay: 250,
@@ -851,7 +851,7 @@
             $('#tindakan6').change(function() {
                 var id = $(this).val();
                 $.ajax({
-                    url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
                     method: "POST",
                     data: {
                         id: id
@@ -898,7 +898,7 @@
                 placeholder: 'Pilih salah satu',
                 width: '100%',
                 ajax: {
-                    url: '<?= base_url() ?>dobat/get_obat',
+                    url: '<?= base_url() ?>transaksi/get_obat',
                     type: "post",
                     dataType: 'json',
                     delay: 250,
@@ -918,7 +918,7 @@
             $('#obat2').change(function() {
                 var id = $(this).val();
                 $.ajax({
-                    url: "<?php echo site_url('dobat/get_harga'); ?>",
+                    url: "<?php echo site_url('transaksi/get_harga'); ?>",
                     method: "POST",
                     data: {
                         id: id
@@ -939,7 +939,7 @@
                 placeholder: 'Pilih salah satu',
                 width: '100%',
                 ajax: {
-                    url: '<?= base_url() ?>dobat/get_obat',
+                    url: '<?= base_url() ?>transaksi/get_obat',
                     type: "post",
                     dataType: 'json',
                     delay: 250,
@@ -959,7 +959,7 @@
             $('#obat3').change(function() {
                 var id = $(this).val();
                 $.ajax({
-                    url: "<?php echo site_url('dobat/get_harga'); ?>",
+                    url: "<?php echo site_url('transaksi/get_harga'); ?>",
                     method: "POST",
                     data: {
                         id: id
@@ -980,7 +980,7 @@
                 placeholder: 'Pilih salah satu',
                 width: '100%',
                 ajax: {
-                    url: '<?= base_url() ?>dobat/get_obat',
+                    url: '<?= base_url() ?>transaksi/get_obat',
                     type: "post",
                     dataType: 'json',
                     delay: 250,
@@ -1000,7 +1000,7 @@
             $('#obat4').change(function() {
                 var id = $(this).val();
                 $.ajax({
-                    url: "<?php echo site_url('dobat/get_harga'); ?>",
+                    url: "<?php echo site_url('transaksi/get_harga'); ?>",
                     method: "POST",
                     data: {
                         id: id
@@ -1021,7 +1021,7 @@
                 placeholder: 'Pilih salah satu',
                 width: '100%',
                 ajax: {
-                    url: '<?= base_url() ?>dobat/get_obat',
+                    url: '<?= base_url() ?>transaksi/get_obat',
                     type: "post",
                     dataType: 'json',
                     delay: 250,
@@ -1041,7 +1041,7 @@
             $('#obat5').change(function() {
                 var id = $(this).val();
                 $.ajax({
-                    url: "<?php echo site_url('dobat/get_harga'); ?>",
+                    url: "<?php echo site_url('transaksi/get_harga'); ?>",
                     method: "POST",
                     data: {
                         id: id
@@ -1062,7 +1062,7 @@
                 placeholder: 'Pilih salah satu',
                 width: '100%',
                 ajax: {
-                    url: '<?= base_url() ?>dobat/get_obat',
+                    url: '<?= base_url() ?>transaksi/get_obat',
                     type: "post",
                     dataType: 'json',
                     delay: 250,
@@ -1082,7 +1082,7 @@
             $('#obat6').change(function() {
                 var id = $(this).val();
                 $.ajax({
-                    url: "<?php echo site_url('dobat/get_harga'); ?>",
+                    url: "<?php echo site_url('transaksi/get_harga'); ?>",
                     method: "POST",
                     data: {
                         id: id

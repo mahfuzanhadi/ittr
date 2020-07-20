@@ -7,7 +7,7 @@ class Transaksi extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Transaksi_model');
-        $this->load->model('Dobat_model');
+        // $this->load->model('Dobat_model');
         $this->load->library('form_validation');
         if ($this->session->userdata('masuk') != TRUE) {
             $url = base_url();
@@ -125,13 +125,47 @@ class Transaksi extends CI_Controller
         echo json_encode($output);
     }
 
+    public function get_tindakan()
+    {
+        // Search term
+        $searchTerm = $this->input->post('searchTerm');
+
+        // Get data tindakan
+        $response = $this->Transaksi_model->getTindakan($searchTerm);
+
+        echo json_encode($response);
+    }
+
+    public function get_biaya()
+    {
+        $id_tindakan = $this->input->post('id', TRUE);
+        $data = $this->Transaksi_model->get_biaya($id_tindakan);
+        echo json_encode($data);
+    }
+
+    public function get_obat()
+    {
+        // Search term
+        $searchTerm = $this->input->post('searchTerm');
+
+        // Get data tindakan
+        $response = $this->Transaksi_model->getObat($searchTerm);
+
+        echo json_encode($response);
+    }
+
+    public function get_harga()
+    {
+        $id_obat = $this->input->post('id', TRUE);
+        $data = $this->Transaksi_model->get_harga($id_obat);
+        echo json_encode($data);
+    }
+
     // Function to add data rekam medis
     public function add()
     {
         $data['title'] = 'Tambah Data Rekam Medis';
         $this->load->model('Transaksi_model');
-        $this->load->model('Dtindakan_model');
-        $this->load->model('Dobat_model');
         $data['dokter'] = $this->Transaksi_model->get_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
 
@@ -203,7 +237,7 @@ class Transaksi extends CI_Controller
             $this->Transaksi_model->add_data($data);
 
             //ISI DATA TABEL DETAIL TINDAKAN
-            $last_transaksi = $this->Dtindakan_model->get_last_transaksi();
+            $last_transaksi = $this->Transaksi_model->get_last_transaksi();
             foreach ($last_transaksi as $last) {
                 $last;
             }
@@ -220,10 +254,10 @@ class Transaksi extends CI_Controller
                         'diagnosa' => $diagnosa[$key],
                         'biaya_tindakan' => $biaya_tindakan[$key]
                     ];
-                    $this->Dtindakan_model->add_data($data);
+                    $this->Transaksi_model->add_data_detail_tindakan($data);
                 }
             }
-            $this->Dtindakan_model->total_biaya_tindakan();
+            $this->Transaksi_model->total_biaya_tindakan();
 
             //ISI DATA TABEL DETAIL OBAT
             $obat = $this->input->post('obat');
@@ -243,12 +277,12 @@ class Transaksi extends CI_Controller
                         'biaya_obat' => $total_biaya_obat
                     ];
 
-                    $this->Dobat_model->kurangi_stok($jumlah[$key], $value); //fungsi update stok pada tabel obat
-                    $this->Dobat_model->add_data($data);
+                    $this->Transaksi_model->kurangi_stok($jumlah[$key], $value); //fungsi update stok pada tabel obat
+                    $this->Transaksi_model->add_data_biaya_obat($data);
                 }
             }
-            $this->Dobat_model->total_biaya_obat();
-            $this->Dobat_model->total_biaya_keseluruhan();
+            $this->Transaksi_model->total_biaya_obat();
+            $this->Transaksi_model->total_biaya_keseluruhan();
             $this->session->set_flashdata('flash', 'ditambahkan');
             redirect('transaksi');
         }
@@ -471,7 +505,7 @@ class Transaksi extends CI_Controller
     // Function get detail data rekam medis by id_transaksi
     public function detail_data($id)
     {
-        $data = $this->Transaksi_model->get_transaksi_id($id);
+        $data = $this->Transaksi_model->get_detail_transaksi($id);
         echo json_encode($data);
     }
 
@@ -488,7 +522,7 @@ class Transaksi extends CI_Controller
     // Function to delete data transaksi
     public function delete($id)
     {
-        $this->Dobat_model->delete_stok($id);
+        $this->Transaksi_model->delete_stok($id);
         $this->Transaksi_model->delete_data($id);
         echo json_encode(array("status" => true));
     }

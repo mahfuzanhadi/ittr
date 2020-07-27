@@ -20,6 +20,8 @@
         });
     }
 </script>
+
+<!-- DETAIL DATA TRANSAKSI -->
 <script>
     function detail_data(id) {
         $('#myForm')[0].reset();
@@ -28,10 +30,8 @@
             method: "GET",
             dataType: "JSON",
             success: function(data) {
-                var no_rekam_medis = document.getElementById("no_rekam_medis");
-                no_rekam_medis.innerHTML = data.no_rekam_medis;
-                var name = document.getElementById("nama");
-                name.innerHTML = data.nama_pasien;
+                $('#no_rekam_medis').text(data.no_rekam_medis);
+                $('#nama').text(data.nama_pasien);
 
                 var date = new Date(data.tanggal);
                 var tahun = date.getFullYear();
@@ -76,33 +76,31 @@
                         break;
                 }
                 var tgl = tanggal + ' ' + bulan + ' ' + tahun;
-                var tanggal = document.getElementById("tanggal");
-                tanggal.innerHTML = tgl;
+
+                $('#tanggal').text(tgl);
 
                 var biaya_tindakan = new Intl.NumberFormat(['ban', 'id']).format(data.total_biaya_tindakan);
                 var total_tindakan = 'Rp. ' + biaya_tindakan;
+                $('#total_biaya_tindakan').text(total_tindakan);
                 var biaya_obat = new Intl.NumberFormat(['ban', 'id']).format(data.total_biaya_obat);
                 var total_obat = 'Rp. ' + biaya_obat;
+                $('#total_biaya_obat').text(total_obat);
                 var biaya_keseluruhan = new Intl.NumberFormat(['ban', 'id']).format(data.total_biaya_keseluruhan);
                 var total_keseluruhan = 'Rp. ' + biaya_keseluruhan;
+                $('#total_biaya_keseluruhan').text(total_keseluruhan);
 
-                var total_biaya_tindakan = document.getElementById("total_biaya_tindakan");
-                total_biaya_tindakan.innerHTML = total_tindakan;
-                var total_biaya_obat = document.getElementById("total_biaya_obat");
-                total_biaya_obat.innerHTML = total_obat;
-                var total_biaya_keseluruhan = document.getElementById("total_biaya_keseluruhan");
-                total_biaya_keseluruhan.innerHTML = total_keseluruhan;
-
-                var status_pembayaran = document.getElementById("status_pembayaran");
                 if (data.metode_pembayaran == '' || data.metode_pembayaran == 0) {
-                    status_pembayaran.innerHTML = 'Belum bayar!';
+                    $('#status_pembayaran').text('Belum melakukan pembayaran!');
                     $('#status_pembayaran').css('color', 'red');
+                    $('#metode_pembayaran').removeAttr('disabled');
                 } else {
-                    status_pembayaran.innerHTML = 'Sudah bayar';
+                    $('#status_pembayaran').text('Sudah melakukan pembayaran!');
                     $('#status_pembayaran').css('color', 'green');
+                    $('#metode_pembayaran').attr('disabled', true);
                 }
 
                 $('#metode_pembayaran').val(data.metode_pembayaran);
+                $('#added_by').text(data.added_by);
 
                 $('#myModal').modal('show');
                 $('#id_transaksi').val(data.id_transaksi);
@@ -131,7 +129,7 @@
     <?php endif; ?>
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
+    <h3 class="h3 mb-4 text-gray-800"><?= $title; ?></h3>
 
     <!-- DataTables -->
     <div class="card mb-3">
@@ -140,24 +138,18 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                <table class="table table-hover table-bordered" id="dataTable">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>No. Rekam Medis</th>
+                            <th>Status</th>
+                            <th>Tanggal</th>
+                            <th>No. RM</th>
                             <th>Nama Pasien</th>
                             <th>Dokter</th>
-                            <th>Perawat</th>
-                            <th>Tanggal</th>
                             <th>Total Biaya Tindakan</th>
                             <th>Total Biaya Obat</th>
-                            <th>Foto Rontgen</th>
-                            <th>Keterangan</th>
-                            <th>Jam Mulai</th>
-                            <th>Jam Selesai</th>
                             <th>Total Biaya Keseluruhan</th>
-                            <th>Metode Pembayaran</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -218,6 +210,10 @@
                                 <label for="status_pembayaran" style="font-weight: bold">Status Pembayaran</label>
                                 <p id="status_pembayaran"></p>
                             </div>
+                            <div class="form-group col-sm-4">
+                                <label for="added_by" style="font-weight: bold">Added by</label>
+                                <p id="added_by"></p>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <a type="button" name="update" id="update" class="btn btn-success" style="color:white"><i class="fas fa-edit"></i> Update</a>
@@ -229,23 +225,17 @@
         </div>
     </div>
 </div>
+
 <!-- /.container-fluid -->
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
         var dataTable = $('#dataTable').DataTable({
+            "responsive": true,
             "processing": true,
             "serverSide": true,
             "scrollX": true,
             "scrollY": "400px",
             "scrollCollapse": true,
-            fixedColumns: {
-                leftColumns: 1,
-                rightColumns: 1,
-                heightMatch: 'auto'
-            },
             "order": [],
             "lengthMenu": [20, 50, 100],
             "ajax": {
@@ -253,7 +243,7 @@
                 type: "POST"
             },
             "columnDefs": [{
-                    "targets": [0, 8, 14],
+                    "targets": [0],
                     "orderable": false
                 },
                 {
@@ -262,15 +252,15 @@
                     "targets": 0
                 },
                 {
-                    "width": "132px",
+                    "width": "40px",
                     "targets": 1
                 },
                 {
-                    "width": "180px",
-                    "targets": 2
+                    "width": "95px",
+                    "targets": 2,
                 },
                 {
-                    "width": "180px",
+                    "width": "55px",
                     "targets": 3
                 },
                 {
@@ -278,61 +268,24 @@
                     "targets": 4
                 },
                 {
-                    "width": "90px",
-                    "targets": 5,
-                    render: function(data) {
-                        return moment(data).locale("id").format('DD MMMM YYYY');
-                    }
+                    "width": "180px",
+                    "targets": 5
                 },
                 {
-                    "width": "160px",
+                    "width": "90px",
                     "targets": 6,
-                    render: $.fn.dataTable.render.number('.')
+                    "render": $.fn.dataTable.render.number('.')
                 },
                 {
-                    "width": "130px",
+                    "width": "80px",
                     "targets": 7,
-                    render: $.fn.dataTable.render.number('.')
+                    "render": $.fn.dataTable.render.number('.')
                 },
                 {
-                    "width": "180px",
-                    "className": "text-center",
-                    "targets": 8
-                },
-                {
-                    "width": "180px",
-                    "targets": 9
-                },
-                {
-                    "type": "time-uni",
-                    "width": "80px",
-                    "targets": 10,
-                    render: function(data) {
-                        return moment(data, "HH:mm:ss").format('HH:mm');
-                    }
-                },
-                {
-                    "type": "time-uni",
-                    "width": "90px",
-                    "targets": 11,
-                    render: function(data) {
-                        return moment(data, "HH:mm:ss").format('HH:mm');
-                    }
-                },
-                {
-                    "width": "180px",
-                    "targets": 12,
-                    render: $.fn.dataTable.render.number('.')
-                },
-                {
-                    "width": "157px",
-                    "targets": 13
-                },
-                {
-                    "width": "80px",
-                    "targets": 14,
-                    "visible": false
-                },
+                    "width": "100px",
+                    "targets": 8,
+                    "render": $.fn.dataTable.render.number('.')
+                }
             ]
         });
     });

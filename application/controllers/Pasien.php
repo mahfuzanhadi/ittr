@@ -232,11 +232,8 @@ class Pasien extends CI_Controller
         $data['tindakan'] = $this->Pasien_model->get_tindakan();
         $data['detail_obat'] = $this->Pasien_model->get_detail_biaya_obat();
         $data['obat'] = $this->Pasien_model->get_obat();
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
 
         if ($this->session->userdata('akses') == '1') {
-            $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
             $this->load->view('templates/header', $data);
             $this->load->view('admin/pasien/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);

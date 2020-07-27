@@ -47,7 +47,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" cellspacing="0" width="100%">
+                <table class="table table-hover table-bordered" id="dataTable" width="100%">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -66,10 +66,9 @@
             </div>
         </div>
     </div>
-
 </div>
+
 <!-- /.container-fluid -->
-<script src="https://cdn.datatables.net/plug-ins/1.10.21/sorting/natural.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
         var dataTable = $('#dataTable').DataTable({

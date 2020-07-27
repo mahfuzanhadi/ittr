@@ -228,7 +228,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                <table class="table table-hover table-bordered" id="dataTable">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -331,21 +331,15 @@
 </div>
 <!-- End of Main Content -->
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
         var dataTable = $('#dataTable').DataTable({
+            "responsive": true,
             "processing": true,
             "serverSide": true,
             "scrollX": true,
             "scrollY": "400px",
-            scrollCollapse: true,
-            fixedColumns: {
-                rightColumns: 1,
-                heightMatch: 'auto'
-            },
+            "scrollCollapse": true,
             "order": [],
             "lengthMenu": [5, 10, 20, 50],
             "ajax": {

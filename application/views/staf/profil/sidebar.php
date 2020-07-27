@@ -16,11 +16,11 @@
         Menu
     </div>
 
-    <!-- Nav Item - Rekam Medis -->
+    <!-- Nav Item - Data Transaksi -->
     <li class="nav-item">
         <a class="nav-link" href="<?= base_url('transaksi'); ?>">
             <i class="fas fa-fw fa-notes-medical"></i>
-            <span>Rekam Medis</span></a>
+            <span>Data Transaksi</span></a>
     </li>
 
     <li class="nav-item">

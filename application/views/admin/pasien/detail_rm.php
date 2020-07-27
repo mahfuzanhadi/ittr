@@ -2,8 +2,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <a href="<?php echo base_url('pasien') ?>"><i class="fas fa-arrow-left"></i> Back</a>
-    <p></p>
+    <a href="<?php echo base_url('transaksi') ?>"><i class="fas fa-arrow-left"></i> Back</a>
 
     <?php
     $tanggal_lahir = $pasien['tanggal_lahir'];
@@ -32,11 +31,12 @@
                     <p>Pekerjaan : <?= $pasien['pekerjaan']; ?></p>
                 </div>
                 <div class="form-group col-sm-3">
-                    <p>Riwayat Penyakit : <?php if ($pasien['riwayat_penyakit'] != '') {
-                                                echo $pasien['riwayat_penyakit'];
-                                            } else {
-                                                echo '-';
-                                            } ?></p>
+                    <p>Riwayat Penyakit :
+                        <?php if ($pasien['riwayat_penyakit'] != '') {
+                            echo $pasien['riwayat_penyakit'];
+                        } else {
+                            echo '-';
+                        } ?></p>
                 </div>
             </div>
             <div class="form-row">
@@ -50,14 +50,82 @@
                     <p>No. telp : <?= $pasien['no_telp']; ?></p>
                 </div>
                 <div class="form-group col-sm-3">
-                    <p>Alergi Obat : <?php if ($pasien['alergi_obat'] != '') {
-                                            echo $pasien['alergi_obat'];
-                                        } else {
-                                            echo '-';
-                                        } ?></p>
+                    <p>Alergi Obat :
+                        <?php if ($pasien['alergi_obat'] != '') {
+                            echo $pasien['alergi_obat'];
+                        } else {
+                            echo '-';
+                        } ?></p>
                 </div>
             </div>
-            <?php foreach ($transaksi as $transaksi) : ?>
+            <hr style="border: 2px solid #e0e0e0; border-radius: 5px;">
+            <table class="table table-hover table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" width="110px">Tanggal</th>
+                        <th scope="col" width="130px">Dokter</th>
+                        <th scope="col" width="110px">Perawat</th>
+                        <th scope="col">Diagnosa</th>
+                        <th scope="col" width="220px">Tindakan</th>
+                        <th scope="col" width="150px">Obat</th>
+                        <th scope="col" width="145px">Biaya Tindakan</th>
+                        <th scope="col" width="120px">Biaya Obat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($transaksi as $transaksi) : ?>
+                        <tr>
+                            <td><?= $transaksi['tanggal']; ?></td>
+                            <?php foreach ($dokter as $row) : ?>
+                                <?php if ($row->id_dokter == $transaksi['id_dokter']) : ?>
+                                    <td><?= $row->nama; ?></td>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                            <?php foreach ($perawat as $row) : ?>
+                                <?php if ($row->id_perawat == $transaksi['id_perawat']) : ?>
+                                    <td><?= $row->nama; ?></td>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                            <td>
+                                <?php foreach ($detail_tindakan as $dt) {
+                                    if ($dt->id_transaksi == $transaksi['id_transaksi']) {
+                                        echo '- ' . $dt->diagnosa . '<br/>';
+                                    }
+                                } ?>
+                            </td>
+                            <td>
+                                <?php foreach ($detail_tindakan as $dt) {
+                                    if ($dt->id_transaksi == $transaksi['id_transaksi']) {
+                                        $id_tindakan = $dt->id_tindakan;
+                                        foreach ((array) $tindakan as $t) {
+                                            if ($t->id_tindakan == $id_tindakan) {
+                                                echo '- ' . $t->nama . '<br/>';
+                                            }
+                                        }
+                                    }
+                                } ?>
+                            </td>
+                            <td>
+                                <?php foreach ($detail_obat as $do) {
+                                    if ($do->id_transaksi == $transaksi['id_transaksi']) {
+                                        $id_obat = $do->id_obat;
+                                        foreach ((array) $obat as $o) {
+                                            if ($o->id_obat == $id_obat) {
+                                                echo '- ' . $o->nama . '</p>';
+                                            }
+                                        }
+                                    }
+                                } ?>
+                            </td>
+                            <?php $total_biaya_tindakan = "Rp " . number_format($transaksi['total_biaya_tindakan'], 2, ',', '.'); ?>
+                            <td><?= $total_biaya_tindakan; ?></td>
+                            <?php $total_biaya_obat = "Rp " . number_format($transaksi['total_biaya_obat'], 2, ',', '.'); ?>
+                            <td><?= $total_biaya_obat;  ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <!-- <?php foreach ($transaksi as $transaksi) : ?>
                 <hr style="border: 2px solid #e0e0e0; border-radius: 5px;">
                 <div class="form-row">
                     <div class="form-group col-sm-3">
@@ -166,7 +234,7 @@
                         </div>
                     <?php endif; ?>
                 </div>
-            <?php endforeach; ?>
+            <?php endforeach; ?> -->
             <!-- <div align="center">
                 <a href="<?= base_url('pasien/edit/' . $pasien['id_pasien']); ?>" class="btn btn btn-success"><i class="fas fa-edit"></i> Edit Data</a>&nbsp;
                 <a href="<?= base_url('pasien/delete/' . $pasien['id_pasien']); ?>" class="btn btn btn-danger"><i class="fas fa-trash"></i> Delete Data</a>

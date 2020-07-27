@@ -46,9 +46,8 @@
             <a href="<?= base_url('tindakan/add'); ?>" class="btn btn-info btn-sm"><i class="fas fa-plus"></i> Add Data</a>
         </div>
         <div class="card-body">
-            <!-- <h5>Results : <?= $total_rows; ?></h5> -->
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                <table class="table table-hover table-bordered" id="dataTable" cellspacing="0">
                     <thead>
                         <tr>
                             <th>#</th>

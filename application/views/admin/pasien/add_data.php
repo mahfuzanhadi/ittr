@@ -129,7 +129,7 @@
             month: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
             dayOfWeek: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
         }
-    })
+    });
 </script>
 <script>
     // WRITE THE VALIDATION SCRIPT.

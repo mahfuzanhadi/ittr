@@ -62,7 +62,7 @@ class Auth extends CI_Controller
 		} else if ($dokter) {
 			if (password_verify($password, $dokter['password'])) {
 				$data = [
-					'id_dokter' => $dokter['id_dokter'],
+					'id' => $dokter['id_dokter'],
 					'username' => $dokter['username'],
 					'nama' => $dokter['nama'],
 					'email' => $dokter['email'],
@@ -78,7 +78,7 @@ class Auth extends CI_Controller
 		} else if ($perawat) {
 			if (password_verify($password, $perawat['password'])) {
 				$data = [
-					'id_perawat' => $perawat['id_perawat'],
+					'id' => $perawat['id_perawat'],
 					'username' => $perawat['username'],
 					'nama' => $perawat['nama'],
 					'email' => $perawat['email']
@@ -94,7 +94,7 @@ class Auth extends CI_Controller
 		} else if ($staf) {
 			if (password_verify($password, $staf['password'])) {
 				$data = [
-					'id_staf' => $staf['id_staf'],
+					'id' => $staf['id_staf'],
 					'username' => $staf['username'],
 					'nama' => $staf['nama'],
 					'email' => $staf['email']
@@ -115,6 +115,9 @@ class Auth extends CI_Controller
 
 	public function logout()
 	{
+		$this->session->unset_userdata('id');
+		$this->session->unset_userdata('username');
+		$this->session->unset_userdata('nama');
 		$this->session->unset_userdata('email');
 		$this->session->unset_userdata('masuk');
 		$this->session->unset_userdata('akses');

@@ -71,7 +71,7 @@
                                     <div class="form-group col-sm-3">
                                         <?php date_default_timezone_set('Asia/Jakarta'); ?>
                                         <label>Jam Mulai</label>
-                                        <input class="form-control form-control-sm" type="time" name="jam_mulai" placeholder="jam_mulai" readonly="readonly" value="<?= date('H:i'); ?>" />
+                                        <input class="form-control form-control-sm" type="time" name="jam_mulai" placeholder="jam_mulai" value="<?= date('H:i'); ?>" readonly="readonly" />
                                     </div>
                                     <div class="form-group col-sm-3">
                                         <label>Keterangan</label>
@@ -79,6 +79,16 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
+                                    <div class="form-group col-sm-3">
+                                        <label for="metode_pembayaran">Metode Pembayaran</label>
+                                        <select class="form-control  form-control-sm" id="metode_pembayaran" name="metode_pembayaran">
+                                            <option value="">Pilih Metode Pembayaran</option>
+                                            <option value="1" <?= set_select('metode_pembayaran', '1'); ?>>Cash</option>
+                                            <option value="2" <?= set_select('metode_pembayaran', '2'); ?>>Kredit</option>
+                                            <option value="3" <?= set_select('metode_pembayaran', '3'); ?>>Debit</option>
+                                            <option value="4" <?= set_select('metode_pembayaran', '4'); ?>>Transfer</option>
+                                        </select>
+                                    </div>
                                     <div class="form-group col-sm-3">
                                         <label for="foto_rontgen">Foto Rontgen</label>
                                         <input class="form-control-file" type="file" name="foto_rontgen" id="foto_rontgen" />
@@ -175,21 +185,12 @@
 </div>
 </div>
 
-<script src="<?php echo base_url('assets/jquery/jquery-3.3.1.min.js') ?>"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-
-<!-- SCRIPT INPUT NUMBER ONLY -->
-<script>
-    // WRITE THE VALIDATION SCRIPT.
-    function isNumber(evt) {
-        var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-        if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
-            return false;
-
-        return true;
-    }
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script src="<?php echo base_url('assets/js/is-number.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/datepicker.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/transaksi-form-val.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/dynamic-input-tindakan.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/dynamic-input-obat.js') ?>"></script>
 
 <!-- SCRIPT AMBIL DATA BIAYA TINDAKAN -->
 <script>
@@ -272,212 +273,6 @@
     });
 </script>
 
-<!-- FORM VALIDATION -->
-<script>
-    $(document).ready(function() {
-        $('#btn_rekam_medis').click(function() {
-            var error_no_rm = '';
-            var error_dokter = '';
-            var error_perawat = '';
-
-            if ($.trim($('#no_rekam_medis').val()).length == 0) {
-                error_no_rm = 'Nomor Rekam Medis wajib diisi';
-                $('#error_no_rm').text(error_no_rm);
-                $('#no_rekam_medis').addClass('has-error');
-            } else {
-                error_no_rm = '';
-                $('#error_no_rm').text(error_no_rm);
-                $('#no_rekam_medis').removeClass('has-error');
-            }
-
-            var no_rekam_medis = $('#no_rekam_medis').val();
-            $.ajax({
-                type: "POST",
-                url: "<?php echo base_url() ?>transaksi/isExist",
-                data: "no_rekam_medis=" + no_rekam_medis,
-                success: function(response) {
-                    if (response != '') {
-                        $('#error_no_rm').text(response);
-                        $('#no_rekam_medis').addClass('has-error');
-                    } else {
-                        error_no_rm = '';
-                        $('#error_no_rm').text(error_no_rm);
-                        $('#no_rekam_medis').removeClass('has-error');
-                    }
-                }
-            });
-
-
-            if ($.trim($('#dokter').val()).length == 0) {
-                error_dokter = 'Data dokter wajib diisi';
-                $('#error_dokter').text(error_dokter);
-                $('#dokter').addClass('has-error');
-            } else {
-                error_dokter = '';
-                $('#error_dokter').text(error_dokter);
-                $('#dokter').removeClass('has-error');
-            }
-
-            if ($.trim($('#perawat').val()).length == 0) {
-                error_perawat = 'Data perawat wajib diisi';
-                $('#error_perawat').text(error_perawat);
-                $('#perawat').addClass('has-error');
-            } else {
-                error_perawat = '';
-                $('#error_perawat').text(error_perawat);
-                $('#perawat').removeClass('has-error');
-            }
-
-            if (error_no_rm != '' || error_dokter != '' || error_perawat != '') {
-                return false;
-                // if (error_no_rm == '') {
-                //     return false;
-            } else {
-                $('#list_rekam_medis').removeClass('active active_tab1');
-                $('#list_rekam_medis').removeAttr('href data-toggle');
-                $('#rekam_medis').removeClass('active');
-                $('#list_rekam_medis').addClass('inactive_tab1');
-                $('#list_detail_tindakan').removeClass('inactive_tab1');
-                $('#list_detail_tindakan').addClass('active_tab1 active');
-                $('#list_detail_tindakan').attr('href', '#detail_tindakan');
-                $('#list_detail_tindakan').attr('data-toggle', 'tab');
-                $('#detail_tindakan').removeClass('fade');
-                $('#detail_tindakan').addClass('active in');
-            }
-        });
-
-        $('#previous_btn_tindakan').click(function() {
-            $('#list_detail_tindakan').removeClass('active active_tab1');
-            $('#list_detail_tindakan').removeAttr('href data-toggle');
-            $('#detail_tindakan').removeClass('active in');
-            $('#list_detail_tindakan').addClass('inactive_tab1');
-            $('#list_rekam_medis').removeClass('inactive_tab1');
-            $('#list_rekam_medis').addClass('active_tab1 active');
-            $('#list_rekam_medis').attr('href', '#rekam_medis');
-            $('#list_rekam_medis').attr('data-toggle', 'tab');
-            $('#rekam_medis').addClass('active in');
-        });
-
-        $('#btn_detail_tindakan').click(function() {
-            var error_tindakan = '';
-            var error_biaya = '';
-            var error_diagnosa = '';
-
-            if ($.trim($('#tindakan').val()).length == 0) {
-                error_tindakan = 'Tindakan 1 wajib diisi';
-                $('#error_tindakan').text(error_tindakan);
-                $('#tindakan').addClass('has-error');
-            } else {
-                error_tindakan = '';
-                $('#error_tindakan').text(error_tindakan);
-                $('#tindakan').removeClass('has-error');
-            }
-
-            if ($.trim($('#diagnosa').val()).length == 0) {
-                error_diagnosa = 'Diagnosa wajib diisi';
-                $('#error_diagnosa').text(error_diagnosa);
-                $('#diagnosa').addClass('has-error');
-            } else {
-                error_diagnosa = '';
-                $('#error_diagnosa').text(error_diagnosa);
-                $('#diagnosa').removeClass('has-error');
-            }
-
-            if ($.trim($('#biaya').val()).length == 0) {
-                error_biaya = 'Biaya wajib diisi';
-                $('#error_biaya').text(error_biaya);
-                $('#biaya').addClass('has-error');
-            } else {
-                error_biaya = '';
-                $('#error_biaya').text(error_biaya);
-                $('#biaya').removeClass('has-error');
-            }
-
-            if (error_tindakan != '' || error_biaya != '' || error_diagnosa != '') {
-                return false;
-            } else {
-                $('#list_detail_tindakan').removeClass('active active_tab1');
-                $('#list_detail_tindakan').removeAttr('href data-toggle');
-                $('#detail_tindakan').removeClass('active');
-                $('#list_detail_tindakan').addClass('inactive_tab1');
-                $('#list_detail_obat').removeClass('inactive_tab1');
-                $('#list_detail_obat').addClass('active_tab1 active');
-                $('#list_detail_obat').attr('href', '#detail_obat');
-                $('#list_detail_obat').attr('data-toggle', 'tab');
-                $('#detail_obat').removeClass('fade');
-                $('#detail_obat').addClass('active in');
-            }
-        });
-
-        $('#previous_btn_obat').click(function() {
-            $('#list_detail_obat').removeClass('active active_tab1');
-            $('#list_detail_obat').removeAttr('href data-toggle');
-            $('#detail_obat').removeClass('active in');
-            $('#list_detail_obat').addClass('inactive_tab1');
-            $('#list_detail_tindakan').removeClass('inactive_tab1');
-            $('#list_detail_tindakan').addClass('active_tab1 active');
-            $('#list_detail_tindakan').attr('href', '#detail_tindakan');
-            $('#list_detail_tindakan').attr('data-toggle', 'tab');
-            $('#detail_tindakan').addClass('active in');
-        });
-
-        $('#btn_detail_obat').click(function() {
-            var error_obat = '';
-            var error_harga = '';
-            var error_dosis = '';
-            var error_jumlah = '';
-
-            if ($.trim($('#obat').val()).length == 0) {
-                error_obat = 'Obat 1 wajib diisi';
-                $('#error_obat').text(error_obat);
-                $('#obat').addClass('has-error');
-                var harga = '';
-                $('#harga').val(harga);
-            } else {
-                error_obat = '';
-                $('#error_obat').text(error_obat);
-                $('#obat').removeClass('has-error');
-            }
-
-            if ($.trim($('#harga').val()).length == 0) {
-                error_harga = 'Harga wajib diisi';
-                $('#error_harga').text(error_harga);
-                $('#harga').addClass('has-error');
-            } else {
-                error_harga = '';
-                $('#error_harga').text(error_harga);
-                $('#harga').removeClass('has-error');
-            }
-
-            if ($.trim($('#dosis').val()).length == 0) {
-                error_dosis = 'Dosis wajib diisi';
-                $('#error_dosis').text(error_dosis);
-                $('#dosis').addClass('has-error');
-            } else {
-                error_dosis = '';
-                $('#error_dosis').text(error_dosis);
-                $('#dosis').removeClass('has-error');
-            }
-
-            if ($.trim($('#jumlah').val()).length == 0) {
-                error_jumlah = 'Jumlah wajib diisi';
-                $('#error_jumlah').text(error_jumlah);
-                $('#jumlah').addClass('has-error');
-            } else {
-                error_jumlah = '';
-                $('#error_jumlah').text(error_jumlah);
-                $('#jumlah').removeClass('has-error');
-            }
-
-            if (error_obat != '' || error_harga != '' || error_dosis != '' || error_jumlah != '') {
-                return false;
-            } else {
-                $('#transaksi_form').submit();
-            }
-        });
-    });
-</script>
-
 <!-- SCRIPT FETCH DATA TINDAKAN KE SELECT -->
 <script type="text/javascript">
     $(document).ready(function() {
@@ -485,7 +280,7 @@
             placeholder: 'Pilih salah satu',
             width: '100%',
             ajax: {
-                url: '<?= base_url() ?>dtindakan/get_tindakan',
+                url: '<?= base_url() ?>transaksi/get_tindakan',
                 type: "post",
                 dataType: 'json',
                 delay: 250,
@@ -511,7 +306,7 @@
         $('#tindakan').change(function() {
             var id = $(this).val();
             $.ajax({
-                url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
+                url: "<?php echo site_url('transaksi/get_biaya'); ?>",
                 method: "POST",
                 data: {
                     id: id
@@ -527,6 +322,25 @@
             });
             return false;
         });
+        $('#tindakan2').change(function() {
+            var id = $(this).val();
+            $.ajax({
+                url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                method: "POST",
+                data: {
+                    id: id
+                },
+                async: true,
+                dataType: 'JSON',
+                success: function(data) {
+                    var html = data;
+                    hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                    $('#biaya2').val(hasil);
+
+                }
+            });
+            return false;
+        });
     });
 </script>
 
@@ -537,7 +351,7 @@
             placeholder: 'Pilih salah satu',
             width: '100%',
             ajax: {
-                url: '<?= base_url() ?>dobat/get_obat',
+                url: '<?= base_url() ?>transaksi/get_obat',
                 type: "post",
                 dataType: 'json',
                 delay: 250,
@@ -563,7 +377,7 @@
         $('#obat').change(function() {
             var id = $(this).val();
             $.ajax({
-                url: "<?php echo site_url('dobat/get_harga'); ?>",
+                url: "<?php echo site_url('transaksi/get_harga'); ?>",
                 method: "POST",
                 data: {
                     id: id
@@ -610,468 +424,5 @@
                 $('#harga' + i + '').val(hasil);
             }
         }
-    });
-</script>
-
-
-<!-- SCRIPT DYNAMIC INPUT FIELDS DETAIL TINDAKAN -->
-<script>
-    $(document).ready(function() {
-        var max_fields = 6; //maximum input boxes allowed
-        var wrapper = $(".input_fields_wrap"); //Fields wrapper
-        var add_button = $(".add_button"); //Add button ID
-        var x = 1; //initlal text box count
-        // var field_html = ;
-
-        $(add_button).click(function(e) { //on add input button click
-            e.preventDefault();
-            if (x < max_fields) { //max input box allowed
-                x++; //text box increment
-                $(wrapper).append('<div class="row' + x + '"><div class="form-row"><div class="form-group col-sm-3"><label>Diagnosa</label><input class="form-control form-control-sm" type="text" name="diagnosa[]" id="diagnosa' + x + '" placeholder="Diagnosa" /><span id="error_diagnosa" class="text-danger"></span></div><div class="form-group col-sm-4"><label for="tindakan">Tindakan</label><select class="itemName js-states form-control" name="tindakan[]" id="tindakan' + x + '"></select><span id="error_tindakan" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Biaya</label><input class="form-control form-control-sm" type="text" name="biaya[]" id="biaya' + x + '" placeholder="Biaya" onkeypress="javascript:return isNumber(event)" /><span id="error_biaya" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field btn btn-danger btn-sm form-control form-control-sm" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
-            }
-
-            $("#tindakan2").select2({
-                placeholder: 'Pilih salah satu',
-                width: '100%',
-                ajax: {
-                    url: '<?= base_url() ?>dtindakan/get_tindakan',
-                    type: "post",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function(response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
-            $('#tindakan2').change(function() {
-                var id = $(this).val();
-                $.ajax({
-                    url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
-                    method: "POST",
-                    data: {
-                        id: id
-                    },
-                    async: true,
-                    dataType: 'JSON',
-                    success: function(data) {
-                        var html = data;
-                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-
-                        $('#biaya2').val(hasil);
-                    }
-                });
-                return false;
-            });
-
-            $("#tindakan3").select2({
-                placeholder: 'Pilih salah satu',
-                width: '100%',
-                ajax: {
-                    url: '<?= base_url() ?>dtindakan/get_tindakan',
-                    type: "post",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function(response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
-            $('#tindakan3').change(function() {
-                var id = $(this).val();
-                $.ajax({
-                    url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
-                    method: "POST",
-                    data: {
-                        id: id
-                    },
-                    async: true,
-                    dataType: 'JSON',
-                    success: function(data) {
-                        var html = data;
-                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-
-                        $('#biaya3').val(hasil);
-                    }
-                });
-                return false;
-            });
-
-            $("#tindakan4").select2({
-                placeholder: 'Pilih salah satu',
-                width: '100%',
-                ajax: {
-                    url: '<?= base_url() ?>dtindakan/get_tindakan',
-                    type: "post",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function(response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
-            $('#tindakan4').change(function() {
-                var id = $(this).val();
-                $.ajax({
-                    url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
-                    method: "POST",
-                    data: {
-                        id: id
-                    },
-                    async: true,
-                    dataType: 'JSON',
-                    success: function(data) {
-                        var html = data;
-                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-
-                        $('#biaya4').val(hasil);
-                    }
-                });
-                return false;
-            });
-
-            $("#tindakan5").select2({
-                placeholder: 'Pilih salah satu',
-                width: '100%',
-                ajax: {
-                    url: '<?= base_url() ?>dtindakan/get_tindakan',
-                    type: "post",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function(response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
-            $('#tindakan5').change(function() {
-                var id = $(this).val();
-                $.ajax({
-                    url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
-                    method: "POST",
-                    data: {
-                        id: id
-                    },
-                    async: true,
-                    dataType: 'JSON',
-                    success: function(data) {
-                        var html = data;
-                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-
-                        $('#biaya5').val(hasil);
-                    }
-                });
-                return false;
-            });
-
-            $("#tindakan6").select2({
-                placeholder: 'Pilih salah satu',
-                width: '100%',
-                ajax: {
-                    url: '<?= base_url() ?>dtindakan/get_tindakan',
-                    type: "post",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function(response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
-            $('#tindakan6').change(function() {
-                var id = $(this).val();
-                $.ajax({
-                    url: "<?php echo site_url('dtindakan/get_biaya'); ?>",
-                    method: "POST",
-                    data: {
-                        id: id
-                    },
-                    async: true,
-                    dataType: 'JSON',
-                    success: function(data) {
-                        var html = data;
-                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-
-                        $('#biaya6').val(hasil);
-                    }
-                });
-                return false;
-            });
-        });
-
-        $(wrapper).on("click", ".remove_field", function(e) { //user click on remove text
-            e.preventDefault();
-            var button_id = $(this).attr("id"); //ambil id button remove
-            $('.row' + button_id + '').remove(); //remove row
-            x--;
-        })
-    });
-</script>
-
-<!-- SCRIPT DYNAMIC INPUT FIELDS DETAIL OBAT -->
-<script>
-    $(document).ready(function() {
-        var max_fields = 6; //maximum input boxes allowed
-        var wrapper = $(".input_fields_wrap2"); //Fields wrapper
-        var add_button = $(".add_button2"); //Add button ID
-        var x = 1; //initlal text box count
-        // var field_html = ;
-
-        $(add_button).click(function(e) { //on add input button click
-            e.preventDefault();
-            if (x < max_fields) { //max input box allowed
-                x++; //text box increment
-                $(wrapper).append('<div class="row2' + x + '"><div class="form-row"><div class="form-group col-sm-4"><label for="obat">Obat</label><select class="itemName js-states form-control" name="obat[]" id="obat' + x + '"></select><span id="error_obat" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Harga</label><input class="form-control form-control-sm" type="text" name="harga[]" id="harga' + x + '" placeholder="Harga" onkeypress="javascript:return isNumber(event)" /><span id="error_harga" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Dosis</label><input class="form-control form-control-sm" type="text" name="dosis[]" id="dosis' + x + '" placeholder="Dosis" /> <span id="error_dosis" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Jumlah Obat</label><input class="form-control form-control-sm" type="text" name="jumlah[]" id="jumlah' + x + '" placeholder="Jumlah Obat" /><span id="error_jumlah" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field2 btn btn-danger btn-sm form-control form-control-sm" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
-            }
-
-            $("#obat2").select2({
-                placeholder: 'Pilih salah satu',
-                width: '100%',
-                ajax: {
-                    url: '<?= base_url() ?>dobat/get_obat',
-                    type: "post",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function(response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
-            $('#obat2').change(function() {
-                var id = $(this).val();
-                $.ajax({
-                    url: "<?php echo site_url('dobat/get_harga'); ?>",
-                    method: "POST",
-                    data: {
-                        id: id
-                    },
-                    async: true,
-                    dataType: 'JSON',
-                    success: function(data) {
-                        var html = data;
-                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-                        $('#harga2').val(hasil);
-
-                    }
-                });
-                return false;
-            });
-
-            $("#obat3").select2({
-                placeholder: 'Pilih salah satu',
-                width: '100%',
-                ajax: {
-                    url: '<?= base_url() ?>dobat/get_obat',
-                    type: "post",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function(response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
-            $('#obat3').change(function() {
-                var id = $(this).val();
-                $.ajax({
-                    url: "<?php echo site_url('dobat/get_harga'); ?>",
-                    method: "POST",
-                    data: {
-                        id: id
-                    },
-                    async: true,
-                    dataType: 'JSON',
-                    success: function(data) {
-                        var html = data;
-                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-                        $('#harga3').val(hasil);
-
-                    }
-                });
-                return false;
-            });
-
-            $("#obat4").select2({
-                placeholder: 'Pilih salah satu',
-                width: '100%',
-                ajax: {
-                    url: '<?= base_url() ?>dobat/get_obat',
-                    type: "post",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function(response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
-            $('#obat4').change(function() {
-                var id = $(this).val();
-                $.ajax({
-                    url: "<?php echo site_url('dobat/get_harga'); ?>",
-                    method: "POST",
-                    data: {
-                        id: id
-                    },
-                    async: true,
-                    dataType: 'JSON',
-                    success: function(data) {
-                        var html = data;
-                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-                        $('#harga4').val(hasil);
-
-                    }
-                });
-                return false;
-            });
-
-            $("#obat5").select2({
-                placeholder: 'Pilih salah satu',
-                width: '100%',
-                ajax: {
-                    url: '<?= base_url() ?>dobat/get_obat',
-                    type: "post",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function(response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
-            $('#obat5').change(function() {
-                var id = $(this).val();
-                $.ajax({
-                    url: "<?php echo site_url('dobat/get_harga'); ?>",
-                    method: "POST",
-                    data: {
-                        id: id
-                    },
-                    async: true,
-                    dataType: 'JSON',
-                    success: function(data) {
-                        var html = data;
-                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-                        $('#harga5').val(hasil);
-
-                    }
-                });
-                return false;
-            });
-
-            $("#obat6").select2({
-                placeholder: 'Pilih salah satu',
-                width: '100%',
-                ajax: {
-                    url: '<?= base_url() ?>dobat/get_obat',
-                    type: "post",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function(response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
-            $('#obat6').change(function() {
-                var id = $(this).val();
-                $.ajax({
-                    url: "<?php echo site_url('dobat/get_harga'); ?>",
-                    method: "POST",
-                    data: {
-                        id: id
-                    },
-                    async: true,
-                    dataType: 'JSON',
-                    success: function(data) {
-                        var html = data;
-                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-                        $('#harga6').val(hasil);
-
-                    }
-                });
-                return false;
-            });
-        });
-
-        $(wrapper).on("click", ".remove_field2", function(e) { //user click on remove text
-            e.preventDefault();
-            var button_id = $(this).attr("id"); //ambil id button remove
-            $('.row2' + button_id + '').remove(); //remove row
-            x--;
-        })
     });
 </script>

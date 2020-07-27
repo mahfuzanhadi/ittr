@@ -7,7 +7,6 @@ class Transaksi extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Transaksi_model');
-        // $this->load->model('Dobat_model');
         $this->load->library('form_validation');
         if ($this->session->userdata('masuk') != TRUE) {
             $url = base_url();
@@ -19,7 +18,7 @@ class Transaksi extends CI_Controller
     {
         $this->load->helper('url');
         $this->load->model('Transaksi_model', 'transaksi');
-        $data['title'] = 'Data Rekam Medis';
+        $data['title'] = 'Data Transaksi';
         $data['pasien'] = $this->Transaksi_model->get_pasien();
         $data['dokter'] = $this->Transaksi_model->get_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
@@ -60,56 +59,47 @@ class Transaksi extends CI_Controller
         $data = array();
         $no = $_POST['start'];
 
+
         foreach ($list as $transaksi) {
             $row = array();
             $no++;
+            // $base = base_url('uploads/rontgen/' . $transaksi->foto_rontgen);
             $metode_pembayaran = $transaksi->metode_pembayaran;
-            $base = base_url('uploads/rontgen/' . $transaksi->foto_rontgen);
-            if ($metode_pembayaran == 1) {
-                $metode_pembayaran = "Cash";
-            } else if ($metode_pembayaran == 2) {
-                $metode_pembayaran = "Kredit";
-            } else if ($metode_pembayaran == 3) {
-                $metode_pembayaran = "Debit";
-            } else if ($metode_pembayaran == 4) {
-                $metode_pembayaran = "Transfer";
+            if ($metode_pembayaran == 0) {
+                $color = "#FF0000";
+                $metode_pembayaran = "BB";
             } else {
-                $metode_pembayaran = "";
+                $color = "#008000";
+                $metode_pembayaran = "L";
             }
+            setlocale(LC_ALL, 'id-ID', 'id_ID');
+            $tanggal = strftime("%d %B %Y", strtotime($transaksi->tanggal));
 
-            if ($this->session->userdata('akses') == '1') { //IF USER = ADMINISTRATOR
+            if ($this->session->userdata('akses') == '1' || $this->session->userdata('akses') == '2') { //IF USER = ADMINISTRATOR
                 $row[] = $no;
-                $row[] = '<a style="color:#007bff; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $transaksi->no_rekam_medis . '</a>';
+                $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $metode_pembayaran . '</a>';
+                $row[] = '<a style="color:#007bff; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $tanggal . '</a>';
+                $row[] = '<a href="transaksi/rekam_medis/' . $transaksi->no_rekam_medis . '" style="color:#007bff; cursor: pointer">' . $transaksi->no_rekam_medis . '</a>';
                 $row[] = $transaksi->nama_pasien;
                 $row[] = $transaksi->nama_dokter;
-                $row[] = $transaksi->nama_perawat;
-                $row[] = $transaksi->tanggal;
                 $row[] = $transaksi->total_biaya_tindakan;
                 $row[] = $transaksi->total_biaya_obat;
-                $row[] = '<img width="64px" height="64px" src="' . $base . '"/>';
-                $row[] = $transaksi->keterangan;
-                $row[] = $transaksi->jam_mulai;
-                $row[] = $transaksi->jam_selesai;
+                // $row[] = '<img width="64px" height="64px" src="' . $base . '"/>';
+                // $row[] = $transaksi->jam_mulai;
+                // $row[] = $transaksi->jam_selesai;
                 $row[] = $transaksi->total_biaya_keseluruhan;
-                $row[] = $metode_pembayaran;
                 $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $transaksi->id_transaksi . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
                 $data[] = $row;
             } else { //IF USER != ADMINISTRATOR
                 $row[] = $no;
+                $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $metode_pembayaran . '</a>';
+                $row[] = $transaksi->tanggal;
                 $row[] = '<a style="color:#007bff; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $transaksi->no_rekam_medis . '</a>';
                 $row[] = $transaksi->nama_pasien;
                 $row[] = $transaksi->nama_dokter;
-                $row[] = $transaksi->nama_perawat;
-                $row[] = $transaksi->tanggal;
                 $row[] = $transaksi->total_biaya_tindakan;
                 $row[] = $transaksi->total_biaya_obat;
-                $row[] = '<img width="64px" height="64px" src="' . $base . '"/>';
-                $row[] = $transaksi->keterangan;
-                $row[] = $transaksi->jam_mulai;
-                $row[] = $transaksi->jam_selesai;
                 $row[] = $transaksi->total_biaya_keseluruhan;
-                $row[] = $metode_pembayaran;
-                $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>';
                 $data[] = $row;
             }
         }
@@ -161,10 +151,10 @@ class Transaksi extends CI_Controller
         echo json_encode($data);
     }
 
-    // Function to add data rekam medis
+    // Function to add data transaksi
     public function add()
     {
-        $data['title'] = 'Tambah Data Rekam Medis';
+        $data['title'] = 'Tambah Data Transaksi';
         $this->load->model('Transaksi_model');
         $data['dokter'] = $this->Transaksi_model->get_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
@@ -218,6 +208,9 @@ class Transaksi extends CI_Controller
             } else {
                 $metode_pembayaran = $this->input->post('metode_pembayaran');
             }
+
+            $added_by = $this->session->userdata('nama');
+
             $data = [
                 'id_transaksi' => $this->input->post('id_transaksi'),
                 'id_pasien' => $id_pasien,
@@ -232,6 +225,7 @@ class Transaksi extends CI_Controller
                 'jam_selesai' => $jam_selesai,
                 'total_biaya_keseluruhan' => $this->input->post('total_biaya_keseluruhan'),
                 'metode_pembayaran' => $metode_pembayaran,
+                'added_by' => $added_by,
             ];
 
             $this->Transaksi_model->add_data($data);
@@ -300,27 +294,19 @@ class Transaksi extends CI_Controller
         }
     }
 
-    // Function to edit data rekam medis
+    // Function to edit data transaksi
     public function edit($id)
     {
-        $data['title'] = 'Edit Data Rekam Medis';
-        $this->load->model('Transaksi_model');
-        $this->load->model('Dtindakan_model');
-        $this->load->model('Dobat_model');
+        $data['title'] = 'Edit Data Transaksi';
         $data['pasien'] = $this->Transaksi_model->get_pasien();
         $data['dokter'] = $this->Transaksi_model->get_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
 
         $data['transaksi'] = $this->Transaksi_model->getById($id);
-        $data['detail_tindakan'] = $this->Dtindakan_model->getDtindakan1($id);
-        $data['nama_tindakan'] = $this->Dtindakan_model->getTindakan1($id);
-        $data['detail_tindakan2'] = $this->Dtindakan_model->getDtindakan2($id);
-        $data['nama_tindakan2'] = $this->Dtindakan_model->getTindakan2($id);
-
-        $data['detail_obat'] = $this->Dobat_model->getDobat1($id);
-        $data['nama_obat'] = $this->Dobat_model->getObat1($id);
-        $data['detail_obat2'] = $this->Dobat_model->getDobat2($id);
-        $data['nama_obat2'] = $this->Dobat_model->getObat2($id);
+        $data['detail_tindakan'] = $this->Transaksi_model->get_detail_tindakan();
+        $data['tindakan'] = $this->Transaksi_model->get_tindakan();
+        $data['detail_obat'] = $this->Transaksi_model->get_detail_biaya_obat();
+        $data['obat'] = $this->Transaksi_model->get_obat();
 
         if ($this->session->userdata('akses') == 1) {
             $this->load->view('templates/header', $data);
@@ -507,6 +493,49 @@ class Transaksi extends CI_Controller
     {
         $data = $this->Transaksi_model->get_detail_transaksi($id);
         echo json_encode($data);
+    }
+
+    // Function tampilkan seluruh data rekam medis pasien by no_rekam_medis
+    public function rekam_medis($no_rekam_medis)
+    {
+        $this->load->model('Pasien_model');
+        $data['title'] = 'Detail Data Rekam Medis';
+        $id = $this->Transaksi_model->get_id_pasien($no_rekam_medis);
+
+        $data['pasien'] = $this->Pasien_model->getById($id);
+        $data['transaksi'] = $this->Pasien_model->get_transaksi_by_id($id);
+        $data['dokter'] = $this->Transaksi_model->get_dokter();
+        $data['perawat'] = $this->Transaksi_model->get_perawat();
+        $data['detail_tindakan'] = $this->Transaksi_model->get_detail_tindakan();
+        $data['tindakan'] = $this->Transaksi_model->get_tindakan();
+        $data['detail_obat'] = $this->Transaksi_model->get_detail_biaya_obat();
+        $data['obat'] = $this->Transaksi_model->get_obat();
+
+        if ($this->session->userdata('akses') == '1') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('admin/transaksi/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/pasien/detail_rm', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '2') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('dokter/transaksi/sidebar', $data);
+            $this->load->view('templates/dokter/topbar', $data);
+            $this->load->view('dokter/pasien/detail_rm', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '3') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('perawat/transaksi/sidebar', $data);
+            $this->load->view('templates/perawat/topbar', $data);
+            $this->load->view('perawat/pasien/detail_rm', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/header', $data);
+            $this->load->view('staf/transaksi/sidebar', $data);
+            $this->load->view('templates/staf/topbar', $data);
+            $this->load->view('staf/pasien/detail_rm', $data);
+            $this->load->view('templates/footer');
+        }
     }
 
     // Function to update data transaksi (metode pembayaran)

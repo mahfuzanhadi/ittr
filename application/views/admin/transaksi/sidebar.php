@@ -1,6 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('dashboard'); ?>">
         <img src="<?= base_url('assets/img/logordc_white.png'); ?>" width="64px" height="50px">
@@ -24,11 +23,11 @@
         Menu
     </div>
 
-    <!-- Nav Item - Rekam Medis -->
+    <!-- Nav Item - Data Transaksi -->
     <li class="nav-item active">
         <a class="nav-link" href="<?= base_url('transaksi'); ?>">
             <i class="fas fa-fw fa-notes-medical"></i>
-            <span>Rekam Medis</span></a>
+            <span>Data Transaksi</span></a>
     </li>
 
     <li class="nav-item">

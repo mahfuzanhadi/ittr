@@ -23,7 +23,6 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="<?= base_url('assets/'); ?>vendor/jquery/jquery.min.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
@@ -31,8 +30,7 @@
 
 <!-- Custom scripts for all pages-->
 <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
-<!-- <script src="<?php echo base_url('assets/jquery/jquery-3.3.1.min.js') ?>"></script> -->
-<script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js') ?>"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script src="<?php echo base_url('assets/js/bootbox.min.js') ?>"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>

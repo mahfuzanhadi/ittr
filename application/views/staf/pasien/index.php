@@ -15,17 +15,14 @@
             method: "GET",
             dataType: "JSON",
             success: function(data) {
-                var no_rekam_medis = document.getElementById("no_rekam_medis");
-                no_rekam_medis.innerHTML = data.no_rekam_medis;
-                var nama = document.getElementById("nama");
-                nama.innerHTML = data.nama;
-                var alamat = document.getElementById("alamat");
-                alamat.innerHTML = data.alamat;
+                $('#no_rekam_medis').text(data.no_rekam_medis);
+                $('#nama').text(data.nama);
+                $('#nama').text(data.alamat);
                 var age = _calculateAge(data.tanggal_lahir);
 
                 var umur = document.getElementById("umur");
                 var umur_pasien = age + ' tahun';
-                umur.innerHTML = umur_pasien;
+                $('#umur').text(umur_pasien);
 
                 var date = new Date(data.tanggal_lahir);
                 var tahun = date.getFullYear();
@@ -70,38 +67,29 @@
                         break;
                 }
                 var tgl_lahir = tanggal + ' ' + bulan + ' ' + tahun;
-                var tanggal_lahir = document.getElementById("tanggal_lahir");
-                tanggal_lahir.innerHTML = tgl_lahir;
-                var pekerjaan = document.getElementById("pekerjaan");
-                pekerjaan.innerHTML = data.pekerjaan;
-                var no_telp = document.getElementById("no_telp");
-                no_telp.innerHTML = data.no_telp;
-                var jk = data.jenis_kelamin;
-                if (jk == 1) {
-                    jk = 'Laki-laki';
+                $('#tanggal_lahir').text(tgl_lahir);
+                $('#pekerjaan').text(data.pekerjaan);
+                $('#no_telp').text(data.no_telp);
+                if (data.jenis_kelamin == 1) {
+                    $('#jenis_kelamin').text('Laki-laki');
                 } else {
-                    jk = 'Perempuan';
+                    $('#jenis_kelamin').text('Perempuan');
                 }
-                var jenis_kelamin = document.getElementById("jenis_kelamin");
-                jenis_kelamin.innerHTML = jk;
-                var riwayat_penyakit = document.getElementById("riwayat_penyakit");
+
                 if (data.riwayat_penyakit == '') {
-                    riwayat = 'Tidak ada';
+                    $('#riwayat_penyakit').text('Tidak ada');
                 } else {
-                    riwayat = data.riwayat_penyakit;
+                    $('#riwayat_penyakit').text(data.riwayat_penyakit);
                 }
-                riwayat_penyakit.innerHTML = riwayat;
-                var alergi_obat = document.getElementById("alergi_obat");
+
                 if (data.alergi_obat == '') {
-                    alergi = 'Tidak ada';
+                    $('#riwayat_penyakit').text('Tidak ada');
                 } else {
-                    alergi = data.alergi_obat;
+                    $('#riwayat_penyakit').text(data.alergi_obat);
                 }
-                alergi_obat.innerHTML = alergi;
-                var email = document.getElementById("email");
-                email.innerHTML = data.email;
-                var username = document.getElementById("username");
-                username.innerHTML = data.username;
+
+                $('#email').text(data.email);
+                $('#username').text(data.username);
                 $('#myModal').modal('show');
                 $('#id_pasien').val(data.id_pasien);
             },
@@ -157,7 +145,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                <table class="table table-hover table-bordered" id="dataTable" cellspacing="0">
                     <thead>
                         <tr>
                             <th>#</th>

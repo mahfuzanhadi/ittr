@@ -197,51 +197,23 @@
 <!-- SCRIPT AMBIL DATA BIAYA TINDAKAN -->
 <script>
     $('#biaya').on('input', function() {
-
         var number, s_number, f_number;
 
         number = $('#biaya').val();
         s_number = number.replace(/,/g, '');
         f_number = formatNumber(s_number);
 
-        console.info(f_number);
         $('#biaya').val(f_number);
     });
 
-    $('#biaya2').on('input', function() {
-
-        var number, s_number, f_number;
-
-        number = $('#biaya2').val();
-        s_number = number.replace(/,/g, '');
-        f_number = formatNumber(s_number);
-
-        console.info(f_number);
-        $('#biaya2').val(f_number);
-    });
-
     $('#harga').on('input', function() {
-
         var number, s_number, f_number;
 
         number = $('#harga').val();
         s_number = number.replace(/,/g, '');
         f_number = formatNumber(s_number);
 
-        console.info(f_number);
         $('#harga').val(f_number);
-    });
-
-    $('#harga2').on('input', function() {
-
-        var number, s_number, f_number;
-
-        number = $('#harga2').val();
-        s_number = number.replace(/,/g, '');
-        f_number = formatNumber(s_number);
-
-        console.info(f_number);
-        $('#harga2').val(f_number);
     });
 
     function formatNumber(num) {
@@ -256,7 +228,7 @@
             var no_rekam_medis = $('#no_rekam_medis').val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo base_url() ?>transaksi/isExist",
+                url: "<?= base_url('transaksi/isExist') ?>",
                 data: "no_rekam_medis=" + no_rekam_medis,
                 success: function(response) {
                     if (response != '') {
@@ -319,25 +291,6 @@
                     var html = data;
                     hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
                     $('#biaya').val(hasil);
-
-                }
-            });
-            return false;
-        });
-        $('#tindakan2').change(function() {
-            var id = $(this).val();
-            $.ajax({
-                url: "<?php echo site_url('transaksi/get_biaya'); ?>",
-                method: "POST",
-                data: {
-                    id: id
-                },
-                async: true,
-                dataType: 'JSON',
-                success: function(data) {
-                    var html = data;
-                    hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-                    $('#biaya2').val(hasil);
 
                 }
             });
@@ -454,6 +407,15 @@
                 });
                 return false;
             });
+            $('#biaya2').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#biaya2').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#biaya2').val(f_number);
+            });
 
             $("#tindakan3").select2({
                 placeholder: 'Pilih salah satu',
@@ -494,6 +456,15 @@
                     }
                 });
                 return false;
+            });
+            $('#biaya3').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#biaya3').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#biaya3').val(f_number);
             });
 
             $("#tindakan4").select2({
@@ -536,6 +507,15 @@
                 });
                 return false;
             });
+            $('#biaya4').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#biaya4').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#biaya4').val(f_number);
+            });
 
             $("#tindakan5").select2({
                 placeholder: 'Pilih salah satu',
@@ -577,6 +557,15 @@
                 });
                 return false;
             });
+            $('#biaya5').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#biaya5').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#biaya5').val(f_number);
+            });
 
             $("#tindakan6").select2({
                 placeholder: 'Pilih salah satu',
@@ -615,6 +604,15 @@
 
                         $('#biaya6').val(hasil);
                     }
+                });
+                $('#biaya6').on('input', function() {
+                    var number, s_number, f_number;
+
+                    number = $('#biaya6').val();
+                    s_number = number.replace(/,/g, '');
+                    f_number = formatNumber(s_number);
+
+                    $('#biaya6').val(f_number);
                 });
                 return false;
             });
@@ -685,6 +683,15 @@
                 });
                 return false;
             });
+            $('#harga2').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#harga2').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#harga2').val(f_number);
+            });
 
             $("#obat3").select2({
                 placeholder: 'Pilih salah satu',
@@ -725,6 +732,15 @@
                     }
                 });
                 return false;
+            });
+            $('#harga3').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#harga3').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#harga3').val(f_number);
             });
 
             $("#obat4").select2({
@@ -767,6 +783,15 @@
                 });
                 return false;
             });
+            $('#harga4').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#harga4').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#harga4').val(f_number);
+            });
 
             $("#obat5").select2({
                 placeholder: 'Pilih salah satu',
@@ -808,6 +833,15 @@
                 });
                 return false;
             });
+            $('#harga5').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#harga5').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#harga5').val(f_number);
+            });
 
             $("#obat6").select2({
                 placeholder: 'Pilih salah satu',
@@ -848,6 +882,15 @@
                     }
                 });
                 return false;
+            });
+            $('#harga6').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#harga6').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#harga6').val(f_number);
             });
         });
 

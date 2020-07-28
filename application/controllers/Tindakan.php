@@ -17,18 +17,17 @@ class Tindakan extends CI_Controller
     public function index()
     {
         $this->load->helper('url');
-        $this->load->model('Tindakan_model', 'tindakan');
         $data['title'] = 'Data Tindakan';
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/tindakan/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/tindakan/index', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/tindakan/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/tindakan/index', $data);
             $this->load->view('templates/footer');
@@ -73,13 +72,13 @@ class Tindakan extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/tindakan/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/tindakan/add_data', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/tindakan/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/tindakan/add_data', $data);
             $this->load->view('templates/footer');
@@ -109,13 +108,13 @@ class Tindakan extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/tindakan/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/tindakan/edit_data', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/tindakan/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/tindakan/edit_data', $data);
             $this->load->view('templates/footer');

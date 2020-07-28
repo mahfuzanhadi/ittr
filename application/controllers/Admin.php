@@ -23,7 +23,7 @@ class Admin extends CI_Controller
         $data['title'] = 'Dashboard';
 
         $this->load->view('templates/header', $data);
-        $this->load->view('admin/dashboard/sidebar', $data);
+        $this->load->view('templates/admin/sidebar', $data);
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/dashboard/index', $data);
         $this->load->view('templates/footer');
@@ -37,7 +37,7 @@ class Admin extends CI_Controller
         $this->session->userdata('id')])->row_array();
 
         $this->load->view('templates/header', $data);
-        $this->load->view('admin/profil/sidebar', $data);
+        $this->load->view('templates/admin/sidebar', $data);
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/profil/index', $data);
         $this->load->view('templates/footer');
@@ -61,7 +61,7 @@ class Admin extends CI_Controller
         $this->session->userdata('id')])->row_array();
 
         $this->load->view('templates/header', $data);
-        $this->load->view('admin/edit_profil/sidebar', $data);
+        $this->load->view('templates/admin/sidebar', $data);
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/edit_profil/index', $data);
         $this->load->view('templates/footer');

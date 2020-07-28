@@ -32,9 +32,13 @@
 <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/time.js"></script>
 <script src="<?php echo base_url('assets/js/bootbox.min.js') ?>"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
 
 <!-- Footer -->
 <footer class="sticky-footer bg-white">

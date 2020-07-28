@@ -18,32 +18,29 @@ class Pasien extends CI_Controller
     public function index()
     {
         $this->load->helper('url');
-        $this->load->model('Pasien_model', 'pasien');
         $data['title'] = 'Data Pasien';
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/pasien/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/pasien/index', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '2') {
             $this->load->view('templates/header', $data);
-            $this->load->view('dokter/pasien/sidebar', $data);
+            $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
             $this->load->view('dokter/pasien/index', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '3') {
-            $data['user_perawat'] = $this->db->get_where('perawat', ['email' => $this->session->userdata('email')])->row_array();
             $this->load->view('templates/header', $data);
-            $this->load->view('perawat/pasien/sidebar', $data);
+            $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
             $this->load->view('perawat/pasien/index', $data);
             $this->load->view('templates/footer');
         } else {
-            $data['user_staf'] = $this->db->get_where('staf', ['email' => $this->session->userdata('email')])->row_array();
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/pasien/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/pasien/index', $data);
             $this->load->view('templates/footer');
@@ -53,7 +50,6 @@ class Pasien extends CI_Controller
 
     public function fetch_data()
     {
-        $this->load->model('Pasien_model');
         $list = $this->Pasien_model->make_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -95,19 +91,15 @@ class Pasien extends CI_Controller
         $data['last'] = $this->Pasien_model->get_biggest_record();
 
         if ($this->session->userdata('akses') == 1) {
-            $data['admin'] = $this->db->get_where('admin', ['email' =>
-            $this->session->userdata('email')])->row_array();
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/pasien/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/pasien/add_data', $data);
             $this->load->view('templates/footer');
             $this->session->set_userdata('previous_url', current_url());
         } else if ($this->session->userdata('akses') == 3) {
-            $data['user_perawat'] = $this->db->get_where('perawat', ['email' =>
-            $this->session->userdata('email')])->row_array();
             $this->load->view('templates/header', $data);
-            $this->load->view('perawat/pasien/sidebar', $data);
+            $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
             $this->load->view('perawat/pasien/add_data', $data);
             $this->load->view('templates/footer');
@@ -162,19 +154,15 @@ class Pasien extends CI_Controller
         $data['pasien'] = $this->Pasien_model->getById($id);
 
         if ($this->session->userdata('akses') == 1) {
-            $data['admin'] = $this->db->get_where('admin', ['email' =>
-            $this->session->userdata('email')])->row_array();
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/pasien/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/pasien/edit_data', $data);
             $this->load->view('templates/footer');
             $this->session->set_userdata('previous_url', current_url());
         } else if ($this->session->userdata('akses') == 3) {
-            $data['user_perawat'] = $this->db->get_where('perawat', ['email' =>
-            $this->session->userdata('email')])->row_array();
             $this->load->view('templates/header', $data);
-            $this->load->view('perawat/pasien/sidebar', $data);
+            $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
             $this->load->view('perawat/pasien/edit_data', $data);
             $this->load->view('templates/footer');
@@ -235,25 +223,25 @@ class Pasien extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/pasien/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/pasien/detail_rm', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '2') {
             $this->load->view('templates/header', $data);
-            $this->load->view('dokter/pasien/sidebar', $data);
+            $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
             $this->load->view('dokter/pasien/detail_rm', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '3') {
             $this->load->view('templates/header', $data);
-            $this->load->view('perawat/pasien/sidebar', $data);
+            $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
             $this->load->view('perawat/pasien/detail_rm', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/pasien/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/pasien/detail_rm', $data);
             $this->load->view('templates/footer');

@@ -17,19 +17,18 @@ class Ibahan extends CI_Controller
     public function index()
     {
         $this->load->helper('url');
-        $this->load->model('Ibahan_model', 'bahan');
         $data['title'] = 'Data Inventaris Alat dan Bahan';
         $data['bahan'] = $this->Ibahan_model->get_bahan();
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/inventaris_bahan/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/inventaris_bahan/index', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/inventaris_bahan/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/inventaris_bahan/index', $data);
             $this->load->view('templates/footer');
@@ -42,7 +41,6 @@ class Ibahan extends CI_Controller
 
     public function fetch_data()
     {
-        $this->load->model('Ibahan_model');
         $list = $this->Ibahan_model->make_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -85,13 +83,13 @@ class Ibahan extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/inventaris_bahan/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/inventaris_bahan/add_data', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/inventaris_bahan/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/inventaris_bahan/add_data', $data);
             $this->load->view('templates/footer');
@@ -124,13 +122,13 @@ class Ibahan extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/inventaris_bahan/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/inventaris_bahan/edit_data', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/inventaris_bahan/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/inventaris_bahan/edit_data', $data);
             $this->load->view('templates/footer');

@@ -17,18 +17,17 @@ class Bahan extends CI_Controller
     public function index()
     {
         $this->load->helper('url');
-        $this->load->model('Bahan_model', 'bahan');
         $data['title'] = 'Data Alat dan Bahan';
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/bahan/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/bahan/index', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/bahan/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/bahan/index', $data);
             $this->load->view('templates/footer');
@@ -41,7 +40,6 @@ class Bahan extends CI_Controller
 
     public function fetch_data()
     {
-        $this->load->model('Bahan_model');
         $list = $this->Bahan_model->make_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -73,13 +71,13 @@ class Bahan extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/bahan/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/bahan/add_data', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/bahan/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/bahan/add_data', $data);
             $this->load->view('templates/footer');
@@ -109,13 +107,13 @@ class Bahan extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/bahan/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/bahan/edit_data', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/bahan/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/bahan/edit_data', $data);
             $this->load->view('templates/footer');
@@ -142,6 +140,5 @@ class Bahan extends CI_Controller
     {
         $this->Bahan_model->delete_data($id);
         echo json_encode(array("status" => true));
-        // $this->session->set_flashdata('flash', 'dihapus');
     }
 }

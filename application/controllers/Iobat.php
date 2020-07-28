@@ -17,19 +17,18 @@ class Iobat extends CI_Controller
     public function index()
     {
         $this->load->helper('url');
-        $this->load->model('Iobat_model', 'obat');
         $data['title'] = 'Data Inventaris Obat';
         $data['obat'] = $this->Iobat_model->get_obat();
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/inventaris_obat/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/inventaris_obat/index', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/inventaris_obat/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/inventaris_obat/index', $data);
             $this->load->view('templates/footer');
@@ -42,7 +41,6 @@ class Iobat extends CI_Controller
 
     public function fetch_data()
     {
-        $this->load->model('Iobat_model');
         $list = $this->Iobat_model->make_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -80,13 +78,13 @@ class Iobat extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/inventaris_obat/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/inventaris_obat/add_data', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/inventaris_obat/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/inventaris_obat/add_data', $data);
             $this->load->view('templates/footer');
@@ -122,13 +120,13 @@ class Iobat extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/inventaris_obat/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/inventaris_obat/edit_data', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/inventaris_obat/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/inventaris_obat/edit_data', $data);
             $this->load->view('templates/footer');

@@ -17,12 +17,11 @@ class Staff extends CI_Controller
     public function index()
     {
         $this->load->helper('url');
-        $this->load->model('Staf_model', 'staf');
         $data['title'] = 'Data Staf Administrasi';
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/staff/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/staff/index', $data);
             $this->load->view('templates/footer');
@@ -35,7 +34,6 @@ class Staff extends CI_Controller
 
     public function fetch_data()
     {
-        $this->load->model('Staf_model');
         $list = $this->Staf_model->make_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -73,7 +71,7 @@ class Staff extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/staff/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/staff/add_data', $data);
             $this->load->view('templates/footer');
@@ -125,7 +123,7 @@ class Staff extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/staff/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/staff/edit_data', $data);
             $this->load->view('templates/footer');
@@ -179,12 +177,12 @@ class Staff extends CI_Controller
             redirect($previous_url);
         } else {
             $data['title'] = 'Profil Saya';
-            $id = $this->session->userdata('id_staf');
+            $id = $this->session->userdata('id');
 
             $data['staf'] = $this->Staf_model->getById($id);
 
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/profil/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/profil/index', $data);
             $this->load->view('templates/footer');
@@ -199,12 +197,12 @@ class Staff extends CI_Controller
             redirect($previous_url);
         } else {
             $data['title'] = 'Edit Profil';
-            $id = $this->session->userdata('id_staf');
+            $id = $this->session->userdata('id');
 
             $data['staf'] = $this->Staf_model->getById($id);
 
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/edit_profil/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/edit_profil/index', $data);
             $this->load->view('templates/footer');

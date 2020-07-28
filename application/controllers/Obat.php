@@ -17,18 +17,17 @@ class Obat extends CI_Controller
     public function index()
     {
         $this->load->helper('url');
-        $this->load->model('Obat_model', 'obat');
         $data['title'] = 'Data Obat';
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/obat/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/obat/index', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/obat/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/obat/index', $data);
             $this->load->view('templates/footer');
@@ -41,7 +40,6 @@ class Obat extends CI_Controller
 
     public function fetch_data()
     {
-        $this->load->model('Obat_model');
         $list = $this->Obat_model->make_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -77,13 +75,13 @@ class Obat extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/obat/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/obat/add_data', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/obat/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/obat/add_data', $data);
             $this->load->view('templates/footer');
@@ -117,13 +115,13 @@ class Obat extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/obat/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/obat/edit_data', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '4') {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/obat/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/obat/edit_data', $data);
             $this->load->view('templates/footer');

@@ -38,7 +38,7 @@
     <?php endif; ?>
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
+    <h3 class="h3 mb-4 text-gray-800"><?= $title; ?></h3>
 
     <!-- DataTables -->
     <div class="card mb-3">
@@ -47,7 +47,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover table-bordered" id="dataTable" cellspacing="0">
+                <table class="table table-hover table-bordered" id="dataTable" width="100%">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -56,6 +56,7 @@
                             <th>Jenis</th>
                             <th>Ukuran</th>
                             <th>Harga</th>
+                            <th>Stok</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -65,10 +66,9 @@
             </div>
         </div>
     </div>
-
 </div>
+
 <!-- /.container-fluid -->
-<script src="https://cdn.datatables.net/plug-ins/1.10.21/sorting/natural.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
         var dataTable = $('#dataTable').DataTable({
@@ -113,8 +113,12 @@
                     render: $.fn.dataTable.render.number('.')
                 },
                 {
-                    "width": "80px",
+                    "width": "60px",
                     "targets": 6
+                },
+                {
+                    "width": "80px",
+                    "targets": 7
                 },
             ]
         });

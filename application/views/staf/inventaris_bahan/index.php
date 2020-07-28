@@ -38,7 +38,7 @@
     <?php endif; ?>
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
+    <h3 class="h3 mb-4 text-gray-800"><?= $title; ?></h3>
 
     <!-- DataTables -->
     <div class="card mb-3">
@@ -47,7 +47,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-hover table-bordered" id="dataTable" width="100%">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -75,6 +75,7 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
         var dataTable = $('#dataTable').DataTable({
+            "responsive": true,
             "processing": true,
             "serverSide": true,
             "scrollX": true,

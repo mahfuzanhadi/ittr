@@ -23,7 +23,7 @@ class Dokter extends CI_Controller
         $this->session->userdata('email')])->row_array();
 
         $this->load->view('templates/header', $data);
-        $this->load->view('admin/dokter/sidebar', $data);
+        $this->load->view('templates/admin/sidebar', $data);
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/dokter/index', $data);
         $this->load->view('templates/footer');
@@ -75,7 +75,7 @@ class Dokter extends CI_Controller
         $this->session->userdata('email')])->row_array();
 
         $this->load->view('templates/header', $data);
-        $this->load->view('admin/dokter/sidebar', $data);
+        $this->load->view('templates/admin/sidebar', $data);
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/dokter/add_data', $data);
         $this->load->view('templates/footer');
@@ -128,7 +128,7 @@ class Dokter extends CI_Controller
         $this->session->userdata('email')])->row_array();
 
         $this->load->view('templates/header', $data);
-        $this->load->view('admin/dokter/sidebar', $data);
+        $this->load->view('templates/admin/sidebar', $data);
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/dokter/edit_data', $data);
         $this->load->view('templates/footer');
@@ -182,11 +182,12 @@ class Dokter extends CI_Controller
             redirect($previous_url);
         } else {
             $data['title'] = 'Profil Saya';
-            $id = $this->session->userdata('id_dokter');
+            $id = $this->session->userdata('id');
 
             $data['dokter'] = $this->Dokter_model->getById($id);
+
             $this->load->view('templates/header', $data);
-            $this->load->view('dokter/profil/sidebar', $data);
+            $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
             $this->load->view('dokter/profil/index', $data);
             $this->load->view('templates/footer');
@@ -201,14 +202,12 @@ class Dokter extends CI_Controller
             redirect($previous_url);
         } else {
             $data['title'] = 'Edit Profil';
-            $data['dokter'] = $this->db->get_where('dokter', ['email' =>
-            $this->session->userdata('email')])->row_array();
-            $id = $this->session->userdata('id_dokter');
+            $id = $this->session->userdata('id');
 
             $data['dokter'] = $this->Dokter_model->getById($id);
 
             $this->load->view('templates/header', $data);
-            $this->load->view('dokter/edit_profil/sidebar', $data);
+            $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
             $this->load->view('dokter/edit_profil/index', $data);
             $this->load->view('templates/footer');

@@ -20,13 +20,13 @@
 
     <!-- Content Row -->
     <div class="row">
-        <!-- Jumlah Data Rekam Medis -->
+        <!-- Jumlah Data Transaksi -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Rekam Medis</div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Transaksi</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $rekammedis; ?></div>
                         </div>
                         <div class="col-auto">
@@ -154,7 +154,7 @@
                 </div>
                 <div class="card-body">
                     <div class="chart-area">
-                        <canvas id="rekap_pasien_umur" style="display: block; height: 320px; width: 791px;"></canvas>
+                        <canvas id="rekap_pasien_umur" class="canvas_pasien_umur"></canvas>
                     </div>
                 </div>
             </div>
@@ -168,13 +168,9 @@
                 </div>
                 <div class="card-body">
                     <div class="chart-pie pt-4 pb-2">
-                        <canvas id="rekap_pasien_jk" style="display: block; height: 245px; width: 360px;"></canvas>
+                        <canvas id="rekap_pasien_jk" class="canvas_pasien_jk"></canvas>
                     </div>
-                    <div class="mt-4 text-center small">
-                        <span class="mr-2">
-                        </span>
-                        <span class="mr-2">
-                        </span>
+                    <div class="mt-4 text-center small" style="padding-bottom: 20px;">
                     </div>
                 </div>
             </div>
@@ -189,13 +185,12 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Metode Pembayaran</h6>
-                    <!-- <div class="col-md-3" style="padding-bottom: 38px;"></div> -->
                 </div>
                 <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                        <canvas id="rekap_transaksi_metode_pembayaran" style="display: block; height: 245px; width: 360px;"></canvas>
+                    <div class="chart-pie pt-4">
+                        <canvas id="rekap_transaksi_metode_pembayaran" class="canvas_metode_pembayaran"></canvas>
                     </div>
-                    <div class="text-center small">
+                    <div class="text-center small pt-4">
                         <span class="mr-2">
                             <i class="fas fa-circle" style="color:rgba(255, 206, 86, 0.87)"></i> <span style="color:#666">Cash</span>
                         </span>
@@ -209,7 +204,6 @@
                             <i class="fas fa-circle" style="color:rgba(255, 159, 64, 0.87)"></i> <span style="color:#666">Transfer</span>
                         </span>
                     </div>
-                    <div class="mt-4 text-center small"></div>
                 </div>
             </div>
         </div>
@@ -238,8 +232,8 @@
                     <h6 class="m-0 font-weight-bold text-primary">Data Pasien Berdasarkan Riwayat Penyakit</h6>
                 </div>
                 <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                        <canvas id="rekap_pasien_riwayat_penyakit" style="max-width: 500px;"></canvas>
+                    <div class="chart-pie">
+                        <canvas id="rekap_pasien_riwayat_penyakit" class="canvas_riwayat_penyakit"></canvas>
                     </div>
                 </div>
             </div>
@@ -251,8 +245,8 @@
                     <h6 class="m-0 font-weight-bold text-primary">Data Pasien Berdasarkan Alergi Obat</h6>
                 </div>
                 <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                        <canvas id="rekap_pasien_alergi_obat" style="max-width: 500px;"></canvas>
+                    <div class="chart-pie">
+                        <canvas id="rekap_pasien_alergi_obat" class="canvas_alergi_obat"></canvas>
                     </div>
                 </div>
             </div>
@@ -260,18 +254,13 @@
     </div>
 
     <!-- Rekapitulasi Tindakan -->
-    <div class="row">
+    <div class="row" id="card_tindakan">
         <div class="col-xl-12">
             <div class="card shadow mb-4" style="height: 1000px;">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Tindakan</h6>
                 </div>
                 <div class="card-body">
-                    <!-- <div class="text-center small">
-                        <span class="mr-3">
-                            <p id="total_data"></p>
-                        </span>
-                    </div> -->
                     <div class="chart-area">
                         <canvas id="rekap_tindakan" class="canvas_tindakan"></canvas>
                     </div>
@@ -940,7 +929,17 @@
                                 stacked: true,
                                 ticks: {
                                     beginAtZero: true,
-                                    stepValue: 5
+                                    stepValue: 5,
+                                    fontSize: 8
+                                }
+                            }],
+                            xAxes: [{
+                                stacked: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    suggestedMax: 10,
+                                    stepValue: 5,
+                                    fontSize: 8
                                 }
                             }]
                         }

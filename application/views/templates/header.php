@@ -23,16 +23,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.3.1/css/fixedColumns.bootstrap.min.css" />
-    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/smartwizard@4.4.1/dist/css/smart_wizard.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/time.js"></script>
+    <script>
+        $(window).resize(function() {
+            if ($(window).width() <= 800) {
+                $('#page-top').addClass('sidebar-toggled');
+                $('#accordionSidebar').addClass('toggled');
+            } else {
+                $('#page-top').removeClass('sidebar-toggled');
+                $('#accordionSidebar').removeClass('toggled');
+            }
+        });
+    </script>
 
     <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"> -->
     <style>
@@ -74,6 +82,7 @@
             height: 320px !important;
         }
 
+
         .canvas_omzet {
             width: 100% !important;
             height: 320px !important;
@@ -87,6 +96,82 @@
         .canvas_stok_obat {
             width: 100% !important;
             height: 330px !important;
+        }
+
+        .canvas_pasien_jk {
+            display: block;
+            height: 200px !important;
+            width: 100% !important;
+        }
+
+        .canvas_pasien_umur {
+            display: block;
+            height: 320px !important;
+            width: 100% !important;
+        }
+
+        .canvas_metode_pembayaran {
+            display: block;
+            height: 125px !important;
+            width: 100% !important;
+        }
+
+        @media only screen and (max-width: 800px) {
+            .chart-pie {
+                height: 10rem !important;
+            }
+
+            .canvas_kunjungan {
+                display: block;
+                height: 150px !important;
+                width: 100% !important;
+            }
+
+            .canvas_omzet {
+                display: block;
+                height: 150px !important;
+                width: 100% !important;
+            }
+
+            .canvas_pasien_umur {
+                display: block;
+                height: 150px !important;
+                width: 100% !important;
+            }
+
+            .canvas_pasien_jk {
+                display: block;
+                height: 150px !important;
+                width: 100% !important;
+            }
+
+            .canvas_tindakan {
+                display: none;
+                /* height: 50rem !important;
+                width: 100% !important; */
+            }
+
+            #card_tindakan {
+                display: none;
+            }
+
+            .canvas_stok_obat {
+                display: block;
+                height: 130px !important;
+                width: 100% !important;
+            }
+
+            .canvas_riwayat_penyakit {
+                display: block;
+                height: 10rem !important;
+                width: 100% !important;
+            }
+
+            .canvas_alergi_obat {
+                display: block;
+                height: 10rem !important;
+                width: 100% !important;
+            }
         }
 
         .select2-container .select2-selection--single {
@@ -118,7 +203,7 @@
     </style>
 </head>
 
-<body id="page-top" class="sidebar-toggled">
+<body id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">

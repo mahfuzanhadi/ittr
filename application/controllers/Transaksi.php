@@ -17,7 +17,6 @@ class Transaksi extends CI_Controller
     public function index()
     {
         $this->load->helper('url');
-        $this->load->model('Transaksi_model', 'transaksi');
         $data['title'] = 'Data Transaksi';
         $data['pasien'] = $this->Transaksi_model->get_pasien();
         $data['dokter'] = $this->Transaksi_model->get_dokter();
@@ -25,25 +24,25 @@ class Transaksi extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') { //IF USER = ADMINISTRATOR
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/transaksi/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/transaksi/index', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '2') { //IF USER = DOKTER
             $this->load->view('templates/header', $data);
-            $this->load->view('dokter/transaksi/sidebar', $data);
+            $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
             $this->load->view('dokter/transaksi/index', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '3') { //IF USER = PERAWAT
             $this->load->view('templates/header', $data);
-            $this->load->view('perawat/transaksi/sidebar', $data);
+            $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
             $this->load->view('perawat/transaksi/index', $data);
             $this->load->view('templates/footer');
         } else { //IF USER = STAF ADMINISTRASI
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/transaksi/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/transaksi/index', $data);
             $this->load->view('templates/footer');
@@ -155,13 +154,12 @@ class Transaksi extends CI_Controller
     public function add()
     {
         $data['title'] = 'Tambah Data Transaksi';
-        $this->load->model('Transaksi_model');
         $data['dokter'] = $this->Transaksi_model->get_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
 
         if ($this->session->userdata('akses') == 1) { //IF USER = ADMINISTRATOR
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/transaksi/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/transaksi/form_add', $data);
             $this->load->view('templates/footer');
@@ -173,7 +171,7 @@ class Transaksi extends CI_Controller
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == 3) { //IF USER = PERAWAT
             $this->load->view('templates/header', $data);
-            $this->load->view('perawat/transaksi/sidebar', $data);
+            $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
             $this->load->view('perawat/transaksi/form_add', $data);
             $this->load->view('templates/footer');
@@ -310,13 +308,13 @@ class Transaksi extends CI_Controller
 
         if ($this->session->userdata('akses') == 1) {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/transaksi/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/transaksi/form_edit', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == 2) {
             $this->load->view('templates/header', $data);
-            $this->load->view('dokter/transaksi/sidebar', $data);
+            $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
             $this->load->view('dokter/transaksi/form_edit', $data);
             $this->load->view('templates/footer');
@@ -525,13 +523,13 @@ class Transaksi extends CI_Controller
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '3') {
             $this->load->view('templates/header', $data);
-            $this->load->view('perawat/transaksi/sidebar', $data);
+            $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
             $this->load->view('perawat/pasien/detail_rm', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/header', $data);
-            $this->load->view('staf/transaksi/sidebar', $data);
+            $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
             $this->load->view('staf/pasien/detail_rm', $data);
             $this->load->view('templates/footer');

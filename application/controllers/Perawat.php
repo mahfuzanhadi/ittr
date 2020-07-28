@@ -19,13 +19,10 @@ class Perawat extends CI_Controller
     {
         if ($this->session->userdata('akses') == 1) {
             $this->load->helper('url');
-            $this->load->model('Perawat_model', 'perawat');
             $data['title'] = 'Data Perawat';
-            $data['admin'] = $this->db->get_where('admin', ['email' =>
-            $this->session->userdata('email')])->row_array();
 
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/perawat/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/perawat/index', $data);
             $this->load->view('templates/footer');
@@ -37,7 +34,6 @@ class Perawat extends CI_Controller
 
     public function fetch_data()
     {
-        $this->load->model('Perawat_model');
         $list = $this->Perawat_model->make_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -45,12 +41,6 @@ class Perawat extends CI_Controller
         foreach ($list as $perawat) {
             $row = array();
             $no++;
-            // $jk = $perawat->jenis_kelamin;
-            // if ($jk == 1) {
-            //     $jk = "Laki-laki";
-            // } else {
-            //     $jk = "Perempuan";
-            // }
             $row[] = $no;
             $row[] = '<a onclick="detail_data(' . $perawat->id_perawat . ')" >' . $perawat->nama . '</a>';
             $row[] = $perawat->alamat;
@@ -91,11 +81,9 @@ class Perawat extends CI_Controller
     public function add()
     {
         $data['title'] = 'Tambah Data Perawat';
-        $data['admin'] = $this->db->get_where('admin', ['email' =>
-        $this->session->userdata('email')])->row_array();
 
         $this->load->view('templates/header', $data);
-        $this->load->view('admin/perawat/sidebar', $data);
+        $this->load->view('templates/admin/sidebar', $data);
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/perawat/add_data', $data);
         $this->load->view('templates/footer');
@@ -147,7 +135,7 @@ class Perawat extends CI_Controller
         $this->session->userdata('email')])->row_array();
 
         $this->load->view('templates/header', $data);
-        $this->load->view('admin/perawat/sidebar', $data);
+        $this->load->view('templates/admin/sidebar', $data);
         $this->load->view('templates/admin/topbar', $data);
         $this->load->view('admin/perawat/edit_data', $data);
         $this->load->view('templates/footer');
@@ -200,12 +188,12 @@ class Perawat extends CI_Controller
             redirect($previous_url);
         } else {
             $data['title'] = 'Profil Saya';
-            $id = $this->session->userdata('id_perawat');
+            $id = $this->session->userdata('id');
 
             $data['perawat'] = $this->Perawat_model->getById($id);
 
             $this->load->view('templates/header', $data);
-            $this->load->view('perawat/profil/sidebar', $data);
+            $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
             $this->load->view('perawat/profil/index', $data);
             $this->load->view('templates/footer');
@@ -220,12 +208,12 @@ class Perawat extends CI_Controller
             redirect($previous_url);
         } else {
             $data['title'] = 'Edit Profil';
-            $id = $this->session->userdata('id_perawat');
+            $id = $this->session->userdata('id');
 
             $data['perawat'] = $this->Perawat_model->getById($id);
 
             $this->load->view('templates/header', $data);
-            $this->load->view('perawat/edit_profil/sidebar', $data);
+            $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
             $this->load->view('perawat/edit_profil/index', $data);
             $this->load->view('templates/footer');

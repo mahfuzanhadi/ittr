@@ -17,7 +17,7 @@ class Dashboard extends CI_Controller
     {
         $data['title'] = 'Dashboard';
         $this->load->model('Transaksi_model');
-        $data['rekammedis'] = $this->db->count_all_results('transaksi');
+        $data['transaksi'] = $this->db->count_all_results('transaksi');
         $data['pasien'] = $this->db->count_all_results('pasien');
         $data['obat'] = $this->db->count_all_results('obat');
         $data['bahan'] = $this->db->count_all_results('bahan');

@@ -10,34 +10,23 @@ class Transaksi_model extends CI_Model
     }
 
     var $table = 'transaksi';
-    // var $select_column = array('transaksi.id_transaksi as id_transaksi', 'pasien.no_rekam_medis as no_rekam_medis', 'pasien.nama as nama_pasien', 'dokter.nama as nama_dokter', 'perawat.nama as nama_perawat', 'transaksi.tanggal as tanggal', 'transaksi.total_biaya_tindakan as total_biaya_tindakan', 'transaksi.total_biaya_obat as total_biaya_obat', 'transaksi.foto_rontgen as foto_rontgen', 'transaksi.keterangan as keterangan', 'transaksi.jam_mulai as jam_mulai', 'transaksi.jam_selesai as jam_selesai', 'transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan', 'transaksi.metode_pembayaran as metode_pembayaran');
     var $select_column = array('transaksi.id_transaksi as id_transaksi', 'transaksi.metode_pembayaran as metode_pembayaran', 'transaksi.tanggal as tanggal', 'pasien.no_rekam_medis as no_rekam_medis', 'pasien.nama as nama_pasien', 'dokter.nama as nama_dokter', 'transaksi.total_biaya_tindakan as total_biaya_tindakan', 'transaksi.total_biaya_obat as total_biaya_obat', 'transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan');
-    // var $order_column = array(null, 'no_rekam_medis', 'nama_pasien', 'nama_dokter', 'nama_perawat', 'tanggal', 'total_biaya_tindakan', 'total_biaya_obat', null, 'keterangan', 'jam_mulai', 'jam_selesai', 'total_biaya_keseluruhan', 'metode_pembayaran'); //set column field database for datatable orderable
-    var $order_column = array(null, 'metode_pembayaran', 'tanggal', 'no_rekam_medis', 'nama_pasien', 'nama_dokter', 'total_biaya_tindakan', 'total_biaya_obat', 'total_biaya_keseluruhan'); //set column field database for datatable orderable
+    var $order_column = array(null, 'metode_pembayaran', 'tanggal', 'no_rekam_medis', 'nama_pasien', 'nama_dokter', null, null, 'total_biaya_tindakan', 'total_biaya_obat', 'total_biaya_keseluruhan'); //set column field database for datatable orderable
     var $order = array('id_transaksi' => 'desc'); // default order 
 
     public function make_query()
     {
-        // $this->db->select('transaksi.id_transaksi as id_transaksi, transaksi.tanggal as tanggal, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, detail_tindakan.diagnosa as diagnosa, tindakan.nama as tindakan, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan');
         $this->db->select('transaksi.id_transaksi as id_transaksi, transaksi.metode_pembayaran as metode_pembayaran, transaksi.tanggal as tanggal, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan');
         $this->db->from($this->table);
         $this->db->join('pasien', 'pasien.id_pasien = transaksi.id_pasien', 'left');
         $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
-        // $this->db->join('perawat', 'perawat.id_perawat = transaksi.id_perawat', 'left');
-        // $this->db->join('detail_tindakan', 'detail_tindakan.id_transaksi = transaksi.id_transaksi', 'left');
         if (isset($_POST["search"]["value"])) {
             $this->db->like('no_rekam_medis', $_POST["search"]["value"]);
             $this->db->or_like('pasien.nama', $_POST["search"]["value"]);
             $this->db->or_like('dokter.nama', $_POST["search"]["value"]);
             // $this->db->or_like('perawat.nama', $_POST["search"]["value"]);
             $this->db->or_like('tanggal', $_POST["search"]["value"]);
-            // $this->db->or_like('total_biaya_tindakan', $_POST["search"]["value"]);
-            // $this->db->or_like('total_biaya_obat', $_POST["search"]["value"]);
-            // $this->db->or_like('keterangan', $_POST["search"]["value"]);
-            // $this->db->or_like('jam_mulai', $_POST["search"]["value"]);
-            // $this->db->or_like('jam_selesai', $_POST["search"]["value"]);
             $this->db->or_like('total_biaya_keseluruhan', $_POST["search"]["value"]);
-            // $this->db->or_like('metode_pembayaran', $_POST["search"]["value"]);
         }
         if (isset($_POST["order"])) {
             $this->db->order_by($this->order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -65,13 +54,10 @@ class Transaksi_model extends CI_Model
 
     public function get_all_data()
     {
-        // $this->db->select('transaksi.id_transaksi as id_transaksi, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, perawat.nama as nama_perawat, transaksi.tanggal as tanggal, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.foto_rontgen as foto_rontgen, transaksi.keterangan as keterangan, transaksi.jam_mulai as jam_mulai, transaksi.jam_selesai as jam_selesai, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan, transaksi.metode_pembayaran as metode_pembayaran');
-        // $this->db->select('transaksi.id_transaksi as id_transaksi, transaksi.tanggal as tanggal, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, detail_tindakan.diagnosa as diagnosa, tindakan.nama as tindakan, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan');
         $this->db->select('transaksi.id_transaksi as id_transaksi, transaksi.metode_pembayaran as metode_pembayaran, transaksi.tanggal as tanggal, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan');
         $this->db->from($this->table);
         $this->db->join('pasien', 'pasien.id_pasien = transaksi.id_pasien', 'left');
         $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
-        // $this->db->join('perawat', 'perawat.id_perawat = transaksi.id_perawat', 'left');
         $this->db->join('detail_tindakan', 'detail_tindakan.id_transaksi = transaksi.id_transaksi', 'left');
         return $this->db->count_all_results();
     }
@@ -90,20 +76,18 @@ class Transaksi_model extends CI_Model
 
     public function getById($id)
     {
-        //SELECT * FROM transaksi WHERE id_transaksi = $id
-        //mengembalikan sebuah objek
         return $this->db->get_where('transaksi', ["id_transaksi" => $id])->row_array();
     }
 
-    public function getDetailTindakan($id)
-    {
-        return $this->db->get_where('detail_tindakan', ["id_transaksi" => $id])->result_array();
-    }
+    // public function getDetailTindakan($id)
+    // {
+    //     return $this->db->get_where('detail_tindakan', ["id_transaksi" => $id])->result_array();
+    // }
 
-    public function getDetailObat($id)
-    {
-        return $this->db->get_where('detail_biaya_obat', ["id_transaksi" => $id])->result_array();
-    }
+    // public function getDetailObat($id)
+    // {
+    //     return $this->db->get_where('detail_biaya_obat', ["id_transaksi" => $id])->result_array();
+    // }
 
     public function add_data($data)
     {
@@ -517,7 +501,7 @@ class Transaksi_model extends CI_Model
 
     public function get_detail_tindakan()
     {
-        return $this->db->query('SELECT * FROM detail_tindakan')->result();
+        return $this->db->query('SELECT * FROM detail_tindakan ORDER BY id_transaksi DESC')->result();
     }
 
     public function get_detail_biaya_obat()
@@ -530,6 +514,7 @@ class Transaksi_model extends CI_Model
         $this->db->select('*');
         $this->db->from('detail_tindakan');
         $this->db->where('id_transaksi', $id);
+        $this->db->order_by('id_transaksi', 'DESC');
         return $this->db->get()->result();
     }
 
@@ -538,6 +523,7 @@ class Transaksi_model extends CI_Model
         $this->db->select('*');
         $this->db->from('detail_biaya_obat');
         $this->db->where('id_transaksi', $id);
+        $this->db->order_by('id_transaksi', 'DESC');
         return $this->db->get()->result();
     }
 }

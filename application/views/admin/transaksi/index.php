@@ -145,6 +145,8 @@
                             <th>No. RM</th>
                             <th>Nama Pasien</th>
                             <th>Dokter</th>
+                            <th>Diagnosa</th>
+                            <th>Tindakan</th>
                             <th>Total Biaya Tindakan</th>
                             <th>Total Biaya Obat</th>
                             <th>Total Biaya Keseluruhan</th>
@@ -235,6 +237,9 @@
             "scrollX": true,
             "scrollY": "400px",
             "scrollCollapse": true,
+            "language": {
+                "infoFiltered": ""
+            },
             // fixedColumns: {
             //     leftColumns: 1,
             //     heightMatch: 'auto'
@@ -246,7 +251,7 @@
                 type: "POST"
             },
             "columnDefs": [{
-                    "targets": [0, 9],
+                    "targets": [0, 6, 7, 11],
                     "orderable": false
                 },
                 {
@@ -267,7 +272,7 @@
                     "targets": 3
                 },
                 {
-                    "width": "180px",
+                    "width": "160px",
                     "targets": 4
                 },
                 {
@@ -275,23 +280,31 @@
                     "targets": 5
                 },
                 {
-                    "width": "90px",
-                    "targets": 6,
-                    "render": $.fn.dataTable.render.number('.')
+                    "width": "160px",
+                    "targets": 6
+                },
+                {
+                    "width": "180px",
+                    "targets": 7
                 },
                 {
                     "width": "80px",
-                    "targets": 7,
-                    "render": $.fn.dataTable.render.number('.')
-                },
-                {
-                    "width": "100px",
                     "targets": 8,
                     "render": $.fn.dataTable.render.number('.')
                 },
                 {
+                    "width": "80px",
+                    "targets": 9,
+                    "render": $.fn.dataTable.render.number('.')
+                },
+                {
+                    "width": "90px",
+                    "targets": 10,
+                    "render": $.fn.dataTable.render.number('.')
+                },
+                {
                     "width": "75px",
-                    "targets": 9
+                    "targets": 11
                 },
                 // {
                 //     "width": "90px",

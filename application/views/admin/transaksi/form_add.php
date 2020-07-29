@@ -194,7 +194,7 @@
 <script src="<?php echo base_url('assets/js/datepicker.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/transaksi-form-val.js') ?>"></script>
 
-<!-- SCRIPT AMBIL DATA BIAYA TINDAKAN -->
+<!-- SCRIPT UBAH ANGKA MENJADI BERKOMA -->
 <script>
     $('#biaya').on('input', function() {
         var number, s_number, f_number;

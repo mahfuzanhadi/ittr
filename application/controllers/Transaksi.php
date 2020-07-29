@@ -53,14 +53,14 @@ class Transaksi extends CI_Controller
     // fetch transaksi/rekam medis data
     public function fetch_data()
     {
-        $this->load->model('Transaksi_model');
         $list = $this->Transaksi_model->make_datatables();
         $data = array();
         $no = $_POST['start'];
 
-
         foreach ($list as $transaksi) {
             $row = array();
+            $diagnosa = array();
+            $nama_tindakan = array();
             $no++;
             // $base = base_url('uploads/rontgen/' . $transaksi->foto_rontgen);
             $metode_pembayaran = $transaksi->metode_pembayaran;
@@ -71,21 +71,40 @@ class Transaksi extends CI_Controller
                 $color = "#008000";
                 $metode_pembayaran = "L";
             }
+
             setlocale(LC_ALL, 'id-ID', 'id_ID');
             $tanggal = strftime("%d %B %Y", strtotime($transaksi->tanggal));
+
+            $detail_tindakan = $this->Transaksi_model->get_transaksi_tindakan($transaksi->id_transaksi);
+            $tindakan = $this->Transaksi_model->get_tindakan();
 
             if ($this->session->userdata('akses') == '1' || $this->session->userdata('akses') == '2') { //IF USER = ADMINISTRATOR
                 $row[] = $no;
                 $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $metode_pembayaran . '</a>';
-                $row[] = '<a style="color:#007bff; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $tanggal . '</a>';
+                $row[] = '<a href="transaksi/detail_transaksi/' . $transaksi->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
                 $row[] = '<a href="transaksi/rekam_medis/' . $transaksi->no_rekam_medis . '" style="color:#007bff; cursor: pointer">' . $transaksi->no_rekam_medis . '</a>';
                 $row[] = $transaksi->nama_pasien;
                 $row[] = $transaksi->nama_dokter;
+                foreach ($detail_tindakan as $dt) {
+                    if ($dt->diagnosa != '') {
+                        $diagnosa[] = ' ' . $dt->diagnosa;
+                    }
+                    foreach ($tindakan as $t) {
+                        if ($t->id_tindakan == $dt->id_tindakan) {
+                            $nama_tindakan[] = ' ' . $t->nama;
+                        }
+                    }
+                }
+                foreach ($diagnosa as $key => $value) {
+                    if (empty($value)) {
+                        unset($diagnosa[$key]);
+                    }
+                }
+                $row[] = $diagnosa;
+                $row[] = $nama_tindakan;
                 $row[] = $transaksi->total_biaya_tindakan;
                 $row[] = $transaksi->total_biaya_obat;
                 // $row[] = '<img width="64px" height="64px" src="' . $base . '"/>';
-                // $row[] = $transaksi->jam_mulai;
-                // $row[] = $transaksi->jam_selesai;
                 $row[] = $transaksi->total_biaya_keseluruhan;
                 $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $transaksi->id_transaksi . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
                 $data[] = $row;
@@ -218,7 +237,7 @@ class Transaksi extends CI_Controller
                 'total_biaya_tindakan' => $this->input->post('total_biaya_tindakan'),
                 'total_biaya_obat' => $this->input->post('total_biaya_obat'),
                 'foto_rontgen' => $foto,
-                'keterangan' => $this->input->post('keterangan'),
+                'keterangan' => nl2br($this->input->post('keterangan')),
                 'jam_mulai' => $this->input->post('jam_mulai'),
                 'jam_selesai' => $jam_selesai,
                 'total_biaya_keseluruhan' => $this->input->post('total_biaya_keseluruhan'),
@@ -280,19 +299,7 @@ class Transaksi extends CI_Controller
         }
     }
 
-    // Function to check if no_rekam_medis already exist
-    public function isExist()
-    {
-        $no_rekam_medis = $this->input->post('no_rekam_medis');
-        $id_pasien = $this->Transaksi_model->get_id_pasien($no_rekam_medis);
-        if (!$id_pasien) {
-            echo "Nomor Rekam Medis tidak ditemukan";
-        } else {
-            echo "";
-        }
-    }
-
-    // Function to edit data transaksi
+    // Function to show data for edit data transaksi
     public function edit($id)
     {
         $data['title'] = 'Edit Data Transaksi';
@@ -329,8 +336,6 @@ class Transaksi extends CI_Controller
     public function update()
     {
         $this->load->model('Transaksi_model');
-        $this->load->model('Dtindakan_model');
-        $this->load->model('Dobat_model');
         $no_rekam_medis = $this->input->post('no_rekam_medis');
         if (isset($no_rekam_medis)) {
             $id_pasien = $this->Transaksi_model->get_id_pasien($no_rekam_medis);
@@ -357,6 +362,9 @@ class Transaksi extends CI_Controller
             } else {
                 $metode_pembayaran = $this->input->post('metode_pembayaran');
             }
+
+            $added_by = $this->session->userdata('nama');
+
             $data = [
                 'id_transaksi' => $this->input->post('id_transaksi'),
                 'id_pasien' => $id_pasien,
@@ -371,118 +379,69 @@ class Transaksi extends CI_Controller
                 'jam_selesai' => $this->input->post('jam_selesai'),
                 'total_biaya_keseluruhan' => $this->input->post('total_biaya_keseluruhan'),
                 'metode_pembayaran' => $metode_pembayaran,
+                'added_by' => $added_by
             ];
 
             $this->Transaksi_model->edit_data(array('id_transaksi' => $this->input->post('id_transaksi')), $data);
 
             //UPDATE DETAIL TINDAKAN
-            $data = [
-                'id_detail_tindakan' => $this->input->post('id_detail_tindakan1'),
-                'id_transaksi' => $this->input->post('id_transaksi'),
-                'id_tindakan' => $this->input->post('tindakan'),
-                'biaya_tindakan' => $this->input->post('biaya')
-            ];
-            $this->Dtindakan_model->edit_data(array('id_detail_tindakan' => $this->input->post('id_detail_tindakan1')), $data);
-
-            $tindakan2 = $this->input->post('tindakan2');
-            $id_detail_tindakan2 = $this->input->post('id_detail_tindakan2');
-            if ($id_detail_tindakan2 != '') {
-                $data2 = [
-                    'id_detail_tindakan' => $this->input->post('id_detail_tindakan2'),
-                    'id_transaksi' => $this->input->post('id_transaksi'),
-                    'id_tindakan' => $this->input->post('tindakan2'),
-                    'biaya_tindakan' => $this->input->post('biaya2')
-                ];
-                $this->Dtindakan_model->edit_data(array('id_detail_tindakan' => $this->input->post('id_detail_tindakan2')), $data2);
-                $this->Dtindakan_model->edit_total_biaya_tindakan($this->input->post('id_transaksi'));
-            } else if ($id_detail_tindakan2 == '' && $tindakan2 != '') {
-                $data2 = [
-                    'id_detail_tindakan' => $this->input->post('id_detail_tindakan2'),
-                    'id_transaksi' => $this->input->post('id_transaksi'),
-                    'id_tindakan' => $this->input->post('tindakan2'),
-                    'biaya_tindakan' => $this->input->post('biaya2')
-                ];
-                $this->Dtindakan_model->add_data($data2);
-                $this->Dtindakan_model->edit_total_biaya_tindakan($this->input->post('id_transaksi'));
-            } else if ($id_detail_tindakan2 == '' && $tindakan2 == '') {
-                $this->Dtindakan_model->edit_total_biaya_tindakan($this->input->post('id_transaksi'));
-            } else {
-                $this->Dtindakan_model->edit_total_biaya_tindakan($this->input->post('id_transaksi'));
+            $id_detail_tindakan = $this->input->post('id_detail_tindakan');
+            $tindakan = $this->input->post('tindakan');
+            $diagnosa = $this->input->post('diagnosa');
+            $biaya_tindakan = $this->input->post('biaya');
+            if ($tindakan != '') {
+                foreach ($tindakan as $key => $value) {
+                    $data = [
+                        'id_detail_tindakan' => $id_detail_tindakan[$key],
+                        'id_transaksi' => $this->input->post('id_transaksi'),
+                        'id_tindakan' => $value,
+                        'diagnosa' => $diagnosa[$key],
+                        'biaya_tindakan' => $biaya_tindakan[$key]
+                    ];
+                    $this->Transaksi_model->edit_data_detail_tindakan(array('id_detail_tindakan' => $id_detail_tindakan[$key]), $data);
+                }
+                $this->Transaksi_model->edit_total_biaya_tindakan($this->input->post('id_transaksi'));
             }
 
-            //UPDATE DETAIL BIAYA OBAT
-            $biaya_obat = $this->input->post('harga');
-            $jumlah_obat = $this->input->post('jumlah');
-            $total_biaya_obat = $biaya_obat * $jumlah_obat;
-            $data = [
-                'id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat1'),
-                'id_transaksi' => $this->input->post('id_transaksi'),
-                'id_obat' => $this->input->post('obat'),
-                'dosis' => $this->input->post('dosis'),
-                'jumlah_obat' => $this->input->post('jumlah'),
-                'biaya_obat' => $total_biaya_obat
-            ];
-
+            //UPDATE DATA DETAIL OBAT
+            $id_detail_biaya_obat = $this->input->post('id_detail_biaya_obat');
+            $obat = $this->input->post('obat');
+            $dosis = $this->input->post('dosis');
+            $harga = $this->input->post('harga');
             $jumlah = $this->input->post('jumlah');
-            $id_detail_biaya_obat = $this->input->post('id_detail_biaya_obat1');
-            $id_obat = $this->input->post('obat');
 
-            $this->Dobat_model->update_stok($jumlah, $id_obat, $id_detail_biaya_obat); //fungsi update stok pada tabel obat
-            $this->Dobat_model->edit_data(array('id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat1')), $data);
+            if ($obat != '') {
+                foreach ($obat as $key => $value) {
+                    $total_biaya_obat = $harga[$key] * $jumlah[$key];
+                    $data = [
+                        'id_detail_biaya_obat' => $id_detail_biaya_obat[$key],
+                        'id_transaksi' => $this->input->post('id_transaksi'),
+                        'id_obat' => $value,
+                        'dosis' => $dosis[$key],
+                        'jumlah_obat' => $jumlah[$key],
+                        'biaya_obat' => $total_biaya_obat
+                    ];
 
-            $obat2 = $this->input->post('obat2');
-            $id_detail_biaya_obat2 = $this->input->post('id_detail_biaya_obat2');
-            if ($id_detail_biaya_obat2 != '') {
-                $biaya_obat2 = $this->input->post('harga2');
-                $jumlah_obat2 = $this->input->post('jumlah2');
-                $total_biaya_obat2 = $biaya_obat2 * $jumlah_obat2;
-                $data2 = [
-                    'id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat2'),
-                    'id_transaksi' => $this->input->post('id_transaksi'),
-                    'id_obat' => $this->input->post('obat2'),
-                    'dosis' => $this->input->post('dosis2'),
-                    'jumlah_obat' => $this->input->post('jumlah2'),
-                    'biaya_obat' => $total_biaya_obat2
-                ];
-
-                $jumlah2 = $this->input->post('jumlah2');
-                $id_detail_biaya_obat2 = $this->input->post('id_detail_biaya_obat2');
-                $id_obat2 = $this->input->post('obat2');
-
-                $this->Dobat_model->update_stok($jumlah2, $id_obat2, $id_detail_biaya_obat2); //fungsi update stok pada tabel obat
-                $this->Dobat_model->edit_data(array('id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat2')), $data2);
-                $this->Dobat_model->edit_total_biaya_obat($this->input->post('id_transaksi'));
-                $this->Dobat_model->edit_total_biaya_keseluruhan($this->input->post('id_transaksi'));
-
-                $this->session->set_flashdata('flash', 'diubah');
-                redirect('transaksi');
-            } else if ($id_detail_biaya_obat2 == '' && $obat2 != '') {
-                $biaya_obat2 = $this->input->post('harga2');
-                $jumlah_obat2 = $this->input->post('jumlah2');
-                $total_biaya_obat2 = $biaya_obat2 * $jumlah_obat2;
-                $data2 = [
-                    'id_detail_biaya_obat' => $this->input->post('id_detail_biaya_obat'),
-                    'id_transaksi' => $this->input->post('id_transaksi'),
-                    'id_obat' => $this->input->post('obat2'),
-                    'dosis' => $this->input->post('dosis2'),
-                    'jumlah_obat' => $this->input->post('jumlah2'),
-                    'biaya_obat' => $total_biaya_obat2
-                ];
-                $this->Dobat_model->kurangi_stok($this->input->post('jumlah2'), $this->input->post('obat2')); //fungsi update stok pada tabel obat
-                $this->Dobat_model->add_data($data2);
-                $this->Dobat_model->total_biaya_obat();
-                $this->Dobat_model->total_biaya_keseluruhan();
-            } else if ($id_detail_biaya_obat2 == '' && $obat2 == '') {
-                $this->Dobat_model->edit_total_biaya_obat($this->input->post('id_transaksi'));
-                $this->Dobat_model->edit_total_biaya_keseluruhan($this->input->post('id_transaksi'));
-                $this->session->set_flashdata('flash', 'diubah');
-                redirect('transaksi');
-            } else {
-                $this->Dobat_model->edit_total_biaya_obat($this->input->post('id_transaksi'));
-                $this->Dobat_model->edit_total_biaya_keseluruhan($this->input->post('id_transaksi'));
-                $this->session->set_flashdata('flash', 'diubah');
-                redirect('transaksi');
+                    $this->Transaksi_model->update_stok($jumlah[$key], $value, $id_detail_biaya_obat[$key]); //fungsi update stok pada tabel obat
+                    $this->Transaksi_model->edit_data_biaya_obat(array('id_detail_biaya_obat' => $id_detail_biaya_obat[$key]), $data);
+                }
+                $this->Transaksi_model->edit_total_biaya_obat($this->input->post('id_transaksi'));
+                $this->Transaksi_model->edit_total_biaya_keseluruhan($this->input->post('id_transaksi'));
             }
+            $this->session->set_flashdata('flash', 'diubah');
+            redirect('transaksi');
+        }
+    }
+
+    // Function to check if no_rekam_medis already exist
+    public function isExist()
+    {
+        $no_rekam_medis = $this->input->post('no_rekam_medis');
+        $id_pasien = $this->Transaksi_model->get_id_pasien($no_rekam_medis);
+        if (!$id_pasien) {
+            echo "Nomor Rekam Medis tidak ditemukan";
+        } else {
+            echo "";
         }
     }
 
@@ -493,11 +452,53 @@ class Transaksi extends CI_Controller
         echo json_encode($data);
     }
 
+    // Function tampilkan data transaksi by id_transaksi
+    public function detail_transaksi($id)
+    {
+        $this->load->model('Pasien_model');
+        $data['title'] = 'Detail Transaksi';
+
+        $data['transaksi'] = $this->Transaksi_model->getById($id);
+        $data['pasien'] = $this->Transaksi_model->get_pasien();
+        $data['dokter'] = $this->Transaksi_model->get_dokter();
+        $data['perawat'] = $this->Transaksi_model->get_perawat();
+        $data['detail_tindakan'] = $this->Transaksi_model->get_detail_tindakan();
+        $data['tindakan'] = $this->Transaksi_model->get_tindakan();
+        $data['detail_obat'] = $this->Transaksi_model->get_detail_biaya_obat();
+        $data['obat'] = $this->Transaksi_model->get_obat();
+
+        if ($this->session->userdata('akses') == '1') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/admin/sidebar', $data);
+            $this->load->view('templates/admin/topbar', $data);
+            $this->load->view('admin/transaksi/detail_transaksi', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '2') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/dokter/sidebar', $data);
+            $this->load->view('templates/dokter/topbar', $data);
+            $this->load->view('dokter/pasien/detail_rm', $data);
+            $this->load->view('templates/footer');
+        } else if ($this->session->userdata('akses') == '3') {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/perawat/sidebar', $data);
+            $this->load->view('templates/perawat/topbar', $data);
+            $this->load->view('perawat/pasien/detail_rm', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/staf/sidebar', $data);
+            $this->load->view('templates/staf/topbar', $data);
+            $this->load->view('staf/pasien/detail_rm', $data);
+            $this->load->view('templates/footer');
+        }
+    }
+
     // Function tampilkan seluruh data rekam medis pasien by no_rekam_medis
     public function rekam_medis($no_rekam_medis)
     {
         $this->load->model('Pasien_model');
-        $data['title'] = 'Detail Data Rekam Medis';
+        $data['title'] = 'Data Rekam Medis';
         $id = $this->Transaksi_model->get_id_pasien($no_rekam_medis);
 
         $data['pasien'] = $this->Pasien_model->getById($id);
@@ -511,13 +512,13 @@ class Transaksi extends CI_Controller
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
-            $this->load->view('admin/transaksi/sidebar', $data);
+            $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
             $this->load->view('admin/pasien/detail_rm', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '2') {
             $this->load->view('templates/header', $data);
-            $this->load->view('dokter/transaksi/sidebar', $data);
+            $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
             $this->load->view('dokter/pasien/detail_rm', $data);
             $this->load->view('templates/footer');

@@ -35,6 +35,7 @@
                                 <input type="hidden" name="total_biaya_tindakan" value="0">
                                 <input type="hidden" name="total_biaya_obat" value="0">
                                 <input type="hidden" name="total_biaya_keseluruhan" value="0">
+                                <input type="hidden" name="metode_pembayaran" value="">
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="no_rekam_medis">No. Rekam Medis <font color="red">*</font></label>
@@ -44,7 +45,7 @@
                                     <div class="form-group col-sm-3">
                                         <label for="dokter">Dokter <font color="red">*</font></label>
                                         <select class="form-control form-control-sm" name="dokter" id="dokter">
-                                            <option value="">Pilih Dokter</option>
+                                            <option value="" hidden>Pilih Dokter</option>
                                             <?php
                                             foreach ($dokter as $row) {
                                                 echo '<option value="' . $row->id_dokter . '" ' . set_select('dokter', $row->id_dokter) . '> ' . $row->nama . ' </option>';
@@ -57,7 +58,7 @@
                                     <div class="form-group col-sm-3">
                                         <label for="perawat">Perawat <font color="red">*</font></label>
                                         <select class="form-control form-control-sm" name="perawat" id="perawat">
-                                            <option value="">Pilih Perawat</option>
+                                            <option value="" hidden>Pilih Perawat</option>
                                             <?php
                                             foreach ($perawat as $row) {
                                                 echo '<option value="' . $row->id_perawat . '" ' . set_select('perawat', $row->id_perawat) . '> ' . $row->nama . ' </option>';
@@ -83,16 +84,6 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-sm-3">
-                                        <label for="metode_pembayaran">Metode Pembayaran</label>
-                                        <select class="form-control  form-control-sm" id="metode_pembayaran" name="metode_pembayaran">
-                                            <option value="">Pilih Metode Pembayaran</option>
-                                            <option value="1" <?= set_select('metode_pembayaran', '1'); ?>>Cash</option>
-                                            <option value="2" <?= set_select('metode_pembayaran', '2'); ?>>Kredit</option>
-                                            <option value="3" <?= set_select('metode_pembayaran', '3'); ?>>Debit</option>
-                                            <option value="4" <?= set_select('metode_pembayaran', '4'); ?>>Transfer</option>
-                                        </select>
-                                    </div>
                                     <div class="form-group col-sm-3">
                                         <label for="foto_rontgen">Foto Rontgen</label>
                                         <input class="form-control-file" type="file" name="foto_rontgen" id="foto_rontgen" />
@@ -192,58 +183,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <script src="<?php echo base_url('assets/js/is-number.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/datepicker.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/transaksi-form-val.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/dynamic-input-tindakan.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/dynamic-input-obat.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/transaksi-formval.js') ?>"></script>
 
-<!-- SCRIPT AMBIL DATA BIAYA TINDAKAN -->
+<!-- SCRIPT UBAH ANGKA MENJADI BERKOMA -->
 <script>
     $('#biaya').on('input', function() {
-
         var number, s_number, f_number;
 
         number = $('#biaya').val();
         s_number = number.replace(/,/g, '');
         f_number = formatNumber(s_number);
 
-        console.info(f_number);
         $('#biaya').val(f_number);
     });
 
-    $('#biaya2').on('input', function() {
-
-        var number, s_number, f_number;
-
-        number = $('#biaya2').val();
-        s_number = number.replace(/,/g, '');
-        f_number = formatNumber(s_number);
-
-        console.info(f_number);
-        $('#biaya2').val(f_number);
-    });
-
     $('#harga').on('input', function() {
-
         var number, s_number, f_number;
 
         number = $('#harga').val();
         s_number = number.replace(/,/g, '');
         f_number = formatNumber(s_number);
 
-        console.info(f_number);
         $('#harga').val(f_number);
-    });
-
-    $('#harga2').on('input', function() {
-
-        var number, s_number, f_number;
-
-        number = $('#harga2').val();
-        s_number = number.replace(/,/g, '');
-        f_number = formatNumber(s_number);
-
-        console.info(f_number);
-        $('#harga2').val(f_number);
     });
 
     function formatNumber(num) {
@@ -258,7 +219,7 @@
             var no_rekam_medis = $('#no_rekam_medis').val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo base_url() ?>transaksi/isExist",
+                url: "<?= base_url() ?>transaksi/isExist",
                 data: "no_rekam_medis=" + no_rekam_medis,
                 success: function(response) {
                     if (response != '') {
@@ -326,25 +287,6 @@
             });
             return false;
         });
-        $('#tindakan2').change(function() {
-            var id = $(this).val();
-            $.ajax({
-                url: "<?php echo site_url('transaksi/get_biaya'); ?>",
-                method: "POST",
-                data: {
-                    id: id
-                },
-                async: true,
-                dataType: 'JSON',
-                success: function(data) {
-                    var html = data;
-                    hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-                    $('#biaya2').val(hasil);
-
-                }
-            });
-            return false;
-        });
     });
 </script>
 
@@ -397,6 +339,558 @@
             });
             return false;
         });
+    });
+</script>
+
+<!-- SCRIPT DYNAMIC FIELDS DETAIL TINDAKAN -->
+<script>
+    $(document).ready(function() {
+        var max_fields = 6; //maximum input boxes allowed
+        var wrapper = $(".input_fields_wrap"); //Fields wrapper
+        var add_button = $(".add_button"); //Add button ID
+        var x = 1; //initlal text box count
+        // var field_html = ;
+
+        $(add_button).click(function(e) { //on add input button click
+            e.preventDefault();
+            if (x < max_fields) { //max input box allowed
+                x++; //text box increment
+                $(wrapper).append('<div class="row' + x + '"><div class="form-row"><div class="form-group col-sm-3"><label>Diagnosa</label><input class="form-control form-control-sm" type="text" name="diagnosa[]" id="diagnosa' + x + '" placeholder="Diagnosa" /><span id="error_diagnosa" class="text-danger"></span></div><div class="form-group col-sm-4"><label for="tindakan">Tindakan</label><select class="itemName js-states form-control" name="tindakan[]" id="tindakan' + x + '"></select><span id="error_tindakan" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Biaya</label><input class="form-control form-control-sm" type="text" name="biaya[]" id="biaya' + x + '" placeholder="Biaya" onkeypress="javascript:return isNumber(event)" /><span id="error_biaya" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field btn btn-danger btn-sm form-control form-control-sm" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
+            }
+
+            $("#tindakan2").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#tindakan2').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+
+                        $('#biaya2').val(hasil);
+                    }
+                });
+                return false;
+            });
+            $('#biaya2').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#biaya2').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#biaya2').val(f_number);
+            });
+
+            $("#tindakan3").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#tindakan3').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+
+                        $('#biaya3').val(hasil);
+                    }
+                });
+                return false;
+            });
+            $('#biaya3').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#biaya3').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#biaya3').val(f_number);
+            });
+
+            $("#tindakan4").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#tindakan4').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+
+                        $('#biaya4').val(hasil);
+                    }
+                });
+                return false;
+            });
+            $('#biaya4').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#biaya4').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#biaya4').val(f_number);
+            });
+
+            $("#tindakan5").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#tindakan5').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+
+                        $('#biaya5').val(hasil);
+                    }
+                });
+                return false;
+            });
+            $('#biaya5').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#biaya5').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#biaya5').val(f_number);
+            });
+
+            $("#tindakan6").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#tindakan6').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+
+                        $('#biaya6').val(hasil);
+                    }
+                });
+                $('#biaya6').on('input', function() {
+                    var number, s_number, f_number;
+
+                    number = $('#biaya6').val();
+                    s_number = number.replace(/,/g, '');
+                    f_number = formatNumber(s_number);
+
+                    $('#biaya6').val(f_number);
+                });
+                return false;
+            });
+        });
+
+        $(wrapper).on("click", ".remove_field", function(e) { //user click on remove text
+            e.preventDefault();
+            var button_id = $(this).attr("id"); //ambil id button remove
+            $('.row' + button_id + '').remove(); //remove row
+            x--;
+        })
+    });
+</script>
+
+<!-- SCRIPT DYNAMIC FIELDS DETAIL OBAT -->
+<script>
+    $(document).ready(function() {
+        var max_fields = 6; //maximum input boxes allowed
+        var wrapper = $(".input_fields_wrap2"); //Fields wrapper
+        var add_button = $(".add_button2"); //Add button ID
+        var x = 1; //initlal text box count
+        // var field_html = ;
+
+        $(add_button).click(function(e) { //on add input button click
+            e.preventDefault();
+            if (x < max_fields) { //max input box allowed
+                x++; //text box increment
+                $(wrapper).append('<div class="row2' + x + '"><div class="form-row"><div class="form-group col-sm-4"><label for="obat">Obat</label><select class="itemName js-states form-control" name="obat[]" id="obat' + x + '"></select><span id="error_obat" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Harga</label><input class="form-control form-control-sm" type="text" name="harga[]" id="harga' + x + '" placeholder="Harga" onkeypress="javascript:return isNumber(event)" /><span id="error_harga" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Dosis</label><input class="form-control form-control-sm" type="text" name="dosis[]" id="dosis' + x + '" placeholder="Dosis" /> <span id="error_dosis" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Jumlah Obat</label><input class="form-control form-control-sm" type="text" name="jumlah[]" id="jumlah' + x + '" placeholder="Jumlah Obat" /><span id="error_jumlah" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field2 btn btn-danger btn-sm form-control form-control-sm" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
+            }
+
+            $("#obat2").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_obat',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#obat2').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_harga'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                        $('#harga2').val(hasil);
+
+                    }
+                });
+                return false;
+            });
+            $('#harga2').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#harga2').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#harga2').val(f_number);
+            });
+
+            $("#obat3").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_obat',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#obat3').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_harga'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                        $('#harga3').val(hasil);
+
+                    }
+                });
+                return false;
+            });
+            $('#harga3').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#harga3').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#harga3').val(f_number);
+            });
+
+            $("#obat4").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_obat',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#obat4').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_harga'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                        $('#harga4').val(hasil);
+
+                    }
+                });
+                return false;
+            });
+            $('#harga4').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#harga4').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#harga4').val(f_number);
+            });
+
+            $("#obat5").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_obat',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#obat5').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_harga'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                        $('#harga5').val(hasil);
+
+                    }
+                });
+                return false;
+            });
+            $('#harga5').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#harga5').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#harga5').val(f_number);
+            });
+
+            $("#obat6").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_obat',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#obat6').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_harga'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                        $('#harga6').val(hasil);
+
+                    }
+                });
+                return false;
+            });
+            $('#harga6').on('input', function() {
+                var number, s_number, f_number;
+
+                number = $('#harga6').val();
+                s_number = number.replace(/,/g, '');
+                f_number = formatNumber(s_number);
+
+                $('#harga6').val(f_number);
+            });
+        });
+
+        $(wrapper).on("click", ".remove_field2", function(e) { //user click on remove text
+            e.preventDefault();
+            var button_id = $(this).attr("id"); //ambil id button remove
+            $('.row2' + button_id + '').remove(); //remove row
+            x--;
+        })
     });
 </script>
 

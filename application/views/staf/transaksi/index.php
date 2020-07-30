@@ -166,7 +166,7 @@
             <form method="post" id="myForm" action="<?= base_url('transaksi/update_transaksi'); ?>">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Detail Data Transaksi</h4>
+                        <h4 class="modal-title">Detail Biaya Data Transaksi</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">

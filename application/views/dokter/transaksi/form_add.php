@@ -54,7 +54,7 @@
                                     <div class="form-group col-sm-3">
                                         <label for="perawat">Perawat <font color="red">*</font></label>
                                         <select class="form-control form-control-sm" name="perawat" id="perawat">
-                                            <option value="">Pilih Perawat</option>
+                                            <option value="" hidden>Pilih Perawat</option>
                                             <?php
                                             foreach ($perawat as $row) {
                                                 echo '<option value="' . $row->id_perawat . '" ' . set_select('perawat', $row->id_perawat) . '> ' . $row->nama . ' </option>';
@@ -179,7 +179,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <script src="<?php echo base_url('assets/js/is-number.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/datepicker.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/transaksi-form-val.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/transaksi-formval.js') ?>"></script>
 
 <!-- SCRIPT UBAH ANGKA MENJADI BERKOMA -->
 <script>

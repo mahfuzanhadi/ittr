@@ -140,7 +140,6 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Status</th>
                             <th>Tanggal</th>
                             <th>No. RM</th>
                             <th>Nama Pasien</th>
@@ -251,7 +250,7 @@
                 type: "POST"
             },
             "columnDefs": [{
-                    "targets": [0, 6, 7, 11],
+                    "targets": [0, 5, 6, 10],
                     "orderable": false
                 },
                 {
@@ -260,32 +259,33 @@
                     "targets": 0
                 },
                 {
-                    "width": "40px",
-                    "targets": 1
-                },
-                {
                     "width": "95px",
-                    "targets": 2,
+                    "targets": 1,
                 },
                 {
                     "width": "55px",
+                    "targets": 2
+                },
+                {
+                    "width": "160px",
                     "targets": 3
                 },
                 {
-                    "width": "160px",
+                    "width": "180px",
                     "targets": 4
                 },
                 {
-                    "width": "180px",
+                    "width": "160px",
                     "targets": 5
                 },
                 {
-                    "width": "160px",
+                    "width": "180px",
                     "targets": 6
                 },
                 {
-                    "width": "180px",
-                    "targets": 7
+                    "width": "80px",
+                    "targets": 7,
+                    "render": $.fn.dataTable.render.number('.')
                 },
                 {
                     "width": "80px",
@@ -293,34 +293,14 @@
                     "render": $.fn.dataTable.render.number('.')
                 },
                 {
-                    "width": "80px",
+                    "width": "90px",
                     "targets": 9,
                     "render": $.fn.dataTable.render.number('.')
                 },
                 {
-                    "width": "90px",
-                    "targets": 10,
-                    "render": $.fn.dataTable.render.number('.')
-                },
-                {
                     "width": "75px",
-                    "targets": 11
+                    "targets": 10
                 },
-                // {
-                //     "width": "90px",
-                //     "targets": 5,
-                //     render: function(data) {
-                //         return moment(data).locale("id").format('DD MMMM YYYY');
-                //     }
-                // }
-                // {
-                //     "type": "time-uni",
-                //     "width": "90px",
-                //     "targets": 11,
-                //     render: function(data) {
-                //         return moment(data, "HH:mm:ss").format('HH:mm');
-                //     }
-                // }
             ]
         });
     });

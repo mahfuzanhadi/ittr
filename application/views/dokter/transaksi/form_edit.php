@@ -58,7 +58,6 @@
                                     <div class="form-group col-sm-3">
                                         <label for="dokter">Dokter <font color="red">*</font></label>
                                         <select class="form-control form-control-sm" name="dokter" id="dokter">
-                                            <option value="">Choose one</option>
                                             <?php foreach ($dokter as $row) : ?>
                                                 <?php if ($row->id_dokter == $transaksi['id_dokter']) : ?>
                                                     <option value="<?= $row->id_dokter; ?>" selected readonly="readonly"><?= $row->nama; ?></option>
@@ -72,7 +71,7 @@
                                     <div class="form-group col-sm-3">
                                         <label for="perawat">Perawat <font color="red">*</font></label>
                                         <select class="form-control form-control-sm" name="perawat" id="perawat">
-                                            <option value="">Choose one</option>
+                                            <option value="" hidden>Pilih Perawat</option>
                                             <?php foreach ($perawat as $row) : ?>
                                                 <?php if ($row->id_perawat == $transaksi['id_perawat']) : ?>
                                                     <option value="<?= $row->id_perawat; ?>" selected><?= $row->nama; ?></option>
@@ -86,7 +85,7 @@
                                     <div class="form-group col-sm-3">
                                         <?php date_default_timezone_set('Asia/Jakarta'); ?>
                                         <label>Tanggal</label>
-                                        <input class="form-control form-control-sm" type="text" name="tanggal" id="picker" placeholder="Tanggal" value="<?= $transaksi['tanggal']; ?>" readonly="readonly"/> <small>(tahun-bulan-hari)</small>
+                                        <input class="form-control form-control-sm" type="text" name="tanggal" id="picker" placeholder="Tanggal" value="<?= $transaksi['tanggal']; ?>" readonly="readonly" /> <small>(tahun-bulan-hari)</small>
                                     </div>
                                 </div>
                                 <div class="form-row">

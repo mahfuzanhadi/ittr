@@ -14,24 +14,6 @@ $(document).ready(function () {
 			$('#no_rekam_medis').removeClass('has-error');
 		}
 
-		var no_rekam_medis = $('#no_rekam_medis').val();
-		$.ajax({
-			type: "POST",
-			url: "<?php echo base_url() ?>transaksi/isExist",
-			data: "no_rekam_medis=" + no_rekam_medis,
-			success: function (response) {
-				if (response != '') {
-					$('#error_no_rm').text(response);
-					$('#no_rekam_medis').addClass('has-error');
-				} else {
-					error_no_rm = '';
-					$('#error_no_rm').text(error_no_rm);
-					$('#no_rekam_medis').removeClass('has-error');
-				}
-			}
-		});
-
-
 		if ($.trim($('#dokter').val()).length == 0) {
 			error_dokter = 'Data dokter wajib diisi';
 			$('#error_dokter').text(error_dokter);
@@ -146,57 +128,6 @@ $(document).ready(function () {
 	});
 
 	$('#btn_detail_obat').click(function () {
-		// var error_obat = '';
-		// var error_harga = '';
-		// var error_dosis = '';
-		// var error_jumlah = '';
-
-		// if ($.trim($('#obat').val()).length == 0) {
-		// 	error_obat = 'Obat 1 wajib diisi';
-		// 	$('#error_obat').text(error_obat);
-		// 	$('#obat').addClass('has-error');
-		// 	var harga = '';
-		// 	$('#harga').val(harga);
-		// } else {
-		// 	error_obat = '';
-		// 	$('#error_obat').text(error_obat);
-		// 	$('#obat').removeClass('has-error');
-		// }
-
-		// if ($.trim($('#harga').val()).length == 0) {
-		// 	error_harga = 'Harga wajib diisi';
-		// 	$('#error_harga').text(error_harga);
-		// 	$('#harga').addClass('has-error');
-		// } else {
-		// 	error_harga = '';
-		// 	$('#error_harga').text(error_harga);
-		// 	$('#harga').removeClass('has-error');
-		// }
-
-		// if ($.trim($('#dosis').val()).length == 0) {
-		// 	error_dosis = 'Dosis wajib diisi';
-		// 	$('#error_dosis').text(error_dosis);
-		// 	$('#dosis').addClass('has-error');
-		// } else {
-		// 	error_dosis = '';
-		// 	$('#error_dosis').text(error_dosis);
-		// 	$('#dosis').removeClass('has-error');
-		// }
-
-		// if ($.trim($('#jumlah').val()).length == 0) {
-		// 	error_jumlah = 'Jumlah wajib diisi';
-		// 	$('#error_jumlah').text(error_jumlah);
-		// 	$('#jumlah').addClass('has-error');
-		// } else {
-		// 	error_jumlah = '';
-		// 	$('#error_jumlah').text(error_jumlah);
-		// 	$('#jumlah').removeClass('has-error');
-		// }
-
-		// if (error_obat != '' || error_harga != '' || error_dosis != '' || error_jumlah != '') {
-		// 	return false;
-		// } else {
 		$('#transaksi_form').submit();
-		// }
 	});
 });

@@ -44,7 +44,7 @@
                                     <div class="form-group col-sm-3">
                                         <label for="dokter">Dokter <font color="red">*</font></label>
                                         <select class="form-control form-control-sm" name="dokter" id="dokter">
-                                            <option value="">Pilih Dokter</option>
+                                            <option value="" hidden>Pilih Dokter</option>
                                             <?php
                                             foreach ($dokter as $row) {
                                                 echo '<option value="' . $row->id_dokter . '" ' . set_select('dokter', $row->id_dokter) . '> ' . $row->nama . ' </option>';
@@ -57,7 +57,7 @@
                                     <div class="form-group col-sm-3">
                                         <label for="perawat">Perawat <font color="red">*</font></label>
                                         <select class="form-control form-control-sm" name="perawat" id="perawat">
-                                            <option value="">Pilih Perawat</option>
+                                            <option value="" hidden>Pilih Perawat</option>
                                             <?php
                                             foreach ($perawat as $row) {
                                                 echo '<option value="' . $row->id_perawat . '" ' . set_select('perawat', $row->id_perawat) . '> ' . $row->nama . ' </option>';
@@ -86,7 +86,7 @@
                                     <div class="form-group col-sm-3">
                                         <label for="metode_pembayaran">Metode Pembayaran</label>
                                         <select class="form-control  form-control-sm" id="metode_pembayaran" name="metode_pembayaran">
-                                            <option value="">Pilih Metode Pembayaran</option>
+                                            <option value="" hidden>Pilih Metode Pembayaran</option>
                                             <option value="1" <?= set_select('metode_pembayaran', '1'); ?>>Cash</option>
                                             <option value="2" <?= set_select('metode_pembayaran', '2'); ?>>Kredit</option>
                                             <option value="3" <?= set_select('metode_pembayaran', '3'); ?>>Debit</option>
@@ -192,7 +192,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <script src="<?php echo base_url('assets/js/is-number.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/datepicker.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/transaksi-form-val.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/transaksi-formval.js') ?>"></script>
 
 <!-- SCRIPT UBAH ANGKA MENJADI BERKOMA -->
 <script>

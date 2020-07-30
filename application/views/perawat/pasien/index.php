@@ -15,7 +15,6 @@
             method: "GET",
             dataType: "JSON",
             success: function(data) {
-
                 $('#no_rekam_medis').text(data.no_rekam_medis);
                 $('#nama').text(data.nama);
                 $('#nama').text(data.alamat);
@@ -141,7 +140,7 @@
     <?php endif; ?>
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
+    <h3 class="h3 mb-4 text-gray-800"><?= $title; ?></h3>
 
     <!-- DataTables -->
     <div class="card mb-3">
@@ -154,7 +153,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>No. Rekam Medis</th>
+                            <th>No. RM</th>
                             <th>Nama</th>
                             <th>Umur</th>
                             <th>Jenis Kelamin</th>
@@ -263,9 +262,6 @@
 </div>
 <!-- /.container-fluid -->
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
         var dataTable = $('#dataTable').DataTable({
@@ -295,7 +291,7 @@
                     "targets": 0
                 },
                 {
-                    "width": "140px",
+                    "width": "55px",
                     "targets": 1
                 },
                 {
@@ -303,20 +299,19 @@
                     "targets": 2
                 },
                 {
-                    "width": "60px",
+                    "width": "50px",
                     "targets": 3,
                     render: function(data) {
                         var tgl = new Date(data).getTime();
                         var ageDifMs = Date.now() - tgl;
                         var ageDate = new Date(ageDifMs); // miliseconds from epoch
-                        // return Math.abs(ageDate.getUTCFullYear() - 1970);
                         var age = Math.abs(ageDate.getUTCFullYear() - 1970);
                         var umur = parseInt(age);
                         return umur;
                     }
                 },
                 {
-                    "width": "102px",
+                    "width": "100px",
                     "targets": 4,
                     render: function(data) {
                         if (data == '1') {
@@ -330,10 +325,6 @@
                     "width": "250px",
                     "targets": 5
                 },
-                // {
-
-                //     "targets": 6
-                // },
                 {
                     "width": "120px",
                     "targets": 6,

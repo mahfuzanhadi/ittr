@@ -90,6 +90,10 @@
 
                 $('#email').text(data.email);
                 $('#username').text(data.username);
+
+                var url = '<?php echo base_url('pasien/edit/') ?>';
+                $('#update').attr('href', url + data.id_pasien);
+                $('#delete').attr('onclick', 'delete_data(' + data.id_pasien + ')');
                 $('#myModal').modal('show');
                 $('#id_pasien').val(data.id_pasien);
             },
@@ -136,12 +140,11 @@
     <?php endif; ?>
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
+    <h3 class="h3 mb-4 text-gray-800"><?= $title; ?></h3>
 
     <!-- DataTables -->
     <div class="card mb-3">
         <div class="card-header">
-            <!-- <a href="<?= base_url('pasien/add'); ?>" class="btn btn-info btn-sm"><i class="fas fa-plus"></i> Add Data</a> -->
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -149,7 +152,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>No. Rekam Medis</th>
+                            <th>No. RM</th>
                             <th>Nama</th>
                             <th>Umur</th>
                             <th>Jenis Kelamin</th>
@@ -162,7 +165,6 @@
                             <th>Username</th>
                             <th>Password</th>
                             <th>E-mail</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -242,7 +244,13 @@
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <!-- <div class="container">
+                                <div class="center-block text-center"> -->
+                            <a type="button" name="update" id="update" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
+                            <button type="button" name="delete" id="delete" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
+                            <!-- </div> -->
                             <input type="hidden" name="id_pasien" id="id_pasien" />
+                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
@@ -252,9 +260,6 @@
 </div>
 <!-- /.container-fluid -->
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/3.3.1/js/dataTables.fixedColumns.min.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
         var dataTable = $('#dataTable').DataTable({
@@ -275,7 +280,7 @@
                     "orderable": false
                 },
                 {
-                    "targets": [11, 12, 13, 14],
+                    "targets": [11, 12, 13],
                     "visible": false
                 },
                 {
@@ -284,7 +289,7 @@
                     "targets": 0
                 },
                 {
-                    "width": "140px",
+                    "width": "55px",
                     "targets": 1
                 },
                 {
@@ -292,20 +297,19 @@
                     "targets": 2
                 },
                 {
-                    "width": "60px",
+                    "width": "50px",
                     "targets": 3,
                     render: function(data) {
                         var tgl = new Date(data).getTime();
                         var ageDifMs = Date.now() - tgl;
-                        var ageDate = new Date(ageDifMs); // miliseconds from epoch
-                        // return Math.abs(ageDate.getUTCFullYear() - 1970);
+                        var ageDate = new Date(ageDifMs);
                         var age = Math.abs(ageDate.getUTCFullYear() - 1970);
                         var umur = parseInt(age);
                         return umur;
                     }
                 },
                 {
-                    "width": "102px",
+                    "width": "100px",
                     "targets": 4,
                     render: function(data) {
                         if (data == '1') {
@@ -319,10 +323,6 @@
                     "width": "250px",
                     "targets": 5
                 },
-                // {
-
-                //     "targets": 6
-                // },
                 {
                     "width": "120px",
                     "targets": 6,
@@ -363,10 +363,6 @@
                 {
                     "width": "120px",
                     "targets": 13
-                },
-                {
-                    "width": "80px",
-                    "targets": 14
                 },
             ]
         });

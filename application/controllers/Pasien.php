@@ -57,7 +57,7 @@ class Pasien extends CI_Controller
             $row = array();
             $no++;
             $row[] = $no;
-            $row[] = '<a href="pasien/detail_rm/' . $pasien->id_pasien . '" >' . $pasien->no_rekam_medis;
+            $row[] = '<a href="pasien/rekam_medis/' . $pasien->id_pasien . '" >' . $pasien->no_rekam_medis;
             $row[] = '<a style="cursor: pointer; color:#007bff;" onclick="detail_data(' . $pasien->id_pasien . ')" >' . $pasien->nama . '</a>';
             $row[] = $pasien->tanggal_lahir;
             $row[] = $pasien->jenis_kelamin;
@@ -207,43 +207,43 @@ class Pasien extends CI_Controller
         echo json_encode($data);
     }
 
-    public function detail_rm($id)
+    public function rekam_medis($id)
     {
-        $data['title'] = 'Detail Data Rekam Medis';
+        $data['title'] = 'Data Rekam Medis';
         $this->load->model('Transaksi_model');
 
         $data['pasien'] = $this->Pasien_model->getById($id);
         $data['transaksi'] = $this->Pasien_model->get_transaksi_by_id($id);
         $data['dokter'] = $this->Transaksi_model->get_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
-        $data['detail_tindakan'] = $this->Pasien_model->get_detail_tindakan();
-        $data['tindakan'] = $this->Pasien_model->get_tindakan();
-        $data['detail_obat'] = $this->Pasien_model->get_detail_biaya_obat();
-        $data['obat'] = $this->Pasien_model->get_obat();
+        $data['detail_tindakan'] = $this->Transaksi_model->get_detail_tindakan();
+        $data['tindakan'] = $this->Transaksi_model->get_tindakan();
+        $data['detail_obat'] = $this->Transaksi_model->get_detail_biaya_obat();
+        $data['obat'] = $this->Transaksi_model->get_obat();
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/pasien/detail_rm', $data);
+            $this->load->view('admin/pasien/rekam_medis', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '2') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
-            $this->load->view('dokter/pasien/detail_rm', $data);
+            $this->load->view('dokter/pasien/rekam_medis', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '3') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
-            $this->load->view('perawat/pasien/detail_rm', $data);
+            $this->load->view('perawat/pasien/rekam_medis', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/pasien/detail_rm', $data);
+            $this->load->view('staf/pasien/rekam_medis', $data);
             $this->load->view('templates/footer');
         }
         $this->session->set_userdata('previous_url', current_url());

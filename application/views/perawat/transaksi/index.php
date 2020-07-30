@@ -147,6 +147,8 @@
                             <th>No. RM</th>
                             <th>Nama Pasien</th>
                             <th>Dokter</th>
+                            <th>Diagnosa</th>
+                            <th>Tindakan</th>
                             <th>Total Biaya Tindakan</th>
                             <th>Total Biaya Obat</th>
                             <th>Total Biaya Keseluruhan</th>
@@ -200,6 +202,7 @@
                             <div class="form-group col-sm-4">
                                 <label for="metode_pembayaran" style="font-weight: bold">Metode Pembayaran</label>
                                 <select class="form-control  form-control-sm required" id="metode_pembayaran" name="metode_pembayaran">
+                                    <option value="0" selected disabled hidden>Pilih Metode Pembayaran</option>
                                     <option value="1" <?= set_select('metode_pembayaran', '1'); ?>>Cash</option>
                                     <option value="2" <?= set_select('metode_pembayaran', '2'); ?>>Kredit</option>
                                     <option value="3" <?= set_select('metode_pembayaran', '3'); ?>>Debit</option>
@@ -243,11 +246,11 @@
                 type: "POST"
             },
             "columnDefs": [{
-                    "targets": [0],
+                    "targets": [0, 6, 7],
                     "orderable": false
                 },
                 {
-                    "width": "15px",
+                    "width": "30px",
                     "className": "text-left",
                     "targets": 0
                 },
@@ -264,7 +267,7 @@
                     "targets": 3
                 },
                 {
-                    "width": "180px",
+                    "width": "160px",
                     "targets": 4
                 },
                 {
@@ -272,18 +275,26 @@
                     "targets": 5
                 },
                 {
-                    "width": "90px",
-                    "targets": 6,
+                    "width": "160px",
+                    "targets": 6
+                },
+                {
+                    "width": "180px",
+                    "targets": 7
+                },
+                {
+                    "width": "80px",
+                    "targets": 8,
                     "render": $.fn.dataTable.render.number('.')
                 },
                 {
                     "width": "80px",
-                    "targets": 7,
+                    "targets": 9,
                     "render": $.fn.dataTable.render.number('.')
                 },
                 {
-                    "width": "100px",
-                    "targets": 8,
+                    "width": "90px",
+                    "targets": 10,
                     "render": $.fn.dataTable.render.number('.')
                 }
             ]

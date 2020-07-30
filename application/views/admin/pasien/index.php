@@ -153,7 +153,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>No. Rekam Medis</th>
+                            <th>No. RM</th>
                             <th>Nama</th>
                             <th>Umur</th>
                             <th>Jenis Kelamin</th>
@@ -291,7 +291,7 @@
                     "targets": 0
                 },
                 {
-                    "width": "140px",
+                    "width": "55px",
                     "targets": 1
                 },
                 {
@@ -299,7 +299,7 @@
                     "targets": 2
                 },
                 {
-                    "width": "60px",
+                    "width": "50px",
                     "targets": 3,
                     render: function(data) {
                         var tgl = new Date(data).getTime();
@@ -312,7 +312,7 @@
                     }
                 },
                 {
-                    "width": "102px",
+                    "width": "100px",
                     "targets": 4,
                     render: function(data) {
                         if (data == '1') {
@@ -326,10 +326,6 @@
                     "width": "250px",
                     "targets": 5
                 },
-                // {
-
-                //     "targets": 6
-                // },
                 {
                     "width": "120px",
                     "targets": 6,

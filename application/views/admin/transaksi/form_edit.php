@@ -212,7 +212,7 @@
                                             </div>
                                             <div class="form-group col-sm-2">
                                                 <label>Harga <font color="red">*</font></label>
-                                                <input class="form-control form-control-sm" type="text" name="harga[]" id="harga<?= $j; ?>" placeholder="Harga" value="<?= $do->biaya_obat; ?>" onkeypress="javascript:return isNumber(event)" />
+                                                <input class="form-control form-control-sm" type="text" name="harga[]" id="harga<?= $j; ?>" placeholder="Harga" value="<?= $harga_obat; ?>" onkeypress="javascript:return isNumber(event)" />
                                                 <span id="error_harga" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">

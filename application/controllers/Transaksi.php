@@ -78,7 +78,7 @@ class Transaksi extends CI_Controller
             $detail_tindakan = $this->Transaksi_model->get_transaksi_tindakan($transaksi->id_transaksi);
             $tindakan = $this->Transaksi_model->get_tindakan();
 
-            if ($this->session->userdata('akses') == '1' || $this->session->userdata('akses') == '2') { //IF USER = ADMINISTRATOR
+            if ($this->session->userdata('akses') == '1') { //IF USER = ADMINISTRATOR
                 $row[] = $no;
                 $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $metode_pembayaran . '</a>';
                 $row[] = '<a href="transaksi/detail_transaksi/' . $transaksi->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
@@ -108,13 +108,58 @@ class Transaksi extends CI_Controller
                 $row[] = $transaksi->total_biaya_keseluruhan;
                 $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $transaksi->id_transaksi . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
                 $data[] = $row;
-            } else { //IF USER != ADMINISTRATOR
+            } else if ($this->session->userdata('akses') == '2') {
                 $row[] = $no;
-                $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $metode_pembayaran . '</a>';
-                $row[] = $transaksi->tanggal;
-                $row[] = '<a style="color:#007bff; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $transaksi->no_rekam_medis . '</a>';
+                $row[] = '<a href="transaksi/detail_transaksi/' . $transaksi->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
+                $row[] = '<a href="transaksi/rekam_medis/' . $transaksi->no_rekam_medis . '" style="color:#007bff; cursor: pointer">' . $transaksi->no_rekam_medis . '</a>';
                 $row[] = $transaksi->nama_pasien;
                 $row[] = $transaksi->nama_dokter;
+                foreach ($detail_tindakan as $dt) {
+                    if ($dt->diagnosa != '') {
+                        $diagnosa[] = ' ' . $dt->diagnosa;
+                    }
+                    foreach ($tindakan as $t) {
+                        if ($t->id_tindakan == $dt->id_tindakan) {
+                            $nama_tindakan[] = ' ' . $t->nama;
+                        }
+                    }
+                }
+                foreach ($diagnosa as $key => $value) {
+                    if (empty($value)) {
+                        unset($diagnosa[$key]);
+                    }
+                }
+                $row[] = $diagnosa;
+                $row[] = $nama_tindakan;
+                $row[] = $transaksi->total_biaya_tindakan;
+                $row[] = $transaksi->total_biaya_obat;
+                $row[] = $transaksi->total_biaya_keseluruhan;
+                $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $transaksi->id_transaksi . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
+                $data[] = $row;
+            } else { //IF USER == PERAWAT / STAF ADMINISTRASI
+                $row[] = $no;
+                $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $metode_pembayaran . '</a>';
+                $row[] = '<a href="transaksi/detail_transaksi/' . $transaksi->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
+                $row[] = '<a href="transaksi/rekam_medis/' . $transaksi->no_rekam_medis . '" style="color:#007bff; cursor: pointer">' . $transaksi->no_rekam_medis . '</a>';
+                $row[] = $transaksi->nama_pasien;
+                $row[] = $transaksi->nama_dokter;
+                foreach ($detail_tindakan as $dt) {
+                    if ($dt->diagnosa != '') {
+                        $diagnosa[] = ' ' . $dt->diagnosa;
+                    }
+                    foreach ($tindakan as $t) {
+                        if ($t->id_tindakan == $dt->id_tindakan) {
+                            $nama_tindakan[] = ' ' . $t->nama;
+                        }
+                    }
+                }
+                foreach ($diagnosa as $key => $value) {
+                    if (empty($value)) {
+                        unset($diagnosa[$key]);
+                    }
+                }
+                $row[] = $diagnosa;
+                $row[] = $nama_tindakan;
                 $row[] = $transaksi->total_biaya_tindakan;
                 $row[] = $transaksi->total_biaya_obat;
                 $row[] = $transaksi->total_biaya_keseluruhan;
@@ -477,19 +522,19 @@ class Transaksi extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
-            $this->load->view('dokter/pasien/detail_rm', $data);
+            $this->load->view('dokter/transaksi/detail_transaksi', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '3') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
-            $this->load->view('perawat/pasien/detail_rm', $data);
+            $this->load->view('perawat/transaksi/detail_transaksi', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/pasien/detail_rm', $data);
+            $this->load->view('staf/transaksi/detail_transaksi', $data);
             $this->load->view('templates/footer');
         }
     }
@@ -514,25 +559,25 @@ class Transaksi extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/admin/sidebar', $data);
             $this->load->view('templates/admin/topbar', $data);
-            $this->load->view('admin/pasien/detail_rm', $data);
+            $this->load->view('admin/transaksi/rekam_medis', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '2') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
-            $this->load->view('dokter/pasien/detail_rm', $data);
+            $this->load->view('dokter/transaksi/rekam_medis', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '3') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
-            $this->load->view('perawat/pasien/detail_rm', $data);
+            $this->load->view('perawat/transaksi/rekam_medis', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/pasien/detail_rm', $data);
+            $this->load->view('staf/transaksi/rekam_medis', $data);
             $this->load->view('templates/footer');
         }
     }

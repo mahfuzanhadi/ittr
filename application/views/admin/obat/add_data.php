@@ -11,7 +11,7 @@
     <?php endif; ?>
     <p></p>
 
-    <div class="card mb-3">
+    <div class="card my-2">
         <div class="card-header">
             <b class="text-gray-800"><?= $title; ?></b>
         </div>
@@ -20,40 +20,40 @@
                 <div class="form-row">
                     <div class="form-group col-sm-2">
                         <label for="name">Nama <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="nama" id="nama" placeholder="Nama" />
+                        <input class="form-control" type="text" name="nama" id="nama" placeholder="Nama" />
                         <span id="error_nama" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
                         <label for="satuan">Satuan <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="satuan" id="satuan" placeholder="Satuan" />
+                        <input class="form-control" type="text" name="satuan" id="satuan" placeholder="Satuan" />
                         <span id="error_satuan" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-2">
                         <label for="jenis">Jenis <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="jenis" id="jenis" placeholder="Jenis" />
+                        <input class="form-control" type="text" name="jenis" id="jenis" placeholder="Jenis" />
                         <span id="error_jenis" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
                         <label for="ukuran">Ukuran <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="ukuran" id="ukuran" placeholder="Ukuran" />
+                        <input class="form-control" type="text" name="ukuran" id="ukuran" placeholder="Ukuran" />
                         <span id="error_ukuran" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-2">
                         <label for="harga">Harga <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="harga" id="harga" placeholder="Harga" onkeypress="javascript:return isNumber(event)" />
+                        <input class="form-control" type="text" name="harga" id="harga" placeholder="Harga" onkeypress="javascript:return isNumber(event)" />
                         <span id="error_harga" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
                         <label for="stok">Stok <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="stok" id="stok" placeholder="stok" onkeypress="javascript:return isNumber(event)" />
+                        <input class="form-control" type="text" name="stok" id="stok" placeholder="Stok" onkeypress="javascript:return isNumber(event)" />
                         <span id="error_stok" class="text-danger"></span>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="button" name="tambah" id="tambah">Save</button>
+                <button class="btn btn-primary active" aria-pressed="true" type="button" name="tambah" id="tambah">Save</button>
             </form>
 
         </div>

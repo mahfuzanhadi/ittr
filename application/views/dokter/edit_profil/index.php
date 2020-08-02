@@ -19,31 +19,31 @@
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="name">Nama <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="nama" id="nama" placeholder="Nama" value="<?= $dokter['nama'] ?>" />
+                        <input class="form-control" type="text" name="nama" id="nama" placeholder="Nama" value="<?= $dokter['nama'] ?>" />
                         <span id="error_nama" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="alamat">Alamat <font color="red">*</font></label>
-                        <textarea class="form-control form-control-sm" name="alamat" id="alamat" placeholder="Alamat"><?= $dokter['alamat'] ?></textarea>
+                        <textarea class="form-control" name="alamat" id="alamat" placeholder="Alamat"><?= $dokter['alamat'] ?></textarea>
                         <span id="error_alamat" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="tempat_lahir">Tempat Lahir <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" name="tempat_lahir" id="tempat_lahir" placeholder="Tempat Lahir" value="<?= $dokter['tempat_lahir'] ?>" />
+                        <input class="form-control" name="tempat_lahir" id="tempat_lahir" placeholder="Tempat Lahir" value="<?= $dokter['tempat_lahir'] ?>" />
                         <span id="error_tempat_lahir" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="tanggal_lahir">Tanggal Lahir <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="tanggal_lahir" id="picker" placeholder="Tanggal Lahir" value="<?= $dokter['tanggal_lahir'] ?>" /> <small>(tahun-bulan-hari)</small><br />
+                        <input class="form-control" type="text" name="tanggal_lahir" id="picker" placeholder="Tanggal Lahir" value="<?= $dokter['tanggal_lahir'] ?>" /> <small>(tahun-bulan-hari)</small><br />
                         <span id="error_picker" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="jenis_kelamin">Jenis Kelamin <font color="red">*</font></label>
-                        <select class="form-control form-control-sm" name="jenis_kelamin" id="jenis_kelamin">
+                        <select class="custom-select custom-select-sm" name="jenis_kelamin" id="jenis_kelamin">
                             <?php if ($dokter['jenis_kelamin'] == 1) : ?>
                                 <option value="1" selected>Laki-laki</option>
                                 <option value="2">Perempuan</option>
@@ -56,57 +56,57 @@
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="email">E-mail <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="email" id="email" placeholder="E-mail" value="<?= $dokter['email'] ?>" />
+                        <input class="form-control" type="text" name="email" id="email" placeholder="E-mail" value="<?= $dokter['email'] ?>" />
                         <span id="error_email" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="no_telp">No. Telp <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="no_telp" id="no_telp" placeholder="No. Telp" value="<?= $dokter['no_telp'] ?>" onkeypress="javascript:return isNumber(event)" />
+                        <input class="form-control" type="text" name="no_telp" id="no_telp" placeholder="No. Telp" value="<?= $dokter['no_telp'] ?>" onkeypress="javascript:return isNumber(event)" />
                         <span id="error_no_telp" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="no_sip">No. SIP <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="no_sip" id="no_sip" placeholder="No. SIP" value="<?= $dokter['no_sip'] ?>" />
+                        <input class="form-control" type="text" name="no_sip" id="no_sip" placeholder="No. SIP" value="<?= $dokter['no_sip'] ?>" />
                         <span id="error_no_sip" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="tanggal_berlaku_sip">Tanggal Berlaku SIP <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="tanggal_berlaku_sip" id="datepicker" placeholder="Tanggal Berlaku SIP" value="<?= $dokter['tanggal_berlaku_sip'] ?>" /> <small>(tahun-bulan-hari)</small><br />
+                        <input class="form-control" type="text" name="tanggal_berlaku_sip" id="datepicker" placeholder="Tanggal Berlaku SIP" value="<?= $dokter['tanggal_berlaku_sip'] ?>" /> <small>(tahun-bulan-hari)</small><br />
                         <span id="error_datepicker" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="no_str">No. STR <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="no_str" id="no_str" placeholder="No. STR" value="<?= $dokter['no_str'] ?>" />
+                        <input class="form-control" type="text" name="no_str" id="no_str" placeholder="No. STR" value="<?= $dokter['no_str'] ?>" />
                         <span id="error_no_str" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="tanggal_berlaku_str">Tanggal Berlaku STR <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="tanggal_berlaku_str" id="datepicker2" placeholder="Tanggal Berlaku STR" value="<?= $dokter['tanggal_berlaku_str'] ?>" /> <small>(tahun-bulan-hari)</small><br />
+                        <input class="form-control" type="text" name="tanggal_berlaku_str" id="datepicker2" placeholder="Tanggal Berlaku STR" value="<?= $dokter['tanggal_berlaku_str'] ?>" /> <small>(tahun-bulan-hari)</small><br />
                         <span id="error_datepicker2" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label>Username</label>
-                        <input class="form-control form-control-sm" type="text" name="username" id="username" placeholder="Username" value="<?= $dokter['username'] ?>" />
+                        <input class="form-control" type="text" name="username" id="username" placeholder="Username" value="<?= $dokter['username'] ?>" />
                         <span id="error_username" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label>Password</label>
-                        <input class="form-control form-control-sm" type="password" name="password" id="password" placeholder="Password" />
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Password" />
                         <span id="error_password" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label>Ulangi Password</label>
-                        <input class="form-control form-control-sm" type="password" name="password2" id="password2" placeholder="Ulangi Password" />
+                        <input class="form-control" type="password" name="password2" id="password2" placeholder="Ulangi Password" />
                         <span id="error_password2" class="text-danger"></span>
                     </div>
                 </div>

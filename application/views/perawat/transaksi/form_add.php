@@ -10,7 +10,7 @@
         </div>
     <?php endif; ?>
 
-    <div class="card mb-3" style="height: 700px !important">
+    <div class="card my-2">
         <div class="card-header">
             <b class="text-gray-800"><?= $title; ?></b>
         </div>
@@ -27,7 +27,7 @@
                         <a class="nav-link inactive_tab1" style="border:1px solid #ccc" id="list_detail_obat">Detail Obat</a>
                     </li>
                 </ul>
-                <div class="tab-content" style="margin-top:16px">
+                <div class="tab-content mt-4">
                     <!-- Data Rekam Medis -->
                     <div class="tab-pane active" id="rekam_medis">
                         <div class="panel panel-default">
@@ -39,12 +39,12 @@
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="no_rekam_medis">No. Rekam Medis <font color="red">*</font></label>
-                                        <input class="form-control form-control-sm" type="text" name="no_rekam_medis" id="no_rekam_medis" placeholder="No. Rekam Medis" onkeypress="javascript:return isNumber(event)" />
+                                        <input class="form-control" type="text" name="no_rekam_medis" id="no_rekam_medis" placeholder="No. Rekam Medis" onkeypress="javascript:return isNumber(event)" />
                                         <span id="error_no_rm" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-sm-3">
                                         <label for="dokter">Dokter <font color="red">*</font></label>
-                                        <select class="form-control form-control-sm" name="dokter" id="dokter">
+                                        <select class="custom-select custom-select-sm" name="dokter" id="dokter">
                                             <option value="" hidden>Pilih Dokter</option>
                                             <?php
                                             foreach ($dokter as $row) {
@@ -57,7 +57,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="perawat">Perawat <font color="red">*</font></label>
-                                        <select class="form-control form-control-sm" name="perawat" id="perawat">
+                                        <select class="custom-select custom-select-sm" name="perawat" id="perawat">
                                             <option value="" hidden>Pilih Perawat</option>
                                             <?php
                                             foreach ($perawat as $row) {
@@ -69,18 +69,18 @@
                                     <div class="form-group col-sm-3">
                                         <?php date_default_timezone_set('Asia/Jakarta'); ?>
                                         <label>Tanggal</label>
-                                        <input class="form-control form-control-sm" type="text" name="tanggal" id="picker" placeholder="Tanggal" value="<?= date('Y-m-d'); ?>" /> <small>(tahun-bulan-hari)</small>
+                                        <input class="form-control" type="text" name="tanggal" id="picker" placeholder="Tanggal" value="<?= date('Y-m-d'); ?>" /> <small>(tahun-bulan-hari)</small>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <?php date_default_timezone_set('Asia/Jakarta'); ?>
                                         <label>Jam Mulai</label>
-                                        <input class="form-control form-control-sm" type="time" name="jam_mulai" placeholder="jam_mulai" value="<?= date('H:i'); ?>" />
+                                        <input class="form-control" type="time" name="jam_mulai" placeholder="jam_mulai" value="<?= date('H:i'); ?>" />
                                     </div>
                                     <div class="form-group col-sm-3">
                                         <label>Keterangan</label>
-                                        <textarea class="form-control form-control-sm" type="text" name="keterangan" placeholder="Keterangan"></textarea>
+                                        <textarea class="form-control" type="text" name="keterangan" placeholder="Keterangan"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -91,7 +91,7 @@
                                     </div>
                                 </div>
                                 <div align="center">
-                                    <button type="button" name="btn_rekam_medis" id="btn_rekam_medis" class="mt-auto btn btn-info btn-lg">Selanjutnya</button>
+                                    <button type="button" name="btn_rekam_medis" id="btn_rekam_medis" class="mt-auto btn btn-info btn-lg active" aria-pressed="true">Selanjutnya</button>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
                                     <div class="form-row">
                                         <div class="form-group col-sm-3">
                                             <label>Diagnosa <font color="red">*</font></label>
-                                            <input class="form-control form-control-sm" type="text" name="diagnosa[]" id="diagnosa" placeholder="Diagnosa" />
+                                            <input class="form-control" type="text" name="diagnosa[]" id="diagnosa" placeholder="Diagnosa" />
                                             <span id="error_diagnosa" class="text-danger"></span>
                                         </div>
                                         <div class="form-group col-sm-4">
@@ -115,19 +115,19 @@
                                         </div>
                                         <div class="form-group col-sm-2">
                                             <label>Biaya <font color="red">*</font></label>
-                                            <input class="form-control form-control-sm" type="text" name="biaya[]" id="biaya" placeholder="Biaya" onkeypress="javascript:return isNumber(event)" />
+                                            <input class="form-control" type="text" name="biaya[]" id="biaya" placeholder="Biaya" onkeypress="javascript:return isNumber(event)" />
                                             <span id="error_biaya" class="text-danger"></span>
                                         </div>
                                         <div class="form-group col-sm-1">
                                             <label style="color: #fff">x</label>
-                                            <a href="javascript:void(0);" class="add_button btn btn-info btn-sm form-control form-control-sm" title="Add field"><i class="fas fa-plus"></i> Add Field</a>
+                                            <a href="javascript:void(0);" class="add_button btn btn-info btn-sm form-control" title="Add field"><i class="fas fa-plus"></i> Add Field</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div align="center">
                                 <button type="button" name="previous_btn_tindakan" id="previous_btn_tindakan" class="btn btn-outline-info btn-lg">Sebelumnya</button>
-                                <button type="button" name="btn_detail_tindakan" id="btn_detail_tindakan" class="mt-auto btn btn-info btn-lg">Selanjutnya</button>
+                                <button type="button" name="btn_detail_tindakan" id="btn_detail_tindakan" class="mt-auto btn btn-info btn-lg active" aria-pressed="true">Selanjutnya</button>
                             </div>
                         </div>
                     </div>
@@ -146,29 +146,29 @@
                                             </div>
                                             <div class="form-group col-sm-2">
                                                 <label>Harga <font color="red">*</font></label>
-                                                <input class="form-control form-control-sm" type="text" name="harga[]" id="harga" placeholder="Harga" onkeypress="javascript:return isNumber(event)" />
+                                                <input class="form-control" type="text" name="harga[]" id="harga" placeholder="Harga" onkeypress="javascript:return isNumber(event)" />
                                                 <span id="error_harga" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
                                                 <label>Dosis <font color="red">*</font></label>
-                                                <input class="form-control form-control-sm" type="text" name="dosis[]" id="dosis" placeholder="Dosis" />
+                                                <input class="form-control" type="text" name="dosis[]" id="dosis" placeholder="Dosis" />
                                                 <span id="error_dosis" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
                                                 <label>Jumlah Obat <font color="red">*</font></label>
-                                                <input class="form-control form-control-sm" type="text" name="jumlah[]" id="jumlah" placeholder="Jumlah Obat" />
+                                                <input class="form-control" type="text" name="jumlah[]" id="jumlah" placeholder="Jumlah Obat" />
                                                 <span id="error_jumlah" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-1">
                                                 <label style="color: #fff">x</label>
-                                                <a href="javascript:void(0);" class="add_button2 btn btn-info btn-sm form-control form-control-sm" title="Add field"><i class="fas fa-plus"></i> Add Field</a>
+                                                <a href="javascript:void(0);" class="add_button2 btn btn-info btn-sm form-control" title="Add field"><i class="fas fa-plus"></i> Add Field</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div align="center">
                                     <button type="button" name="previous_btn_obat" id="previous_btn_obat" class="btn btn-outline-info btn-lg">Sebelumnya</button>
-                                    <button type="button" name="btn_detail_obat" id="btn_detail_obat" class="btn btn-info btn-lg">Submit</button>
+                                    <button type="button" name="btn_detail_obat" id="btn_detail_obat" class="btn btn-info btn-lg active" aria-pressed="true">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -355,7 +355,7 @@
             e.preventDefault();
             if (x < max_fields) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div class="row' + x + '"><div class="form-row"><div class="form-group col-sm-3"><label>Diagnosa</label><input class="form-control form-control-sm" type="text" name="diagnosa[]" id="diagnosa' + x + '" placeholder="Diagnosa" /><span id="error_diagnosa" class="text-danger"></span></div><div class="form-group col-sm-4"><label for="tindakan">Tindakan</label><select class="itemName js-states form-control" name="tindakan[]" id="tindakan' + x + '"></select><span id="error_tindakan" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Biaya</label><input class="form-control form-control-sm" type="text" name="biaya[]" id="biaya' + x + '" placeholder="Biaya" onkeypress="javascript:return isNumber(event)" /><span id="error_biaya" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field btn btn-danger btn-sm form-control form-control-sm" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
+                $(wrapper).append('<div class="row' + x + '"><div class="form-row"><div class="form-group col-sm-3"><label>Diagnosa</label><input class="form-control" type="text" name="diagnosa[]" id="diagnosa' + x + '" placeholder="Diagnosa" /><span id="error_diagnosa" class="text-danger"></span></div><div class="form-group col-sm-4"><label for="tindakan">Tindakan</label><select class="itemName js-states form-control" name="tindakan[]" id="tindakan' + x + '"></select><span id="error_tindakan" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Biaya</label><input class="form-control" type="text" name="biaya[]" id="biaya' + x + '" placeholder="Biaya" onkeypress="javascript:return isNumber(event)" /><span id="error_biaya" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field btn btn-danger btn-sm form-control" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
             }
 
             $("#tindakan2").select2({
@@ -631,7 +631,7 @@
             e.preventDefault();
             if (x < max_fields) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div class="row2' + x + '"><div class="form-row"><div class="form-group col-sm-4"><label for="obat">Obat</label><select class="itemName js-states form-control" name="obat[]" id="obat' + x + '"></select><span id="error_obat" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Harga</label><input class="form-control form-control-sm" type="text" name="harga[]" id="harga' + x + '" placeholder="Harga" onkeypress="javascript:return isNumber(event)" /><span id="error_harga" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Dosis</label><input class="form-control form-control-sm" type="text" name="dosis[]" id="dosis' + x + '" placeholder="Dosis" /> <span id="error_dosis" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Jumlah Obat</label><input class="form-control form-control-sm" type="text" name="jumlah[]" id="jumlah' + x + '" placeholder="Jumlah Obat" /><span id="error_jumlah" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field2 btn btn-danger btn-sm form-control form-control-sm" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
+                $(wrapper).append('<div class="row2' + x + '"><div class="form-row"><div class="form-group col-sm-4"><label for="obat">Obat</label><select class="itemName js-states form-control" name="obat[]" id="obat' + x + '"></select><span id="error_obat" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Harga</label><input class="form-control" type="text" name="harga[]" id="harga' + x + '" placeholder="Harga" onkeypress="javascript:return isNumber(event)" /><span id="error_harga" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Dosis</label><input class="form-control" type="text" name="dosis[]" id="dosis' + x + '" placeholder="Dosis" /> <span id="error_dosis" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Jumlah Obat</label><input class="form-control" type="text" name="jumlah[]" id="jumlah' + x + '" placeholder="Jumlah Obat" /><span id="error_jumlah" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field2 btn btn-danger btn-sm form-control" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
             }
 
             $("#obat2").select2({

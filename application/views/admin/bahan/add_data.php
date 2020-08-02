@@ -10,7 +10,7 @@
         </div>
     <?php endif; ?>
     <p></p>
-    <div class="card mb-3">
+    <div class="card my-2">
         <div class="card-header">
             <b class="text-gray-800"><?= $title; ?></b>
         </div>
@@ -19,16 +19,16 @@
                 <div class="form-row">
                     <div class="form-group col-sm-2">
                         <label for="name">Nama <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="nama" id="nama" placeholder="Nama" />
+                        <input class="form-control" type="text" name="nama" id="nama" placeholder="Nama" />
                         <span id="error_nama" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
                         <label for="satuan">Satuan <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="satuan" id="satuan" placeholder="Satuan" />
+                        <input class="form-control" type="text" name="satuan" id="satuan" placeholder="Satuan" />
                         <span id="error_satuan" class="text-danger"></span>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="button" name="tambah" id="tambah">Save</button>
+                <button class="btn btn-primary active" aria-pressed="true" type="button" name="tambah" id="tambah">Save</button>
             </form>
 
         </div>

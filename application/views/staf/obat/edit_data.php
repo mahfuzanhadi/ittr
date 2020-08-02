@@ -10,7 +10,7 @@
         </div>
     <?php endif; ?>
     <p></p>
-    <div class="card mb-3">
+    <div class="card my-2">
         <div class="card-header">
             <b class="text-gray-800"><?= $title; ?></b>
         </div>
@@ -20,40 +20,40 @@
                 <div class="form-row">
                     <div class="form-group col-sm-2">
                         <label for="name">Nama <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="nama" id="nama" placeholder="Nama" value="<?= $obat['nama'] ?>" />
+                        <input class="form-control" type="text" name="nama" id="nama" placeholder="Nama" value="<?= $obat['nama'] ?>" />
                         <span id="error_nama" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
                         <label for="satuan">Satuan <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="satuan" id="satuan" placeholder="Satuan" value="<?= $obat['satuan'] ?>" />
+                        <input class="form-control" type="text" name="satuan" id="satuan" placeholder="Satuan" value="<?= $obat['satuan'] ?>" />
                         <span id="error_satuan" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-2">
                         <label for="jenis">Jenis <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="jenis" id="jenis" placeholder="Jenis" value="<?= $obat['jenis'] ?>" />
+                        <input class="form-control" type="text" name="jenis" id="jenis" placeholder="Jenis" value="<?= $obat['jenis'] ?>" />
                         <span id="error_jenis" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
                         <label for="ukuran">Ukuran <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="ukuran" id="ukuran" placeholder="Ukuran" value="<?= $obat['ukuran'] ?>" />
+                        <input class="form-control" type="text" name="ukuran" id="ukuran" placeholder="Ukuran" value="<?= $obat['ukuran'] ?>" />
                         <span id="error_ukuran" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-2">
                         <label for="harga">Harga <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="harga" id="harga" placeholder="Harga " value="<?= $obat['harga'] ?>" />
+                        <input class="form-control" type="text" name="harga" id="harga" placeholder="Harga " value="<?= $obat['harga'] ?>" />
                         <span id="error_harga" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
                         <label for="stok">Stok <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="stok" id="stok" placeholder="stok " value="<?= $obat['stok'] ?>" />
+                        <input class="form-control" type="text" name="stok" id="stok" placeholder="Stok " value="<?= $obat['stok'] ?>" />
                         <span id="error_stok" class="text-danger"></span>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="submit" id="update" name="update">Update</button>
+                <button class="btn btn-primary active" aria-pressed="true" type="submit" id="update" name="update">Update</button>
             </form>
 
         </div>

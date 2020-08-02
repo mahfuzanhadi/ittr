@@ -133,9 +133,6 @@
 
     <!-- DataTables -->
     <div class="card mb-3">
-        <div class="card-header">
-            <a href="<?= base_url('transaksi/add'); ?>" class="btn btn-info btn-sm"><i class="fas fa-plus"></i> Add Data</a>
-        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-hover table-bordered" id="dataTable">
@@ -201,7 +198,7 @@
                         <div class="form-row">
                             <div class="form-group col-sm-4">
                                 <label for="metode_pembayaran" style="font-weight: bold">Metode Pembayaran</label>
-                                <select class="form-control  form-control-sm required" id="metode_pembayaran" name="metode_pembayaran">
+                                <select class="form-control form-control-sm required" id="metode_pembayaran" name="metode_pembayaran">
                                     <option value="0" selected disabled hidden>Pilih Metode Pembayaran</option>
                                     <option value="1" <?= set_select('metode_pembayaran', '1'); ?>>Cash</option>
                                     <option value="2" <?= set_select('metode_pembayaran', '2'); ?>>Kredit</option>
@@ -219,7 +216,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <a type="button" name="update" id="update" class="btn btn-success" style="color:white"><i class="fas fa-edit"></i> Update</a>
+                            <button type="button" name="update" id="update" class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
                             <input type="hidden" name="id_transaksi" id="id_transaksi" />
                         </div>
                     </div>

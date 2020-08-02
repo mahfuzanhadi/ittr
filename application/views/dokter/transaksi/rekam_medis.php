@@ -14,7 +14,7 @@
     $age = intval($umur);
     ?>
 
-    <div class="card mb-3">
+    <div class="card my-2">
         <div class="card-header">
             <b class="text-gray-800"><?= $title; ?></b>
         </div>
@@ -133,8 +133,6 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
-        </div>
-        <div class="card-footer small text-muted">
         </div>
     </div>
 </div>

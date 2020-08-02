@@ -10,7 +10,7 @@
         </div>
     <?php endif; ?>
     <p></p>
-    <div class="card mb-3">
+    <div class="card my-2">
         <div class="card-header">
             <b class="text-gray-800"><?= $title; ?></b>
         </div>
@@ -29,7 +29,7 @@
                         <span id="error_biaya" class="text-danger"></span>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="button" name="update" id="update">Update</button>
+                <button class="btn btn-primary active" aria-pressed="true" type="button" name="update" id="update">Update</button>
             </form>
 
         </div>

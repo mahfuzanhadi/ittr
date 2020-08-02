@@ -317,6 +317,7 @@ class Transaksi_model extends CI_Model
         // Fetch users
         $this->db->select('*');
         $this->db->where("nama like '%" . $searchTerm . "%' ");
+        $this->db->order_by('nama', 'asc');
         $fetched_records = $this->db->get('obat');
         $obat = $fetched_records->result_array();
 

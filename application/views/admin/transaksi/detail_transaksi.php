@@ -3,7 +3,7 @@
     <!-- Page Heading -->
     <a href="<?php echo base_url('transaksi') ?>"><i class="fas fa-arrow-left"></i> Back</a>
 
-    <div class="card mb-3">
+    <div class="card my-2">
         <div class="card-header">
             <b class="text-gray-800"><?= $title; ?></b>
         </div>
@@ -166,7 +166,6 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer small text-muted">
-        </div>
     </div>
+</div>
 </div>

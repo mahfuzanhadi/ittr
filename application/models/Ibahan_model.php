@@ -76,7 +76,7 @@ class Ibahan_model extends CI_Model
 
     public function get_bahan()
     {
-        $query = $this->db->query('SELECT * from bahan ORDER BY nama');
+        $query = $this->db->query('SELECT * from bahan ORDER BY nama ASC');
         return $query->result();
     }
 

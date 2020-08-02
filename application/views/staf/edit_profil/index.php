@@ -19,24 +19,24 @@
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="name">Nama <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="nama" id="nama" placeholder="Nama" value="<?= $staf['nama'] ?>" />
+                        <input class="form-control" type="text" name="nama" id="nama" placeholder="Nama" value="<?= $staf['nama'] ?>" />
                         <span id="error_nama" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="alamat">Alamat <font color="red">*</font></label>
-                        <textarea class="form-control form-control-sm" name="alamat" id="alamat" placeholder="Alamat"><?= $staf['alamat'] ?></textarea>
+                        <textarea class="form-control" name="alamat" id="alamat" placeholder="Alamat"><?= $staf['alamat'] ?></textarea>
                         <span id="error_alamat" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="tanggal_lahir">Tanggal Lahir <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="tanggal_lahir" id="picker" placeholder="Tanggal Lahir" value="<?= $staf['tanggal_lahir'] ?>" /> <small>(tahun-bulan-hari)</small>
+                        <input class="form-control" type="text" name="tanggal_lahir" id="picker" placeholder="Tanggal Lahir" value="<?= $staf['tanggal_lahir'] ?>" /> <small>(tahun-bulan-hari)</small>
                         <span id="error_picker" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="jenis_kelamin">Jenis Kelamin <font color="red">*</font></label>
-                        <select class="form-control form-control-sm" name="jenis_kelamin" id="jenis_kelamin">
+                        <select class="custom-select custom-select-sm" name="jenis_kelamin" id="jenis_kelamin">
                             <?php if ($staf['jenis_kelamin'] == 1) : ?>
                                 <option value="1" selected>Laki-laki</option>
                                 <option value="2">Perempuan</option>
@@ -51,31 +51,31 @@
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="no_telp">No. Telp</label>
-                        <input class="form-control form-control-sm" type="text" name="no_telp" id="no_telp" placeholder="No. Telp" value="<?= $staf['no_telp'] ?>" onkeypress="javascript:return isNumber(event)" />
+                        <input class="form-control" type="text" name="no_telp" id="no_telp" placeholder="No. Telp" value="<?= $staf['no_telp'] ?>" onkeypress="javascript:return isNumber(event)" />
                         <span id="error_no_telp" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="name">E-mail</label>
-                        <input class="form-control form-control-sm" type="text" name="email" id="email" placeholder="E-mail" value="<?= $staf['email'] ?>" />
+                        <input class="form-control" type="text" name="email" id="email" placeholder="E-mail" value="<?= $staf['email'] ?>" />
                         <span id="error_email" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label>Username</label>
-                        <input class="form-control form-control-sm" type="text" name="username" id="username" placeholder="Username" value="<?= $staf['username'] ?>" />
+                        <input class="form-control" type="text" name="username" id="username" placeholder="Username" value="<?= $staf['username'] ?>" />
                         <span id="error_username" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label>Password</label>
-                        <input class="form-control form-control-sm" type="password" name="password" id="password" placeholder="Password" />
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Password" />
                         <span id="error_password" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label>Ulangi Password</label>
-                        <input class="form-control form-control-sm" type="password" name="password2" id="password2" placeholder="Ulangi Password" />
+                        <input class="form-control" type="password" name="password2" id="password2" placeholder="Ulangi Password" />
                         <span id="error_password2" class="text-danger"></span>
                     </div>
                 </div>

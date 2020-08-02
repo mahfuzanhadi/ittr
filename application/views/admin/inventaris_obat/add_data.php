@@ -10,7 +10,7 @@
         </div>
     <?php endif; ?>
     <p></p>
-    <div class="card mb-3">
+    <div class="card my-2">
         <div class="card-header">
             <b class="text-gray-800"><?= $title; ?></b>
         </div>
@@ -19,8 +19,8 @@
                 <div class="form-row">
                     <div class="form-group col-sm-2">
                         <label for="nama">Nama <font color="red">*</font></label>
-                        <select class="form-control form-control-sm" name="nama" id="nama">
-                            <option value="">Pilih salah satu</option>
+                        <select class="custom-select custom-select-sm" name="nama" id="nama">
+                            <option value="" hidden>Pilih salah satu</option>
                             <?php
                             foreach ($obat as $row) {
                                 echo '<option value="' . $row->id_obat . '" ' . set_select('nama', $row->id_obat) . '>' . $row->nama . ' --- ' . $row->satuan . ' --- ' . $row->ukuran . '</option>';
@@ -31,7 +31,7 @@
                     <div class="form-group col-sm-2">
                         <?php date_default_timezone_set('Asia/Jakarta'); ?>
                         <label>Tanggal Masuk <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="tgl_masuk" id="picker" placeholder="Tanggal Masuk" /> <small>(tahun-bulan-hari)</small><br />
+                        <input class="form-control" type="text" name="tgl_masuk" id="picker" placeholder="Tanggal Masuk" /> <small>(tahun-bulan-hari)</small><br />
                         <span id="error_picker" class="text-danger"></span>
                     </div>
                 </div>
@@ -39,16 +39,16 @@
                     <div class="form-group col-sm-2">
                         <?php date_default_timezone_set('Asia/Jakarta'); ?>
                         <label>Expired <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="expired" id="datepicker" placeholder="Expired" /> <small>(tahun-bulan-hari)</small><br />
+                        <input class="form-control" type="text" name="expired" id="datepicker" placeholder="Expired" /> <small>(tahun-bulan-hari)</small><br />
                         <span id="error_datepicker" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
                         <label for="jumlah_masuk">Jumlah Masuk <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="jumlah_masuk" id="jumlah_masuk" placeholder="Jumlah Masuk" onkeypress="javascript:return isNumber(event)" />
+                        <input class="form-control" type="text" name="jumlah_masuk" id="jumlah_masuk" placeholder="Jumlah Masuk" onkeypress="javascript:return isNumber(event)" />
                         <span id="error_jumlah_masuk" class="text-danger"></span>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="button" name="tambah" id="tambah">Save</button>
+                <button class="btn btn-primary active" aria-pressed="true" type="button" name="tambah" id="tambah">Save</button>
             </form>
 
         </div>

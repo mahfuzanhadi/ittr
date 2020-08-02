@@ -229,7 +229,7 @@ class Transaksi extends CI_Controller
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == 2) { //IF USER = DOKTER
             $this->load->view('templates/header', $data);
-            $this->load->view('dokter/transaksi/sidebar', $data);
+            $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
             $this->load->view('dokter/transaksi/form_add', $data);
             $this->load->view('templates/footer');

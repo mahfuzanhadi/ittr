@@ -3,7 +3,6 @@
 
     <!-- Page Heading -->
     <a href="<?php echo base_url('pasien') ?>"><i class="fas fa-arrow-left"></i> Back</a>
-    <p></p>
 
     <?php if ($this->session->flashdata('success')) : ?>
         <div class="alert alert-success" role="alert">
@@ -11,7 +10,7 @@
         </div>
     <?php endif; ?>
 
-    <div class="card mb-3">
+    <div class="card my-2">
         <div class="card-header">
             <b class="text-gray-800"><?= $title; ?></b>
         </div>
@@ -21,43 +20,43 @@
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="no_rekam_medis">Nomor Rekam Medis <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="no_rekam_medis" id="no_rekam_medis" placeholder="Nomor Rekam Medis" value="<?= set_value('no_rekam_medis', $pasien['no_rekam_medis']) ?>" />
+                        <input class="form-control" type="text" name="no_rekam_medis" id="no_rekam_medis" placeholder="Nomor Rekam Medis" value="<?= set_value('no_rekam_medis', $pasien['no_rekam_medis']) ?>" />
                         <span id="error_no_rm" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="name">Nama <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="nama" id="nama" placeholder="Nama" value="<?= $pasien['nama'] ?>" />
+                        <input class="form-control" type="text" name="nama" id="nama" placeholder="Nama" value="<?= $pasien['nama'] ?>" />
                         <span id="error_nama" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="alamat">Alamat <font color="red">*</font></label>
-                        <textarea class="form-control form-control-sm" name="alamat" id="alamat" placeholder="Alamat"><?= $pasien['alamat'] ?></textarea>
+                        <textarea class="form-control" name="alamat" id="alamat" placeholder="Alamat"><?= $pasien['alamat'] ?></textarea>
                         <span id="error_alamat" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="tanggal_lahir">Tanggal Lahir <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="tanggal_lahir" id="picker" placeholder="Tanggal Lahir" value="<?= $pasien['tanggal_lahir'] ?>" /> <small>(tahun-bulan-hari)</small><br />
+                        <input class="form-control" type="text" name="tanggal_lahir" id="picker" placeholder="Tanggal Lahir" value="<?= $pasien['tanggal_lahir'] ?>" /> <small>(tahun-bulan-hari)</small><br />
                         <span id="error_picker" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="pekerjaan">Pekerjaan <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="pekerjaan" id="pekerjaan" placeholder="Pekerjaan" value="<?= $pasien['pekerjaan'] ?>" />
+                        <input class="form-control" type="text" name="pekerjaan" id="pekerjaan" placeholder="Pekerjaan" value="<?= $pasien['pekerjaan'] ?>" />
                         <span id="error_pekerjaan" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="no_telp">No. Telp</label>
-                        <input class="form-control form-control-sm" type="text" name="no_telp" id="no_telp" placeholder="No. Telp" value="<?= $pasien['no_telp'] ?>" onkeypress="javascript:return isNumber(event)" />
+                        <input class="form-control" type="text" name="no_telp" id="no_telp" placeholder="No. Telp" value="<?= $pasien['no_telp'] ?>" onkeypress="javascript:return isNumber(event)" />
                         <span id="error_no_telp" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="jenis_kelamin">Jenis Kelamin <font color="red">*</font></label>
-                        <select class="form-control form-control-sm" name="jenis_kelamin" id="jenis_kelamin">
+                        <select class="custom-select custom-select-sm" name="jenis_kelamin" id="jenis_kelamin">
                             <?php if ($pasien['jenis_kelamin'] == 1) : ?>
                                 <option value="1" selected>Laki-laki</option>
                                 <option value="2">Perempuan</option>
@@ -70,36 +69,36 @@
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="email">E-mail</label>
-                        <input class="form-control form-control-sm" type="text" name="email" id="email" placeholder="E-mail" value="<?= $pasien['email'] ?>" />
+                        <input class="form-control" type="text" name="email" id="email" placeholder="E-mail" value="<?= $pasien['email'] ?>" />
                         <span id="error_email" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="riwayat_penyakit">Riwayat Penyakit</label>
-                        <input class="form-control form-control-sm" type="text" name="riwayat_penyakit" id="riwayat_penyakit" placeholder="Riwayat Penyakit" value="<?= $pasien['riwayat_penyakit'] ?>" />
+                        <input class="form-control" type="text" name="riwayat_penyakit" id="riwayat_penyakit" placeholder="Riwayat Penyakit" value="<?= $pasien['riwayat_penyakit'] ?>" />
                         <!-- <span id="error_riwayat_penyakit" class="text-danger"></span> -->
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="alergi_obat">Alergi Obat</label>
-                        <input class="form-control form-control-sm" type="text" name="alergi_obat" id="alergi_obat" placeholder="Alergi Obat" value="<?= $pasien['alergi_obat'] ?>" />
+                        <input class="form-control" type="text" name="alergi_obat" id="alergi_obat" placeholder="Alergi Obat" value="<?= $pasien['alergi_obat'] ?>" />
                         <!-- <span id="error_alergi_obat" class="text-danger"></span> -->
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label>Username</label>
-                        <input class="form-control form-control-sm" type="text" name="username" id="username" placeholder="Username" value="<?= $pasien['username'] ?>" />
+                        <input class="form-control" type="text" name="username" id="username" placeholder="Username" value="<?= $pasien['username'] ?>" />
                         <span id="error_username" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label>Password</label>
-                        <input class="form-control form-control-sm" type="password" name="password" id="password" placeholder="Password" />
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Password" />
                         <span id="error_password" class="text-danger"></span>
                         <input type="hidden" value="<?= $pasien['password'] ?>" name="password2" />
                     </div>
                 </div>
-                <button class="btn btn-primary" type="button" name="update" id="update">Update</button>
+                <button class="btn btn-primary active" aria-pressed="true" type="button" name="update" id="update">Update</button>
             </form>
 
         </div>

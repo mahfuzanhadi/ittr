@@ -3,14 +3,13 @@
 
     <!-- Page Heading -->
     <a href="<?php echo base_url('dokter') ?>"><i class="fas fa-arrow-left"></i> Back</a>
-    <p></p>
 
     <?php if ($this->session->flashdata('success')) : ?>
         <div class="alert alert-success" role="alert">
             <?php echo $this->session->flashdata('success'); ?>
         </div>
     <?php endif; ?>
-    <div class="card mb-3">
+    <div class="card my-2">
         <div class="card-header">
             <b class="text-gray-800"><?= $title; ?></b>
         </div>
@@ -19,32 +18,32 @@
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="name">Nama <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="nama" id="nama" placeholder="Nama" />
+                        <input class="form-control" type="text" name="nama" id="nama" placeholder="Nama" />
                         <span id="error_nama" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="alamat">Alamat <font color="red">*</font></label>
-                        <textarea class="form-control form-control-sm" name="alamat" id="alamat" placeholder="Alamat"></textarea>
+                        <textarea class="form-control" name="alamat" id="alamat" placeholder="Alamat"></textarea>
                         <span id="error_alamat" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="tempat_lahir">Tempat Lahir <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" name="tempat_lahir" id="tempat_lahir" placeholder="Tempat Lahir" />
+                        <input class="form-control" name="tempat_lahir" id="tempat_lahir" placeholder="Tempat Lahir" />
                         <span id="error_tempat_lahir" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="tanggal_lahir">Tanggal Lahir <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="tanggal_lahir" id="picker" placeholder="Tanggal Lahir" value="<?= set_value('tanggal_lahir'); ?>" /> <small>(tahun-bulan-hari)</small><br />
+                        <input class="form-control" type="text" name="tanggal_lahir" id="picker" placeholder="Tanggal Lahir" value="<?= set_value('tanggal_lahir'); ?>" /> <small>(tahun-bulan-hari)</small><br />
                         <span id="error_picker" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="jenis_kelamin">Jenis Kelamin <font color="red">*</font></label>
-                        <select class="form-control  form-control-sm required" id="jenis_kelamin" name="jenis_kelamin">
-                            <option value="">Pilih Jenis Kelamin</option>
+                        <select class="custom-select custom-select-sm" id="jenis_kelamin" name="jenis_kelamin">
+                            <option value="" hidden>Pilih Jenis Kelamin</option>
                             <option value="1" <?= set_select('jenis_kelamin', '1'); ?>>Laki-laki</option>
                             <option value="2" <?= set_select('jenis_kelamin', '2'); ?>>Perempuan</option>
                         </select>
@@ -52,54 +51,54 @@
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="name">E-mail <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="email" id="email" placeholder="E-mail" />
+                        <input class="form-control" type="text" name="email" id="email" placeholder="E-mail" />
                         <span id="error_email" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="no_telp">No. Telp</label>
-                        <input class="form-control form-control-sm" type="text" name="no_telp" id="no_telp" placeholder="No. Telp" onkeypress="javascript:return isNumber(event)" />
+                        <input class="form-control" type="text" name="no_telp" id="no_telp" placeholder="No. Telp" onkeypress="javascript:return isNumber(event)" />
                         <span id="error_no_telp" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="no_sip">No. SIP <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="no_sip" id="no_sip" placeholder="No. SIP" />
+                        <input class="form-control" type="text" name="no_sip" id="no_sip" placeholder="No. SIP" />
                         <span id="error_no_telp" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="tanggal_berlaku_sip">Tanggal Berlaku SIP <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="tanggal_berlaku_sip" id="datepicker" placeholder="Tanggal Berlaku SIP" /> <small>(tahun-bulan-hari)</small><br />
+                        <input class="form-control" type="text" name="tanggal_berlaku_sip" id="datepicker" placeholder="Tanggal Berlaku SIP" /> <small>(tahun-bulan-hari)</small><br />
                         <span id="error_datepicker" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="no_str">No. STR <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="no_str" id="no_str" placeholder="No. STR" />
+                        <input class="form-control" type="text" name="no_str" id="no_str" placeholder="No. STR" />
                         <span id="error_no_str" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="tanggal_berlaku_str">Tanggal Berlaku STR <font color="red">*</font></label>
-                        <input class="form-control form-control-sm" type="text" name="tanggal_berlaku_str" id="datepicker2" placeholder="Tanggal Berlaku STR" /> <small>(tahun-bulan-hari)</small><br />
+                        <input class="form-control" type="text" name="tanggal_berlaku_str" id="datepicker2" placeholder="Tanggal Berlaku STR" /> <small>(tahun-bulan-hari)</small><br />
                         <span id="error_datepicker2" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label>Username</label>
-                        <input class="form-control form-control-sm" type="text" name="username" id="username" placeholder="Username" />
+                        <input class="form-control" type="text" name="username" id="username" placeholder="Username" />
                         <span id="error_username" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label>Password</label>
-                        <input class="form-control form-control-sm" type="password" name="password" id="password" placeholder="Password" />
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Password" />
                         <span id="error_password" class="text-danger"></span>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="button" name="tambah" id="tambah">Save</button>
+                <button class="btn btn-primary active" aria-pressed="true" type="button" name="tambah" id="tambah">Save</button>
             </form>
 
         </div>

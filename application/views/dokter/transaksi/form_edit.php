@@ -23,7 +23,7 @@
     }
     ?>
 
-    <div class="card mb-3">
+    <div class="card my-2">
         <div class="card-header">
             <b class="text-gray-800"><?= $title; ?></b>
         </div>
@@ -40,7 +40,7 @@
                         <a class="nav-link inactive_tab1" style="border:1px solid #ccc" id="list_detail_obat">Detail Obat</a>
                     </li>
                 </ul>
-                <div class="tab-content" style="margin-top:16px">
+                <div class="tab-content mt-4">
                     <div class="tab-pane active" id="rekam_medis">
                         <div class="panel panel-default">
                             <!-- <div class="panel-heading">Data Rekam Medis</div> -->
@@ -52,12 +52,12 @@
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="no_rekam_medis">No. Rekam Medis <font color="red">*</font></label>
-                                        <input class="form-control form-control-sm" type="text" name="no_rekam_medis" id="no_rekam_medis" placeholder="No. Rekam Medis" value="<?= $no_rekam_medis; ?>" onkeypress="javascript:return isNumber(event)" />
+                                        <input class="form-control" type="text" name="no_rekam_medis" id="no_rekam_medis" placeholder="No. Rekam Medis" value="<?= $no_rekam_medis; ?>" onkeypress="javascript:return isNumber(event)" />
                                         <span id="error_no_rm" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-sm-3">
                                         <label for="dokter">Dokter <font color="red">*</font></label>
-                                        <select class="form-control form-control-sm" name="dokter" id="dokter">
+                                        <select class="custom-select custom-select-sm" name="dokter" id="dokter">
                                             <?php foreach ($dokter as $row) : ?>
                                                 <?php if ($row->id_dokter == $transaksi['id_dokter']) : ?>
                                                     <option value="<?= $row->id_dokter; ?>" selected readonly="readonly"><?= $row->nama; ?></option>
@@ -70,7 +70,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="perawat">Perawat <font color="red">*</font></label>
-                                        <select class="form-control form-control-sm" name="perawat" id="perawat">
+                                        <select class="custom-select custom-select-sm" name="perawat" id="perawat">
                                             <option value="" hidden>Pilih Perawat</option>
                                             <?php foreach ($perawat as $row) : ?>
                                                 <?php if ($row->id_perawat == $transaksi['id_perawat']) : ?>
@@ -85,18 +85,18 @@
                                     <div class="form-group col-sm-3">
                                         <?php date_default_timezone_set('Asia/Jakarta'); ?>
                                         <label>Tanggal</label>
-                                        <input class="form-control form-control-sm" type="text" name="tanggal" id="picker" placeholder="Tanggal" value="<?= $transaksi['tanggal']; ?>" readonly="readonly" /> <small>(tahun-bulan-hari)</small>
+                                        <input class="form-control" type="text" name="tanggal" id="picker" placeholder="Tanggal" value="<?= $transaksi['tanggal']; ?>" readonly="readonly" /> <small>(tahun-bulan-hari)</small>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <?php date_default_timezone_set('Asia/Jakarta'); ?>
                                         <label>Jam Mulai</label>
-                                        <input class="form-control form-control-sm" type="time" name="jam_mulai" placeholder="jam_mulai" value="<?= $transaksi['jam_mulai']; ?>" readonly="readonly" />
+                                        <input class="form-control" type="time" name="jam_mulai" placeholder="jam_mulai" value="<?= $transaksi['jam_mulai']; ?>" readonly="readonly" />
                                     </div>
                                     <div class="form-group col-sm-3">
                                         <label>Keterangan</label>
-                                        <textarea class="form-control form-control-sm" type="text" name="keterangan" placeholder="Keterangan"><?= $transaksi['keterangan']; ?></textarea>
+                                        <textarea class="form-control" type="text" name="keterangan" placeholder="Keterangan"><?= $transaksi['keterangan']; ?></textarea>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -106,7 +106,7 @@
                                     </div>
                                 </div>
                                 <div align="center">
-                                    <button type="button" name="btn_rekam_medis" id="btn_rekam_medis" class="btn btn-info btn-lg">Selanjutnya</button>
+                                    <button type="button" name="btn_rekam_medis" id="btn_rekam_medis" class="btn btn-info btn-lg active" aria-pressed="true">Selanjutnya</button>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                                     <div class="form-row">
                                         <div class="form-group col-sm-3">
                                             <label>Diagnosa</label>
-                                            <input class="form-control form-control-sm" type="text" name="diagnosa[]" id="diagnosa<?= $i; ?>" placeholder="Diagnosa" value="<?= $dt->diagnosa; ?>" />
+                                            <input class="form-control" type="text" name="diagnosa[]" id="diagnosa<?= $i; ?>" placeholder="Diagnosa" value="<?= $dt->diagnosa; ?>" />
                                             <span id="error_diagnosa" class="text-danger"></span>
                                         </div>
                                         <div class="form-group col-sm-4">
@@ -140,7 +140,7 @@
                                         </div>
                                         <div class="form-group col-sm-2">
                                             <label>Biaya</label>
-                                            <input class="form-control form-control-sm" type="text" name="biaya[]" id="biaya<?= $i; ?>" placeholder="Biaya" value="<?= $dt->biaya_tindakan; ?>" onkeypress="javascript:return isNumber(event)" />
+                                            <input class="form-control" type="text" name="biaya[]" id="biaya<?= $i; ?>" placeholder="Biaya" value="<?= $dt->biaya_tindakan; ?>" onkeypress="javascript:return isNumber(event)" />
                                             <span id="error_biaya" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -148,7 +148,7 @@
                             <?php endforeach; ?>
                             <div align="center">
                                 <button type="button" name="previous_btn_tindakan" id="previous_btn_tindakan" class="btn btn-outline-info btn-lg">Sebelumnya</button>
-                                <button type="button" name="btn_detail_tindakan" id="btn_detail_tindakan" class="btn btn-info btn-lg">Selanjutnya</button>
+                                <button type="button" name="btn_detail_tindakan" id="btn_detail_tindakan" class="btn btn-info btn-lg active" aria-pressed="true">Selanjutnya</button>
                             </div>
                         </div>
                     </div>
@@ -178,17 +178,17 @@
                                             </div>
                                             <div class="form-group col-sm-2">
                                                 <label>Harga <font color="red">*</font></label>
-                                                <input class="form-control form-control-sm" type="text" name="harga[]" id="harga<?= $j; ?>" placeholder="Harga" value="<?= $harga_obat; ?>" onkeypress="javascript:return isNumber(event)" />
+                                                <input class="form-control" type="text" name="harga[]" id="harga<?= $j; ?>" placeholder="Harga" value="<?= $harga_obat; ?>" onkeypress="javascript:return isNumber(event)" />
                                                 <span id="error_harga" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
                                                 <label>Dosis <font color="red">*</font></label>
-                                                <input class="form-control form-control-sm" type="text" name="dosis[]" id="dosis" placeholder="Dosis" value="<?= $do->dosis; ?>" />
+                                                <input class="form-control" type="text" name="dosis[]" id="dosis" placeholder="Dosis" value="<?= $do->dosis; ?>" />
                                                 <span id="error_dosis" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
                                                 <label>Jumlah Obat <font color="red">*</font></label>
-                                                <input class="form-control form-control-sm" type="text" name="jumlah[]" id="jumlah" placeholder="Jumlah Obat" value="<?= $do->jumlah_obat; ?>" />
+                                                <input class="form-control" type="text" name="jumlah[]" id="jumlah" placeholder="Jumlah Obat" value="<?= $do->jumlah_obat; ?>" />
                                                 <span id="error_jumlah" class="text-danger"></span>
                                             </div>
                                         </div>
@@ -196,7 +196,7 @@
                                 <?php endforeach; ?>
                                 <div align="center">
                                     <button type="button" name="previous_btn_obat" id="previous_btn_obat" class="btn btn-outline-info btn-lg">Sebelumnya</button>
-                                    <button type="button" name="btn_detail_obat" id="btn_detail_obat" class="btn btn-info btn-lg">Submit</button>
+                                    <button type="button" name="btn_detail_obat" id="btn_detail_obat" class="btn btn-info btn-lg active" aria-pressed="true">Submit</button>
                                 </div>
                             </div>
                         </div>

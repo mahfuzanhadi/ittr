@@ -97,7 +97,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Kunjungan Per Tahun</h6>
                     <div class="col-md-3">
                         <select name="tahun" id="tahun" class="form-control">
-                            <option value="">Pilih Tahun</option>
+                            <option value="" hidden>Pilih Tahun</option>
                             <?php
                             foreach ($tahun as $year) {
                                 echo '<option value="' . $year['year(tanggal)'] . '"> ' . $year['year(tanggal)'] . ' </option>';
@@ -108,7 +108,7 @@
                 <div class="card-body">
                     <div class="text-center small">
                         <span class="mr-3">
-                            <p id="total_data"></p>
+                            <h6 class="m-0 font-weight-bold text-primary" id="total_data"></h6>
                         </span>
                     </div>
                     <div class="chart-area" id="chart-kunjungan">
@@ -127,7 +127,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Omzet Per Tahun</h6>
                     <div class="col-md-3">
                         <select name="tahun_omzet" id="tahun_omzet" class="form-control">
-                            <option value="">Pilih Tahun</option>
+                            <option value="" hidden>Pilih Tahun</option>
                             <?php
                             foreach ($tahun as $tahun) {
                                 echo '<option value="' . $tahun['year(tanggal)'] . '"> ' . $tahun['year(tanggal)'] . ' </option>';

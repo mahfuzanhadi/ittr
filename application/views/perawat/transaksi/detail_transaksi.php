@@ -84,7 +84,10 @@
             </div>
             <div class="row">
                 <div class="col-sm-3">
-                    <p><strong>Tanggal</strong> : <?= $transaksi['tanggal']; ?></p>
+                    <?php
+                    setlocale(LC_ALL, 'id-ID', 'id_ID');
+                    $tanggal = strftime("%d %B %Y", strtotime($transaksi['tanggal'])); ?>
+                    <p><strong>Tanggal</strong> : <?= $tanggal; ?></p>
                 </div>
                 <div class="col-sm-3">
                     <p><strong>Keterangan</strong> : <?= $transaksi['keterangan']; ?></p>

@@ -198,7 +198,7 @@
                         <div class="form-row">
                             <div class="form-group col-sm-4">
                                 <label for="metode_pembayaran" style="font-weight: bold">Metode Pembayaran</label>
-                                <select class="form-control form-control-sm required" id="metode_pembayaran" name="metode_pembayaran">
+                                <select class="custom-select custom-select-sm" id="metode_pembayaran" name="metode_pembayaran">
                                     <option value="0" selected disabled hidden>Pilih Metode Pembayaran</option>
                                     <option value="1" <?= set_select('metode_pembayaran', '1'); ?>>Cash</option>
                                     <option value="2" <?= set_select('metode_pembayaran', '2'); ?>>Kredit</option>
@@ -211,7 +211,7 @@
                                 <p id="status_pembayaran"></p>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for="added_by" style="font-weight: bold">Added by</label>
+                                <label for="added_by" style="font-weight: bold">Diterima oleh</label>
                                 <p id="added_by"></p>
                             </div>
                         </div>

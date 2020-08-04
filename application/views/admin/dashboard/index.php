@@ -96,7 +96,7 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Kunjungan Per Tahun</h6>
                     <div class="col-md-3">
-                        <select name="tahun" id="tahun" class="form-control">
+                        <select name="tahun" id="tahun" class="custom-select custom-select-sm">
                             <option value="" hidden>Pilih Tahun</option>
                             <?php
                             foreach ($tahun as $year) {
@@ -126,7 +126,7 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Omzet Per Tahun</h6>
                     <div class="col-md-3">
-                        <select name="tahun_omzet" id="tahun_omzet" class="form-control">
+                        <select name="tahun_omzet" id="tahun_omzet" class="custom-select custom-select-sm">
                             <option value="" hidden>Pilih Tahun</option>
                             <?php
                             foreach ($tahun as $tahun) {
@@ -187,22 +187,30 @@
                     <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Metode Pembayaran</h6>
                 </div>
                 <div class="card-body">
-                    <div class="chart-pie pt-4">
+                    <div class="chart-pie pt-4" style="height: 16rem !important;">
                         <canvas id="rekap_transaksi_metode_pembayaran" class="canvas_metode_pembayaran"></canvas>
                     </div>
-                    <div class="text-center small pt-4">
-                        <span class="mr-2">
-                            <i class="fas fa-circle" style="color:rgba(255, 206, 86, 0.87)"></i> <span style="color:#666">Cash</span>
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle" style="color:rgba(75, 192, 192, 0.87)"></i> <span style="color:#666">Kredit</span>
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle" style="color:rgba(153, 102, 255, 0.87)"></i> <span style="color:#666">Debit</span>
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle" style="color:rgba(255, 159, 64, 0.87)"></i> <span style="color:#666">Transfer</span>
-                        </span>
+                    <div class="text-justify pl-3">
+                        <div class="row pt-2">
+                            <div class="col">
+                                <i class="fas fa-circle" style="color:rgba(255, 206, 86, 0.87)"></i> <span style="color:#666">Cash : </span>
+                                <span id="cash" style="color:#666"></span>
+                            </div>
+                            <div class="col">
+                                <i class="fas fa-circle" style="color:rgba(75, 192, 192, 0.87)"></i> <span style="color:#666">Kredit : </span>
+                                <span id="kredit" style="color:#666"></span>
+                            </div>
+                        </div>
+                        <div class="row pt-3">
+                            <div class="col">
+                                <i class="fas fa-circle" style="color:rgba(153, 102, 255, 0.87)"></i> <span style="color:#666">Debit : </span>
+                                <span id="debit" style="color:#666"></span>
+                            </div>
+                            <div class="col">
+                                <i class="fas fa-circle" style="color:rgba(255, 159, 64, 0.87)"></i> <span style="color:#666">Transfer : </span>
+                                <span id="transfer" style="color:#666"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -232,6 +240,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Data Pasien Berdasarkan Riwayat Penyakit</h6>
                 </div>
                 <div class="card-body">
+                    <span id="legend_riwayat_penyakit"></span>
                     <div class="chart-pie">
                         <canvas id="rekap_pasien_riwayat_penyakit" class="canvas_riwayat_penyakit"></canvas>
                     </div>
@@ -245,6 +254,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Data Pasien Berdasarkan Alergi Obat</h6>
                 </div>
                 <div class="card-body">
+                    <span id="legend_alergi_obat"></span>
                     <div class="chart-pie">
                         <canvas id="rekap_pasien_alergi_obat" class="canvas_alergi_obat"></canvas>
                     </div>
@@ -502,6 +512,14 @@
             url: "<?php echo base_url("dashboard/fetch_metode_pembayaran"); ?>",
             success: function(data) {
                 let jumlah = jQuery.parseJSON(data);
+                let cash_p = document.getElementById('cash');
+                cash_p.innerText = jumlah[0];
+                let kredit_p = document.getElementById('kredit');
+                kredit_p.innerText = jumlah[1];
+                let debit_p = document.getElementById('debit');
+                debit_p.innerText = jumlah[2];
+                let transfer_p = document.getElementById('transfer');
+                transfer_p.innerText = jumlah[3];
 
                 var ctx = document.getElementById('rekap_transaksi_metode_pembayaran').getContext('2d');
                 var chart = new Chart(ctx, {
@@ -663,11 +681,33 @@
                         }]
                     },
                     options: {
+                        responsive: true,
                         legend: {
+                            display: false,
                             position: 'right'
+                        },
+                        legendCallback: function(chart) {
+                            var text = [];
+
+                            var data = chart.data;
+                            var datasets = data.datasets;
+                            var labels = data.labels;
+
+                            if (datasets.length) {
+                                for (var i = 0; i < datasets[0].data.length; ++i) {
+                                    if (labels[i]) {
+                                        text.push('<div class="row ml-2 mb-2"><i class="fas fa-square" style="color:' + datasets[0].backgroundColor[i] + '"></i>&nbsp;<span style="color: #666">' + labels[i] + ' : ' + datasets[0].data[i] + '</span>');
+                                    }
+                                    text.push('</div>');
+                                }
+                            }
+                            return text.join('');
                         },
                     }
                 });
+
+                var riwayat_penyakit = chart.generateLegend();
+                document.getElementById("legend_riwayat_penyakit").innerHTML = riwayat_penyakit;
             }
         })
     })
@@ -697,11 +737,33 @@
                         }]
                     },
                     options: {
+                        responsive: true,
                         legend: {
+                            display: false,
                             position: 'right'
+                        },
+                        legendCallback: function(chart) {
+                            var text = [];
+
+                            var data = chart.data;
+                            var datasets = data.datasets;
+                            var labels = data.labels;
+
+                            if (datasets.length) {
+                                for (var i = 0; i < datasets[0].data.length; ++i) {
+                                    if (labels[i]) {
+                                        text.push('<div class="row ml-2 mb-2"><i class="fas fa-square" style="color:' + datasets[0].backgroundColor[i] + '"></i>&nbsp;<span style="color: #666">' + labels[i] + ' : ' + datasets[0].data[i] + '</span>');
+                                    }
+                                    text.push('</div>');
+                                }
+                            }
+                            return text.join('');
                         },
                     }
                 });
+
+                var alergi_obat = chart.generateLegend();
+                document.getElementById("legend_alergi_obat").innerHTML = alergi_obat;
             }
         })
     })
@@ -747,7 +809,20 @@
                                 'rgba(255, 206, 86, 0.87)',
                                 'rgba(75, 192, 192, 0.87)',
                                 'rgba(153, 102, 255, 0.87)',
-                                'rgba(255, 159, 64, 0.87)', 'rgba(255, 99, 132, 0.87)',
+                                'rgba(255, 159, 64, 0.87)',
+                                'rgba(255, 99, 132, 0.87)',
+                                'rgba(54, 162, 235, 0.87)',
+                                'rgba(255, 206, 86, 0.87)',
+                                'rgba(75, 192, 192, 0.87)',
+                                'rgba(153, 102, 255, 0.87)',
+                                'rgba(255, 159, 64, 0.87)',
+                                'rgba(255, 99, 132, 0.87)',
+                                'rgba(54, 162, 235, 0.87)',
+                                'rgba(255, 206, 86, 0.87)',
+                                'rgba(75, 192, 192, 0.87)',
+                                'rgba(153, 102, 255, 0.87)',
+                                'rgba(255, 159, 64, 0.87)',
+                                'rgba(255, 99, 132, 0.87)',
                                 'rgba(54, 162, 235, 0.87)',
                                 'rgba(255, 206, 86, 0.87)',
                                 'rgba(75, 192, 192, 0.87)',
@@ -759,7 +834,20 @@
                                 'rgba(255, 206, 86, 0.87)',
                                 'rgba(75, 192, 192, 0.87)',
                                 'rgba(153, 102, 255, 0.87)',
-                                'rgba(255, 159, 64, 0.87)', 'rgba(255, 99, 132, 0.87)',
+                                'rgba(255, 159, 64, 0.87)',
+                                'rgba(255, 99, 132, 0.87)',
+                                'rgba(54, 162, 235, 0.87)',
+                                'rgba(255, 206, 86, 0.87)',
+                                'rgba(75, 192, 192, 0.87)',
+                                'rgba(153, 102, 255, 0.87)',
+                                'rgba(255, 159, 64, 0.87)',
+                                'rgba(255, 99, 132, 0.87)',
+                                'rgba(54, 162, 235, 0.87)',
+                                'rgba(255, 206, 86, 0.87)',
+                                'rgba(75, 192, 192, 0.87)',
+                                'rgba(153, 102, 255, 0.87)',
+                                'rgba(255, 159, 64, 0.87)',
+                                'rgba(255, 99, 132, 0.87)',
                                 'rgba(54, 162, 235, 0.87)',
                                 'rgba(255, 206, 86, 0.87)',
                                 'rgba(75, 192, 192, 0.87)',

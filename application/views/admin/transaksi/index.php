@@ -213,7 +213,7 @@
                                 <p id="status_pembayaran"></p>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for="added_by" style="font-weight: bold">Added by</label>
+                                <label for="added_by" style="font-weight: bold">Diterima oleh</label>
                                 <p id="added_by"></p>
                             </div>
                         </div>

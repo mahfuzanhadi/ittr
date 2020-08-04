@@ -61,7 +61,7 @@
             <table class="table table-hover table-bordered" id="myTable">
                 <thead class="thead-dark">
                     <tr>
-                        <th width="110px">Tanggal</th>
+                        <th width="120px">Tanggal</th>
                         <th width="150px">Dokter</th>
                         <th width="110px">Perawat</th>
                         <th width="130px">Diagnosa</th>

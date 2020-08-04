@@ -10,6 +10,7 @@
         </div>
     <?php endif; ?>
 
+    <!-- CARI PASIEN BERDASARKAN NO REKAM MEDIS -->
     <?php
     $id = $transaksi['id_pasien'];
     $this->db->select('no_rekam_medis');
@@ -20,6 +21,18 @@
         $no_rekam_medis = $row->no_rekam_medis;
     } else {
         $no_rekam_medis = null;
+    }
+    ?>
+
+    <?php
+    if ($transaksi['id_dokter'] !== $this->session->userdata('id')) {
+        $previous_url = $this->session->userdata('previous_url');
+        $this->session->set_flashdata('error', 'denied');
+        redirect($previous_url);
+    } else if ($transaksi['metode_pembayaran'] !== 0) {
+        $previous_url = $this->session->userdata('previous_url');
+        $this->session->set_flashdata('deny', 'denied');
+        redirect($previous_url);
     }
     ?>
 

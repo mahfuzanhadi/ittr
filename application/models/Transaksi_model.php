@@ -79,16 +79,6 @@ class Transaksi_model extends CI_Model
         return $this->db->get_where('transaksi', ["id_transaksi" => $id])->row_array();
     }
 
-    // public function getDetailTindakan($id)
-    // {
-    //     return $this->db->get_where('detail_tindakan', ["id_transaksi" => $id])->result_array();
-    // }
-
-    // public function getDetailObat($id)
-    // {
-    //     return $this->db->get_where('detail_biaya_obat', ["id_transaksi" => $id])->result_array();
-    // }
-
     public function add_data($data)
     {
         $this->db->insert('transaksi', $data);
@@ -174,9 +164,10 @@ class Transaksi_model extends CI_Model
         return $this->db->get()->row();
     }
 
-    public function update_metode_pembayaran($id, $data)
+    public function update_detail_transaksi($id, $data, $added_by)
     {
         $this->db->set('metode_pembayaran', $data);
+        $this->db->set('added_by', $added_by);
         $this->db->where('id_transaksi', $id);
         $this->db->update($this->table);
         return $this->db->affected_rows();
@@ -526,5 +517,18 @@ class Transaksi_model extends CI_Model
         $this->db->where('id_transaksi', $id);
         $this->db->order_by('id_transaksi', 'DESC');
         return $this->db->get()->result();
+    }
+
+    public function get_nama_pasien($no_rekam_medis)
+    {
+        $this->db->select('nama');
+        $this->db->from('pasien');
+        $this->db->where('no_rekam_medis', $no_rekam_medis);
+        $row = $this->db->get()->row();
+        if (isset($row)) {
+            return $row->nama;
+        } else {
+            return '';
+        }
     }
 }

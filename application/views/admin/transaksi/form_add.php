@@ -40,6 +40,7 @@
                                         <label for="no_rekam_medis">No. Rekam Medis <font color="red">*</font></label>
                                         <input class="form-control" type="text" name="no_rekam_medis" id="no_rekam_medis" placeholder="No. Rekam Medis" onkeypress="javascript:return isNumber(event)" />
                                         <span id="error_no_rm" class="text-danger"></span>
+                                        <span id="nama_pasien" class="text-primary"></span>
                                     </div>
                                     <div class="form-group col-sm-3">
                                         <label for="dokter">Dokter <font color="red">*</font></label>
@@ -240,6 +241,28 @@
                         $('#error_no_rm').text(error_no_rm);
                         $('#no_rekam_medis').removeClass('has-error');
                         $('#btn_rekam_medis').removeAttr('disabled');
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<!-- SCRIPT GET NAMA PASIEN BY NO REKAM MEDIS -->
+<script>
+    $(document).ready(function() {
+        $('#no_rekam_medis').change(function() {
+            const no_rekam_medis = $('#no_rekam_medis').val();
+            $.ajax({
+                type: "POST",
+                url: "<?= base_url('transaksi/get_nama_pasien') ?>",
+                data: "no_rekam_medis=" + no_rekam_medis,
+                success: function(response) {
+                    if (response != '') {
+                        $('#nama_pasien').text(response);
+                    } else {
+                        const kosong = '';
+                        $('#nama_pasien').text(kosong);
                     }
                 }
             });

@@ -126,6 +126,32 @@
         </div>
     <?php endif; ?>
 
+    <?php if ($this->session->flashdata('error')) : ?>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Anda tidak memiliki akses ke data ini!
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($this->session->flashdata('deny')) : ?>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Anda tidak dapat mengubah data ini! Silahkan hubungi super admin jika ingin mengubah data ini.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <!-- Page Heading -->
     <h3 class="h3 mb-4 text-gray-800"><?= $title; ?></h3>
 

@@ -35,12 +35,17 @@
                                 <input type="hidden" name="total_biaya_tindakan" value="0">
                                 <input type="hidden" name="total_biaya_obat" value="0">
                                 <input type="hidden" name="total_biaya_keseluruhan" value="0">
-                                <input type="hidden" name="metode_pembayaran" value="">
+                                <input type="hidden" name="diskon" id="diskon" value="">
+                                <input type="hidden" name="jumlah_bayar" value="0">
+                                <input type="hidden" name="metode_pembayaran" value="0">
+                                <input type="hidden" name="keterangan" id="keterangan" value="">
+                                <input type="hidden" name="added_by" value="">
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="no_rekam_medis">No. Rekam Medis <font color="red">*</font></label>
                                         <input class="form-control" type="text" name="no_rekam_medis" id="no_rekam_medis" placeholder="No. Rekam Medis" onkeypress="javascript:return isNumber(event)" />
                                         <span id="error_no_rm" class="text-danger"></span>
+                                        <span id="nama_pasien" class="text-success"></span>
                                     </div>
                                     <div class="form-group col-sm-3">
                                         <label for="dokter">Dokter <font color="red">*</font></label>
@@ -78,12 +83,6 @@
                                         <label>Jam Mulai</label>
                                         <input class="form-control" type="time" name="jam_mulai" placeholder="jam_mulai" value="<?= date('H:i'); ?>" />
                                     </div>
-                                    <div class="form-group col-sm-3">
-                                        <label>Keterangan</label>
-                                        <textarea class="form-control" type="text" name="keterangan" placeholder="Keterangan"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="foto_rontgen">Foto Rontgen</label>
                                         <input class="form-control-file" type="file" name="foto_rontgen" id="foto_rontgen" />
@@ -139,24 +138,23 @@
                                     <div>
                                         <div class="form-row">
                                             <div class="form-group col-sm-4">
-                                                <label for="obat">Obat <font color="red">*</font>
-                                                </label>
+                                                <label for="obat">Obat</label>
                                                 <select class="itemName js-states form-control" name="obat[]" id="obat"></select>
                                                 <span id="error_obat" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
-                                                <label>Harga <font color="red">*</font></label>
+                                                <label>Harga</label>
                                                 <input class="form-control" type="text" name="harga[]" id="harga" placeholder="Harga" onkeypress="javascript:return isNumber(event)" />
                                                 <span id="error_harga" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
-                                                <label>Dosis <font color="red">*</font></label>
+                                                <label>Dosis</label>
                                                 <input class="form-control" type="text" name="dosis[]" id="dosis" placeholder="Dosis" />
                                                 <span id="error_dosis" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
-                                                <label>Jumlah Obat <font color="red">*</font></label>
-                                                <input class="form-control" type="text" name="jumlah[]" id="jumlah" placeholder="Jumlah Obat" />
+                                                <label>Jumlah Obat</label>
+                                                <input type="number" class="form-control w-25" name="jumlah[]" id="jumlah" step="1" min="0" max="10" placeholder="0" />
                                                 <span id="error_jumlah" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-1">
@@ -178,12 +176,141 @@
         </div>
     </div>
 </div>
+
+<!-- MODAL REVIEW TRANSAKSI -->
+<div id="reviewModal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <form method="post" id="myForm" action="<?= base_url('transaksi/update_transaksi'); ?>">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Review Data Transaksi</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col-sm-4">
+                            <label style="font-weight: bold">Nomor Rekam Medis</label>
+                            <p id="no_rm"></p>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label style="font-weight: bold">Nama Pasien</label>
+                            <p id="nama"></p>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label style="font-weight: bold">Tanggal</label>
+                            <p id="tanggal_transaksi"></p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-sm-4">
+                            <label style="font-weight: bold">Dokter</label>
+                            <p id="doctor"></p>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label style="font-weight: bold">Perawat</label>
+                            <p id="nurse"></p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-sm-4">
+                            <label style="font-weight: bold;">Diagnosa</label>
+                            <p id="diagnose"></p>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label style="font-weight: bold;">Tindakan</label>
+                            <p id="tindakans"></p>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label style="font-weight: bold;">Obat</label>
+                            <p id="obats"></p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-sm-4">
+                            <label style="font-weight: bold">Total Biaya Tindakan</label>
+                            <p id="biaya_tindakan"></p>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label style="font-weight: bold">Total Biaya Obat</label>
+                            <p id="biaya_obat"></p>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="discount" style="font-weight: bold">Diskon</label> <span id="jenis_diskon"></span>
+                            <input class="form-control w-50" type="text" name="discount" id="discount" placeholder="Diskon" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-sm-4">
+                            <label for="ket" style="font-weight: bold">Keterangan</label>
+                            <input class="form-control" type="text" id="ket" placeholder="Keterangan" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" name="update" id="update" class="btn btn-info active" aria-pressed="true">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <script src="<?php echo base_url('assets/js/is-number.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/datepicker.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/transaksi-formval.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/transaksi-form-val.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/review-transaksi.js') ?>"></script>
+
+<!-- SCRIPT IS_EXIST NO REKAM MEDIS -->
+<script>
+    $(document).ready(function() {
+        $('#no_rekam_medis').keyup(function() {
+            var no_rekam_medis = $('#no_rekam_medis').val();
+            $.ajax({
+                type: "POST",
+                url: "<?= base_url('transaksi/isExist') ?>",
+                data: "no_rekam_medis=" + no_rekam_medis,
+                success: function(response) {
+                    if (response != '') {
+                        $('#error_no_rm').text(response);
+                        $('#no_rekam_medis').addClass('has-error');
+                        $('#btn_rekam_medis').attr('disabled', true);
+                        const kosong = '';
+                        $('#nama_pasien').text(kosong);
+                    } else {
+                        error_no_rm = response;
+                        $('#error_no_rm').text(error_no_rm);
+                        $('#no_rekam_medis').removeClass('has-error');
+                        $('#btn_rekam_medis').removeAttr('disabled');
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<!-- SCRIPT GET NAMA PASIEN BY NO REKAM MEDIS -->
+<script>
+    $(document).ready(function() {
+        $('#no_rekam_medis').change(function() {
+            const no_rekam_medis = $('#no_rekam_medis').val();
+            $.ajax({
+                type: "POST",
+                url: "<?= base_url('transaksi/get_nama_pasien') ?>",
+                data: "no_rekam_medis=" + no_rekam_medis,
+                success: function(response) {
+                    const nama_pasien = document.getElementById('nama_pasien');
+                    if (response != '') {
+                        nama_pasien.innerHTML = response;
+                    } else {
+                        const kosong = '';
+                        nama_pasien.innerHTML = kosong;
+                    }
+                }
+            });
+        });
+    });
+</script>
 
 <!-- SCRIPT UBAH ANGKA MENJADI BERKOMA -->
 <script>
@@ -207,39 +334,23 @@
         $('#harga').val(f_number);
     });
 
+    $('#discount').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#discount').val();
+        s_number = number.replace(/,/g, '');
+        f_number = formatNumber(s_number);
+
+        $('#discount').val(f_number);
+    });
+
     function formatNumber(num) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 </script>
 
-<!-- SCRIPT IS_EXIST NO REKAM MEDIS -->
-<script>
-    $(document).ready(function() {
-        $('#no_rekam_medis').keyup(function() {
-            var no_rekam_medis = $('#no_rekam_medis').val();
-            $.ajax({
-                type: "POST",
-                url: "<?= base_url() ?>transaksi/isExist",
-                data: "no_rekam_medis=" + no_rekam_medis,
-                success: function(response) {
-                    if (response != '') {
-                        $('#error_no_rm').text(response);
-                        $('#no_rekam_medis').addClass('has-error');
-                        $('#btn_rekam_medis').attr('disabled', true);
-                    } else {
-                        error_no_rm = response;
-                        $('#error_no_rm').text(error_no_rm);
-                        $('#no_rekam_medis').removeClass('has-error');
-                        $('#btn_rekam_medis').removeAttr('disabled');
-                    }
-                }
-            });
-        });
-    });
-</script>
-
 <!-- SCRIPT FETCH DATA TINDAKAN KE SELECT -->
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
         $("#tindakan").select2({
             placeholder: 'Pilih salah satu',
@@ -266,7 +377,7 @@
 </script>
 
 <!-- SCRIPT AMBIL BIAYA SETELAH PILIH TINDAKAN -->
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
         $('#tindakan').change(function() {
             var id = $(this).val();
@@ -281,7 +392,7 @@
                 success: function(data) {
                     var html = data;
                     hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-                    $('#biaya').val(hasil);
+                    document.getElementById('biaya').value = hasil;
 
                 }
             });
@@ -291,7 +402,7 @@
 </script>
 
 <!-- SCRIPT FETCH DATA OBAT KE SELECT -->
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
         $("#obat").select2({
             placeholder: 'Pilih salah satu',
@@ -318,7 +429,7 @@
 </script>
 
 <!-- SCRIPT AMBIL HARGA SETELAH PILIH OBAT -->
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
         $('#obat').change(function() {
             var id = $(this).val();
@@ -333,7 +444,7 @@
                 success: function(data) {
                     var html = data;
                     hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-                    $('#harga').val(hasil);
+                    document.getElementById('harga').value = hasil;
 
                 }
             });
@@ -392,8 +503,7 @@
                     success: function(data) {
                         var html = data;
                         hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-
-                        $('#biaya2').val(hasil);
+                        document.getElementById('biaya2').value = hasil;
                     }
                 });
                 return false;
@@ -442,8 +552,7 @@
                     success: function(data) {
                         var html = data;
                         hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-
-                        $('#biaya3').val(hasil);
+                        document.getElementById('biaya3').value = hasil;
                     }
                 });
                 return false;
@@ -492,8 +601,7 @@
                     success: function(data) {
                         var html = data;
                         hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-
-                        $('#biaya4').val(hasil);
+                        document.getElementById('biaya4').value = hasil;
                     }
                 });
                 return false;
@@ -542,8 +650,7 @@
                     success: function(data) {
                         var html = data;
                         hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-
-                        $('#biaya5').val(hasil);
+                        document.getElementById('biaya5').value = hasil;
                     }
                 });
                 return false;
@@ -592,8 +699,7 @@
                     success: function(data) {
                         var html = data;
                         hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
-
-                        $('#biaya6').val(hasil);
+                        document.getElementById('biaya6').value = hasil;
                     }
                 });
                 $('#biaya6').on('input', function() {
@@ -631,7 +737,7 @@
             e.preventDefault();
             if (x < max_fields) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div class="row2' + x + '"><div class="form-row"><div class="form-group col-sm-4"><label for="obat">Obat</label><select class="itemName js-states form-control" name="obat[]" id="obat' + x + '"></select><span id="error_obat" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Harga</label><input class="form-control" type="text" name="harga[]" id="harga' + x + '" placeholder="Harga" onkeypress="javascript:return isNumber(event)" /><span id="error_harga" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Dosis</label><input class="form-control" type="text" name="dosis[]" id="dosis' + x + '" placeholder="Dosis" /> <span id="error_dosis" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Jumlah Obat</label><input class="form-control" type="text" name="jumlah[]" id="jumlah' + x + '" placeholder="Jumlah Obat" /><span id="error_jumlah" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field2 btn btn-danger btn-sm form-control" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
+                $(wrapper).append('<div class="row2' + x + '"><div class="form-row"><div class="form-group col-sm-4"><label for="obat">Obat</label><select class="itemName js-states form-control" name="obat[]" id="obat' + x + '"></select><span id="error_obat" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Harga</label><input class="form-control" type="text" name="harga[]" id="harga' + x + '" placeholder="Harga" onkeypress="javascript:return isNumber(event)" /><span id="error_harga" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Dosis</label><input class="form-control" type="text" name="dosis[]" id="dosis' + x + '" placeholder="Dosis" /> <span id="error_dosis' + x + '" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Jumlah Obat</label><input class="form-control w-25" type="number" name="jumlah[]" id="jumlah' + x + '" placeholder="0" /><span id="error_jumlah' + x + '" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field2 btn btn-danger btn-sm form-control" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
             }
 
             $("#obat2").select2({
@@ -891,36 +997,5 @@
             $('.row2' + button_id + '').remove(); //remove row
             x--;
         })
-    });
-</script>
-
-<!-- SCRIPT HILANGIN KOMA DI BIAYA TINDAKAN DAN HARGA OBAT -->
-<script>
-    $('#btn_detail_obat').click(function() {
-        var biaya = $('#biaya').val();
-        var hasil = parseFloat(biaya.replace(/[^0-9-.]/g, ''));
-        $('#biaya').val(hasil);
-
-        var harga = $('#harga').val();
-        if (harga != '') {
-            var hasil = parseFloat(harga.replace(/[^0-9-.]/g, ''));
-            $('#harga').val(hasil);
-        }
-
-        for (var i = 2; i < 7; i++) {
-            var biaya = $('#biaya' + i + '').val();
-            if (biaya != null) {
-                var hasil = parseFloat(biaya.replace(/[^0-9-.]/g, ''));
-                $('#biaya' + i + '').val(hasil);
-            }
-        }
-
-        for (var i = 2; i < 7; i++) {
-            var harga = $('#harga' + i + '').val();
-            if (harga != null) {
-                var hasil = parseFloat(harga.replace(/[^0-9-.]/g, ''));
-                $('#harga' + i + '').val(hasil);
-            }
-        }
     });
 </script>

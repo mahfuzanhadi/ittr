@@ -10,13 +10,13 @@ class Transaksi_model extends CI_Model
     }
 
     var $table = 'transaksi';
-    var $select_column = array('transaksi.id_transaksi as id_transaksi', 'transaksi.metode_pembayaran as metode_pembayaran', 'transaksi.tanggal as tanggal', 'pasien.no_rekam_medis as no_rekam_medis', 'pasien.nama as nama_pasien', 'dokter.nama as nama_dokter', 'transaksi.total_biaya_tindakan as total_biaya_tindakan', 'transaksi.total_biaya_obat as total_biaya_obat', 'transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan');
-    var $order_column = array(null, 'metode_pembayaran', 'tanggal', 'no_rekam_medis', 'nama_pasien', 'nama_dokter', null, null, 'total_biaya_tindakan', 'total_biaya_obat', 'total_biaya_keseluruhan'); //set column field database for datatable orderable
+    var $select_column = array('transaksi.id_transaksi as id_transaksi', 'transaksi.metode_pembayaran as metode_pembayaran', 'transaksi.tanggal as tanggal', 'pasien.no_rekam_medis as no_rekam_medis', 'pasien.nama as nama_pasien', 'dokter.nama as nama_dokter', 'transaksi.total_biaya_tindakan as total_biaya_tindakan', 'transaksi.total_biaya_obat as total_biaya_obat', 'transaksi.diskon as diskon', 'transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan', 'transaksi.keterangan as keterangan');
+    var $order_column = array(null, 'metode_pembayaran', 'tanggal', 'no_rekam_medis', 'nama_pasien', 'nama_dokter', null, null, 'total_biaya_tindakan', 'total_biaya_obat', 'diskon', 'total_biaya_keseluruhan', 'keterangan'); //set column field database for datatable orderable
     var $order = array('id_transaksi' => 'desc'); // default order 
 
     public function make_query()
     {
-        $this->db->select('transaksi.id_transaksi as id_transaksi, transaksi.metode_pembayaran as metode_pembayaran, transaksi.tanggal as tanggal, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan');
+        $this->db->select('transaksi.id_transaksi as id_transaksi, transaksi.metode_pembayaran as metode_pembayaran, transaksi.tanggal as tanggal, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.diskon as diskon, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan, transaksi.keterangan as keterangan, transaksi.jumlah_bayar as jumlah_bayar');
         $this->db->from($this->table);
         $this->db->join('pasien', 'pasien.id_pasien = transaksi.id_pasien', 'left');
         $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
@@ -24,9 +24,6 @@ class Transaksi_model extends CI_Model
             $this->db->like('no_rekam_medis', $_POST["search"]["value"]);
             $this->db->or_like('pasien.nama', $_POST["search"]["value"]);
             $this->db->or_like('dokter.nama', $_POST["search"]["value"]);
-            // $this->db->or_like('perawat.nama', $_POST["search"]["value"]);
-            $this->db->or_like('tanggal', $_POST["search"]["value"]);
-            $this->db->or_like('total_biaya_keseluruhan', $_POST["search"]["value"]);
         }
         if (isset($_POST["order"])) {
             $this->db->order_by($this->order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -54,7 +51,7 @@ class Transaksi_model extends CI_Model
 
     public function get_all_data()
     {
-        $this->db->select('transaksi.id_transaksi as id_transaksi, transaksi.metode_pembayaran as metode_pembayaran, transaksi.tanggal as tanggal, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan');
+        $this->db->select('transaksi.id_transaksi as id_transaksi, transaksi.metode_pembayaran as metode_pembayaran, transaksi.tanggal as tanggal, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.diskon as diskon, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan, transaksi.keterangan as keterangan, transaksi.jumlah_bayar as jumlah_bayar');
         $this->db->from($this->table);
         $this->db->join('pasien', 'pasien.id_pasien = transaksi.id_pasien', 'left');
         $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
@@ -157,16 +154,17 @@ class Transaksi_model extends CI_Model
 
     public function get_detail_transaksi($id)
     {
-        $this->db->select('transaksi.id_transaksi as id_transaksi, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien,transaksi.tanggal as tanggal, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat,  transaksi.keterangan as keterangan,transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan, transaksi.metode_pembayaran as metode_pembayaran, transaksi.added_by as added_by');
+        $this->db->select('transaksi.id_transaksi as id_transaksi, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien,transaksi.tanggal as tanggal, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.keterangan as keterangan,transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan, transaksi.metode_pembayaran as metode_pembayaran, transaksi.added_by as added_by, transaksi.jumlah_bayar as jumlah_bayar, transaksi.diskon as diskon');
         $this->db->from($this->table);
         $this->db->where('id_transaksi', $id);
         $this->db->join('pasien', 'pasien.id_pasien = transaksi.id_pasien', 'left');
         return $this->db->get()->row();
     }
 
-    public function update_detail_transaksi($id, $data, $added_by)
+    public function update_detail_transaksi($id, $jumlah_bayar, $metode_pembayaran, $added_by)
     {
-        $this->db->set('metode_pembayaran', $data);
+        $this->db->set('jumlah_bayar', $jumlah_bayar);
+        $this->db->set('metode_pembayaran', $metode_pembayaran);
         $this->db->set('added_by', $added_by);
         $this->db->where('id_transaksi', $id);
         $this->db->update($this->table);
@@ -377,7 +375,12 @@ class Transaksi_model extends CI_Model
         $this->db->from('transaksi');
         $query = $this->db->get()->result();
         foreach ($query as $row) {
-            $total_biaya_keseluruhan = $row->total_biaya_tindakan + $row->total_biaya_obat;
+            if ($row->diskon > 100) {
+                $total_biaya_keseluruhan = ($row->total_biaya_tindakan + $row->total_biaya_obat) - $row->diskon;
+            } else {
+                $total_biaya = $row->total_biaya_tindakan + $row->total_biaya_obat;
+                $total_biaya_keseluruhan = $total_biaya - ($total_biaya * $row->diskon / 100);
+            }
         }
 
         $this->db->set('total_biaya_keseluruhan', $total_biaya_keseluruhan);
@@ -393,7 +396,12 @@ class Transaksi_model extends CI_Model
         $this->db->where('id_transaksi', $id);
         $query = $this->db->get()->result();
         foreach ($query as $row) {
-            $total_biaya_keseluruhan = $row->total_biaya_tindakan + $row->total_biaya_obat;
+            if ($row->diskon > 100) {
+                $total_biaya_keseluruhan = ($row->total_biaya_tindakan + $row->total_biaya_obat) - $row->diskon;
+            } else {
+                $total_biaya = $row->total_biaya_tindakan + $row->total_biaya_obat;
+                $total_biaya_keseluruhan = $total_biaya - ($total_biaya * $row->diskon / 100);
+            }
         }
 
         $this->db->set('total_biaya_keseluruhan', $total_biaya_keseluruhan);

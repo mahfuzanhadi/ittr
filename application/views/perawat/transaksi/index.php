@@ -89,16 +89,36 @@
                 var total_keseluruhan = 'Rp. ' + biaya_keseluruhan;
                 $('#total_biaya_keseluruhan').text(total_keseluruhan);
 
-                if (data.metode_pembayaran == '' || data.metode_pembayaran == 0) {
+                if (data.metode_pembayaran != 0 && data.jumlah_bayar < data.total_biaya_keseluruhan) {
+                    $('#status_pembayaran').text('Belum lunas');
+                    $('#status_pembayaran').css('color', 'orange');
+                    $('#metode_pembayaran').removeAttr('disabled');
+                    $('#jumlah_bayar').removeAttr('disabled');
+                    $('#update').removeAttr('disabled');
+                } else if (data.metode_pembayaran != 0 && data.jumlah_bayar == data.total_biaya_keseluruhan) {
+                    $('#status_pembayaran').text('Lunas');
+                    $('#status_pembayaran').css('color', 'green');
+                    $('#metode_pembayaran').attr('disabled', true);
+                    $('#jumlah_bayar').attr('disabled', true);
+                    $('#update').attr('disabled', true);
+                } else {
                     $('#status_pembayaran').text('Belum melakukan pembayaran!');
                     $('#status_pembayaran').css('color', 'red');
                     $('#metode_pembayaran').removeAttr('disabled');
-                } else {
-                    $('#status_pembayaran').text('Sudah melakukan pembayaran!');
-                    $('#status_pembayaran').css('color', 'green');
-                    $('#metode_pembayaran').attr('disabled', true);
+                    $('#jumlah_bayar').removeAttr('disabled');
+                    $('#update').removeAttr('disabled');
                 }
 
+                if (data.diskon > 100) {
+                    var diskon = new Intl.NumberFormat(['ban', 'id']).format(data.diskon);
+                    $('#diskon').text('Rp. ' + diskon);
+                } else {
+                    $('#diskon').text(data.diskon + '%');
+                }
+                $('#keterangan').text(data.keterangan);
+
+                var jumlah_bayar = new Intl.NumberFormat().format(data.jumlah_bayar);
+                $('#jumlah_bayar').val(jumlah_bayar);
                 $('#metode_pembayaran').val(data.metode_pembayaran);
                 $('#added_by').text(data.added_by);
 
@@ -151,7 +171,9 @@
                             <th>Tindakan</th>
                             <th>Total Biaya Tindakan</th>
                             <th>Total Biaya Obat</th>
+                            <th>Diskon</th>
                             <th>Total Biaya Keseluruhan</th>
+                            <th>Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -160,6 +182,7 @@
             </div>
         </div>
     </div>
+
 
     <div id="myModal" class="modal fade">
         <div class="modal-dialog modal-lg">
@@ -200,21 +223,36 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-4">
+                                <label style="font-weight: bold">Diskon</label>
+                                <p id="diskon"></p>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold">Keterangan</label>
+                                <p id="keterangan"></p>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="jumlah_bayar" style="font-weight: bold">Jumlah Bayar</label>
+                                <input type="text" class="form-control w-50" name="jumlah_bayar" id="jumlah_bayar" placeholder="Jumlah Bayar" onkeypress="javascript:return isNumber(event)" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
                                 <label for="metode_pembayaran" style="font-weight: bold">Metode Pembayaran</label>
                                 <select class="custom-select custom-select-sm" id="metode_pembayaran" name="metode_pembayaran">
-                                    <option value="0" selected disabled hidden>Pilih Metode Pembayaran</option>
+                                    <option value="0" selected hidden>Pilih Metode Pembayaran</option>
                                     <option value="1" <?= set_select('metode_pembayaran', '1'); ?>>Cash</option>
                                     <option value="2" <?= set_select('metode_pembayaran', '2'); ?>>Kredit</option>
                                     <option value="3" <?= set_select('metode_pembayaran', '3'); ?>>Debit</option>
                                     <option value="4" <?= set_select('metode_pembayaran', '4'); ?>>Transfer</option>
                                 </select>
+                                <span id="error_metode_pembayaran" class="text-danger"></span>
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="status_pembayaran" style="font-weight: bold">Status Pembayaran</label>
                                 <p id="status_pembayaran"></p>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for="added_by" style="font-weight: bold">Diterima oleh</label>
+                                <label style="font-weight: bold">Diterima oleh</label>
                                 <p id="added_by"></p>
                             </div>
                         </div>
@@ -293,18 +331,73 @@
                     "render": $.fn.dataTable.render.number('.')
                 },
                 {
-                    "width": "90px",
+                    "width": "80px",
                     "targets": 10,
+                    "render": function(data) {
+                        if (data > 100) {
+                            return $.fn.dataTable.render.number('.').display(data);
+                        } else if (data == 0) {
+                            return data;
+                        } else {
+                            return data + '%';
+                        }
+                    }
+                },
+                {
+                    "width": "90px",
+                    "targets": 11,
                     "render": $.fn.dataTable.render.number('.')
-                }
+                },
+                {
+                    "width": "90px",
+                    "targets": 12
+                },
             ]
         });
     });
 </script>
+
+<!-- SCRIPT UBAH ANGKA MENJADI BERKOMA -->
+<script>
+    $('#jumlah_bayar').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#jumlah_bayar').val();
+        s_number = number.replace(/,/g, '');
+        f_number = formatNumber(s_number);
+
+        $('#jumlah_bayar').val(f_number);
+    });
+
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+</script>
+
+<!-- SUBMIT FORM UPDATE TRANSAKSI  -->
 <script>
     $(document).ready(function() {
         $('#update').click(function() {
-            $('#myForm').submit();
+            var error_metode_pembayaran = '';
+            var jumlah_bayar = $('#jumlah_bayar').val();
+            var hasil = parseFloat(jumlah_bayar.replace(/[^0-9-.]/g, ''));
+            $('#jumlah_bayar').val(hasil);
+            if ($('#jumlah_bayar').val() != 0 && $('#metode_pembayaran').val() == 0) {
+                error_metode_pembayaran = "Metode pembayaran harus diisi!";
+                $('#error_metode_pembayaran').text(error_metode_pembayaran);
+                $('#metode_pembayaran').addClass('has-error');
+            } else {
+                error_metode_pembayaran = '';
+                $('#error_metode_pembayaran').text(error_metode_pembayaran);
+                $('#metode_pembayaran').removeClass('has-error');
+            }
+
+            if (error_metode_pembayaran != '') {
+                return false;
+            } else {
+                $('#myForm').submit();
+            }
+
         });
     });
 </script>

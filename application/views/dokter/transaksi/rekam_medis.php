@@ -67,6 +67,7 @@
                         <th width="130px">Diagnosa</th>
                         <th width="220px">Tindakan</th>
                         <th width="150px">Obat</th>
+                        <th width="80px">Dosis</th>
                         <th width="120px">Biaya Tindakan</th>
                         <th width="110px">Biaya Obat</th>
                     </tr>
@@ -125,9 +126,16 @@
                                     }
                                 } ?>
                             </td>
-                            <?php $total_biaya_tindakan = "Rp " . number_format($transaksi['total_biaya_tindakan'], 2, ',', '.'); ?>
+                            <td>
+                                <?php foreach ($detail_obat as $do) {
+                                    if ($do->id_transaksi == $transaksi['id_transaksi']) {
+                                        echo '- ' . $do->dosis . '<br/>';
+                                    }
+                                } ?>
+                            </td>
+                            <?php $total_biaya_tindakan = "Rp " . number_format($transaksi['total_biaya_tindakan'], 0, ',', '.'); ?>
                             <td><?= $total_biaya_tindakan; ?></td>
-                            <?php $total_biaya_obat = "Rp " . number_format($transaksi['total_biaya_obat'], 2, ',', '.'); ?>
+                            <?php $total_biaya_obat = "Rp " . number_format($transaksi['total_biaya_obat'], 0, ',', '.'); ?>
                             <td><?= $total_biaya_obat;  ?></td>
                         </tr>
                     <?php endforeach; ?>

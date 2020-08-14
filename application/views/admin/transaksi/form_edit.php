@@ -48,11 +48,16 @@
                                 <input type="hidden" name="id_transaksi" value="<?= $transaksi['id_transaksi']; ?>" />
                                 <input type="hidden" name="jam_selesai" value="<?= $transaksi['jam_selesai']; ?>" />
                                 <input type="hidden" name="old_image" value="<?= $transaksi['foto_rontgen']; ?>" />
+                                <input type="hidden" name="diskon" id="diskon" value="<?= $transaksi['diskon']; ?>">
+                                <input type="hidden" name="jumlah_bayar" value="<?= $transaksi['jumlah_bayar']; ?>">
+                                <input type="hidden" name="keterangan" id="keterangan" value="<?= $transaksi['keterangan']; ?>">
+                                <input type="hidden" name="added_by" value="<?= $transaksi['added_by']; ?>">
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="no_rekam_medis">No. Rekam Medis <font color="red">*</font></label>
                                         <input class="form-control" type="text" name="no_rekam_medis" id="no_rekam_medis" placeholder="No. Rekam Medis" value="<?= $no_rekam_medis; ?>" onkeypress="javascript:return isNumber(event)" />
                                         <span id="error_no_rm" class="text-danger"></span>
+                                        <span id="nama_pasien" class="text-success"></span>
                                     </div>
                                     <div class="form-group col-sm-3">
                                         <label for="dokter">Dokter <font color="red">*</font></label>
@@ -217,12 +222,12 @@
                                             </div>
                                             <div class="form-group col-sm-2">
                                                 <label>Dosis <font color="red">*</font></label>
-                                                <input class="form-control" type="text" name="dosis[]" id="dosis" placeholder="Dosis" value="<?= $do->dosis; ?>" />
+                                                <input class="form-control" type="text" name="dosis[]" id="dosis<?= $j; ?>" placeholder="Dosis" value="<?= $do->dosis; ?>" />
                                                 <span id="error_dosis" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
                                                 <label>Jumlah Obat <font color="red">*</font></label>
-                                                <input class="form-control" type="text" name="jumlah[]" id="jumlah" placeholder="Jumlah Obat" value="<?= $do->jumlah_obat; ?>" />
+                                                <input type="number" class="form-control w-25" name="jumlah[]" id="jumlah<?= $j; ?>" step="1" placeholder="0" value="<?= $do->jumlah_obat; ?>" />
                                                 <span id="error_jumlah" class="text-danger"></span>
                                             </div>
                                         </div>
@@ -246,6 +251,58 @@
 <script src="<?php echo base_url('assets/js/is-number.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/datepicker.js') ?>"></script>
 
+<!-- SCRIPT IS_EXIST NO REKAM MEDIS -->
+<script>
+    $(document).ready(function() {
+        $('#no_rekam_medis').keyup(function() {
+            var no_rekam_medis = $('#no_rekam_medis').val();
+            $.ajax({
+                type: "POST",
+                url: "<?= base_url('transaksi/isExist') ?>",
+                data: "no_rekam_medis=" + no_rekam_medis,
+                success: function(response) {
+                    if (response != '') {
+                        $('#error_no_rm').text(response);
+                        $('#no_rekam_medis').addClass('has-error');
+                        $('#btn_rekam_medis').attr('disabled', true);
+                        const kosong = '';
+                        $('#nama_pasien').text(kosong);
+                    } else {
+                        error_no_rm = response;
+                        $('#error_no_rm').text(error_no_rm);
+                        $('#no_rekam_medis').removeClass('has-error');
+                        $('#btn_rekam_medis').removeAttr('disabled');
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<!-- SCRIPT GET NAMA PASIEN BY NO REKAM MEDIS -->
+<script>
+    $(document).ready(function() {
+        $('#no_rekam_medis').change(function() {
+            const no_rekam_medis = $('#no_rekam_medis').val();
+            $.ajax({
+                type: "POST",
+                url: "<?= base_url('transaksi/get_nama_pasien') ?>",
+                data: "no_rekam_medis=" + no_rekam_medis,
+                success: function(response) {
+                    const nama_pasien = document.getElementById('nama_pasien');
+                    if (response != '') {
+                        nama_pasien.innerHTML = response;
+                    } else {
+                        const kosong = '';
+                        nama_pasien.innerHTML = kosong;
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<!-- SCRIPT TAMPILKAN ANGKA DALAM CURRENCY -->
 <script>
     for (var i = 1; i < 7; i++) {
         var biaya = $('#biaya' + i).val();
@@ -407,7 +464,7 @@
 </script>
 
 <!-- SCRIPT FETCH DATA TINDAKAN KE SELECT -->
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
         for (var i = 1; i < 7; i++) {
             $('#tindakan' + i).select2({
@@ -436,7 +493,7 @@
 </script>
 
 <!-- SCRIPT AMBIL BIAYA SETELAH PILIH TINDAKAN -->
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
         $('#tindakan1').change(function() {
             var id = $(this).val();
@@ -556,7 +613,7 @@
 </script>
 
 <!-- SCRIPT FETCH DATA OBAT KE SELECT -->
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
         for (var i = 1; i < 7; i++) {
             $('#obat' + i).select2({
@@ -585,7 +642,7 @@
 </script>
 
 <!-- SCRIPT AMBIL HARGA SETELAH PILIH OBAT -->
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
         $('#obat1').change(function() {
             var id = $(this).val();

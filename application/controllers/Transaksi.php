@@ -53,13 +53,10 @@ class Transaksi extends CI_Controller
     // fetch transaksi/rekam medis data
     public function fetch_data()
     {
-        //if($this->session->userdata('akses') == 1)
-        //if($this->session->userdata('akses') == 2){
-        // $lis = $this
-        // }
         $list = $this->Transaksi_model->make_datatables();
         $data = array();
         $no = $_POST['start'];
+        $number = 0;
 
         foreach ($list as $transaksi) {
             $row = array();
@@ -68,12 +65,15 @@ class Transaksi extends CI_Controller
             $no++;
             // $base = base_url('uploads/rontgen/' . $transaksi->foto_rontgen);
             $metode_pembayaran = $transaksi->metode_pembayaran;
-            if ($metode_pembayaran == 0) {
-                $color = "#FF0000";
-                $status_pembayaran = "BB";
-            } else {
+            if ($metode_pembayaran != 0 && $transaksi->jumlah_bayar < $transaksi->total_biaya_keseluruhan) {
+                $color = "#E0A800";
+                $status_pembayaran = "BL";
+            } else if ($metode_pembayaran != 0 && $transaksi->jumlah_bayar == $transaksi->total_biaya_keseluruhan) {
                 $color = "#008000";
                 $status_pembayaran = "L";
+            } else {
+                $color = "#FF0000";
+                $status_pembayaran = "BB";
             }
 
             setlocale(LC_ALL, 'id-ID', 'id_ID');
@@ -109,13 +109,16 @@ class Transaksi extends CI_Controller
                 $row[] = $transaksi->total_biaya_tindakan;
                 $row[] = $transaksi->total_biaya_obat;
                 // $row[] = '<img width="64px" height="64px" src="' . $base . '"/>';
+                $row[] = $transaksi->diskon;
                 $row[] = $transaksi->total_biaya_keseluruhan;
+                $row[] = $transaksi->keterangan;
                 $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $transaksi->id_transaksi . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
                 $data[] = $row;
             } else if ($this->session->userdata('akses') == '2') {
                 if ($transaksi->nama_dokter == $this->session->userdata('nama')) {
-                    if ($status_pembayaran == "BB") {
-                        $row[] = $no;
+                    if ($status_pembayaran == "BB" || $status_pembayaran == "BL") {
+                        $number++;
+                        $row[] = $number;
                         $row[] = '<a href="transaksi/detail_transaksi/' . $transaksi->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
                         $row[] = '<a href="transaksi/rekam_medis/' . $transaksi->no_rekam_medis . '" style="color:#007bff; cursor: pointer">' . $transaksi->no_rekam_medis . '</a>';
                         $row[] = $transaksi->nama_pasien;
@@ -139,11 +142,14 @@ class Transaksi extends CI_Controller
                         $row[] = $nama_tindakan;
                         $row[] = $transaksi->total_biaya_tindakan;
                         $row[] = $transaksi->total_biaya_obat;
+                        $row[] = $transaksi->diskon;
                         $row[] = $transaksi->total_biaya_keseluruhan;
+                        $row[] = $transaksi->keterangan;
                         $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $transaksi->id_transaksi . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
                         $data[] = $row;
                     } else {
-                        $row[] = $no;
+                        $number++;
+                        $row[] = $number;
                         $row[] = '<a href="transaksi/detail_transaksi/' . $transaksi->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
                         $row[] = '<a href="transaksi/rekam_medis/' . $transaksi->no_rekam_medis . '" style="color:#007bff; cursor: pointer">' . $transaksi->no_rekam_medis . '</a>';
                         $row[] = $transaksi->nama_pasien;
@@ -167,7 +173,9 @@ class Transaksi extends CI_Controller
                         $row[] = $nama_tindakan;
                         $row[] = $transaksi->total_biaya_tindakan;
                         $row[] = $transaksi->total_biaya_obat;
+                        $row[] = $transaksi->diskon;
                         $row[] = $transaksi->total_biaya_keseluruhan;
+                        $row[] = $transaksi->keterangan;
                         $row[] = '';
                         $data[] = $row;
                     }
@@ -200,7 +208,9 @@ class Transaksi extends CI_Controller
                 $row[] = $nama_tindakan;
                 $row[] = $transaksi->total_biaya_tindakan;
                 $row[] = $transaksi->total_biaya_obat;
+                $row[] = $transaksi->diskon;
                 $row[] = $transaksi->total_biaya_keseluruhan;
+                $row[] = $transaksi->keterangan;
                 $data[] = $row;
             }
         }
@@ -302,14 +312,6 @@ class Transaksi extends CI_Controller
 
             $jam_selesai = date('H:i');
             $tanggal = date('Y-m-d');
-            $metode_pembayaran = $this->input->post('metode_pembayaran');
-            if ($metode_pembayaran == '') {
-                $metode_pembayaran = 0;
-            } else {
-                $metode_pembayaran = $this->input->post('metode_pembayaran');
-            }
-
-            $added_by = "";
 
             $data = [
                 'id_transaksi' => $this->input->post('id_transaksi'),
@@ -323,9 +325,11 @@ class Transaksi extends CI_Controller
                 'keterangan' => nl2br($this->input->post('keterangan')),
                 'jam_mulai' => $this->input->post('jam_mulai'),
                 'jam_selesai' => $jam_selesai,
+                'diskon' => $this->input->post('diskon'),
                 'total_biaya_keseluruhan' => $this->input->post('total_biaya_keseluruhan'),
-                'metode_pembayaran' => $metode_pembayaran,
-                'added_by' => $added_by,
+                'jumlah_bayar' => $this->input->post('jumlah_bayar'),
+                'metode_pembayaran' => $this->input->post('metode_pembayaran'),
+                'added_by' => $this->input->post('added_by')
             ];
 
             $this->Transaksi_model->add_data($data);
@@ -439,13 +443,6 @@ class Transaksi extends CI_Controller
                 $foto = $this->input->post('old_image');
             }
 
-            $metode_pembayaran = $this->input->post('metode_pembayaran');
-            if ($metode_pembayaran == '') {
-                $metode_pembayaran = 0;
-            } else {
-                $metode_pembayaran = $this->input->post('metode_pembayaran');
-            }
-
             $added_by = $this->session->userdata('nama');
 
             $data = [
@@ -460,9 +457,11 @@ class Transaksi extends CI_Controller
                 'keterangan' => nl2br($this->input->post('keterangan')),
                 'jam_mulai' => $this->input->post('jam_mulai'),
                 'jam_selesai' => $this->input->post('jam_selesai'),
+                'diskon' => $this->input->post('diskon'),
                 'total_biaya_keseluruhan' => $this->input->post('total_biaya_keseluruhan'),
-                'metode_pembayaran' => $metode_pembayaran,
-                'added_by' => $added_by
+                'jumlah_bayar' => $this->input->post('jumlah_bayar'),
+                'metode_pembayaran' => $this->input->post('metode_pembayaran'),
+                'added_by' => $this->input->post('added_by')
             ];
 
             $this->Transaksi_model->edit_data(array('id_transaksi' => $this->input->post('id_transaksi')), $data);
@@ -631,10 +630,11 @@ class Transaksi extends CI_Controller
     // Function to update data transaksi (metode pembayaran)
     public function update_transaksi()
     {
-        $data = $this->input->post('metode_pembayaran');
+        $jumlah_bayar = $this->input->post('jumlah_bayar');
+        $metode_pembayaran = $this->input->post('metode_pembayaran');
         $added_by = $this->session->userdata('nama');
         $id = $this->input->post('id_transaksi');
-        $this->Transaksi_model->update_detail_transaksi($id, $data, $added_by);
+        $this->Transaksi_model->update_detail_transaksi($id, $jumlah_bayar, $metode_pembayaran, $added_by);
         $this->session->set_flashdata('flash', 'diubah');
         redirect('transaksi');
     }

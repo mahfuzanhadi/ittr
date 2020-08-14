@@ -22,12 +22,6 @@ class Pasien_model extends CI_Model
             $this->db->like('no_rekam_medis', $_POST["search"]["value"]);
             $this->db->or_like('nama', $_POST["search"]["value"]);
             $this->db->or_like('alamat', $_POST["search"]["value"]);
-            $this->db->or_like('tanggal_lahir', $_POST["search"]["value"]);
-            $this->db->or_like('pekerjaan', $_POST["search"]["value"]);
-            $this->db->or_like('no_telp', $_POST["search"]["value"]);
-            $this->db->or_like('jenis_kelamin', $_POST["search"]["value"]);
-            $this->db->or_like('riwayat_penyakit', $_POST["search"]["value"]);
-            $this->db->or_like('alergi_obat', $_POST["search"]["value"]);
             $this->db->or_like('username', $_POST["search"]["value"]);
             $this->db->or_like('email', $_POST["search"]["value"]);
         }

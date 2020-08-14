@@ -90,7 +90,13 @@
                     <p><strong>Tanggal</strong> : <?= $tanggal; ?></p>
                 </div>
                 <div class="col-sm-3">
-                    <p><strong>Keterangan</strong> : <?= $transaksi['keterangan']; ?></p>
+                    <p><strong>Foto Rontgen</strong> :
+                        <?php if ($transaksi['foto_rontgen'] != 'default.jpg') : ?>
+                            <?php
+                            $base = base_url('uploads/rontgen/' . $transaksi['foto_rontgen']); ?>
+                            <img width="64px" height="64px" src="<?= $base ?>" />
+                        <?php else : ?> -
+                        <?php endif; ?></p>
                 </div>
             </div>
             <div class="row">
@@ -115,14 +121,14 @@
                         }
                     } ?>
                 </div>
-                <div class="col-sm-3">
-                    <p><strong>Obat</strong> : </p>
+                <div class="col-sm-6">
+                    <p><strong>Obat ( jumlah )</strong> : </p>
                     <?php foreach ($detail_obat as $do) {
                         if ($do->id_transaksi == $transaksi['id_transaksi']) {
                             $id_obat = $do->id_obat;
                             foreach ((array) $obat as $o) {
                                 if ($o->id_obat == $id_obat) {
-                                    echo '- ' . $o->nama . '</p>';
+                                    echo '- ' . $o->nama . ' ( ' . $do->jumlah_obat . ' ) ' . '</p>';
                                 }
                             }
                         }
@@ -131,16 +137,34 @@
             </div>
             <div class="row">
                 <div class="col-sm-3">
-                    <?php $total_biaya_tindakan = "Rp " . number_format($transaksi['total_biaya_tindakan'], 2, ',', '.'); ?>
+                    <?php $total_biaya_tindakan = "Rp. " . number_format($transaksi['total_biaya_tindakan'], 0, ',', '.'); ?>
                     <p><strong>Total Biaya Tindakan</strong> : <?= $total_biaya_tindakan; ?></p>
                 </div>
                 <div class="col-sm-3">
-                    <?php $total_biaya_obat = "Rp " . number_format($transaksi['total_biaya_obat'], 2, ',', '.'); ?>
+                    <?php $total_biaya_obat = "Rp. " . number_format($transaksi['total_biaya_obat'], 0, ',', '.'); ?>
                     <p><strong>Total Biaya Obat</strong> : <?= $total_biaya_obat;  ?></p>
                 </div>
                 <div class="col-sm-3">
-                    <?php $total_biaya_keseluruhan = "Rp " . number_format($transaksi['total_biaya_keseluruhan'], 2, ',', '.'); ?>
+                    <p><strong>Diskon</strong> :
+                        <?php if ($transaksi['diskon'] > 100) {
+                            $diskon = "Rp. " . number_format($transaksi['diskon'], 0, ',', '.');
+                            echo $diskon;
+                        } else {
+                            echo $transaksi['diskon'] . "%";
+                        } ?></p>
+                </div>
+                <div class="col-sm-3">
+                    <p><strong>Keterangan</strong> : <?= $transaksi['keterangan']; ?></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <?php $total_biaya_keseluruhan = "Rp. " . number_format($transaksi['total_biaya_keseluruhan'], 0, ',', '.'); ?>
                     <p><strong>Total Biaya Keseluruhan</strong> : <?= $total_biaya_keseluruhan;  ?></p>
+                </div>
+                <div class="col-sm-3">
+                    <?php $jumlah_bayar = "Rp. " . number_format($transaksi['jumlah_bayar'], 0, ',', '.'); ?>
+                    <p><strong>Jumlah Bayar</strong> : <?= $jumlah_bayar;  ?></p>
                 </div>
                 <div class="col-sm-3">
                     <p><strong>Metode Pembayaran</strong> :
@@ -153,19 +177,18 @@
                         <?php elseif ($transaksi['metode_pembayaran'] == 4) : ?>
                             Transfer
                         <?php else : ?>
-                            Belum dibayar
+                            -
                         <?php endif; ?> </p>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-sm-3">
-                    <p><strong>Foto Rontgen</strong> :
-                        <?php if ($transaksi['foto_rontgen'] != 'default.jpg') : ?>
-                            <?php
-                            $base = base_url('uploads/rontgen/' . $transaksi['foto_rontgen']); ?>
-                            <img width="64px" height="64px" src="<?= $base ?>" />
-                        <?php else : ?> -
-                        <?php endif; ?></p>
+                    <p><strong>Status Pembayaran</strong> :
+                        <?php if ($transaksi['metode_pembayaran'] == 0) : ?>
+                            Belum melakukan pembayaran
+                        <?php elseif ($transaksi['metode_pembayaran'] != 0 && $transaksi['jumlah_bayar'] < $transaksi['total_biaya_keseluruhan']) : ?>
+                            Belum lunas
+                        <?php else : ?>
+                            Lunas
+                        <?php endif; ?> </p>
                 </div>
             </div>
         </div>

@@ -88,15 +88,18 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
-                        <label>Username</label>
+                        <label>Username Pasien</label>
                         <input class="form-control" type="text" name="username" id="username" placeholder="Username" value="<?= $pasien['username'] ?>" />
                         <span id="error_username" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label>Password</label>
+                        <label>Password Pasien</label>
                         <input class="form-control" type="password" name="password" id="password" placeholder="Password" />
                         <span id="error_password" class="text-danger"></span>
                         <input type="hidden" value="<?= $pasien['password'] ?>" name="password2" />
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <input type="checkbox" class="form-checkbox" style="margin-top: 40px"> Show password
                     </div>
                 </div>
                 <button class="btn btn-primary active" aria-pressed="true" type="button" name="update" id="update">Update</button>
@@ -140,6 +143,7 @@
         return true;
     }
 </script>
+
 <script>
     $(document).ready(function() {
         $('#username').keyup(function() {
@@ -177,6 +181,20 @@
         });
     });
 </script>
+
+<!-- SCRIPT SHOW/HIDE PASSWORD -->
+<script>
+    $(document).ready(function() {
+        $('.form-checkbox').click(function() {
+            if ($(this).is(':checked')) {
+                $('#password').attr('type', 'text');
+            } else {
+                $('#password').attr('type', 'password');
+            }
+        })
+    })
+</script>
+
 <script>
     $(document).ready(function() {
         $('#update').click(function() {

@@ -95,7 +95,7 @@
                     $('#metode_pembayaran').removeAttr('disabled');
                     $('#jumlah_bayar').removeAttr('disabled');
                     $('#update').removeAttr('disabled');
-                } else if (data.metode_pembayaran != 0 && data.jumlah_bayar == data.total_biaya_keseluruhan) {
+                } else if (data.metode_pembayaran != 0 && data.jumlah_bayar >= data.total_biaya_keseluruhan) {
                     $('#status_pembayaran').text('Lunas');
                     $('#status_pembayaran').css('color', 'green');
                     $('#metode_pembayaran').attr('disabled', true);

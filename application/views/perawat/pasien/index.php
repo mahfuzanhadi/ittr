@@ -17,7 +17,7 @@
             success: function(data) {
                 $('#no_rekam_medis').text(data.no_rekam_medis);
                 $('#nama').text(data.nama);
-                $('#nama').text(data.alamat);
+                $('#alamat').text(data.alamat);
                 var age = _calculateAge(data.tanggal_lahir);
 
                 var umur = document.getElementById("umur");

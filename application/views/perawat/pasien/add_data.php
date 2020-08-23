@@ -88,14 +88,17 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
-                        <label>Username</label>
+                        <label>Username Pasien</label>
                         <input class="form-control" type="text" name="username" id="username" placeholder="Username" />
                         <span id="error_username" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label>Password</label>
+                        <label>Password Pasien</label>
                         <input class="form-control" type="password" name="password" id="password" placeholder="Password" />
                         <span id="error_password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <input type="checkbox" class="form-checkbox" style="margin-top: 40px"> Show password
                     </div>
                 </div>
                 <button class="btn btn-primary active" aria-pressed="true" type="button" name="tambah" id="tambah">Save</button>
@@ -130,6 +133,7 @@
         }
     });
 </script>
+
 <script>
     // WRITE THE VALIDATION SCRIPT.
     function isNumber(evt) {
@@ -140,6 +144,7 @@
         return true;
     }
 </script>
+
 <script>
     $(document).ready(function() {
         $('#no_rekam_medis').keyup(function() {
@@ -164,6 +169,20 @@
         });
     });
 </script>
+
+<!-- SCRIPT SHOW/HIDE PASSWORD -->
+<script>
+    $(document).ready(function() {
+        $('.form-checkbox').click(function() {
+            if ($(this).is(':checked')) {
+                $('#password').attr('type', 'text');
+            } else {
+                $('#password').attr('type', 'password');
+            }
+        })
+    })
+</script>
+
 <script>
     $(document).ready(function() {
         $('#tambah').click(function() {

@@ -92,7 +92,7 @@
                 if (data.metode_pembayaran != 0 && data.jumlah_bayar < data.total_biaya_keseluruhan) {
                     $('#status_pembayaran').text('Belum lunas');
                     $('#status_pembayaran').css('color', 'orange');
-                } else if (data.metode_pembayaran != 0 && data.jumlah_bayar == data.total_biaya_keseluruhan) {
+                } else if (data.metode_pembayaran != 0 && data.jumlah_bayar >= data.total_biaya_keseluruhan) {
                     $('#status_pembayaran').text('Lunas');
                     $('#status_pembayaran').css('color', 'green');
                 } else {
@@ -123,7 +123,6 @@
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
-
     <?php if ($this->session->flashdata('flash')) : ?>
         <div class="row mt-3">
             <div class="col-md-6">
@@ -394,6 +393,11 @@
             if (error_metode_pembayaran != '') {
                 return false;
             } else {
+                const id_transaksi = $('#id_transaksi').val();
+                var xhr = "<?php echo base_url('transaksi/print_bill/') ?>" + id_transaksi;
+                var w = window.open(xhr, 'name', 'width=400,height=600');
+                w.onload = w.print;
+                w.focus();
                 $('#myForm').submit();
             }
 

@@ -103,7 +103,6 @@
             "responsive": true,
             "processing": true,
             "serverSide": true,
-            "scrollX": true,
             "order": [],
             "lengthMenu": [10, 20, 50],
             "ajax": {

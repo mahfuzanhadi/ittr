@@ -178,6 +178,7 @@
         return true;
     }
 </script>
+
 <!-- SCRIPT SHOW/HIDE PASSWORD -->
 <script>
     $(document).ready(function() {

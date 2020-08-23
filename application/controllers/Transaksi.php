@@ -68,7 +68,7 @@ class Transaksi extends CI_Controller
             if ($metode_pembayaran != 0 && $transaksi->jumlah_bayar < $transaksi->total_biaya_keseluruhan) {
                 $color = "#E0A800";
                 $status_pembayaran = "BL";
-            } else if ($metode_pembayaran != 0 && $transaksi->jumlah_bayar == $transaksi->total_biaya_keseluruhan) {
+            } else if ($metode_pembayaran != 0 && $transaksi->jumlah_bayar >= $transaksi->total_biaya_keseluruhan) {
                 $color = "#008000";
                 $status_pembayaran = "L";
             } else {
@@ -226,6 +226,7 @@ class Transaksi extends CI_Controller
         echo json_encode($output);
     }
 
+    // Function to get data tindakan
     public function get_tindakan()
     {
         // Search term
@@ -237,6 +238,7 @@ class Transaksi extends CI_Controller
         echo json_encode($response);
     }
 
+    // Function to get biaya tindakan
     public function get_biaya()
     {
         $id_tindakan = $this->input->post('id', TRUE);
@@ -244,6 +246,7 @@ class Transaksi extends CI_Controller
         echo json_encode($data);
     }
 
+    // Function to get data obat
     public function get_obat()
     {
         // Search term
@@ -255,6 +258,7 @@ class Transaksi extends CI_Controller
         echo json_encode($response);
     }
 
+    // Function to get harga obat
     public function get_harga()
     {
         $id_obat = $this->input->post('id', TRUE);
@@ -637,6 +641,30 @@ class Transaksi extends CI_Controller
         $this->Transaksi_model->update_detail_transaksi($id, $jumlah_bayar, $metode_pembayaran, $added_by);
         $this->session->set_flashdata('flash', 'diubah');
         redirect('transaksi');
+    }
+
+    // Function to print bill
+    public function print_bill($id)
+    {
+        $this->load->model('Pasien_model');
+        $data['title'] = 'Biaya Pengobatan';
+
+        $data['transaksi'] = $this->Transaksi_model->getById($id);
+        $data['pasien'] = $this->Transaksi_model->get_pasien();
+        $data['dokter'] = $this->Transaksi_model->get_dokter();
+        $data['perawat'] = $this->Transaksi_model->get_perawat();
+        $data['detail_tindakan'] = $this->Transaksi_model->get_detail_tindakan();
+        $data['tindakan'] = $this->Transaksi_model->get_tindakan();
+        $data['detail_obat'] = $this->Transaksi_model->get_detail_biaya_obat();
+        $data['obat'] = $this->Transaksi_model->get_obat();
+
+        if ($this->session->userdata('akses') == '1') {
+            $this->load->view('admin/transaksi/print_bill', $data);
+        } else if ($this->session->userdata('akses') == '3') {
+            $this->load->view('perawat/transaksi/print_bill', $data);
+        } else {
+            $this->load->view('staf/transaksi/print_bill', $data);
+        }
     }
 
     // Function to delete data transaksi

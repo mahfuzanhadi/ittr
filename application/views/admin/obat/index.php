@@ -74,7 +74,6 @@
         var dataTable = $('#dataTable').DataTable({
             "processing": true,
             "serverSide": true,
-            "scrollX": true,
             "order": [],
             "lengthMenu": [10, 20, 50],
             "ajax": {

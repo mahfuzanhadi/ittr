@@ -791,6 +791,8 @@
                         $("#notif").addClass('d-sm-inline-block');
                         $("#notif").css('color', '#721c24');
                     } else {
+                        $("#row").addClass('d-none');
+                        $("div.alert").removeClass('show');
                         $("#notif").removeClass('d-sm-inline-block');
                         $("#notif").addClass('d-none');
                     }

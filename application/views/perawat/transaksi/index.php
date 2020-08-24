@@ -395,6 +395,11 @@
             if (error_metode_pembayaran != '') {
                 return false;
             } else {
+                const id_transaksi = $('#id_transaksi').val();
+                var xhr = "<?php echo base_url('transaksi/print_bill/') ?>" + id_transaksi;
+                var w = window.open(xhr, 'name', 'width=800,height=800');
+                w.onload = w.print;
+                w.focus();
                 $('#myForm').submit();
             }
 

@@ -658,13 +658,7 @@ class Transaksi extends CI_Controller
         $data['detail_obat'] = $this->Transaksi_model->get_detail_biaya_obat();
         $data['obat'] = $this->Transaksi_model->get_obat();
 
-        if ($this->session->userdata('akses') == '1') {
-            $this->load->view('admin/transaksi/print_bill', $data);
-        } else if ($this->session->userdata('akses') == '3') {
-            $this->load->view('perawat/transaksi/print_bill', $data);
-        } else {
-            $this->load->view('staf/transaksi/print_bill', $data);
-        }
+        $this->load->view('admin/transaksi/print_bill', $data);
     }
 
     // Function to delete data transaksi

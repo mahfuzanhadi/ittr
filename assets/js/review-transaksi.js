@@ -164,8 +164,14 @@ $(document).ready(function () {
 	//SUBMIT REVIEW
 	$('#update').click(function () {
 		var discount = $('#discount').val();
-		var hasil = parseFloat(discount.replace(/[^0-9-.]/g, ''));
-		$('#diskon').val(hasil);
+		var hasil = 0;
+		if (discount == null || discount == '') {
+			hasil = 0;
+			$('#diskon').val(hasil);
+		} else {
+			hasil = parseFloat(discount.replace(/[^0-9-.]/g, ''));
+			$('#diskon').val(hasil);
+		}
 
 		var ket = document.getElementById('ket').value;
 		document.getElementById('keterangan').value = ket;

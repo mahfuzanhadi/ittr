@@ -89,12 +89,12 @@
                 var total_keseluruhan = 'Rp. ' + biaya_keseluruhan;
                 $('#total_biaya_keseluruhan').text(total_keseluruhan);
 
-                if (data.metode_pembayaran != 0 && data.jumlah_bayar < data.total_biaya_keseluruhan) {
-                    $('#status_pembayaran').text('Belum lunas');
-                    $('#status_pembayaran').css('color', 'orange');
-                } else if (data.metode_pembayaran != 0 && data.jumlah_bayar >= data.total_biaya_keseluruhan) {
+                if (data.metode_pembayaran != 0 && data.jumlah_bayar >= data.total_biaya_keseluruhan) {
                     $('#status_pembayaran').text('Lunas');
                     $('#status_pembayaran').css('color', 'green');
+                } else if (data.metode_pembayaran != 0 && data.jumlah_bayar < data.total_biaya_keseluruhan) {
+                    $('#status_pembayaran').text('Belum lunas');
+                    $('#status_pembayaran').css('color', 'orange');
                 } else {
                     $('#status_pembayaran').text('Belum melakukan pembayaran!');
                     $('#status_pembayaran').css('color', 'red');

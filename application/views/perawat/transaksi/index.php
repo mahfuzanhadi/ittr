@@ -89,18 +89,18 @@
                 var total_keseluruhan = 'Rp. ' + biaya_keseluruhan;
                 $('#total_biaya_keseluruhan').text(total_keseluruhan);
 
-                if (data.metode_pembayaran != 0 && data.jumlah_bayar < data.total_biaya_keseluruhan) {
-                    $('#status_pembayaran').text('Belum lunas');
-                    $('#status_pembayaran').css('color', 'orange');
-                    $('#metode_pembayaran').removeAttr('disabled');
-                    $('#jumlah_bayar').removeAttr('disabled');
-                    $('#update').removeAttr('disabled');
-                } else if (data.metode_pembayaran != 0 && data.jumlah_bayar >= data.total_biaya_keseluruhan) {
+                if (data.metode_pembayaran != 0 && data.jumlah_bayar >= data.total_biaya_keseluruhan) {
                     $('#status_pembayaran').text('Lunas');
                     $('#status_pembayaran').css('color', 'green');
                     $('#metode_pembayaran').attr('disabled', true);
                     $('#jumlah_bayar').attr('disabled', true);
                     $('#update').attr('disabled', true);
+                } else if (data.metode_pembayaran != 0 && data.jumlah_bayar < data.total_biaya_keseluruhan) {
+                    $('#status_pembayaran').text('Belum lunas');
+                    $('#status_pembayaran').css('color', 'orange');
+                    $('#metode_pembayaran').removeAttr('disabled');
+                    $('#jumlah_bayar').removeAttr('disabled');
+                    $('#update').removeAttr('disabled');
                 } else {
                     $('#status_pembayaran').text('Belum melakukan pembayaran!');
                     $('#status_pembayaran').css('color', 'red');

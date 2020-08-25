@@ -14,7 +14,6 @@
             <img src="<?= base_url('assets/img/logo_header_RDC.png'); ?>" style="max-width: 155px;">
             <p><strong>Riona Dental Care</strong><br />Jl. Harapan Raya No.64, Pekanbaru 28289</p>
             <?php
-            // setlocale(LC_ALL, 'id-ID', 'id_ID');
             date_default_timezone_set('Asia/Jakarta');
             $hari = date('D');
 
@@ -53,7 +52,6 @@
             }
 
             $date = date('d/m/Y');
-            // $tanggal = strftime("%d %b %Y", strtotime($date));
             $waktu = date('H:i'); ?>
             <p><?= $hari_ini . ', ' . $date . ' ' . $waktu; ?></p>
             <p><strong>Nama Pasien :
@@ -136,9 +134,10 @@
                         if ($kembalian > 0) {
                             $format_kembalian = number_format($kembalian, 0, ',', '.');
                             echo $format_kembalian;
+                            $sisa = "0";
                         } else {
-                            $format_kembalian = abs($kembalian);
-                            $sisa = number_format($format_kembalian, 0, ',', '.');
+                            $absolute_sisa = abs($kembalian);
+                            $sisa = number_format($absolute_sisa, 0, ',', '.');
                             echo "0";
                         } ?>
                     </td>
@@ -156,12 +155,17 @@
             <br />0822 8819 4282</p>
     </div>
     </div>
-    <button id="btnPrint" class="hidden-print">Print</button>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <button id="btnPrint" class="hidden-print" onclick="window.print();">Print</button>
+
     <script>
-        $('#btnPrint').click(function() {
+        window.onload = function() {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
             window.print();
-        });
+            window.focus();
+        }
     </script>
 </body>
 

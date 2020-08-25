@@ -647,7 +647,7 @@ class Transaksi extends CI_Controller
     public function print_bill($id)
     {
         $this->load->model('Pasien_model');
-        $data['title'] = 'Biaya Pengobatan';
+        $data['title'] = 'Bukti Pembayaran';
 
         $data['transaksi'] = $this->Transaksi_model->getById($id);
         $data['pasien'] = $this->Transaksi_model->get_pasien();

@@ -35,7 +35,7 @@
                                 <input type="hidden" name="total_biaya_tindakan" value="0">
                                 <input type="hidden" name="total_biaya_obat" value="0">
                                 <input type="hidden" name="total_biaya_keseluruhan" value="0">
-                                <input type="hidden" name="diskon" id="diskon" value="">
+                                <input type="hidden" name="diskon" id="diskon" value="0">
                                 <input type="hidden" name="jumlah_bayar" value="0">
                                 <input type="hidden" name="metode_pembayaran" value="0">
                                 <input type="hidden" name="keterangan" id="keterangan" value="">

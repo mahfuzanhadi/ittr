@@ -189,7 +189,7 @@
             <form method="post" id="myForm" action="<?= base_url('transaksi/update_transaksi'); ?>">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Detail Biaya Data Transaksi</h4>
+                        <h4 class="modal-title">Detail Biaya Transaksi</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
@@ -395,12 +395,10 @@
             if (error_metode_pembayaran != '') {
                 return false;
             } else {
-                const id_transaksi = $('#id_transaksi').val();
+                $('#myForm').submit();
+                const id_transaksi = document.getElementById('id_transaksi').value;
                 var xhr = "<?php echo base_url('transaksi/print_bill/') ?>" + id_transaksi;
                 var w = window.open(xhr, 'name', 'width=800,height=800');
-                w.onload = w.print;
-                w.focus();
-                $('#myForm').submit();
             }
 
         });

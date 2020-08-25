@@ -8,7 +8,7 @@
         <input type="hidden" name="id" value="<?= $admin['id_admin']; ?>">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Edit Data</h4>
+                <h4 class="modal-title">Edit Profil</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">

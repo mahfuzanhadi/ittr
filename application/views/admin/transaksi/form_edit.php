@@ -216,17 +216,17 @@
                                                 <span id="error_obat" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
-                                                <label>Harga <font color="red">*</font></label>
+                                                <label>Harga</label>
                                                 <input class="form-control" type="text" name="harga[]" id="harga<?= $j; ?>" placeholder="Harga" value="<?= $harga_obat; ?>" onkeypress="javascript:return isNumber(event)" />
                                                 <span id="error_harga" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
-                                                <label>Dosis <font color="red">*</font></label>
+                                                <label>Dosis</label>
                                                 <input class="form-control" type="text" name="dosis[]" id="dosis<?= $j; ?>" placeholder="Dosis" value="<?= $do->dosis; ?>" />
                                                 <span id="error_dosis" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
-                                                <label>Jumlah Obat <font color="red">*</font></label>
+                                                <label>Jumlah Obat</label>
                                                 <input type="number" class="form-control w-25" name="jumlah[]" id="jumlah<?= $j; ?>" step="1" placeholder="0" value="<?= $do->jumlah_obat; ?>" />
                                                 <span id="error_jumlah" class="text-danger"></span>
                                             </div>

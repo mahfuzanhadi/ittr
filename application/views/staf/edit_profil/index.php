@@ -79,7 +79,7 @@
                         <span id="error_password2" class="text-danger"></span>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="button" name="update" id="update">Update</button>
+                <button class="btn btn-primary active" aria-pressed="true" type="button" name="update" id="update">Update</button>
             </form>
 
         </div>

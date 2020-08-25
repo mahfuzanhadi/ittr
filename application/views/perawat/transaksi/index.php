@@ -297,7 +297,7 @@
                     "targets": 1
                 },
                 {
-                    "width": "95px",
+                    "width": "100px",
                     "targets": 2,
                 },
                 {

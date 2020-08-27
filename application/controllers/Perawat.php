@@ -42,7 +42,7 @@ class Perawat extends CI_Controller
             $row = array();
             $no++;
             $row[] = $no;
-            $row[] = '<a onclick="detail_data(' . $perawat->id_perawat . ')" >' . $perawat->nama . '</a>';
+            $row[] = '<a style="cursor: pointer; color:#007bff;" onclick="detail_data(' . $perawat->id_perawat . ')" >' . $perawat->nama . '</a>';
             $row[] = $perawat->alamat;
             $row[] = $perawat->tempat_lahir;
             $row[] = $perawat->tanggal_lahir;

@@ -9,18 +9,16 @@
             dataType: "JSON",
             success: function(data) {
                 nama.innerHTML = data.nama;
-                var alamat = document.getElementById("alamat");
-                alamat.innerHTML = data.alamat;
-                var no_telp = document.getElementById("no_telp");
-                no_telp.innerHTML = data.no_telp;
+                document.getElementById("alamat").innerHTML = data.alamat;
+                document.getElementById("no_telp").innerHTML = data.no_telp;
                 var jk = data.jenis_kelamin;
                 if (jk == 1) {
                     jk = 'Laki-laki';
                 } else {
                     jk = 'Perempuan';
                 }
-                var jenis_kelamin = document.getElementById("jenis_kelamin");
-                jenis_kelamin.innerHTML = jk;
+                document.getElementById("jenis_kelamin").innerHTML = jk;
+
                 var date = new Date(data.tanggal_lahir);
                 var tahun = date.getFullYear();
                 var bulan = date.getMonth();
@@ -65,16 +63,11 @@
                 }
 
                 var tgl_lahir = tanggal + ' ' + bulan + ' ' + tahun;
-                var ttlahir = data.tempat_lahir + ', ' + tgl_lahir;
-                var ttl = document.getElementById("ttl");
-                ttl.innerHTML = ttlahir;
+                var ttl = data.tempat_lahir + ', ' + tgl_lahir;
+                document.getElementById("ttl").innerHTML = ttl;
 
-                var no_sip = document.getElementById("no_sip");
-                sip = data.no_sip;
-                no_sip.innerHTML = sip;
-                var no_str = document.getElementById("no_str");
-                str = data.no_str;
-                no_str.innerHTML = str;
+                document.getElementById("no_sip").innerHTML = data.no_sip;
+                document.getElementById("no_str").innerHTML = data.no_str;
 
                 var date2 = new Date(data.tanggal_berlaku_sip);
                 var tahun = date2.getFullYear();
@@ -168,8 +161,16 @@
                 berlaku_str = tanggal + ' ' + bulan + ' ' + tahun;
                 tanggal_berlaku_str.innerHTML = berlaku_str;
 
-                var email = document.getElementById("email");
-                email.innerHTML = data.email;
+                document.getElementById("email").innerHTML = data.email;
+
+                var status = data.status;
+                if (status == 1) {
+                    status = 'Aktif';
+                } else {
+                    status = 'Tidak Aktif';
+                }
+                document.getElementById("status").innerHTML = status;
+
                 var url = '<?php echo base_url('dokter/edit/') ?>';
                 $('#update').attr('href', url + data.id_dokter);
                 $('#delete').attr('onclick', 'delete_data(' + data.id_dokter + ')');
@@ -244,7 +245,7 @@
                             <th>No. Telp</th>
                             <th>E-mail</th>
                             <th>Username</th>
-                            <th>Password</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -276,12 +277,22 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-5">
-                                <label for="ttl" style="font-weight: bold">Tempat Tanggal Lahir</label>
+                                <label for="ttl" style="font-weight: bold">Tempat, Tanggal Lahir</label>
                                 <p id="ttl"></p>
                             </div>
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-5">
                                 <label for="jenis_kelamin" style="font-weight: bold">Jenis Kelamin</label>
                                 <p id="jenis_kelamin"></p>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-5">
+                                <label for="email" style="font-weight: bold">E-mail</label>
+                                <p id="email"></p>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <label for="no_telp" style="font-weight: bold">No. Telp</label>
+                                <p id="no_telp"></p>
                             </div>
                         </div>
                         <div class="form-row">
@@ -306,12 +317,8 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-5">
-                                <label for="email" style="font-weight: bold">E-mail</label>
-                                <p id="email"></p>
-                            </div>
-                            <div class="form-group col-sm-5">
-                                <label for="no_telp" style="font-weight: bold">No. Telp</label>
-                                <p id="no_telp"></p>
+                                <label for="status" style="font-weight: bold">Status</label>
+                                <p id="status"></p>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -341,7 +348,7 @@
             "scrollY": "400px",
             "scrollCollapse": true,
             "order": [],
-            "lengthMenu": [5, 10, 20, 50],
+            "lengthMenu": [10, 20, 50],
             "ajax": {
                 url: "<?= base_url('dokter/fetch_data'); ?>",
                 type: "POST"
@@ -349,10 +356,6 @@
             "columnDefs": [{
                     "targets": [0, 6, 7, 13, 14],
                     "orderable": false
-                },
-                {
-                    "targets": [13],
-                    "visible": false
                 },
                 {
                     "width": "15px",

@@ -24,7 +24,6 @@ class Perawat_model extends CI_Model
             $this->db->or_like('tempat_lahir', $_POST["search"]["value"]);
             $this->db->or_like('no_telp', $_POST["search"]["value"]);
             $this->db->or_like('email', $_POST["search"]["value"]);
-            $this->db->or_like('no_str', $_POST["search"]["value"]);
             $this->db->or_like('username', $_POST["search"]["value"]);
         }
         if (isset($_POST["order"])) {

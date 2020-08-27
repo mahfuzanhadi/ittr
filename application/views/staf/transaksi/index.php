@@ -94,27 +94,45 @@
                     $('#status_pembayaran').css('color', 'green');
                     $('#metode_pembayaran').attr('disabled', true);
                     $('#jumlah_bayar').attr('disabled', true);
-                    $('#update').attr('disabled', true);
+                    $("#update").removeClass('d-sm-inline-block');
+                    $('#update').addClass('d-none');
+                    $("#print").removeClass('d-none');
+                    $('#print').addClass('d-sm-inline-block');
                 } else if (data.metode_pembayaran != 0 && data.jumlah_bayar < data.total_biaya_keseluruhan) {
                     $('#status_pembayaran').text('Belum lunas');
                     $('#status_pembayaran').css('color', 'orange');
                     $('#metode_pembayaran').removeAttr('disabled');
                     $('#jumlah_bayar').removeAttr('disabled');
-                    $('#update').removeAttr('disabled');
+                    $("#update").removeClass('d-none');
+                    $('#update').addClass('d-sm-inline-block');
+                    $("#print").removeClass('d-sm-inline-block');
+                    $('#print').addClass('d-none');
                 } else {
                     $('#status_pembayaran').text('Belum melakukan pembayaran!');
                     $('#status_pembayaran').css('color', 'red');
                     $('#metode_pembayaran').removeAttr('disabled');
                     $('#jumlah_bayar').removeAttr('disabled');
-                    $('#update').removeAttr('disabled');
+                    $("#update").removeClass('d-none');
+                    $('#update').addClass('d-sm-inline-block');
+                    $("#print").removeClass('d-sm-inline-block');
+                    $('#print').addClass('d-none');
                 }
 
                 if (data.diskon > 100) {
                     var diskon = new Intl.NumberFormat(['ban', 'id']).format(data.diskon);
                     $('#diskon').text('Rp. ' + diskon);
                 } else {
-                    $('#diskon').text(data.diskon + '%');
+                    const tindakan = parseInt(data.total_biaya_tindakan);
+                    const obat = parseInt(data.total_biaya_obat);
+                    var total_biaya = tindakan + obat;
+                    var diskon = data.diskon;
+                    var total_diskon = (total_biaya * diskon) / 100;
+                    const format_diskon = new Intl.NumberFormat(['ban', 'id']).format(total_diskon);
+                    const html = '<span><i class="fas fa-fw fa-long-arrow-alt-right"></i></span>';
+
+                    $('#diskon').html(data.diskon + '% ' + html + 'Rp. ' + format_diskon);
                 }
+
                 $('#keterangan').text(data.keterangan);
 
                 var jumlah_bayar = new Intl.NumberFormat().format(data.jumlah_bayar);
@@ -258,6 +276,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" name="update" id="update" class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
+                            <button type="button" name="print" id="print" class="btn btn-primary"><i class="fas fa-print"></i> Print</button>
                             <input type="hidden" name="id_transaksi" id="id_transaksi" />
                         </div>
                     </div>
@@ -400,7 +419,12 @@
                 var xhr = "<?php echo base_url('transaksi/print_bill/') ?>" + id_transaksi;
                 var w = window.open(xhr, 'name', 'width=800,height=800');
             }
+        });
 
+        $('#print').click(function() {
+            const id_transaksi = document.getElementById('id_transaksi').value;
+            var xhr = "<?php echo base_url('transaksi/print_bill/') ?>" + id_transaksi;
+            var w = window.open(xhr, 'name', 'width=800,height=800');
         });
     });
 </script>

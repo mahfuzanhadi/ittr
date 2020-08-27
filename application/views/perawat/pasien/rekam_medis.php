@@ -59,7 +59,7 @@
             </div>
             <hr style="border: 2px solid #e0e0e0; border-radius: 5px;">
             <table class="table table-hover table-bordered" id="myTable">
-                <thead class="thead-dark">
+                <thead>
                     <tr>
                         <th width="110px">Tanggal</th>
                         <th width="150px">Dokter</th>

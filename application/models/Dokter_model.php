@@ -10,7 +10,7 @@ class Dokter_model extends CI_Model
     }
 
     var $table = 'dokter';
-    var $select_column = array('id_dokter', 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'email', 'no_sip', 'no_str', 'tanggal_berlaku_sip',  'tanggal_berlaku_str', 'username', 'password', 'email');
+    var $select_column = array('id_dokter', 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'email', 'no_sip', 'no_str', 'tanggal_berlaku_sip',  'tanggal_berlaku_str', 'username', 'status', 'email');
     var $order_column = array(null, 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', null, null, 'tanggal_berlaku_sip', 'tanggal_berlaku_str', 'no_telp', 'email', 'username', null); //set column field database for datatable orderable
     var $order = array('id_dokter' => 'asc'); // default order 
 
@@ -22,11 +22,8 @@ class Dokter_model extends CI_Model
             $this->db->like('nama', $_POST["search"]["value"]);
             $this->db->or_like('alamat', $_POST["search"]["value"]);
             $this->db->or_like('tempat_lahir', $_POST["search"]["value"]);
-            $this->db->or_like('jenis_kelamin', $_POST["search"]["value"]);
             $this->db->or_like('no_telp', $_POST["search"]["value"]);
             $this->db->or_like('email', $_POST["search"]["value"]);
-            $this->db->or_like('no_sip', $_POST["search"]["value"]);
-            $this->db->or_like('no_str', $_POST["search"]["value"]);
             $this->db->or_like('email', $_POST["search"]["value"]);
             $this->db->or_like('username', $_POST["search"]["value"]);
         }
@@ -79,7 +76,6 @@ class Dokter_model extends CI_Model
     public function add_data($data)
     {
         $this->db->insert('dokter', $data);
-        // return $this->db->insert_id();
     }
 
     function edit_data($where, $data)

@@ -119,6 +119,7 @@ class Transaksi extends CI_Controller
                     if ($status_pembayaran == "BB" || $status_pembayaran == "BL") {
                         $number++;
                         $row[] = $number;
+                        $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $status_pembayaran . '</a>';
                         $row[] = '<a href="transaksi/detail_transaksi/' . $transaksi->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
                         $row[] = '<a href="transaksi/rekam_medis/' . $transaksi->no_rekam_medis . '" style="color:#007bff; cursor: pointer">' . $transaksi->no_rekam_medis . '</a>';
                         $row[] = $transaksi->nama_pasien;
@@ -150,6 +151,7 @@ class Transaksi extends CI_Controller
                     } else {
                         $number++;
                         $row[] = $number;
+                        $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $status_pembayaran . '</a>';
                         $row[] = '<a href="transaksi/detail_transaksi/' . $transaksi->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
                         $row[] = '<a href="transaksi/rekam_medis/' . $transaksi->no_rekam_medis . '" style="color:#007bff; cursor: pointer">' . $transaksi->no_rekam_medis . '</a>';
                         $row[] = $transaksi->nama_pasien;
@@ -315,14 +317,13 @@ class Transaksi extends CI_Controller
             }
 
             $jam_selesai = date('H:i');
-            $tanggal = date('Y-m-d');
 
             $data = [
                 'id_transaksi' => $this->input->post('id_transaksi'),
                 'id_pasien' => $id_pasien,
                 'id_dokter' => $this->input->post('dokter'),
                 'id_perawat' => $this->input->post('perawat'),
-                'tanggal' => $tanggal,
+                'tanggal' => $this->input->post('tanggal'),
                 'total_biaya_tindakan' => $this->input->post('total_biaya_tindakan'),
                 'total_biaya_obat' => $this->input->post('total_biaya_obat'),
                 'foto_rontgen' => $foto,
@@ -395,7 +396,7 @@ class Transaksi extends CI_Controller
     {
         $data['title'] = 'Edit Data Transaksi';
         $data['pasien'] = $this->Transaksi_model->get_pasien();
-        $data['dokter'] = $this->Transaksi_model->get_dokter();
+        $data['dokter'] = $this->Transaksi_model->get_all_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
 
         $data['transaksi'] = $this->Transaksi_model->getById($id);
@@ -446,8 +447,6 @@ class Transaksi extends CI_Controller
             } else {
                 $foto = $this->input->post('old_image');
             }
-
-            $added_by = $this->session->userdata('nama');
 
             $data = [
                 'id_transaksi' => $this->input->post('id_transaksi'),
@@ -554,7 +553,7 @@ class Transaksi extends CI_Controller
 
         $data['transaksi'] = $this->Transaksi_model->getById($id);
         $data['pasien'] = $this->Transaksi_model->get_pasien();
-        $data['dokter'] = $this->Transaksi_model->get_dokter();
+        $data['dokter'] = $this->Transaksi_model->get_all_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
         $data['detail_tindakan'] = $this->Transaksi_model->get_detail_tindakan();
         $data['tindakan'] = $this->Transaksi_model->get_tindakan();
@@ -597,7 +596,7 @@ class Transaksi extends CI_Controller
 
         $data['pasien'] = $this->Pasien_model->getById($id);
         $data['transaksi'] = $this->Pasien_model->get_transaksi_by_id($id);
-        $data['dokter'] = $this->Transaksi_model->get_dokter();
+        $data['dokter'] = $this->Transaksi_model->get_all_dokter();
         $data['perawat'] = $this->Transaksi_model->get_perawat();
         $data['detail_tindakan'] = $this->Transaksi_model->get_detail_tindakan();
         $data['tindakan'] = $this->Transaksi_model->get_tindakan();

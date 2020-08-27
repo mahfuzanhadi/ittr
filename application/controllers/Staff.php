@@ -42,7 +42,7 @@ class Staff extends CI_Controller
             $row = array();
             $no++;
             $row[] = $no;
-            $row[] = '<a onclick="detail_data(' . $staf->id_staf . ')" >' . $staf->nama . '</a>';
+            $row[] = '<a style="cursor: pointer; color:#007bff;" onclick="detail_data(' . $staf->id_staf . ')" >' . $staf->nama . '</a>';
             $row[] = $staf->alamat;
             $row[] = $staf->tanggal_lahir;
             $row[] = $staf->jenis_kelamin;

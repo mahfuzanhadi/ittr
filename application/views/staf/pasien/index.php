@@ -145,30 +145,28 @@
     <!-- DataTables -->
     <div class="card mb-3">
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover table-bordered" id="dataTable">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>No. RM</th>
-                            <th>Nama</th>
-                            <th>Umur</th>
-                            <th>Jenis Kelamin</th>
-                            <th>Alamat</th>
-                            <th>Tanggal Lahir</th>
-                            <th>Pekerjaan</th>
-                            <th>No. Telp</th>
-                            <th>Riwayat Penyakit</th>
-                            <th>Alergi Obat</th>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>E-mail</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
+            <table class="table table-hover table-bordered" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>No. RM</th>
+                        <th>Nama</th>
+                        <th>Umur</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Alamat</th>
+                        <th>Tanggal Lahir</th>
+                        <th>Pekerjaan</th>
+                        <th>No. Telp</th>
+                        <th>Riwayat Penyakit</th>
+                        <th>Alergi Obat</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>E-mail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -242,13 +240,9 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <!-- <div class="container">
-                                <div class="center-block text-center"> -->
                             <a type="button" name="update" id="update" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
                             <button type="button" name="delete" id="delete" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
-                            <!-- </div> -->
                             <input type="hidden" name="id_pasien" id="id_pasien" />
-                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
@@ -264,6 +258,9 @@
             "responsive": true,
             "processing": true,
             "serverSide": true,
+            "stateSave": true,
+            "dom": "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-9'<'custom-search'>>>" +
+                "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             "scrollX": true,
             "scrollY": "400px",
             "scrollCollapse": true,
@@ -271,7 +268,13 @@
             "lengthMenu": [20, 50, 100],
             "ajax": {
                 url: "<?= base_url('pasien/fetch_data'); ?>",
-                type: "POST"
+                type: "POST",
+                data: function(data) {
+                    data.no_rekam_medis = $('#no_rekam_medis').val();
+                    data.nama = $('#nama').val();
+                    data.alamat = $('#alamat').val();
+                    data.no_telp = $('#no_telp').val();
+                }
             },
             "columnDefs": [{
                     "targets": [0, 11, 13],
@@ -363,6 +366,16 @@
                     "targets": 13
                 },
             ]
+        });
+
+        $("div.custom-search").html('<form id="form-filter"><div class="form-row"><div class="col-sm-2"></div><div class="col-sm-1"><label style="padding-top: 0.5rem">Search:</label></div><div class="col-sm-1"><input type="text" class="form-control form-control-sm" id="no_rekam_medis" name="no_rekam_medis" placeholder="No. RM" style="padding-left: 0.25rem;"></div><div class="col-sm-2"><input type="text" class="form-control form-control-sm" id="nama" name="nama" placeholder="Nama"></div><div class="col-sm-2"><input type="text" class="form-control form-control-sm" id="alamat" name="alamat" placeholder="Alamat"></div><div class="col-sm-2"><input type="text" class="form-control form-control-sm" id="no_telp" name="no_telp" placeholder="No. Telp"></div><div class="col-sm-2"><button type="button" id="btn-filter" class="btn btn-info btn-sm active" aria-pressed="true">Search</button><button type="button" id="btn-reset" class="btn btn-default btn-sm active" aria-pressed="true">Reset</button></div></div></form>');
+
+        $('#btn-filter').click(function() { //button filter event click
+            dataTable.ajax.reload(); //just reload table
+        });
+        $('#btn-reset').click(function() { //button reset event click
+            $('#form-filter')[0].reset();
+            dataTable.ajax.reload(); //just reload table
         });
     });
 </script>

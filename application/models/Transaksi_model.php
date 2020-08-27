@@ -108,19 +108,25 @@ class Transaksi_model extends CI_Model
 
     public function get_pasien()
     {
-        $query = $this->db->query('SELECT * from pasien');
+        $query = $this->db->query('SELECT * FROM pasien');
         return $query->result();
     }
 
     public function get_dokter()
     {
-        $query = $this->db->query('SELECT * from dokter');
+        $query = $this->db->query('SELECT * FROM dokter WHERE status = 1');
+        return $query->result();
+    }
+
+    public function get_all_dokter()
+    {
+        $query = $this->db->query('SELECT * FROM dokter');
         return $query->result();
     }
 
     public function get_perawat()
     {
-        $query = $this->db->query('SELECT * from perawat');
+        $query = $this->db->query('SELECT * FROM perawat');
         return $query->result();
     }
 

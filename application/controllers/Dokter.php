@@ -39,8 +39,15 @@ class Dokter extends CI_Controller
         foreach ($list as $dokter) {
             $row = array();
             $no++;
+
+            if ($dokter->status == 1) {
+                $status = "Aktif";
+            } else {
+                $status = "Tidak Aktif";
+            }
+
             $row[] = $no;
-            $row[] = '<a onclick="detail_data(' . $dokter->id_dokter . ')" >' . $dokter->nama . '</a>';
+            $row[] = '<a style="cursor: pointer; color:#007bff;" onclick="detail_data(' . $dokter->id_dokter . ')" >' . $dokter->nama . '</a>';
             $row[] = $dokter->alamat;
             $row[] = $dokter->tempat_lahir;
             $row[] = $dokter->tanggal_lahir;
@@ -52,7 +59,7 @@ class Dokter extends CI_Controller
             $row[] = $dokter->no_telp;
             $row[] = $dokter->email;
             $row[] = $dokter->username;
-            $row[] = $dokter->password;
+            $row[] = $status;
             $row[] = '<a href="dokter/edit/' . $dokter->id_dokter . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $dokter->id_dokter . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
             $data[] = $row;
         }
@@ -101,7 +108,8 @@ class Dokter extends CI_Controller
                 'tanggal_berlaku_sip' => $this->input->post('tanggal_berlaku_sip'),
                 'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
                 'username' => $this->input->post('username'),
-                'password' => $password
+                'password' => $password,
+                'status' => $this->input->post('status')
             ];
 
             $this->Dokter_model->add_data($data);
@@ -155,7 +163,8 @@ class Dokter extends CI_Controller
             'tanggal_berlaku_sip' => $this->input->post('tanggal_berlaku_sip'),
             'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
             'username' => $this->input->post('username'),
-            'password' => $password
+            'password' => $password,
+            'status' => $this->input->post('status')
         ];
 
         $this->Dokter_model->edit_data(array('id_dokter' => $this->input->post('id')), $data);
@@ -230,7 +239,8 @@ class Dokter extends CI_Controller
             'tanggal_berlaku_sip' => $this->input->post('tanggal_berlaku_sip'),
             'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
             'username' => $this->input->post('username'),
-            'password' => $this->input->post('password')
+            'password' => $this->input->post('password'),
+            'status' => $this->input->post('status')
         ];
         if (!empty($data['password'])) {
             $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);

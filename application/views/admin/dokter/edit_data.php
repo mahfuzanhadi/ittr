@@ -108,6 +108,21 @@
                         <input type="checkbox" class="form-checkbox" style="margin-top: 40px"> Show password
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-3">
+                        <label for="status">Status <font color="red">*</font></label>
+                        <select class="custom-select custom-select-sm" name="status" id="status">
+                            <?php if ($dokter['status'] == 1) : ?>
+                                <option value="1" selected>Aktif</option>
+                                <option value="0">Tidak Aktif</option>
+                            <?php else : ?>
+                                <option value="1">Aktif</option>
+                                <option value="0" selected>Tidak Aktif</option>
+                            <?php endif; ?>
+                        </select>
+                        <span id="error_status" class="text-danger"></span>
+                    </div>
+                </div>
                 <button class="btn btn-primary active" aria-pressed="true" type="button" name="update" id="update">Update</button>
             </form>
 
@@ -140,6 +155,7 @@
         }
     })
 </script>
+
 <script>
     jQuery.datetimepicker.setLocale('id')
     $('#datepicker').datetimepicker({
@@ -154,6 +170,7 @@
         }
     })
 </script>
+
 <script>
     jQuery.datetimepicker.setLocale('id')
     $('#datepicker2').datetimepicker({
@@ -168,6 +185,7 @@
         }
     })
 </script>
+
 <script>
     // WRITE THE VALIDATION SCRIPT.
     function isNumber(evt) {
@@ -223,6 +241,7 @@
         });
     });
 </script>
+
 <script>
     $(document).ready(function() {
         $('#update').click(function() {
@@ -239,6 +258,7 @@
             var error_no_str = '';
             var error_username = '';
             var error_password = '';
+            var error_status = '';
             var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             var mobile_validation = /^\d{10,12}$/;
             var password_validation = /^.{6,}$/;
@@ -381,7 +401,17 @@
                 }
             }
 
-            if (error_nama != '' || error_alamat != '' || error_picker != '' || error_datepicker != '' || error_datepicker2 != '' || error_jenis_kelamin != '' || error_no_telp != '' || error_no_sip != '' || error_no_str != '' || error_email != '' || error_password != '') {
+            if ($.trim($('#status').val()).length == 0) {
+                error_status = 'Status wajib diisi';
+                $('#error_status').text(error_status);
+                $('#status').addClass('has-error');
+            } else {
+                error_status = '';
+                $('#error_status').text(error_status);
+                $('#status').removeClass('has-error');
+            }
+
+            if (error_nama != '' || error_alamat != '' || error_picker != '' || error_datepicker != '' || error_datepicker2 != '' || error_jenis_kelamin != '' || error_no_telp != '' || error_no_sip != '' || error_no_str != '' || error_email != '' || error_password != '' || error_status != '') {
                 return false;
             } else {
                 $('#form_dokter').submit();

@@ -101,11 +101,20 @@
                 }
 
                 if (data.diskon > 100) {
-                    var diskon = new Intl.NumberFormat().format(data.diskon);
+                    var diskon = new Intl.NumberFormat(['ban', 'id']).format(data.diskon);
                     $('#diskon').text('Rp. ' + diskon);
                 } else {
-                    $('#diskon').text(data.diskon + '%');
+                    const tindakan = parseInt(data.total_biaya_tindakan);
+                    const obat = parseInt(data.total_biaya_obat);
+                    var total_biaya = tindakan + obat;
+                    var diskon = data.diskon;
+                    var total_diskon = (total_biaya * diskon) / 100;
+                    const format_diskon = new Intl.NumberFormat(['ban', 'id']).format(total_diskon);
+                    const html = '<span><i class="fas fa-fw fa-long-arrow-alt-right"></i></span>';
+
+                    $('#diskon').html(data.diskon + '% ' + html + 'Rp. ' + format_diskon);
                 }
+
                 $('#keterangan').text(data.keterangan);
                 $('#jumlah_bayar').val(data.jumlah_bayar);
                 $('#metode_pembayaran').val(data.metode_pembayaran);
@@ -246,6 +255,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" name="update" id="update" class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
+                            <button type="button" name="print" id="print" class="btn btn-primary"><i class="fas fa-print"></i> Print</button>
                             <input type="hidden" name="id_transaksi" id="id_transaksi" />
                         </div>
                     </div>
@@ -399,6 +409,12 @@
                 var w = window.open(xhr, 'name', 'width=800,height=800');
             }
 
+        });
+
+        $('#print').click(function() {
+            const id_transaksi = document.getElementById('id_transaksi').value;
+            var xhr = "<?php echo base_url('transaksi/print_bill/') ?>" + id_transaksi;
+            var w = window.open(xhr, 'name', 'width=800,height=800');
         });
     });
 </script>

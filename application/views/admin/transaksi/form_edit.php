@@ -62,7 +62,7 @@
                                     <div class="form-group col-sm-3">
                                         <label for="dokter">Dokter <font color="red">*</font></label>
                                         <select class="form-control" name="dokter" id="dokter">
-                                            <option value="">Choose one</option>
+                                            <option value="" hidden>Choose one</option>
                                             <?php foreach ($dokter as $row) : ?>
                                                 <?php if ($row->id_dokter == $transaksi['id_dokter']) : ?>
                                                     <option value="<?= $row->id_dokter; ?>" selected><?= $row->nama; ?></option>
@@ -78,7 +78,7 @@
                                     <div class="form-group col-sm-3">
                                         <label for="perawat">Perawat <font color="red">*</font></label>
                                         <select class="form-control" name="perawat" id="perawat">
-                                            <option value="">Choose one</option>
+                                            <option value="" hidden>Choose one</option>
                                             <?php foreach ($perawat as $row) : ?>
                                                 <?php if ($row->id_perawat == $transaksi['id_perawat']) : ?>
                                                     <option value="<?= $row->id_perawat; ?>" selected><?= $row->nama; ?></option>

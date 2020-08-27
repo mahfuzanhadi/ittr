@@ -57,7 +57,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
-                        <label for="no_telp">No. Telp</label>
+                        <label for="no_telp">No. Telp <font color="red">*</font></label>
                         <input class="form-control" type="text" name="no_telp" id="no_telp" placeholder="No. Telp" onkeypress="javascript:return isNumber(event)" />
                         <span id="error_no_telp" class="text-danger"></span>
                     </div>
@@ -98,6 +98,17 @@
                         <span id="error_password" class="text-danger"></span>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-3">
+                        <label for="status">Status <font color="red">*</font></label>
+                        <select class="custom-select custom-select-sm" id="status" name="status">
+                            <option value="" hidden>Pilih Status</option>
+                            <option value="1" <?= set_select('status', '1'); ?>>Aktif</option>
+                            <option value="0" <?= set_select('status', '0'); ?>>Tidak Aktif</option>
+                        </select>
+                        <span id="error_status" class="text-danger"></span>
+                    </div>
+                </div>
                 <button class="btn btn-primary active" aria-pressed="true" type="button" name="tambah" id="tambah">Save</button>
             </form>
 
@@ -130,6 +141,7 @@
         }
     })
 </script>
+
 <script>
     jQuery.datetimepicker.setLocale('id')
     $('#datepicker').datetimepicker({
@@ -144,6 +156,7 @@
         }
     })
 </script>
+
 <script>
     jQuery.datetimepicker.setLocale('id')
     $('#datepicker2').datetimepicker({
@@ -158,6 +171,7 @@
         }
     })
 </script>
+
 <script>
     // WRITE THE VALIDATION SCRIPT.
     function isNumber(evt) {
@@ -168,6 +182,7 @@
         return true;
     }
 </script>
+
 <script>
     $(document).ready(function() {
         $('#username').keyup(function() {
@@ -199,6 +214,7 @@
         });
     });
 </script>
+
 <script>
     $(document).ready(function() {
         $('#tambah').click(function() {
@@ -215,6 +231,7 @@
             var error_no_str = '';
             var error_username = '';
             var error_password = '';
+            var error_status = '';
             var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             var mobile_validation = /^\d{10,12}$/;
             var password_validation = /^.{6,}$/;
@@ -357,7 +374,17 @@
                 }
             }
 
-            if (error_nama != '' || error_alamat != '' || error_picker != '' || error_datepicker != '' || error_datepicker2 != '' || error_jenis_kelamin != '' || error_no_telp != '' || error_no_sip != '' || error_no_str != '' || error_email != '' || error_password != '') {
+            if ($.trim($('#status').val()).length == 0) {
+                error_status = 'Status wajib diisi';
+                $('#error_status').text(error_status);
+                $('#status').addClass('has-error');
+            } else {
+                error_status = '';
+                $('#error_status').text(error_status);
+                $('#status').removeClass('has-error');
+            }
+
+            if (error_nama != '' || error_alamat != '' || error_picker != '' || error_datepicker != '' || error_datepicker2 != '' || error_jenis_kelamin != '' || error_no_telp != '' || error_no_sip != '' || error_no_str != '' || error_email != '' || error_password != '' || error_status != '') {
                 return false;
             } else {
                 $('#form_dokter').submit();

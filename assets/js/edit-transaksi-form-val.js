@@ -14,6 +14,23 @@ $(document).ready(function () {
 			$('#no_rekam_medis').removeClass('has-error');
 		}
 
+		// var no_rekam_medis = $('#no_rekam_medis').val();
+		// $.ajax({
+		// 	type: "POST",
+		// 	url: "<?php echo base_url() ?>transaksi/isExist",
+		// 	data: "no_rekam_medis=" + no_rekam_medis,
+		// 	success: function (response) {
+		// 		if (response != '') {
+		// 			$('#error_no_rm').text(response);
+		// 			$('#no_rekam_medis').addClass('has-error');
+		// 		} else {
+		// 			error_no_rm = '';
+		// 			$('#error_no_rm').text(error_no_rm);
+		// 			$('#no_rekam_medis').removeClass('has-error');
+		// 		}
+		// 	}
+		// });
+
 		if ($.trim($('#dokter').val()).length == 0) {
 			error_dokter = 'Data dokter wajib diisi';
 			$('#error_dokter').text(error_dokter);
@@ -69,34 +86,34 @@ $(document).ready(function () {
 		var error_biaya = '';
 		var error_diagnosa = '';
 
-		if ($.trim($('#tindakan').val()).length == 0) {
+		if ($.trim($('#tindakan1').val()).length == 0) {
 			error_tindakan = 'Tindakan wajib diisi';
 			$('#error_tindakan').text(error_tindakan);
-			$('#tindakan').addClass('has-error');
+			$('#tindakan1').addClass('has-error');
 		} else {
 			error_tindakan = '';
 			$('#error_tindakan').text(error_tindakan);
-			$('#tindakan').removeClass('has-error');
+			$('#tindakan1').removeClass('has-error');
 		}
 
-		if ($.trim($('#diagnosa').val()).length == 0) {
+		if ($.trim($('#diagnosa1').val()).length == 0) {
 			error_diagnosa = 'Diagnosa wajib diisi';
 			$('#error_diagnosa').text(error_diagnosa);
-			$('#diagnosa').addClass('has-error');
+			$('#diagnosa1').addClass('has-error');
 		} else {
 			error_diagnosa = '';
 			$('#error_diagnosa').text(error_diagnosa);
-			$('#diagnosa').removeClass('has-error');
+			$('#diagnosa1').removeClass('has-error');
 		}
 
-		if ($.trim($('#biaya').val()).length == 0) {
+		if ($.trim($('#biaya1').val()).length == 0) {
 			error_biaya = 'Biaya wajib diisi';
 			$('#error_biaya').text(error_biaya);
-			$('#biaya').addClass('has-error');
+			$('#biaya1').addClass('has-error');
 		} else {
 			error_biaya = '';
 			$('#error_biaya').text(error_biaya);
-			$('#biaya').removeClass('has-error');
+			$('#biaya1').removeClass('has-error');
 		}
 
 		if (error_tindakan != '' || error_biaya != '' || error_diagnosa != '') {
@@ -128,6 +145,41 @@ $(document).ready(function () {
 	});
 
 	$('#btn_detail_obat').click(function () {
+		$('#list_detail_obat').removeClass('active active_tab1');
+		$('#list_detail_obat').removeAttr('href data-toggle');
+		$('#detail_obat').removeClass('active');
+		$('#list_detail_obat').addClass('inactive_tab1');
+		$('#list_detail_transaksi').removeClass('inactive_tab1');
+		$('#list_detail_transaksi').addClass('active_tab1 active');
+		$('#list_detail_transaksi').attr('href', '#detail_transaksi');
+		$('#list_detail_transaksi').attr('data-toggle', 'tab');
+		$('#detail_transaksi').removeClass('fade');
+		$('#detail_transaksi').addClass('active in');
+	});
+
+	$('#previous_btn_transaksi').click(function () {
+		$('#list_detail_transaksi').removeClass('active active_tab1');
+		$('#list_detail_transaksi').removeAttr('href data-toggle');
+		$('#detail_transaksi').removeClass('active in');
+		$('#list_detail_transaksi').addClass('inactive_tab1');
+		$('#list_detail_obat').removeClass('inactive_tab1');
+		$('#list_detail_obat').addClass('active_tab1 active');
+		$('#list_detail_obat').attr('href', '#detail_obat');
+		$('#list_detail_obat').attr('data-toggle', 'tab');
+		$('#detail_obat').addClass('active in');
+	});
+
+	$('#btn_detail_transaksi').click(function () {
+		var diskon = $('#diskon').val();
+		var hasil = 0;
+		if (diskon == null || diskon == '') {
+			hasil = 0;
+			$('#diskon').val(hasil);
+		} else {
+			hasil = parseFloat(diskon.replace(/[^0-9-.]/g, ''));
+			$('#diskon').val(hasil);
+		}
+
 		$('#transaksi_form').submit();
 	});
 });

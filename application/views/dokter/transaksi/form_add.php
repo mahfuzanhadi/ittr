@@ -36,10 +36,8 @@
                                 <input type="hidden" name="total_biaya_obat" value="0">
                                 <input type="hidden" name="total_biaya_keseluruhan" value="0">
                                 <input type="hidden" name="diskon" id="diskon" value="0">
-                                <input type="hidden" name="jumlah_bayar" value="0">
-                                <input type="hidden" name="metode_pembayaran" value="0">
+                                <input type="hidden" name="sisa" value="0">
                                 <input type="hidden" name="keterangan" id="keterangan" value="">
-                                <input type="hidden" name="added_by" value="">
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="no_rekam_medis">No. Rekam Medis <font color="red">*</font></label>
@@ -232,7 +230,8 @@
                         </div>
                         <div class="form-group col-sm-4">
                             <label for="discount" style="font-weight: bold">Diskon</label> <span id="jenis_diskon"></span>
-                            <input class="form-control w-50" type="text" name="discount" id="discount" placeholder="Diskon" />
+                            <input class="form-control w-50" type="text" name="discount" id="discount" placeholder="Diskon" value="<?= $transaksi['diskon']; ?>" onkeypress="javascript:return isNumber(event)" />
+
                         </div>
                     </div>
                     <div class="form-row">

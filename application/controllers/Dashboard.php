@@ -66,7 +66,7 @@ class Dashboard extends CI_Controller
     public function fetch_metode_pembayaran()
     {
         for ($i = 1; $i < 5; $i++) {
-            $query = $this->db->query("SELECT * FROM transaksi WHERE metode_pembayaran = '" . $i . "'");
+            $query = $this->db->query("SELECT * FROM pembayaran WHERE metode_pembayaran = '" . $i . "'");
             $data[] = $query->num_rows();
         }
         echo json_encode($data);

@@ -89,15 +89,38 @@
                 var total_keseluruhan = 'Rp. ' + biaya_keseluruhan;
                 $('#total_biaya_keseluruhan').text(total_keseluruhan);
 
-                if (data.metode_pembayaran != 0 && data.jumlah_bayar >= data.total_biaya_keseluruhan) {
-                    $('#status_pembayaran').text('Lunas');
-                    $('#status_pembayaran').css('color', 'green');
-                } else if (data.metode_pembayaran != 0 && data.jumlah_bayar < data.total_biaya_keseluruhan) {
+                var format_sisa = new Intl.NumberFormat(['ban', 'id']).format(data.sisa);
+                $('#sisa').text('Rp. ' + format_sisa);
+
+                const sisa = parseInt(data.sisa);
+                const keseluruhan = parseInt(data.total_biaya_keseluruhan);
+                if (sisa > 0 && sisa < keseluruhan) {
                     $('#status_pembayaran').text('Belum lunas');
                     $('#status_pembayaran').css('color', 'orange');
+                    $('#metode_pembayaran').removeAttr('disabled');
+                    $('#jumlah_bayar').removeAttr('disabled');
+                    $("#update").removeClass('d-none');
+                    $('#update').addClass('d-sm-inline-block');
+                    $("#print").removeClass('d-sm-inline-block');
+                    $('#print').addClass('d-none');
+                } else if (sisa === 0) {
+                    $('#status_pembayaran').text('Lunas');
+                    $('#status_pembayaran').css('color', 'green');
+                    $('#metode_pembayaran').attr('disabled', true);
+                    $('#jumlah_bayar').attr('disabled', true);
+                    $("#update").removeClass('d-sm-inline-block');
+                    $('#update').addClass('d-none');
+                    $("#print").removeClass('d-none');
+                    $('#print').addClass('d-sm-inline-block');
                 } else {
                     $('#status_pembayaran').text('Belum melakukan pembayaran!');
                     $('#status_pembayaran').css('color', 'red');
+                    $('#metode_pembayaran').removeAttr('disabled');
+                    $('#jumlah_bayar').removeAttr('disabled');
+                    $("#update").removeClass('d-none');
+                    $('#update').addClass('d-sm-inline-block');
+                    $("#print").removeClass('d-sm-inline-block');
+                    $('#print').addClass('d-none');
                 }
 
                 if (data.diskon > 100) {
@@ -116,25 +139,6 @@
                 }
 
                 $('#keterangan').text(data.keterangan);
-
-                var jumlah_bayar = new Intl.NumberFormat(['ban', 'id']).format(data.jumlah_bayar);
-                var format_jumlah_bayar = 'Rp. ' + jumlah_bayar;
-                $('#jumlah_bayar').text(format_jumlah_bayar);
-
-                const id_metode = data.metode_pembayaran;
-                if (id_metode == 1) {
-                    $('#metode_pembayaran').text("Cash");
-                } else if (id_metode == 2) {
-                    $('#metode_pembayaran').text("Kredit");
-                } else if (id_metode == 3) {
-                    $('#metode_pembayaran').text("Debit");
-                } else if (id_metode == 4) {
-                    $('#metode_pembayaran').text("Transfer");
-                } else {
-                    $('#metode_pembayaran').text("-");
-                }
-                // $('#metode_pembayaran').val(data.metode_pembayaran);
-                $('#added_by').text(data.added_by);
 
                 $('#myModal').modal('show');
                 $('#id_transaksi').val(data.id_transaksi);
@@ -179,7 +183,7 @@
         <div class="row mt-3">
             <div class="col-md-6">
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    Anda tidak dapat mengubah data ini! Silahkan hubungi super admin jika ingin mengubah data ini.
+                    Anda tidak dapat mengubah data ini! Silahkan hubungi administrator jika ingin mengubah data ini.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -226,10 +230,10 @@
 
     <div id="myModal" class="modal fade">
         <div class="modal-dialog modal-lg">
-            <form method="post" id="myForm" action="<?= base_url('transaksi/update_transaksi'); ?>">
+            <form method="post" id="myForm" action="<?= base_url('pembayaran/add'); ?>" target="_self" onsubmit="return printbill()">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Detail Biaya Transaksi</h4>
+                        <h4 class="modal-title">Detail Pembayaran</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
@@ -257,37 +261,34 @@
                                 <p id="total_biaya_obat"></p>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for="total_biaya_keseluruhan" style="font-weight: bold">Total Biaya Keseluruhan</label>
-                                <p id="total_biaya_keseluruhan"></p>
+                                <label style="font-weight: bold">Diskon</label>
+                                <p id="diskon"></p>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-4">
-                                <label style="font-weight: bold">Diskon</label>
-                                <p id="diskon"></p>
+                                <label for="total_biaya_keseluruhan" style="font-weight: bold">Total Biaya Keseluruhan</label>
+                                <p id="total_biaya_keseluruhan"></p>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold">Sisa Yang Belum Dibayar</label>
+                                <p id="sisa"></p>
                             </div>
                             <div class="form-group col-sm-4">
                                 <label style="font-weight: bold">Keterangan</label>
                                 <p id="keterangan"></p>
                             </div>
-                            <div class="form-group col-sm-4">
-                                <label for="jumlah_bayar" style="font-weight: bold">Jumlah Bayar</label>
-                                <p id="jumlah_bayar"></p>
-                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-sm-4">
-                                <label for="metode_pembayaran" style="font-weight: bold">Metode Pembayaran</label>
-                                <p id="metode_pembayaran"></p>
-                            </div>
                             <div class="form-group col-sm-4">
                                 <label for="status_pembayaran" style="font-weight: bold">Status Pembayaran</label>
                                 <p id="status_pembayaran"></p>
                             </div>
-                            <div class="form-group col-sm-4">
-                                <label style="font-weight: bold">Diterima oleh</label>
-                                <p id="added_by"></p>
-                            </div>
+                        </div>
+                        <div class="modal-footer"><input type="hidden" name="id_transaksi" id="id_transaksi" />
+                            <input type="hidden" name="kembalian" id="kembalian" value="0" />
+                            <input type="hidden" name="sisa_sebelum" id="sisa_sebelum" value="0" />
+                            <input type="hidden" name="sisa_sesudah" id="sisa_sesudah" value="0" />
                         </div>
                     </div>
                 </div>

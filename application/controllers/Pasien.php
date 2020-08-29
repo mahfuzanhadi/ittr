@@ -30,19 +30,19 @@ class Pasien extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
-            $this->load->view('dokter/pasien/index', $data);
+            $this->load->view('admin/pasien/readonly', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '3') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
-            $this->load->view('perawat/pasien/index', $data);
+            $this->load->view('admin/pasien/index', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/pasien/index', $data);
+            $this->load->view('admin/pasien/readonly', $data);
             $this->load->view('templates/footer');
         }
         $this->session->set_userdata('previous_url', current_url());
@@ -101,7 +101,7 @@ class Pasien extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
-            $this->load->view('perawat/pasien/add_data', $data);
+            $this->load->view('admin/pasien/add_data', $data);
             $this->load->view('templates/footer');
             $this->session->set_userdata('previous_url', current_url());
         } else {
@@ -164,7 +164,7 @@ class Pasien extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
-            $this->load->view('perawat/pasien/edit_data', $data);
+            $this->load->view('admin/pasien/edit_data', $data);
             $this->load->view('templates/footer');
             $this->session->set_userdata('previous_url', current_url());
         } else {
@@ -231,19 +231,19 @@ class Pasien extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
-            $this->load->view('dokter/pasien/rekam_medis', $data);
+            $this->load->view('admin/pasien/rekam_medis', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '3') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
-            $this->load->view('perawat/pasien/rekam_medis', $data);
+            $this->load->view('admin/pasien/rekam_medis', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/pasien/rekam_medis', $data);
+            $this->load->view('admin/pasien/rekam_medis', $data);
             $this->load->view('templates/footer');
         }
         $this->session->set_userdata('previous_url', current_url());

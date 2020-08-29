@@ -80,7 +80,7 @@ div.dataTables_wrapper div.dataTables_length select {
 
 .canvas_metode_pembayaran {
 	display: block;
-	height: 125px !important;
+	/* height: 125px !important; */
 	width: 100% !important;
 }
 

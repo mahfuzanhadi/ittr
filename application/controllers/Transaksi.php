@@ -64,11 +64,11 @@ class Transaksi extends CI_Controller
             $nama_tindakan = array();
             $no++;
             // $base = base_url('uploads/rontgen/' . $transaksi->foto_rontgen);
-            $metode_pembayaran = $transaksi->metode_pembayaran;
-            if ($metode_pembayaran != 0 && $transaksi->jumlah_bayar < $transaksi->total_biaya_keseluruhan) {
+
+            if ($transaksi->sisa > 0 && $transaksi->sisa < $transaksi->total_biaya_keseluruhan) {
                 $color = "#E0A800";
                 $status_pembayaran = "BL";
-            } else if ($metode_pembayaran != 0 && $transaksi->jumlah_bayar >= $transaksi->total_biaya_keseluruhan) {
+            } else if ($transaksi->sisa == 0) {
                 $color = "#008000";
                 $status_pembayaran = "L";
             } else {
@@ -291,7 +291,7 @@ class Transaksi extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
-            $this->load->view('perawat/transaksi/form_add', $data);
+            $this->load->view('admin/transaksi/form_add', $data);
             $this->load->view('templates/footer');
         } else { //IF USER = STAF ADMINISTRASI
             $previous_url = $this->session->userdata('previous_url');
@@ -332,9 +332,7 @@ class Transaksi extends CI_Controller
                 'jam_selesai' => $jam_selesai,
                 'diskon' => $this->input->post('diskon'),
                 'total_biaya_keseluruhan' => $this->input->post('total_biaya_keseluruhan'),
-                'jumlah_bayar' => $this->input->post('jumlah_bayar'),
-                'metode_pembayaran' => $this->input->post('metode_pembayaran'),
-                'added_by' => $this->input->post('added_by')
+                'sisa' => $this->input->post('sisa'),
             ];
 
             $this->Transaksi_model->add_data($data);
@@ -344,6 +342,7 @@ class Transaksi extends CI_Controller
             foreach ($last_transaksi as $last) {
                 $last;
             }
+
 
             $tindakan = $this->input->post('tindakan');
             $diagnosa = $this->input->post('diagnosa');
@@ -462,9 +461,7 @@ class Transaksi extends CI_Controller
                 'jam_selesai' => $this->input->post('jam_selesai'),
                 'diskon' => $this->input->post('diskon'),
                 'total_biaya_keseluruhan' => $this->input->post('total_biaya_keseluruhan'),
-                'jumlah_bayar' => $this->input->post('jumlah_bayar'),
-                'metode_pembayaran' => $this->input->post('metode_pembayaran'),
-                'added_by' => $this->input->post('added_by')
+                'sisa' => $this->input->post('sisa')
             ];
 
             $this->Transaksi_model->edit_data(array('id_transaksi' => $this->input->post('id_transaksi')), $data);
@@ -512,6 +509,8 @@ class Transaksi extends CI_Controller
                 }
                 $this->Transaksi_model->edit_total_biaya_obat($this->input->post('id_transaksi'));
                 $this->Transaksi_model->edit_total_biaya_keseluruhan($this->input->post('id_transaksi'));
+            } else {
+                $this->Transaksi_model->edit_total_biaya_keseluruhan($this->input->post('id_transaksi'));
             }
             $this->session->set_flashdata('flash', 'diubah');
             redirect('transaksi');
@@ -538,7 +537,7 @@ class Transaksi extends CI_Controller
         echo $nama_pasien;
     }
 
-    // Function get detail data rekam medis by id_transaksi
+    // Function get detail data
     public function detail_data($id)
     {
         $data = $this->Transaksi_model->get_detail_transaksi($id);
@@ -559,6 +558,7 @@ class Transaksi extends CI_Controller
         $data['tindakan'] = $this->Transaksi_model->get_tindakan();
         $data['detail_obat'] = $this->Transaksi_model->get_detail_biaya_obat();
         $data['obat'] = $this->Transaksi_model->get_obat();
+        $data['pembayaran'] = $this->Transaksi_model->get_pembayaran();
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
@@ -570,19 +570,19 @@ class Transaksi extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
-            $this->load->view('dokter/transaksi/detail_transaksi', $data);
+            $this->load->view('admin/transaksi/detail_transaksi', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '3') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
-            $this->load->view('perawat/transaksi/detail_transaksi', $data);
+            $this->load->view('admin/transaksi/detail_transaksi', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/transaksi/detail_transaksi', $data);
+            $this->load->view('admin/transaksi/detail_transaksi', $data);
             $this->load->view('templates/footer');
         }
     }
@@ -613,51 +613,21 @@ class Transaksi extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/dokter/sidebar', $data);
             $this->load->view('templates/dokter/topbar', $data);
-            $this->load->view('dokter/transaksi/rekam_medis', $data);
+            $this->load->view('admin/transaksi/rekam_medis', $data);
             $this->load->view('templates/footer');
         } else if ($this->session->userdata('akses') == '3') {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/perawat/sidebar', $data);
             $this->load->view('templates/perawat/topbar', $data);
-            $this->load->view('perawat/transaksi/rekam_medis', $data);
+            $this->load->view('admin/transaksi/rekam_medis', $data);
             $this->load->view('templates/footer');
         } else {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/transaksi/rekam_medis', $data);
+            $this->load->view('admin/transaksi/rekam_medis', $data);
             $this->load->view('templates/footer');
         }
-    }
-
-    // Function to update data transaksi (metode pembayaran)
-    public function update_transaksi()
-    {
-        $jumlah_bayar = $this->input->post('jumlah_bayar');
-        $metode_pembayaran = $this->input->post('metode_pembayaran');
-        $added_by = $this->session->userdata('nama');
-        $id = $this->input->post('id_transaksi');
-        $this->Transaksi_model->update_detail_transaksi($id, $jumlah_bayar, $metode_pembayaran, $added_by);
-        $this->session->set_flashdata('flash', 'diubah');
-        redirect('transaksi');
-    }
-
-    // Function to print bill
-    public function print_bill($id)
-    {
-        $this->load->model('Pasien_model');
-        $data['title'] = 'Bukti Pembayaran';
-
-        $data['transaksi'] = $this->Transaksi_model->getById($id);
-        $data['pasien'] = $this->Transaksi_model->get_pasien();
-        $data['dokter'] = $this->Transaksi_model->get_dokter();
-        $data['perawat'] = $this->Transaksi_model->get_perawat();
-        $data['detail_tindakan'] = $this->Transaksi_model->get_detail_tindakan();
-        $data['tindakan'] = $this->Transaksi_model->get_tindakan();
-        $data['detail_obat'] = $this->Transaksi_model->get_detail_biaya_obat();
-        $data['obat'] = $this->Transaksi_model->get_obat();
-
-        $this->load->view('admin/transaksi/print_bill', $data);
     }
 
     // Function to delete data transaksi

@@ -30,7 +30,7 @@ class Ibahan extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/inventaris_bahan/index', $data);
+            $this->load->view('admin/inventaris_bahan/index', $data);
             $this->load->view('templates/footer');
         } else {
             $previous_url = $this->session->userdata('previous_url');
@@ -91,7 +91,7 @@ class Ibahan extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/inventaris_bahan/add_data', $data);
+            $this->load->view('admin/inventaris_bahan/add_data', $data);
             $this->load->view('templates/footer');
         } else {
             $previous_url = $this->session->userdata('previous_url');
@@ -130,7 +130,7 @@ class Ibahan extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/inventaris_bahan/edit_data', $data);
+            $this->load->view('admin/inventaris_bahan/edit_data', $data);
             $this->load->view('templates/footer');
         } else {
             $previous_url = $this->session->userdata('previous_url');

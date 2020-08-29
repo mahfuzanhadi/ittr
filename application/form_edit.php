@@ -10,6 +10,7 @@
         </div>
     <?php endif; ?>
 
+    <!-- CARI PASIEN BERDASARKAN NO REKAM MEDIS -->
     <?php
     $id = $transaksi['id_pasien'];
     $this->db->select('no_rekam_medis');
@@ -20,6 +21,18 @@
         $no_rekam_medis = $row->no_rekam_medis;
     } else {
         $no_rekam_medis = null;
+    }
+    ?>
+
+    <?php
+    if ($transaksi['id_dokter'] !== $this->session->userdata('id')) {
+        $previous_url = $this->session->userdata('previous_url');
+        $this->session->set_flashdata('error', 'denied');
+        redirect($previous_url);
+    } else if ($transaksi['jumlah_bayar'] == $transaksi['total_biaya_keseluruhan']) {
+        $previous_url = $this->session->userdata('previous_url');
+        $this->session->set_flashdata('deny', 'denied');
+        redirect($previous_url);
     }
     ?>
 
@@ -39,9 +52,6 @@
                     <li class="nav-item">
                         <a class="nav-link inactive_tab1" style="border:1px solid #ccc" id="list_detail_obat">Detail Obat</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link inactive_tab1" style="border:1px solid #ccc" id="list_detail_transaksi">Detail Transaksi</a>
-                    </li>
                 </ul>
                 <div class="tab-content mt-4">
                     <div class="tab-pane active" id="rekam_medis">
@@ -50,9 +60,12 @@
                             <div class="panel-body">
                                 <input type="hidden" name="id_transaksi" value="<?= $transaksi['id_transaksi']; ?>" />
                                 <input type="hidden" name="jam_selesai" value="<?= $transaksi['jam_selesai']; ?>" />
+                                <input type="hidden" name="metode_pembayaran" value="<?= $transaksi['metode_pembayaran']; ?>" />
                                 <input type="hidden" name="old_image" value="<?= $transaksi['foto_rontgen']; ?>" />
-                                <input type="hidden" name="sisa" value="<?= $transaksi['sisa']; ?>">
+                                <input type="hidden" name="diskon" id="diskon" value="<?= $transaksi['diskon']; ?>">
+                                <input type="hidden" name="jumlah_bayar" value="<?= $transaksi['jumlah_bayar']; ?>">
                                 <input type="hidden" name="keterangan" id="keterangan" value="<?= $transaksi['keterangan']; ?>">
+                                <input type="hidden" name="added_by" value="<?= $transaksi['added_by']; ?>">
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="no_rekam_medis">No. Rekam Medis <font color="red">*</font></label>
@@ -63,12 +76,9 @@
                                     <div class="form-group col-sm-3">
                                         <label for="dokter">Dokter <font color="red">*</font></label>
                                         <select class="custom-select custom-select-sm" name="dokter" id="dokter">
-                                            <option value="" hidden>Choose one</option>
                                             <?php foreach ($dokter as $row) : ?>
                                                 <?php if ($row->id_dokter == $transaksi['id_dokter']) : ?>
-                                                    <option value="<?= $row->id_dokter; ?>" selected><?= $row->nama; ?></option>
-                                                <?php else : ?>
-                                                    <option value="<?= $row->id_dokter; ?>"><?= $row->nama; ?></option>
+                                                    <option value="<?= $row->id_dokter; ?>" selected readonly="readonly"><?= $row->nama; ?></option>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
                                         </select>
@@ -79,7 +89,7 @@
                                     <div class="form-group col-sm-3">
                                         <label for="perawat">Perawat <font color="red">*</font></label>
                                         <select class="custom-select custom-select-sm" name="perawat" id="perawat">
-                                            <option value="" hidden>Choose one</option>
+                                            <option value="" hidden>Pilih Perawat</option>
                                             <?php foreach ($perawat as $row) : ?>
                                                 <?php if ($row->id_perawat == $transaksi['id_perawat']) : ?>
                                                     <option value="<?= $row->id_perawat; ?>" selected><?= $row->nama; ?></option>
@@ -93,15 +103,21 @@
                                     <div class="form-group col-sm-3">
                                         <?php date_default_timezone_set('Asia/Jakarta'); ?>
                                         <label>Tanggal</label>
-                                        <input class="form-control" type="text" name="tanggal" id="picker" placeholder="Tanggal" value="<?= $transaksi['tanggal']; ?>" /> <small>(tahun-bulan-hari)</small>
+                                        <input class="form-control" type="text" name="tanggal" id="picker" placeholder="Tanggal" value="<?= $transaksi['tanggal']; ?>" readonly="readonly" /> <small>(tahun-bulan-hari)</small>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <?php date_default_timezone_set('Asia/Jakarta'); ?>
                                         <label>Jam Mulai</label>
-                                        <input class="form-control" type="time" name="jam_mulai" placeholder="jam_mulai" value="<?= $transaksi['jam_mulai']; ?>" />
+                                        <input class="form-control" type="time" name="jam_mulai" placeholder="jam_mulai" value="<?= $transaksi['jam_mulai']; ?>" readonly="readonly" />
                                     </div>
+                                    <div class="form-group col-sm-3">
+                                        <label>Keterangan</label>
+                                        <textarea class="form-control" type="text" name="keterangan" placeholder="Keterangan"><?= $transaksi['keterangan']; ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="foto_rontgen">Foto Rontgen</label>
                                         <input class="form-control-file" type="file" name="foto_rontgen" id="foto_rontgen" />
@@ -198,28 +214,7 @@
                                 <?php endforeach; ?>
                                 <div align="center">
                                     <button type="button" name="previous_btn_obat" id="previous_btn_obat" class="btn btn-outline-info btn-lg">Sebelumnya</button>
-                                    <button type="button" name="btn_detail_obat" id="btn_detail_obat" class="btn btn-info btn-lg active" aria-pressed="true">Selanjutnya</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="detail_transaksi">
-                        <div class="panel panel-default">
-                            <!-- <div class="panel-heading">Isi Detail Transaksi</div> -->
-                            <div class="panel-body">
-                                <div class="form-row">
-                                    <div class="form-group col-sm-3">
-                                        <label for="diskon">Diskon</label> <span id="jenis_diskon"></span>
-                                        <input class="form-control w-50" type="text" name="diskon" id="diskon" placeholder="Diskon" value="<?= $transaksi['diskon']; ?>" />
-                                    </div>
-                                    <div class="form-group col-sm-3">
-                                        <label>Keterangan</label>
-                                        <textarea class="form-control" type="text" name="keterangan" id="ket" placeholder="Keterangan"><?= $transaksi['keterangan']; ?></textarea>
-                                    </div>
-                                </div>
-                                <div align="center">
-                                    <button type="button" name="previous_btn_transaksi" id="previous_btn_transaksi" class="btn btn-outline-info btn-lg">Sebelumnya</button>
-                                    <button type="button" name="btn_detail_transaksi" id="btn_detail_transaksi" class="btn btn-info btn-lg active" aria-pressed="true">Submit</button>
+                                    <button type="button" name="btn_detail_obat" id="btn_detail_obat" class="btn btn-info btn-lg active" aria-pressed="true">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -234,8 +229,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <script src="<?php echo base_url('assets/js/is-number.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/datepicker.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/edit-transaksi-form-val.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/format-currency-ontype.js') ?>"></script>
 
 <!-- SCRIPT IS_EXIST NO REKAM MEDIS -->
 <script>
@@ -288,7 +281,6 @@
     });
 </script>
 
-<!-- SCRIPT TAMPILKAN ANGKA DALAM CURRENCY -->
 <script>
     for (var i = 1; i < 7; i++) {
         var biaya = $('#biaya' + i).val();
@@ -308,8 +300,149 @@
     }
 </script>
 
-<!-- SCRIPT FETCH DATA TINDAKAN KE SELECT -->
+<!-- SCRIPT UBAH ANGKA FORMAT CURRENCY ONTYPE-->
 <script>
+    $('#biaya1').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#biaya1').val();
+        if (number != null) {
+            s_number = number.replace(/,/g, '');
+            f_number = formatNumber(s_number);
+
+            $('#biaya1').val(f_number);
+        }
+    });
+    $('#biaya2').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#biaya2').val();
+        if (number != null) {
+            s_number = number.replace(/,/g, '');
+            f_number = formatNumber(s_number);
+
+            $('#biaya2').val(f_number);
+        }
+    });
+    $('#biaya3').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#biaya3').val();
+        if (number != null) {
+            s_number = number.replace(/,/g, '');
+            f_number = formatNumber(s_number);
+
+            $('#biaya3').val(f_number);
+        }
+    });
+    $('#biaya4').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#biaya4').val();
+        if (number != null) {
+            s_number = number.replace(/,/g, '');
+            f_number = formatNumber(s_number);
+
+            $('#biaya1').val(f_number);
+        }
+    });
+    $('#biaya5').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#biaya5').val();
+        if (number != null) {
+            s_number = number.replace(/,/g, '');
+            f_number = formatNumber(s_number);
+
+            $('#biaya1').val(f_number);
+        }
+    });
+    $('#biaya6').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#biaya6').val();
+        if (number != null) {
+            s_number = number.replace(/,/g, '');
+            f_number = formatNumber(s_number);
+
+            $('#biaya6').val(f_number);
+        }
+    });
+
+    $('#harga1').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#harga1').val();
+        if (number != null) {
+            s_number = number.replace(/,/g, '');
+            f_number = formatNumber(s_number);
+
+            $('#harga1').val(f_number);
+        }
+    });
+    $('#harga2').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#harga2').val();
+        if (number != null) {
+            s_number = number.replace(/,/g, '');
+            f_number = formatNumber(s_number);
+
+            $('#harga2').val(f_number);
+        }
+    });
+    $('#harga3').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#harga3').val();
+        if (number != null) {
+            s_number = number.replace(/,/g, '');
+            f_number = formatNumber(s_number);
+
+            $('#harga3').val(f_number);
+        }
+    });
+    $('#harga4').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#harga4').val();
+        if (number != null) {
+            s_number = number.replace(/,/g, '');
+            f_number = formatNumber(s_number);
+
+            $('#harga4').val(f_number);
+        }
+    });
+    $('#harga5').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#harga5').val();
+        if (number != null) {
+            s_number = number.replace(/,/g, '');
+            f_number = formatNumber(s_number);
+
+            $('#harga5').val(f_number);
+        }
+    });
+    $('#harga6').on('input', function() {
+        var number, s_number, f_number;
+
+        number = $('#harga6').val();
+        if (number != null) {
+            s_number = number.replace(/,/g, '');
+            f_number = formatNumber(s_number);
+
+            $('#harga6').val(f_number);
+        }
+    });
+
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+</script>
+
+<!-- SCRIPT FETCH DATA TINDAKAN KE SELECT -->
+<script type="text/javascript">
     $(document).ready(function() {
         for (var i = 1; i < 7; i++) {
             $('#tindakan' + i).select2({
@@ -338,7 +471,7 @@
 </script>
 
 <!-- SCRIPT AMBIL BIAYA SETELAH PILIH TINDAKAN -->
-<script>
+<script type="text/javascript">
     $(document).ready(function() {
         $('#tindakan1').change(function() {
             var id = $(this).val();
@@ -458,7 +591,7 @@
 </script>
 
 <!-- SCRIPT FETCH DATA OBAT KE SELECT -->
-<script>
+<script type="text/javascript">
     $(document).ready(function() {
         for (var i = 1; i < 7; i++) {
             $('#obat' + i).select2({
@@ -487,7 +620,7 @@
 </script>
 
 <!-- SCRIPT AMBIL HARGA SETELAH PILIH OBAT -->
-<script>
+<script type="text/javascript">
     $(document).ready(function() {
         $('#obat1').change(function() {
             var id = $(this).val();
@@ -622,5 +755,160 @@
                 $('#harga' + i).val(hasil);
             }
         }
+    });
+</script>
+
+<!-- SCRIPT FORM VALIDATION -->
+<script>
+    $(document).ready(function() {
+        $('#btn_rekam_medis').click(function() {
+            var error_no_rm = '';
+            var error_dokter = '';
+            var error_perawat = '';
+
+            if ($.trim($('#no_rekam_medis').val()).length == 0) {
+                error_no_rm = 'Nomor Rekam Medis wajib diisi';
+                $('#error_no_rm').text(error_no_rm);
+                $('#no_rekam_medis').addClass('has-error');
+            } else {
+                error_no_rm = '';
+                $('#error_no_rm').text(error_no_rm);
+                $('#no_rekam_medis').removeClass('has-error');
+            }
+
+            var no_rekam_medis = $('#no_rekam_medis').val();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url() ?>transaksi/isExist",
+                data: "no_rekam_medis=" + no_rekam_medis,
+                success: function(response) {
+                    if (response != '') {
+                        $('#error_no_rm').text(response);
+                        $('#no_rekam_medis').addClass('has-error');
+                    } else {
+                        error_no_rm = '';
+                        $('#error_no_rm').text(error_no_rm);
+                        $('#no_rekam_medis').removeClass('has-error');
+                    }
+                }
+            });
+
+
+            if ($.trim($('#dokter').val()).length == 0) {
+                error_dokter = 'Data dokter wajib diisi';
+                $('#error_dokter').text(error_dokter);
+                $('#dokter').addClass('has-error');
+            } else {
+                error_dokter = '';
+                $('#error_dokter').text(error_dokter);
+                $('#dokter').removeClass('has-error');
+            }
+
+            if ($.trim($('#perawat').val()).length == 0) {
+                error_perawat = 'Data perawat wajib diisi';
+                $('#error_perawat').text(error_perawat);
+                $('#perawat').addClass('has-error');
+            } else {
+                error_perawat = '';
+                $('#error_perawat').text(error_perawat);
+                $('#perawat').removeClass('has-error');
+            }
+
+            if (error_no_rm != '' || error_dokter != '' || error_perawat != '') {
+                return false;
+                // if (error_no_rm == '') {
+                //     return false;
+            } else {
+                $('#list_rekam_medis').removeClass('active active_tab1');
+                $('#list_rekam_medis').removeAttr('href data-toggle');
+                $('#rekam_medis').removeClass('active');
+                $('#list_rekam_medis').addClass('inactive_tab1');
+                $('#list_detail_tindakan').removeClass('inactive_tab1');
+                $('#list_detail_tindakan').addClass('active_tab1 active');
+                $('#list_detail_tindakan').attr('href', '#detail_tindakan');
+                $('#list_detail_tindakan').attr('data-toggle', 'tab');
+                $('#detail_tindakan').removeClass('fade');
+                $('#detail_tindakan').addClass('active in');
+            }
+        });
+
+        $('#previous_btn_tindakan').click(function() {
+            $('#list_detail_tindakan').removeClass('active active_tab1');
+            $('#list_detail_tindakan').removeAttr('href data-toggle');
+            $('#detail_tindakan').removeClass('active in');
+            $('#list_detail_tindakan').addClass('inactive_tab1');
+            $('#list_rekam_medis').removeClass('inactive_tab1');
+            $('#list_rekam_medis').addClass('active_tab1 active');
+            $('#list_rekam_medis').attr('href', '#rekam_medis');
+            $('#list_rekam_medis').attr('data-toggle', 'tab');
+            $('#rekam_medis').addClass('active in');
+        });
+
+        $('#btn_detail_tindakan').click(function() {
+            var error_tindakan = '';
+            var error_biaya = '';
+            var error_diagnosa = '';
+
+            if ($.trim($('#tindakan1').val()).length == 0) {
+                error_tindakan = 'Tindakan wajib diisi';
+                $('#error_tindakan').text(error_tindakan);
+                $('#tindakan1').addClass('has-error');
+            } else {
+                error_tindakan = '';
+                $('#error_tindakan').text(error_tindakan);
+                $('#tindakan1').removeClass('has-error');
+            }
+
+            if ($.trim($('#diagnosa1').val()).length == 0) {
+                error_diagnosa = 'Diagnosa wajib diisi';
+                $('#error_diagnosa').text(error_diagnosa);
+                $('#diagnosa1').addClass('has-error');
+            } else {
+                error_diagnosa = '';
+                $('#error_diagnosa').text(error_diagnosa);
+                $('#diagnosa1').removeClass('has-error');
+            }
+
+            if ($.trim($('#biaya1').val()).length == 0) {
+                error_biaya = 'Biaya wajib diisi';
+                $('#error_biaya').text(error_biaya);
+                $('#biaya1').addClass('has-error');
+            } else {
+                error_biaya = '';
+                $('#error_biaya').text(error_biaya);
+                $('#biaya1').removeClass('has-error');
+            }
+
+            if (error_tindakan != '' || error_biaya != '' || error_diagnosa != '') {
+                return false;
+            } else {
+                $('#list_detail_tindakan').removeClass('active active_tab1');
+                $('#list_detail_tindakan').removeAttr('href data-toggle');
+                $('#detail_tindakan').removeClass('active');
+                $('#list_detail_tindakan').addClass('inactive_tab1');
+                $('#list_detail_obat').removeClass('inactive_tab1');
+                $('#list_detail_obat').addClass('active_tab1 active');
+                $('#list_detail_obat').attr('href', '#detail_obat');
+                $('#list_detail_obat').attr('data-toggle', 'tab');
+                $('#detail_obat').removeClass('fade');
+                $('#detail_obat').addClass('active in');
+            }
+        });
+
+        $('#previous_btn_obat').click(function() {
+            $('#list_detail_obat').removeClass('active active_tab1');
+            $('#list_detail_obat').removeAttr('href data-toggle');
+            $('#detail_obat').removeClass('active in');
+            $('#list_detail_obat').addClass('inactive_tab1');
+            $('#list_detail_tindakan').removeClass('inactive_tab1');
+            $('#list_detail_tindakan').addClass('active_tab1 active');
+            $('#list_detail_tindakan').attr('href', '#detail_tindakan');
+            $('#list_detail_tindakan').attr('data-toggle', 'tab');
+            $('#detail_tindakan').addClass('active in');
+        });
+
+        $('#btn_detail_obat').click(function() {
+            $('#transaksi_form').submit();
+        });
     });
 </script>

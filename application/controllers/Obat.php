@@ -29,7 +29,7 @@ class Obat extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/obat/index', $data);
+            $this->load->view('admin/obat/index', $data);
             $this->load->view('templates/footer');
         } else {
             $previous_url = $this->session->userdata('previous_url');
@@ -83,7 +83,7 @@ class Obat extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/obat/add_data', $data);
+            $this->load->view('admin/obat/add_data', $data);
             $this->load->view('templates/footer');
         } else {
             $previous_url = $this->session->userdata('previous_url');
@@ -123,7 +123,7 @@ class Obat extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/staf/sidebar', $data);
             $this->load->view('templates/staf/topbar', $data);
-            $this->load->view('staf/obat/edit_data', $data);
+            $this->load->view('admin/obat/edit_data', $data);
             $this->load->view('templates/footer');
         } else {
             $previous_url = $this->session->userdata('previous_url');

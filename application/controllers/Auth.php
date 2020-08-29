@@ -35,9 +35,9 @@ class Auth extends CI_Controller
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
 
-		// $admin = $this->db->get_where('admin', ['email' => $email])->row_array();
 		$admin = $this->db->where('email', $email)->or_where('username', $email)->get('admin')->row_array();
 		$dokter = $this->db->where('email', $email)->or_where('username', $email)->get('dokter')->row_array();
+		// $dokter = $this->db->query("SELECT * FROM dokter WHERE ('email' = '" . $email . "' AND 'status' = 1) OR ('username' = '" . $email . "' AND 'status' = 1)")->row_array();
 		$perawat = $this->db->where('email', $email)->or_where('username', $email)->get('perawat')->row_array();
 		$staf = $this->db->where('email', $email)->or_where('username', $email)->get('staf')->row_array();
 

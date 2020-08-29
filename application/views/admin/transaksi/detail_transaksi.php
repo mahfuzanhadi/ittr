@@ -59,7 +59,7 @@
                     </div>
                 <?php endif; ?>
             <?php endforeach; ?>
-            <hr style="border: 2px solid #e0e0e0; border-radius: 5px;">
+            <hr style="border: 1px solid #e0e0e0; border-radius: 5px;">
             <div class="row">
                 <div class="col-sm-3">
                     <?php foreach ($dokter as $row) : ?>
@@ -122,13 +122,13 @@
                     } ?>
                 </div>
                 <div class="col-sm-6">
-                    <p><strong>Obat ( jumlah )</strong> : </p>
+                    <p><strong>Obat</strong> : </p>
                     <?php foreach ($detail_obat as $do) {
                         if ($do->id_transaksi == $transaksi['id_transaksi']) {
                             $id_obat = $do->id_obat;
                             foreach ((array) $obat as $o) {
                                 if ($o->id_obat == $id_obat) {
-                                    echo '- ' . $o->nama . ' ( ' . $do->jumlah_obat . ' ) ' . '</p>';
+                                    echo '- ' . $o->nama . ' x ' . $do->jumlah_obat . '</p>';
                                 }
                             }
                         }
@@ -163,35 +163,98 @@
                     <p><strong>Total Biaya Keseluruhan</strong> : <?= $total_biaya_keseluruhan;  ?></p>
                 </div>
                 <div class="col-sm-3">
-                    <?php $jumlah_bayar = "Rp. " . number_format($transaksi['jumlah_bayar'], 0, ',', '.'); ?>
-                    <p><strong>Jumlah Bayar</strong> : <?= $jumlah_bayar;  ?></p>
-                </div>
-                <div class="col-sm-3">
-                    <p><strong>Metode Pembayaran</strong> :
-                        <?php if ($transaksi['metode_pembayaran'] == 1) : ?>
-                            Cash
-                        <?php elseif ($transaksi['metode_pembayaran'] == 2) : ?>
-                            Kredit
-                        <?php elseif ($transaksi['metode_pembayaran'] == 3) : ?>
-                            Debit
-                        <?php elseif ($transaksi['metode_pembayaran'] == 4) : ?>
-                            Transfer
-                        <?php else : ?>
-                            -
-                        <?php endif; ?> </p>
+                    <?php $sisa = "Rp. " . number_format($transaksi['sisa'], 0, ',', '.'); ?>
+                    <p><strong>Sisa</strong> : <?= $sisa;  ?></p>
                 </div>
                 <div class="col-sm-3">
                     <p><strong>Status Pembayaran</strong> :
-                        <?php if ($transaksi['metode_pembayaran'] == 0) : ?>
-                            Belum melakukan pembayaran
-                        <?php elseif ($transaksi['metode_pembayaran'] != 0 && $transaksi['jumlah_bayar'] < $transaksi['total_biaya_keseluruhan']) : ?>
+                        <?php if ($transaksi['sisa'] > 0 && $transaksi['sisa'] < $transaksi['total_biaya_keseluruhan']) : ?>
                             Belum lunas
-                        <?php else : ?>
+                        <?php elseif ($transaksi['sisa'] == 0) : ?>
                             Lunas
+                        <?php else : ?>
+                            Belum Melakukan Pembayaran
                         <?php endif; ?> </p>
                 </div>
             </div>
+            <hr style="border: 1px solid #e0e0e0; border-radius: 5px;">
+            <b class="text-gray-800">Riwayat Pembayaran</b>
+
+            <table class="table table-hover table-bordered" id="myTable" width="100%">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Jumlah Bayar</th>
+                        <th>Kembalian</th>
+                        <th>Sisa</th>
+                        <th>Metode Pembayaran</th>
+                        <th>Ditambahkan Oleh</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($pembayaran as $pembayaran) : ?>
+                        <?php if ($pembayaran->id_transaksi == $transaksi['id_transaksi']) : ?>
+                            <tr>
+                                <td>
+                                    <?php
+                                    setlocale(LC_ALL, 'id-ID', 'id_ID');
+                                    $tanggal = strftime("%d %B %Y", strtotime($pembayaran->tanggal));
+                                    echo $tanggal; ?>
+                                </td>
+                                <td>
+                                    <?php $jumlah_bayar = "Rp " . number_format($pembayaran->jumlah_bayar, 0, ',', '.');
+                                    echo $jumlah_bayar; ?>
+                                </td>
+                                <td>
+                                    <?php $kembalian = "Rp " . number_format($pembayaran->kembalian, 0, ',', '.');
+                                    echo $kembalian; ?>
+                                </td>
+                                <td>
+                                    <?php $sisa = "Rp " . number_format($pembayaran->sisa_sesudah, 0, ',', '.');
+                                    echo $sisa; ?></td>
+                                <td>
+                                    <?php if ($pembayaran->metode_pembayaran == 1) : ?>
+                                        Cash
+                                    <?php elseif ($pembayaran->metode_pembayaran == 2) : ?>
+                                        Kredit
+                                    <?php elseif ($pembayaran->metode_pembayaran == 3) : ?>
+                                        Debit
+                                    <?php else : ?>
+                                        Transfer
+                                    <?php endif; ?> </p>
+                                </td>
+                                <td>
+                                    <?= $pembayaran->added_by; ?>
+                                </td>
+                                <td>
+                                    <button type="button" name="print" id="print" class="btn btn-primary" onclick="printbill(<?= $pembayaran->id_pembayaran; ?>)"><i class="fas fa-print"></i> Print</button>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#myTable').DataTable({
+            "responsive": true,
+            "paging": false,
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "scrollX": true,
+            "scrollCollapse": true
+        });
+    });
+
+    function printbill(id) {
+        var xhr = "<?php echo base_url('pembayaran/print_bill/') ?>" + id;
+        var w = window.open(xhr, '', 'width=800,height=800');
+    }
+</script>

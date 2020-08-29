@@ -112,40 +112,60 @@
                             <?php endforeach; ?>
                         <?php endif; ?>
                     <?php endforeach; ?>
-                    <tr style="border-bottom: 1px dashed black; border-top: 1px dashed black;">
+                    <tr style="border-top: 1px dashed black;">
+                        <td class="description"><strong>Diskon</strong></td>
+                        <td class="price"><strong>
+                                <?php
+                                $diskon = $transaksi['diskon'];
+                                if ($diskon > 100) {
+                                    $format_diskon = number_format($transaksi['diskon'], 0, ',', '.');
+                                } else {
+                                    $total_biaya = $transaksi['total_biaya_tindakan'] + $transaksi['total_biaya_obat'];
+                                    $disc = $transaksi['diskon'];
+                                    $diskon = ($total_biaya * $disc) / 100;
+                                    $format_diskon = number_format($diskon, 0, ',', '.');
+                                }
+                                echo $format_diskon; ?></strong>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="description"><strong>Total</strong></td>
                         <td class="price"><strong>
                                 <?php
                                 $total = number_format($transaksi['total_biaya_keseluruhan'], 0, ',', '.');
-                                echo $total; ?></strong></td>
+                                echo $total; ?></strong>
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px dashed black;">
+                        <td class="description"><strong>Sisa yang belum dibayar</strong></td>
+                        <td class="price"><strong>
+                                <?php $sisa_sebelum = number_format($pembayaran['sisa_sebelum'], 0, ',', '.');
+                                echo $sisa_sebelum; ?>
+                            </strong>
+                        </td>
                     </tr>
                     <tr>
                         <td class="description">Bayar</td>
                         <td class="price">
                             <?php
-                            $jumlah_bayar = number_format($transaksi['jumlah_bayar'], 0, ',', '.');
-                            echo $jumlah_bayar; ?></td>
+                            $jumlah_bayar = number_format($pembayaran['jumlah_bayar'], 0, ',', '.');
+                            echo $jumlah_bayar; ?>
+                        </td>
                     </tr>
                     <tr>
                         <td class="description">Kembali</td>
                         <td class="price">
                             <?php
-                            $kembalian = $transaksi['jumlah_bayar'] - $transaksi['total_biaya_keseluruhan'];
-                            if ($kembalian > 0) {
-                                $format_kembalian = number_format($kembalian, 0, ',', '.');
-                                echo $format_kembalian;
-                                $sisa = "0";
-                            } else {
-                                $absolute_sisa = abs($kembalian);
-                                $sisa = number_format($absolute_sisa, 0, ',', '.');
-                                echo "0";
-                            } ?>
+                            $kembalian = number_format($pembayaran['kembalian'], 0, ',', '.');
+                            echo $kembalian ?>
                         </td>
                     </tr>
                     <tr>
                         <td class="description">Sisa</td>
                         <td class="price">
-                            <?php echo $sisa; ?>
+                            <?php
+                            $sisa_sesudah = number_format($pembayaran['sisa_sesudah'], 0, ',', '.');
+                            echo $sisa_sesudah ?>
                         </td>
                     </tr>
                 </tbody>
@@ -153,7 +173,7 @@
             <center>
                 <hr>
                 <?php
-                if ($transaksi['metode_pembayaran'] != 0 && $transaksi['jumlah_bayar'] < $transaksi['total_biaya_keseluruhan']) {
+                if ($pembayaran['sisa_sesudah'] > 0 && $pembayaran['sisa_sesudah'] < $transaksi['total_biaya_keseluruhan']) {
                     $status_pembayaran = "### BELUM LUNAS ###";
                 } else {
                     $status_pembayaran = "### LUNAS ###";

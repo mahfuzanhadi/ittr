@@ -89,16 +89,12 @@
                 var total_keseluruhan = 'Rp. ' + biaya_keseluruhan;
                 $('#total_biaya_keseluruhan').text(total_keseluruhan);
 
-                if (data.metode_pembayaran != 0 && data.jumlah_bayar >= data.total_biaya_keseluruhan) {
-                    $('#status_pembayaran').text('Lunas');
-                    $('#status_pembayaran').css('color', 'green');
-                    $('#metode_pembayaran').attr('disabled', true);
-                    $('#jumlah_bayar').attr('disabled', true);
-                    $("#update").removeClass('d-sm-inline-block');
-                    $('#update').addClass('d-none');
-                    $("#print").removeClass('d-none');
-                    $('#print').addClass('d-sm-inline-block');
-                } else if (data.metode_pembayaran != 0 && data.jumlah_bayar < data.total_biaya_keseluruhan) {
+                var format_sisa = new Intl.NumberFormat(['ban', 'id']).format(data.sisa);
+                $('#sisa').text('Rp. ' + format_sisa);
+
+                const sisa = parseInt(data.sisa);
+                const keseluruhan = parseInt(data.total_biaya_keseluruhan);
+                if (sisa > 0 && sisa < keseluruhan) {
                     $('#status_pembayaran').text('Belum lunas');
                     $('#status_pembayaran').css('color', 'orange');
                     $('#metode_pembayaran').removeAttr('disabled');
@@ -107,6 +103,15 @@
                     $('#update').addClass('d-sm-inline-block');
                     $("#print").removeClass('d-sm-inline-block');
                     $('#print').addClass('d-none');
+                } else if (sisa === 0) {
+                    $('#status_pembayaran').text('Lunas');
+                    $('#status_pembayaran').css('color', 'green');
+                    $('#metode_pembayaran').attr('disabled', true);
+                    $('#jumlah_bayar').attr('disabled', true);
+                    $("#update").removeClass('d-sm-inline-block');
+                    $('#update').addClass('d-none');
+                    $("#print").removeClass('d-none');
+                    $('#print').addClass('d-sm-inline-block');
                 } else {
                     $('#status_pembayaran').text('Belum melakukan pembayaran!');
                     $('#status_pembayaran').css('color', 'red');
@@ -135,11 +140,6 @@
 
                 $('#keterangan').text(data.keterangan);
 
-                var jumlah_bayar = new Intl.NumberFormat().format(data.jumlah_bayar);
-                $('#jumlah_bayar').val(jumlah_bayar);
-                $('#metode_pembayaran').val(data.metode_pembayaran);
-                $('#added_by').text(data.added_by);
-
                 $('#myModal').modal('show');
                 $('#id_transaksi').val(data.id_transaksi);
             },
@@ -165,15 +165,24 @@
             </div>
         </div>
     <?php endif; ?>
+    <?php if ($this->session->flashdata('bayar')) : ?>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Data pembayaran <strong>berhasil</strong> <?= $this->session->flashdata('bayar'); ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <!-- Page Heading -->
     <h3 class="h3 mb-4 text-gray-800"><?= $title; ?></h3>
 
     <!-- DataTables -->
     <div class="card mb-3">
-        <div class="card-header">
-            <a href="<?= base_url('transaksi/add'); ?>" class="btn btn-info btn-sm"><i class="fas fa-plus"></i> Add Data</a>
-        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-hover table-bordered" id="dataTable">
@@ -201,13 +210,12 @@
         </div>
     </div>
 
-
     <div id="myModal" class="modal fade">
         <div class="modal-dialog modal-lg">
-            <form method="post" id="myForm" action="<?= base_url('transaksi/update_transaksi'); ?>">
+            <form method="post" id="myForm" action="<?= base_url('pembayaran/add'); ?>" target="_self" onsubmit="return printbill()">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Detail Biaya Transaksi</h4>
+                        <h4 class="modal-title">Detail Pembayaran</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
@@ -235,22 +243,22 @@
                                 <p id="total_biaya_obat"></p>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for="total_biaya_keseluruhan" style="font-weight: bold">Total Biaya Keseluruhan</label>
-                                <p id="total_biaya_keseluruhan"></p>
+                                <label style="font-weight: bold">Diskon</label>
+                                <p id="diskon"></p>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-4">
-                                <label style="font-weight: bold">Diskon</label>
-                                <p id="diskon"></p>
+                                <label for="total_biaya_keseluruhan" style="font-weight: bold">Total Biaya Keseluruhan</label>
+                                <p id="total_biaya_keseluruhan"></p>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold">Sisa Yang Belum Dibayar</label>
+                                <p id="sisa"></p>
                             </div>
                             <div class="form-group col-sm-4">
                                 <label style="font-weight: bold">Keterangan</label>
                                 <p id="keterangan"></p>
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label for="jumlah_bayar" style="font-weight: bold">Jumlah Bayar</label>
-                                <input type="text" class="form-control w-50" name="jumlah_bayar" id="jumlah_bayar" placeholder="Jumlah Bayar" onkeypress="javascript:return isNumber(event)" />
                             </div>
                         </div>
                         <div class="form-row">
@@ -266,18 +274,20 @@
                                 <span id="error_metode_pembayaran" class="text-danger"></span>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for="status_pembayaran" style="font-weight: bold">Status Pembayaran</label>
-                                <p id="status_pembayaran"></p>
+                                <label for="jumlah_bayar" style="font-weight: bold">Jumlah Bayar</label>
+                                <input type="text" class="form-control w-50" name="jumlah_bayar" id="jumlah_bayar" placeholder="Jumlah Bayar" onkeypress="javascript:return isNumber(event)" />
                             </div>
                             <div class="form-group col-sm-4">
-                                <label style="font-weight: bold">Diterima oleh</label>
-                                <p id="added_by"></p>
+                                <label for="status_pembayaran" style="font-weight: bold">Status Pembayaran</label>
+                                <p id="status_pembayaran"></p>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" name="update" id="update" class="btn btn-success"><i class="fas fa-edit"></i> Update</button>
-                            <button type="button" name="print" id="print" class="btn btn-primary"><i class="fas fa-print"></i> Print</button>
                             <input type="hidden" name="id_transaksi" id="id_transaksi" />
+                            <input type="hidden" name="kembalian" id="kembalian" value="0" />
+                            <input type="hidden" name="sisa_sebelum" id="sisa_sebelum" value="0" />
+                            <input type="hidden" name="sisa_sesudah" id="sisa_sesudah" value="0" />
                         </div>
                     </div>
                 </div>
@@ -396,7 +406,7 @@
 <!-- SUBMIT FORM UPDATE TRANSAKSI  -->
 <script>
     $(document).ready(function() {
-        $('#update').click(function() {
+        $('#update').click(function(e) {
             var error_metode_pembayaran = '';
             var jumlah_bayar = $('#jumlah_bayar').val();
             var hasil = parseFloat(jumlah_bayar.replace(/[^0-9-.]/g, ''));
@@ -414,19 +424,32 @@
             if (error_metode_pembayaran != '') {
                 return false;
             } else {
-                $('#myForm').submit();
-                const id_transaksi = document.getElementById('id_transaksi').value;
-                var xhr = "<?php echo base_url('transaksi/print_bill/') ?>" + id_transaksi;
-                var w = window.open(xhr, 'name', 'width=800,height=800');
+                e.preventDefault();
+                $("#myForm").submit();
             }
-        });
 
-        $('#print').click(function() {
-            const id_transaksi = document.getElementById('id_transaksi').value;
-            var xhr = "<?php echo base_url('transaksi/print_bill/') ?>" + id_transaksi;
-            var w = window.open(xhr, 'name', 'width=800,height=800');
         });
     });
+
+    function printbill() {
+        $.ajax({
+            url: "<?= base_url('pembayaran/last_pembayaran'); ?>",
+            method: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                var id = parseInt(data);
+                var id_pembayaran = id + 1;
+                var xhr = "<?php echo base_url('pembayaran/print_bill/') ?>" + id_pembayaran;
+                var w = window.open(xhr, '', 'width=800,height=800');
+                bootbox.alert('Pembayaran berhasil!');
+                var loc = "<?php echo base_url('transaksi') ?>";
+                window.location.href = loc;
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Gagal menghapus data!');
+            }
+        });
+    }
 </script>
 
 </div>

@@ -36,10 +36,8 @@
                                 <input type="hidden" name="total_biaya_obat" value="0">
                                 <input type="hidden" name="total_biaya_keseluruhan" value="0">
                                 <input type="hidden" name="diskon" id="diskon" value="0">
-                                <input type="hidden" name="jumlah_bayar" value="0">
-                                <input type="hidden" name="metode_pembayaran" value="0">
+                                <input type="hidden" name="sisa" value="0">
                                 <input type="hidden" name="keterangan" id="keterangan" value="">
-                                <input type="hidden" name="added_by" value="">
                                 <div class="form-row">
                                     <div class="form-group col-sm-3">
                                         <label for="no_rekam_medis">No. Rekam Medis <font color="red">*</font></label>
@@ -154,7 +152,6 @@
                                             </div>
                                             <div class="form-group col-sm-2">
                                                 <label>Jumlah Obat</label>
-                                                <!-- <input class="form-control" type="text" name="jumlah[]" id="jumlah" placeholder="Jumlah Obat" /> -->
                                                 <input type="number" class="form-control w-25" name="jumlah[]" id="jumlah" step="1" min="0" max="10" placeholder="0" />
                                                 <span id="error_jumlah" class="text-danger"></span>
                                             </div>
@@ -176,84 +173,83 @@
             </form>
         </div>
     </div>
-</div>
 
-<!-- MODAL REVIEW TRANSAKSI -->
-<div id="reviewModal" class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <form method="post" id="myForm" action="<?= base_url('transaksi/update_transaksi'); ?>">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Review Data Transaksi</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <!-- MODAL REVIEW TRANSAKSI -->
+    <div id="reviewModal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <form method="post" id="myForm" action="<?= base_url('transaksi/update_transaksi'); ?>">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Review Data Transaksi</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold">Nomor Rekam Medis</label>
+                                <p id="no_rm"></p>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold">Nama Pasien</label>
+                                <p id="nama"></p>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold">Tanggal</label>
+                                <p id="tanggal_transaksi"></p>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold">Dokter</label>
+                                <p id="doctor"></p>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold">Perawat</label>
+                                <p id="nurse"></p>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold;">Diagnosa</label>
+                                <p id="diagnose"></p>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold;">Tindakan</label>
+                                <p id="tindakans"></p>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold;">Obat</label>
+                                <p id="obats"></p>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold">Total Biaya Tindakan</label>
+                                <p id="biaya_tindakan"></p>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label style="font-weight: bold">Total Biaya Obat</label>
+                                <p id="biaya_obat"></p>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="discount" style="font-weight: bold">Diskon</label> <span id="jenis_diskon"></span>
+                                <input class="form-control w-50" type="text" name="discount" id="discount" placeholder="Diskon" onkeypress="javascript:return isNumber(event)" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label for="ket" style="font-weight: bold">Keterangan</label>
+                                <input class="form-control" type="text" id="ket" placeholder="Keterangan" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" name="update" id="update" class="btn btn-info active" aria-pressed="true">Submit</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group col-sm-4">
-                            <label style="font-weight: bold">Nomor Rekam Medis</label>
-                            <p id="no_rm"></p>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label style="font-weight: bold">Nama Pasien</label>
-                            <p id="nama"></p>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label style="font-weight: bold">Tanggal</label>
-                            <p id="tanggal_transaksi"></p>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-sm-4">
-                            <label style="font-weight: bold">Dokter</label>
-                            <p id="doctor"></p>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label style="font-weight: bold">Perawat</label>
-                            <p id="nurse"></p>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-sm-4">
-                            <label style="font-weight: bold;">Diagnosa</label>
-                            <p id="diagnose"></p>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label style="font-weight: bold;">Tindakan</label>
-                            <p id="tindakans"></p>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label style="font-weight: bold;">Obat</label>
-                            <p id="obats"></p>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-sm-4">
-                            <label style="font-weight: bold">Total Biaya Tindakan</label>
-                            <p id="biaya_tindakan"></p>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label style="font-weight: bold">Total Biaya Obat</label>
-                            <p id="biaya_obat"></p>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="discount" style="font-weight: bold">Diskon</label> <span id="jenis_diskon"></span>
-                            <input class="form-control w-50" type="text" name="discount" id="discount" placeholder="Diskon" />
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-sm-4">
-                            <label for="ket" style="font-weight: bold">Keterangan</label>
-                            <input class="form-control" type="text" id="ket" placeholder="Keterangan" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" name="update" id="update" class="btn btn-info active" aria-pressed="true">Submit</button>
-                    </div>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>

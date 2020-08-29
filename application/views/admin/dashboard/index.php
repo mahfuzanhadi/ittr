@@ -187,11 +187,11 @@
                     <h6 class="m-0 font-weight-bold text-primary">Rekapitulasi Metode Pembayaran</h6>
                 </div>
                 <div class="card-body">
-                    <div class="chart-pie pt-4" style="height: 16rem !important;">
+                    <div class="chart-pie pt-5" style="height: 15.6rem !important;">
                         <canvas id="rekap_transaksi_metode_pembayaran" class="canvas_metode_pembayaran"></canvas>
                     </div>
-                    <div class="text-justify pl-3">
-                        <div class="row pt-2">
+                    <div class="text-justify pl-3 pr-3" style="font-size: smaller;">
+                        <div class="row">
                             <div class="col">
                                 <i class="fas fa-circle" style="color:rgba(255, 206, 86, 0.87)"></i> <span style="color:#666">Cash : </span>
                                 <span id="cash" style="color:#666"></span>

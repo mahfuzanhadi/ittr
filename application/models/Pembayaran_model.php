@@ -42,14 +42,8 @@ class Pembayaran_model extends CI_Model
             $jumlah_bayar = $row->jumlah_bayar;
         }
 
-        $where = ['id_transaksi' => $id_transaksi, 'id_pembayaran <' => $id];
-        $this->db->select('id_pembayaran');
-        $this->db->from('pembayaran');
-        $this->db->where($where);
-        $this->db->order_by('id_pembayaran');
-        $this->db->limit(1);
-        $query1 = $this->db->get()->row();
-        if (isset($query1)) {
+        $query1 = $this->db->query("SELECT id_pembayaran FROM pembayaran WHERE id_transaksi = " . $id_transaksi . " AND id_pembayaran < " . $id . " ORDER BY id_pembayaran LIMIT 1");
+        if ($query1->num_rows() > 0) {
             $id_before = $query1->id_pembayaran;
         } else {
             $id_before = null;
@@ -75,7 +69,6 @@ class Pembayaran_model extends CI_Model
             $sisa_sebelum = $query->sisa;
         }
 
-        // $sisa_sebelum = $total_biaya_keseluruhan - $sisa_before;
         $kembalian = $jumlah_bayar - $sisa_sebelum;
         if ($kembalian > 0) {
             $sisa_sesudah = 0;

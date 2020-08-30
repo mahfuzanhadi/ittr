@@ -18,6 +18,7 @@ class Pembayaran extends CI_Controller
     public function add()
     {
         $id_transaksi = $this->input->post('id_transaksi');
+        date_default_timezone_set('Asia/Jakarta');
         if (isset($id_transaksi)) {
             $data = [
                 'id_pembayaran' => $this->input->post('id_pembayaran'),

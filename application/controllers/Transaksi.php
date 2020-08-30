@@ -301,6 +301,7 @@ class Transaksi extends CI_Controller
 
         // ISI DATA TABEL TRANSAKSI
         $no_rekam_medis = $this->input->post('no_rekam_medis');
+        date_default_timezone_set('Asia/Jakarta');
         if (isset($no_rekam_medis)) {
             $id_pasien = $this->Transaksi_model->get_id_pasien($no_rekam_medis);
 
@@ -317,13 +318,14 @@ class Transaksi extends CI_Controller
             }
 
             $jam_selesai = date('H:i');
+            $tanggal = date('Y-m-d', strtotime($this->input->post('tanggal')));
 
             $data = [
                 'id_transaksi' => $this->input->post('id_transaksi'),
                 'id_pasien' => $id_pasien,
                 'id_dokter' => $this->input->post('dokter'),
                 'id_perawat' => $this->input->post('perawat'),
-                'tanggal' => $this->input->post('tanggal'),
+                'tanggal' => $tanggal,
                 'total_biaya_tindakan' => $this->input->post('total_biaya_tindakan'),
                 'total_biaya_obat' => $this->input->post('total_biaya_obat'),
                 'foto_rontgen' => $foto,

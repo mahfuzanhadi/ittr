@@ -14,8 +14,7 @@
             <img src="<?= base_url('assets/img/logo_header_RDC.png'); ?>" style="max-width: 155px;">
             <p><strong>Riona Dental Care</strong><br />Jl. Harapan Raya No.64, Pekanbaru 28289</p>
             <?php
-            date_default_timezone_set('Asia/Jakarta');
-            $hari = date('D');
+            $hari = date('D', strtotime($pembayaran['tanggal']));
 
             switch ($hari) {
                 case 'Sun':
@@ -51,8 +50,8 @@
                     break;
             }
 
-            $date = date('d/m/Y');
-            $waktu = date('H:i'); ?>
+            $date = date('d/m/Y', strtotime($pembayaran['tanggal']));
+            $waktu = date('H:i', strtotime($pembayaran['tanggal'])); ?>
             <p><?= $hari_ini . ', ' . $date . ' ' . $waktu; ?></p>
         </center>
         <p><strong>Nama :

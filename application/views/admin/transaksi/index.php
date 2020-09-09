@@ -322,7 +322,7 @@
                 type: "POST"
             },
             "columnDefs": [{
-                    "targets": [0, 6, 7, 13],
+                    "targets": [0, 6, 7, 12, 13],
                     "orderable": false
                 },
                 {
@@ -335,7 +335,7 @@
                     "targets": 1
                 },
                 {
-                    "width": "100px",
+                    "width": "120px",
                     "targets": 2,
                 },
                 {
@@ -343,15 +343,15 @@
                     "targets": 3
                 },
                 {
-                    "width": "160px",
+                    "width": "120px",
                     "targets": 4
                 },
                 {
-                    "width": "180px",
+                    "width": "160px",
                     "targets": 5
                 },
                 {
-                    "width": "160px",
+                    "width": "130px",
                     "targets": 6
                 },
                 {

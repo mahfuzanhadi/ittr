@@ -11,7 +11,7 @@ class Transaksi_model extends CI_Model
 
     var $table = 'transaksi';
     var $select_column = array('transaksi.id_transaksi as id_transaksi', 'transaksi.tanggal as tanggal', 'pasien.no_rekam_medis as no_rekam_medis', 'pasien.nama as nama_pasien', 'dokter.nama as nama_dokter', 'transaksi.total_biaya_tindakan as total_biaya_tindakan', 'transaksi.total_biaya_obat as total_biaya_obat', 'transaksi.diskon as diskon', 'transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan', 'transaksi.sisa as sisa', 'transaksi.keterangan as keterangan');
-    var $order_column = array(null, 'tanggal', 'no_rekam_medis', 'nama_pasien', 'nama_dokter', null, null, 'total_biaya_tindakan', 'total_biaya_obat', 'diskon', 'total_biaya_keseluruhan', 'keterangan'); //set column field database for datatable orderable
+    var $order_column = array(null, null, 'tanggal', 'no_rekam_medis', 'nama_pasien', 'nama_dokter', null, null, 'total_biaya_tindakan', 'total_biaya_obat', 'diskon', 'total_biaya_keseluruhan', null); //set column field database for datatable orderable
     var $order = array('id_transaksi' => 'desc'); // default order 
 
     public function make_query()

@@ -278,10 +278,10 @@
                 url: "<?= base_url('pasien/fetch_data'); ?>",
                 type: "POST",
                 data: function(data) {
-                    data.no_rekam_medis = $('#no_rekam_medis').val();
-                    data.nama = $('#nama').val();
-                    data.alamat = $('#alamat').val();
-                    data.no_telp = $('#no_telp').val();
+                    data.no_rekam_medis = $('#no_rm').val();
+                    data.nama = $('#nama_pasien').val();
+                    data.alamat = $('#alamat_pasien').val();
+                    data.no_telp = $('#no_telp_pasien').val();
                 }
             },
             "columnDefs": [{
@@ -380,7 +380,7 @@
             ]
         });
 
-        $("div.custom-search").html('<form id="form-filter"><div class="form-row"><div class="col-sm-2"></div><div class="col-sm-1"><label style="padding-top: 0.5rem">Search:</label></div><div class="col-sm-1"><input type="text" class="form-control form-control-sm" id="no_rekam_medis" name="no_rekam_medis" placeholder="No. RM" style="padding-left: 0.25rem;"></div><div class="col-sm-2"><input type="text" class="form-control form-control-sm" id="nama" name="nama" placeholder="Nama"></div><div class="col-sm-2"><input type="text" class="form-control form-control-sm" id="alamat" name="alamat" placeholder="Alamat"></div><div class="col-sm-2"><input type="text" class="form-control form-control-sm" id="no_telp" name="no_telp" placeholder="No. Telp"></div><div class="col-sm-2"><button type="button" id="btn-filter" class="btn btn-info btn-sm active" aria-pressed="true">Search</button><button type="button" id="btn-reset" class="btn btn-default btn-sm active" aria-pressed="true">Reset</button></div></div></form>');
+        $("div.custom-search").html('<form id="form-filter"><div class="form-row"><div class="col-sm-2"></div><div class="col-sm-1"><label style="padding-top: 0.5rem">Search:</label></div><div class="col-sm-1"><input type="text" class="form-control form-control-sm" id="no_rm" name="no_rm" placeholder="No. RM" style="padding-left: 0.25rem;"></div><div class="col-sm-2"><input type="text" class="form-control form-control-sm" id="nama_pasien" name="nama_pasien" placeholder="Nama"></div><div class="col-sm-2"><input type="text" class="form-control form-control-sm" id="alamat_pasien" name="alamat_pasien" placeholder="Alamat"></div><div class="col-sm-2"><input type="text" class="form-control form-control-sm" id="no_telp_pasien" name="no_telp_pasien" placeholder="No. Telp"></div><div class="col-sm-2"><button type="button" id="btn-filter" class="btn btn-info btn-sm active" aria-pressed="true">Search</button><button type="button" id="btn-reset" class="btn btn-default btn-sm active" aria-pressed="true">Reset</button></div></div></form>');
 
         $('#btn-filter').click(function() { //button filter event click
             dataTable.ajax.reload(); //just reload table

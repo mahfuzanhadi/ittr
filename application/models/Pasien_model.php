@@ -55,13 +55,13 @@ class Pasien_model extends CI_Model
             $i++;
         }
 
-        if (isset($_POST['order'])) // here order processing
-        {
-            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-        } else if (isset($this->order)) {
-            $order = $this->order;
-            $this->db->order_by(key($order), $order[key($order)]);
-        }
+        // if (isset($_POST['order'])) // here order processing
+        // {
+        //     $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        // } else if (isset($this->order)) {
+        //     $order = $this->order;
+        //     $this->db->order_by(key($order), $order[key($order)]);
+        // }
 
         // if (isset($_POST["search"]["value"])) {
         //     $this->db->like('no_rekam_medis', $_POST["search"]["value"]);
@@ -70,11 +70,11 @@ class Pasien_model extends CI_Model
         //     $this->db->or_like('username', $_POST["search"]["value"]);
         //     $this->db->or_like('email', $_POST["search"]["value"]);
         // }
-        // if (isset($_POST["order"])) {
-        //     $this->db->order_by($this->order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-        // } else {
-        //     $this->db->order_by("no_rekam_medis", "DESC");
-        // }
+        if (isset($_POST["order"])) {
+            $this->db->order_by($this->order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by("no_rekam_medis", "DESC");
+        }
     }
 
     public function make_datatables()

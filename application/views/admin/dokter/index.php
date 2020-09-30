@@ -347,6 +347,10 @@
             "scrollX": true,
             "scrollY": "400px",
             "scrollCollapse": true,
+            "fixedColumns": {
+                leftColumns: 1,
+                rightColumns: 1
+            },
             "order": [],
             "lengthMenu": [10, 20, 50],
             "ajax": {

@@ -240,8 +240,6 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <a type="button" name="update" id="update" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
-                            <button type="button" name="delete" id="delete" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
                             <input type="hidden" name="id_pasien" id="id_pasien" />
                         </div>
                     </div>

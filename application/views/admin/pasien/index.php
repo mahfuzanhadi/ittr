@@ -272,6 +272,10 @@
             "scrollX": true,
             "scrollY": "400px",
             "scrollCollapse": true,
+            "fixedColumns": {
+                leftColumns: 1,
+                rightColumns: 1
+            },
             "order": [],
             "lengthMenu": [20, 50, 100],
             "ajax": {
@@ -285,7 +289,7 @@
                 }
             },
             "columnDefs": [{
-                    "targets": [0, 11, 13],
+                    "targets": [0, 11, 14],
                     "orderable": false
                 },
                 {
@@ -374,7 +378,7 @@
                     "targets": 13
                 },
                 {
-                    "width": "80px",
+                    "width": "70px",
                     "targets": 14
                 },
             ]

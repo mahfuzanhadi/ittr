@@ -53,6 +53,7 @@
                             <th>#</th>
                             <th>Nama</th>
                             <th>Satuan</th>
+                            <th>Stok</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -60,34 +61,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-
-    <div id="myModal" class="modal fade">
-        <div class="modal-dialog modal-lg">
-            <form method="post" id="myForm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Add New</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Nama</label>
-                            <input type="text" name="nama" id="nama" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>Satuan</label>
-                            <input type="text" name="satuan" id="satuan" class="form-control" />
-                        </div>
-                        <div class="modal-footer">
-                            <input type="hidden" name="id_bahan" id="id_bahan" />
-                            <button type="reset" class="btn btn-secondary">Reset</button>
-                            <button type="submit" class="btn btn-success" onclick="save()">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
 
@@ -110,7 +83,7 @@
                 type: "POST"
             },
             "columnDefs": [{
-                    "targets": [0, 2, 3],
+                    "targets": [0, 2, 4],
                     "orderable": false
                 },
                 {
@@ -129,6 +102,10 @@
                 {
                     "width": "50px",
                     "targets": 3
+                },
+                {
+                    "width": "50px",
+                    "targets": 4
                 },
             ]
         });

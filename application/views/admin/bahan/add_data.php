@@ -27,6 +27,11 @@
                         <input class="form-control" type="text" name="satuan" id="satuan" placeholder="Satuan" />
                         <span id="error_satuan" class="text-danger"></span>
                     </div>
+                    <div class="form-group col-sm-2">
+                        <label for="stok">Stok</label>
+                        <input class="form-control" type="text" name="stok" id="stok" placeholder="Stok" />
+                        <span id="error_stok" class="text-danger"></span>
+                    </div>
                 </div>
                 <button class="btn btn-primary active" aria-pressed="true" type="button" name="tambah" id="tambah">Save</button>
             </form>

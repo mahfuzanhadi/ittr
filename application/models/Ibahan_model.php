@@ -96,4 +96,73 @@ class Ibahan_model extends CI_Model
         $this->db->where('id_inventaris_bahan', $id);
         $this->db->delete($this->table);
     }
+
+    public function get_stok($where)
+    {
+        $this->db->select('*');
+        $this->db->from('bahan');
+        $this->db->where($where);
+        return $this->db->get()->row();
+    }
+
+    public function add_stok($data, $where)
+    {
+        $jumlah_stok = 0;
+
+        $query = $this->get_stok($where);
+        $jumlah_stok = $query->stok + $data;
+
+        $this->db->set('stok', $jumlah_stok);
+        $this->db->where($where);
+        $this->db->update('bahan'); //update bahan set stok + jumlah masuk where id_bahan = id
+        return $this->db->affected_rows();
+    }
+
+    public function update_stok($data, $id_bahan, $id_inventaris)
+    {
+        $temp = 0;
+
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where($id_inventaris);
+        $query = $this->db->get()->row();
+        $jumlah_masuk = $query->jumlah_masuk;
+
+        $query2 = $this->get_stok($id_bahan);
+        $temp = $query2->stok - $jumlah_masuk; //
+
+        // $query = $this->get_stok($data, $id_bahan);
+        $jumlah_stok = 0;
+
+        $jumlah_stok = $temp + $data;
+
+        $this->db->set('stok', $jumlah_stok);
+        $this->db->where($id_bahan);
+        $this->db->update('bahan'); //update bahan set stok + jumlah masuk where id_bahan = id
+        return $this->db->affected_rows();
+    }
+
+    public function delete_stok($id)
+    {
+        $jumlah_masuk = 0;
+
+        $this->db->select('*');
+        $this->db->from('inventaris_bahan');
+        $this->db->where('id_inventaris_bahan', $id);
+        $query = $this->db->get()->row();
+        $id_bahan = $query->id_bahan;
+        $jumlah_masuk = $query->jumlah_masuk;
+
+        $this->db->select('*');
+        $this->db->from('bahan');
+        $this->db->where('id_bahan', $id_bahan);
+        $query2 = $this->db->get()->row();
+        $stok = $query2->stok;
+
+        $jumlah_stok = $stok - $jumlah_masuk;
+        $this->db->set('stok', $jumlah_stok);
+        $this->db->where('id_bahan', $id_bahan);
+        $this->db->update('bahan'); //update obat set stok + jumlah masuk where id_obat = id
+        return $this->db->affected_rows();
+    }
 }

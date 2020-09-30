@@ -10,8 +10,8 @@ class Bahan_model extends CI_Model
     }
 
     var $table = 'bahan';
-    var $select_column = array('id_bahan', 'nama', 'satuan');
-    var $order_column = array(null, 'nama', 'satuan'); //set column field database for datatable orderable
+    var $select_column = array('id_bahan', 'nama', 'satuan', 'stok');
+    var $order_column = array(null, 'nama', 'satuan', 'stok'); //set column field database for datatable orderable
     var $order = array('id_bahan' => 'asc'); // default order 
 
     public function make_query()
@@ -20,7 +20,6 @@ class Bahan_model extends CI_Model
         $this->db->from($this->table);
         if (isset($_POST["search"]["value"])) {
             $this->db->like('nama', $_POST["search"]["value"]);
-            $this->db->or_like('satuan', $_POST["search"]["value"]);
         }
         if (isset($_POST["order"])) {
             $this->db->order_by($this->order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);

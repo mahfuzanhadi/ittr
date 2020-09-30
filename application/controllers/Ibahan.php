@@ -109,6 +109,7 @@ class Ibahan extends CI_Controller
             ];
 
             $this->Ibahan_model->add_data($data);
+            $this->Ibahan_model->add_stok($this->input->post('jumlah_masuk'), array('id_bahan' => $this->input->post('nama'))); //fungsi update stok pada tabel obat
             $this->session->set_flashdata('flash', 'ditambahkan');
             redirect('ibahan');
         }
@@ -148,6 +149,7 @@ class Ibahan extends CI_Controller
             'jumlah_masuk' => $this->input->post('jumlah_masuk'),
         ];
 
+        $this->Ibahan_model->update_stok($this->input->post('jumlah_masuk'), array('id_bahan' => $this->input->post('nama')), array('id_inventaris_bahan' => $this->input->post('id'))); //fungsi update stok pada tabel obat
         $this->Ibahan_model->edit_data(array('id_inventaris_bahan' => $this->input->post('id')), $data);
         $this->session->set_flashdata('flash', 'diubah');
         redirect('ibahan');
@@ -155,6 +157,7 @@ class Ibahan extends CI_Controller
 
     public function delete($id)
     {
+        $this->Ibahan_model->delete_stok($id);
         $this->Ibahan_model->delete_data($id);
         echo json_encode(array("status" => true));
     }

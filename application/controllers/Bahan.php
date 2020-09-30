@@ -50,6 +50,7 @@ class Bahan extends CI_Controller
             $row[] = $no;
             $row[] = $bahan->nama;
             $row[] = $bahan->satuan;
+            $row[] = $bahan->stok;
             $row[] = '<a href="bahan/edit/' . $bahan->id_bahan . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $bahan->id_bahan . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
             $data[] = $row;
         }
@@ -91,7 +92,8 @@ class Bahan extends CI_Controller
         if (isset($nama)) {
             $data = [
                 'nama' => $this->input->post('nama'),
-                'satuan' => $this->input->post('satuan')
+                'satuan' => $this->input->post('satuan'),
+                'stok' => $this->input->post('stok')
             ];
 
             $this->Bahan_model->add_data($data);
@@ -128,7 +130,8 @@ class Bahan extends CI_Controller
     {
         $data = [
             'nama' => $this->input->post('nama'),
-            'satuan' => $this->input->post('satuan')
+            'satuan' => $this->input->post('satuan'),
+            'stok' => $this->input->post('stok')
         ];
 
         $this->Bahan_model->edit_data(array('id_bahan' => $this->input->post('id')), $data);

@@ -56,7 +56,7 @@ class Auth extends CI_Controller
 				$this->session->set_userdata('akses', '1');
 				redirect('dashboard');
 			} else {
-				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password salah!</div>');
 				redirect(base_url());
 			}
 		} else if ($dokter) {
@@ -72,7 +72,7 @@ class Auth extends CI_Controller
 				$this->session->set_userdata('akses', '2');
 				redirect('transaksi');
 			} else {
-				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password salah!</div>');
 				redirect(base_url());
 			}
 		} else if ($perawat) {
@@ -88,7 +88,7 @@ class Auth extends CI_Controller
 				$this->session->set_userdata('akses', '3');
 				redirect('transaksi');
 			} else {
-				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password salah!</div>');
 				redirect(base_url());
 			}
 		} else if ($staf) {
@@ -104,11 +104,11 @@ class Auth extends CI_Controller
 				$this->session->set_userdata('akses', '4');
 				redirect('transaksi');
 			} else {
-				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password salah!</div>');
 				redirect(base_url());
 			}
 		} else {
-			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">User is not registered!</div>');
+			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">User tidak terdaftar!</div>');
 			redirect(base_url());
 		}
 	}

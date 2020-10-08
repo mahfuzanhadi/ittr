@@ -12,33 +12,35 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Nama</label>
+                    <label>Nama <font color="red">*</font></label>
                     <input type="text" name="nama" id="nama" class="form-control" value="<?= $admin['nama']; ?>" />
                     <span id="error_nama" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>E-mail</label>
+                    <label>E-mail <font color="red">*</font></label>
                     <input type="text" name="email" id="email" class="form-control" value="<?= $admin['email']; ?>" />
                     <span id="error_email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Username</label>
+                    <label>Username <font color="red">*</font></label>
                     <input type="text" name="username" id="username" class="form-control" value="<?= $admin['username']; ?>" />
                     <span id="error_username" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
+                    <label>Password <font color="red">*</font></label>
                     <input type="password" name="password" id="password" class="form-control" placeholder="Password" />
                     <span id="error_password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Ulangi Password</label>
+                    <label>Ulangi Password <font color="red">*</font></label>
                     <input class="form-control" type="password" name="password2" id="password2" placeholder="Ulangi Password" />
                     <span id="error_password2" class="text-danger"></span>
                 </div>
+                <div class="float-left small text-muted">
+                    <font color="red">*</font> wajib diisi
+                </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" type="button" name="update" id="update">Update</button>
-                    <!-- <button type="submit" class="btn btn-success" onclick="save()">Save</button> -->
                 </div>
             </div>
         </div>
@@ -142,6 +144,16 @@
                 }
             }
 
+            if ($.trim($('#username').val()).length == 0) {
+                error_username = 'Username wajib diisi';
+                $('#error_username').text(error_username);
+                $('#username').addClass('has-error');
+            } else {
+                error_username = '';
+                $('#error_username').text(error_username);
+                $('#username').removeClass('has-error');
+            }
+
             if ($.trim($('#password').val()).length == 0) {
                 error_password = 'Password wajib diisi';
                 $('#error_password').text(error_password);
@@ -162,7 +174,7 @@
                 }
             }
 
-            if (error_nama != '' || error_email != '' || error_password != '') {
+            if (error_nama != '' || error_username != '' || error_email != '' || error_password != '') {
                 return false;
             } else {
                 $('#form_admin').submit();

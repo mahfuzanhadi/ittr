@@ -111,6 +111,10 @@ class Perawat extends CI_Controller
                 'email' => $this->input->post('email')
             ];
 
+            $tanggal_berlaku_str = $this->input->post('tanggal_berlaku_str');
+            if ($tanggal_berlaku_str == '' || $tanggal_berlaku_str == '__-__-____') {
+                unset($data['tanggal_berlaku_str']);
+            }
             $this->Perawat_model->add_data($data);
             $this->session->set_flashdata('flash', 'ditambahkan');
             redirect('perawat');

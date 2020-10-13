@@ -220,7 +220,7 @@
     <?php endif; ?>
 
     <!-- Page Heading -->
-    <h3 class="h3 mb-4 text-gray-800"><?= $title; ?></h3>
+    <h3 class="h3 my-2 text-gray-800"><?= $title; ?></h3>
 
     <!-- DataTables -->
     <div class="card mb-3">

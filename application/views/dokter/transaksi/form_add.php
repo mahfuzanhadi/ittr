@@ -230,8 +230,7 @@
                         </div>
                         <div class="form-group col-sm-4">
                             <label for="discount" style="font-weight: bold">Diskon</label> <span id="jenis_diskon"></span>
-                            <input class="form-control w-50" type="text" name="discount" id="discount" placeholder="Diskon" value="<?= $transaksi['diskon']; ?>" onkeypress="javascript:return isNumber(event)" />
-
+                            <input class="form-control w-50" type="text" name="discount" id="discount" placeholder="Diskon" onkeypress="javascript:return isNumber(event)" />
                         </div>
                     </div>
                     <div class="form-row">
@@ -247,7 +246,6 @@
             </div>
         </form>
     </div>
-</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>

@@ -108,20 +108,20 @@
                         }
                     } ?>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-6">
                     <p><strong>Tindakan</strong> : </p>
                     <?php foreach ($detail_tindakan as $dt) {
                         if ($dt->id_transaksi == $transaksi['id_transaksi']) {
                             $id_tindakan = $dt->id_tindakan;
                             foreach ((array) $tindakan as $t) {
                                 if ($t->id_tindakan == $id_tindakan) {
-                                    echo '- ' . $t->nama . '</p>';
+                                    echo '- ' . $t->nama . ' => Rp. ' . number_format($t->biaya, 0, ',', '.') . '</p>';
                                 }
                             }
                         }
                     } ?>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     <p><strong>Obat</strong> : </p>
                     <?php foreach ($detail_obat as $do) {
                         if ($do->id_transaksi == $transaksi['id_transaksi']) {

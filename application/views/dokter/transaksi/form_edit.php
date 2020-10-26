@@ -225,7 +225,7 @@
                                     </div>
                                     <div class="form-group col-sm-3">
                                         <label>Keterangan</label>
-                                        <textarea class="form-control" type="text" name="keterangan" id="ket" placeholder="Keterangan"><?= $transaksi['keterangan']; ?></textarea>
+                                        <textarea class="form-control" type="text" name="keterangan" id="ket" placeholder="Keterangan"><?= $house_address = str_replace('<br />', "\n", $transaksi['keterangan']); ?></textarea>
                                     </div>
                                 </div>
                                 <div align="center">

@@ -236,7 +236,7 @@
                     <div class="form-row">
                         <div class="form-group col-sm-4">
                             <label for="ket" style="font-weight: bold">Keterangan</label>
-                            <input class="form-control" type="text" id="ket" placeholder="Keterangan" />
+                            <textarea class="form-control" type="text" id="ket" placeholder="Keterangan"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

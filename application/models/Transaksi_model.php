@@ -318,7 +318,8 @@ class Transaksi_model extends CI_Model
         // Initialize Array with fetched data
         $data = array();
         foreach ($obat as $t) {
-            $data[] = array("id" => $t['id_obat'], "text" => $t['nama']);
+            $obats = $t['nama'] . ' -- ' . $t['ukuran'];
+            $data[] = array("id" => $t['id_obat'], "text" => $obats);
         }
         return $data;
     }

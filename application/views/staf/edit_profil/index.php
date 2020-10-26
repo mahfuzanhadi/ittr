@@ -69,12 +69,12 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
-                        <label>Password</label>
+                        <label>Password <font color="red">*</font></label>
                         <input class="form-control" type="password" name="password" id="password" placeholder="Password" />
                         <span id="error_password" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label>Ulangi Password</label>
+                        <label>Ulangi Password <font color="red">*</font></label>
                         <input class="form-control" type="password" name="password2" id="password2" placeholder="Ulangi Password" />
                         <span id="error_password2" class="text-danger"></span>
                     </div>

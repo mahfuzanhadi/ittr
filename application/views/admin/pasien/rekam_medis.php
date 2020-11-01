@@ -64,8 +64,9 @@
                         <th width="120px">Tanggal</th>
                         <th width="150px">Dokter</th>
                         <th width="110px">Perawat</th>
-                        <th width="130px">Diagnosa</th>
+                        <th width="180px">Diagnosa</th>
                         <th width="220px">Tindakan</th>
+                        <th width="220px">Rincian Tindakan</th>
                         <th width="150px">Obat</th>
                         <th width="80px">Dosis</th>
                         <th width="120px">Biaya Tindakan</th>
@@ -110,6 +111,17 @@
                                             if ($t->id_tindakan == $id_tindakan) {
                                                 echo '- ' . $t->nama . '<br/>';
                                             }
+                                        }
+                                    }
+                                } ?>
+                            </td>
+                            <td>
+                                <?php foreach ($detail_tindakan as $dt) {
+                                    if ($dt->id_transaksi == $transaksi['id_transaksi']) {
+                                        if ($dt->rincian != '') {
+                                            echo '- ' . $dt->rincian . '<br/>';
+                                        } else {
+                                            echo '';
                                         }
                                     }
                                 } ?>

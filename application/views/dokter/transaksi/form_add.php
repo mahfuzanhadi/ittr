@@ -95,9 +95,9 @@
                             <div class="input_fields_wrap">
                                 <div>
                                     <div class="form-row">
-                                        <div class="form-group col-sm-3">
+                                        <div class="form-group col-sm-2">
                                             <label>Diagnosa <font color="red">*</font></label>
-                                            <input class="form-control" type="text" name="diagnosa[]" id="diagnosa" placeholder="Diagnosa" />
+                                            <textarea class="form-control" type="text" name="diagnosa[]" id="diagnosa" placeholder="Diagnosa"></textarea>
                                             <span id="error_diagnosa" class="text-danger"></span>
                                         </div>
                                         <div class="form-group col-sm-4">
@@ -107,6 +107,11 @@
                                             <span id="error_tindakan" class="text-danger"></span>
                                         </div>
                                         <div class="form-group col-sm-2">
+                                            <label>Rincian Tindakan</label>
+                                            <textarea class="form-control" type="text" name="rincian[]" id="rincian" placeholder="Rincian Tindakan"></textarea>
+                                            <span id="error_rincian" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group col-sm-1">
                                             <label>Biaya <font color="red">*</font></label>
                                             <input class="form-control" type="text" name="biaya[]" id="biaya" placeholder="Biaya" onkeypress="javascript:return isNumber(event)" />
                                             <span id="error_biaya" class="text-danger"></span>
@@ -459,7 +464,7 @@
             e.preventDefault();
             if (x < max_fields) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div class="row' + x + '"><div class="form-row"><div class="form-group col-sm-3"><label>Diagnosa</label><input class="form-control" type="text" name="diagnosa[]" id="diagnosa' + x + '" placeholder="Diagnosa" /><span id="error_diagnosa" class="text-danger"></span></div><div class="form-group col-sm-4"><label for="tindakan">Tindakan</label><select class="itemName js-states form-control" name="tindakan[]" id="tindakan' + x + '"></select><span id="error_tindakan" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Biaya</label><input class="form-control" type="text" name="biaya[]" id="biaya' + x + '" placeholder="Biaya" onkeypress="javascript:return isNumber(event)" /><span id="error_biaya" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field btn btn-danger btn-sm form-control" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
+                $(wrapper).append('<div class="row' + x + '"><div class="form-row"><div class="form-group col-sm-2"><label>Diagnosa</label><textarea class="form-control" type="text" name="diagnosa[]" id="diagnosa' + x + '"  placeholder="Diagnosa"></textarea><span id="error_diagnosa" class="text-danger"></span></div><div class="form-group col-sm-4"><label for="tindakan">Tindakan</label><select class="itemName js-states form-control" name="tindakan[]" id="tindakan' + x + '"></select><span id="error_tindakan" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Rincian Tindakan</label><textarea class="form-control" type="text" name="rincian[]" id="rincian' + x + '" placeholder="Rincian Tindakan"></textarea><span id="error_rincian" class="text-danger"></span></div><div class="form-group col-sm-1"><label>Biaya</label><input class="form-control" type="text" name="biaya[]" id="biaya' + x + '" placeholder="Biaya" onkeypress="javascript:return isNumber(event)" /><span id="error_biaya" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field btn btn-danger btn-sm form-control" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
             }
 
             $("#tindakan2").select2({

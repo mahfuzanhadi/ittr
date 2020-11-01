@@ -345,9 +345,9 @@ class Transaksi extends CI_Controller
                 $last;
             }
 
-
             $tindakan = $this->input->post('tindakan');
             $diagnosa = $this->input->post('diagnosa');
+            $rincian = $this->input->post('rincian');
             $biaya_tindakan = $this->input->post('biaya');
             if ($tindakan != '') {
                 foreach ($tindakan as $key => $value) {
@@ -355,7 +355,8 @@ class Transaksi extends CI_Controller
                         'id_detail_tindakan' => $this->input->post('id_detail_tindakan'),
                         'id_transaksi' => $last,
                         'id_tindakan' => $value,
-                        'diagnosa' => $diagnosa[$key],
+                        'diagnosa' => nl2br($diagnosa[$key]),
+                        'rincian' => nl2br($rincian[$key]),
                         'biaya_tindakan' => $biaya_tindakan[$key]
                     ];
                     $this->Transaksi_model->add_data_detail_tindakan($data);
@@ -472,6 +473,7 @@ class Transaksi extends CI_Controller
             $id_detail_tindakan = $this->input->post('id_detail_tindakan');
             $tindakan = $this->input->post('tindakan');
             $diagnosa = $this->input->post('diagnosa');
+            $rincian = $this->input->post('rincian');
             $biaya_tindakan = $this->input->post('biaya');
             if ($tindakan != '') {
                 foreach ($tindakan as $key => $value) {
@@ -479,7 +481,8 @@ class Transaksi extends CI_Controller
                         'id_detail_tindakan' => $id_detail_tindakan[$key],
                         'id_transaksi' => $this->input->post('id_transaksi'),
                         'id_tindakan' => $value,
-                        'diagnosa' => $diagnosa[$key],
+                        'diagnosa' => nl2br($diagnosa[$key]),
+                        'rincian' => nl2br($rincian[$key]),
                         'biaya_tindakan' => $biaya_tindakan[$key]
                     ];
                     $this->Transaksi_model->edit_data_detail_tindakan(array('id_detail_tindakan' => $id_detail_tindakan[$key]), $data);

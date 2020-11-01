@@ -134,9 +134,9 @@
                                     $i++ ?>
                                     <input type="hidden" name="id_detail_tindakan[]" value="<?= $dt->id_detail_tindakan; ?>" />
                                     <div class="form-row">
-                                        <div class="form-group col-sm-3">
+                                        <div class="form-group col-sm-2">
                                             <label>Diagnosa</label>
-                                            <input class="form-control" type="text" name="diagnosa[]" id="diagnosa<?= $i; ?>" placeholder="Diagnosa" value="<?= $dt->diagnosa; ?>" />
+                                            <textarea class="form-control" type="text" name="diagnosa[]" id="diagnosa<?= $i; ?>" placeholder="Diagnosa"><?= str_replace('<br />', "", $dt->diagnosa); ?></textarea>
                                             <span id="error_diagnosa" class="text-danger"></span>
                                         </div>
                                         <div class="form-group col-sm-4">
@@ -151,7 +151,12 @@
                                             </select>
                                             <span id="error_tindakan" class="text-danger"></span>
                                         </div>
-                                        <div class="form-group col-sm-2">
+                                        <div class="form-group col-sm-3">
+                                            <label>Rincian Tindakan</label>
+                                            <textarea class="form-control" type="text" name="rincian[]" id="rincian<?= $i; ?>" placeholder="Rincian Tindakan"><?= str_replace('<br />', "", $dt->rincian); ?></textarea>
+                                            <span id="error_rincian" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group col-sm-1">
                                             <label>Biaya</label>
                                             <input class="form-control" type="text" name="biaya[]" id="biaya<?= $i; ?>" placeholder="Biaya" value="<?= $dt->biaya_tindakan; ?>" onkeypress="javascript:return isNumber(event)" />
                                             <span id="error_biaya" class="text-danger"></span>
@@ -225,7 +230,7 @@
                                     </div>
                                     <div class="form-group col-sm-3">
                                         <label>Keterangan</label>
-                                        <textarea class="form-control" type="text" name="keterangan" id="ket" placeholder="Keterangan"><?= $house_address = str_replace('<br />', "\n", $transaksi['keterangan']); ?></textarea>
+                                        <textarea class="form-control" type="text" name="keterangan" id="ket" placeholder="Keterangan"><?= str_replace('<br />', "", $transaksi['keterangan']); ?></textarea>
                                     </div>
                                 </div>
                                 <div align="center">

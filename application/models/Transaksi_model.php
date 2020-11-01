@@ -411,6 +411,7 @@ class Transaksi_model extends CI_Model
         }
 
         $this->db->set('total_biaya_keseluruhan', $total_biaya_keseluruhan);
+        $this->db->set('sisa', $total_biaya_keseluruhan);
         $this->db->where('id_transaksi', $id);
         $this->db->update('transaksi');
         return $this->db->affected_rows();

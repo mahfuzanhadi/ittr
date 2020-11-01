@@ -115,7 +115,7 @@
                             $id_tindakan = $dt->id_tindakan;
                             foreach ((array) $tindakan as $t) {
                                 if ($t->id_tindakan == $id_tindakan) {
-                                    echo '- ' . $t->nama . ' => Rp. ' . number_format($t->biaya, 0, ',', '.') . '</p>';
+                                    echo '- ' . $t->nama . ' => Rp. ' . number_format($dt->biaya_tindakan, 0, ',', '.') . '</p>';
                                 }
                             }
                         }

@@ -315,10 +315,10 @@
             "language": {
                 "infoFiltered": ""
             },
-            "fixedColumns": {
-                leftColumns: 1,
-                rightColumns: 1
-            },
+            // "fixedColumns": {
+            //     leftColumns: 1,
+            //     rightColumns: 1
+            // },
             "order": [],
             "lengthMenu": [20, 50, 100],
             "ajax": {

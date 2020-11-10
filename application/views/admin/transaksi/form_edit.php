@@ -189,8 +189,8 @@
                                                 <span id="error_harga" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
-                                                <label>Dosis</label>
-                                                <input class="form-control" type="text" name="dosis[]" id="dosis<?= $j; ?>" placeholder="Dosis" value="<?= $do->dosis; ?>" />
+                                                <label>Aturan Pakai</label>
+                                                <input class="form-control" type="text" name="dosis[]" id="dosis<?= $j; ?>" placeholder="Aturan Pakai" value="<?= $do->dosis; ?>" />
                                                 <span id="error_dosis" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">

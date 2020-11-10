@@ -151,8 +151,8 @@
                                                 <span id="error_harga" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
-                                                <label>Dosis</label>
-                                                <input class="form-control" type="text" name="dosis[]" id="dosis" placeholder="Dosis" />
+                                                <label>Aturan Pakai</label>
+                                                <input class="form-control" type="text" name="dosis[]" id="dosis" placeholder="Aturan Pakai" />
                                                 <span id="error_dosis" class="text-danger"></span>
                                             </div>
                                             <div class="form-group col-sm-2">
@@ -739,7 +739,7 @@
             e.preventDefault();
             if (x < max_fields) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div class="row2' + x + '"><div class="form-row"><div class="form-group col-sm-4"><label for="obat">Obat</label><select class="itemName js-states form-control" name="obat[]" id="obat' + x + '"></select><span id="error_obat" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Harga</label><input class="form-control" type="text" name="harga[]" id="harga' + x + '" placeholder="Harga" onkeypress="javascript:return isNumber(event)" /><span id="error_harga" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Dosis</label><input class="form-control" type="text" name="dosis[]" id="dosis' + x + '" placeholder="Dosis" /> <span id="error_dosis' + x + '" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Jumlah Obat</label><input class="form-control w-25" type="number" name="jumlah[]" id="jumlah' + x + '" placeholder="0" /><span id="error_jumlah' + x + '" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field2 btn btn-danger btn-sm form-control" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
+                $(wrapper).append('<div class="row2' + x + '"><div class="form-row"><div class="form-group col-sm-4"><label for="obat">Obat</label><select class="itemName js-states form-control" name="obat[]" id="obat' + x + '"></select><span id="error_obat" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Harga</label><input class="form-control" type="text" name="harga[]" id="harga' + x + '" placeholder="Harga" onkeypress="javascript:return isNumber(event)" /><span id="error_harga" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Aturan Pakai</label><input class="form-control" type="text" name="dosis[]" id="dosis' + x + '" placeholder="Aturan Pakai" /> <span id="error_dosis' + x + '" class="text-danger"></span></div><div class="form-group col-sm-2"><label>Jumlah Obat</label><input class="form-control w-25" type="number" name="jumlah[]" id="jumlah' + x + '" placeholder="0" /><span id="error_jumlah' + x + '" class="text-danger"></span></div><div class="form-group col-sm-1"><label style="color: #fff">x</label><a href="#" class="remove_field2 btn btn-danger btn-sm form-control" id="' + x + '"><i class="fas fa-trash"></i> Remove</a></div></div></div>');
             }
 
             $("#obat2").select2({

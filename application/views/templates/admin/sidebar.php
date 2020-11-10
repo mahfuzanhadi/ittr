@@ -27,6 +27,13 @@ $url2 = $this->uri->segment(2);
         Menu
     </div>
 
+    <!-- Nav Item - Rekap Data -->
+    <li class="nav-item <?= ($url === 'rekap') ? 'active' : '' ?>">
+        <a class="nav-link" href="<?= base_url('rekap'); ?>">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Rekap Data</span></a>
+    </li>
+
     <!-- Nav Item - Data Transaksi -->
     <li class="nav-item <?= ($url === 'transaksi') ? 'active' : '' ?>">
         <a class="nav-link" href="<?= base_url('transaksi'); ?>">

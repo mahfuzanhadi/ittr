@@ -10,8 +10,8 @@ class Perawat_model extends CI_Model
     }
 
     var $table = 'perawat';
-    var $select_column = array('id_perawat', 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'no_str', 'tanggal_berlaku_str', 'username', 'password', 'email');
-    var $order_column = array(null, 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'no_str', 'tanggal_berlaku_str', 'email', 'username', null); //set column field database for datatable orderable
+    var $select_column = array('id_perawat', 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'no_str', 'tanggal_berlaku_str', 'username', 'password', 'email', 'status');
+    var $order_column = array(null, 'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'no_telp', 'no_str', 'tanggal_berlaku_str', 'username', null, 'email', 'status'); //set column field database for datatable orderable
     var $order = array('id_perawat' => 'asc'); // default order 
 
     public function make_query()
@@ -21,7 +21,6 @@ class Perawat_model extends CI_Model
         if (isset($_POST["search"]["value"])) {
             $this->db->like('nama', $_POST["search"]["value"]);
             $this->db->or_like('alamat', $_POST["search"]["value"]);
-            $this->db->or_like('tempat_lahir', $_POST["search"]["value"]);
             $this->db->or_like('no_telp', $_POST["search"]["value"]);
             $this->db->or_like('email', $_POST["search"]["value"]);
             $this->db->or_like('username', $_POST["search"]["value"]);

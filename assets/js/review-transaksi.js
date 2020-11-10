@@ -138,11 +138,11 @@ $(document).ready(function () {
 		}
 
 		const diagnose = document.getElementById('diagnose');
-		diagnose.innerHTML = arrDiagnosa.join(', ');
+		diagnose.innerHTML = arrDiagnosa.join("<br />");
 		const tindakans = document.getElementById('tindakans');
-		tindakans.innerHTML = arrTindakan.join(', ');
+		tindakans.innerHTML = arrTindakan.join("<br />");
 		const obats = document.getElementById('obats');
-		obats.innerHTML = arrObat.join(', ');
+		obats.innerHTML = arrObat.join("<br/>");
 
 		const t_biaya_tindakan = c_b_tindakan;
 		const f_total_biaya = new Intl.NumberFormat(['ban', 'id']).format(t_biaya_tindakan);

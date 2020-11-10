@@ -94,6 +94,21 @@
                         <input type="checkbox" class="form-checkbox" style="margin-top: 40px"> Show password
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-3">
+                        <label for="status">Status <font color="red">*</font></label>
+                        <select class="custom-select custom-select-sm" name="status" id="status">
+                            <?php if ($perawat['status'] == 1) : ?>
+                                <option value="1" selected>Aktif</option>
+                                <option value="0">Tidak Aktif</option>
+                            <?php else : ?>
+                                <option value="1">Aktif</option>
+                                <option value="0" selected>Tidak Aktif</option>
+                            <?php endif; ?>
+                        </select>
+                        <span id="error_status" class="text-danger"></span>
+                    </div>
+                </div>
                 <button class="btn btn-primary active" aria-pressed="true" type="button" name="update" id="update">Update</button>
             </form>
 

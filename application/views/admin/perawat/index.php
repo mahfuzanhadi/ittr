@@ -127,6 +127,13 @@
                     berlaku_str = tanggal + ' ' + bulan + ' ' + tahun;
                 }
 
+                var status = data.status;
+                if (status == 1) {
+                    status = 'Aktif';
+                } else {
+                    status = 'Tidak Aktif';
+                }
+                document.getElementById("status").innerHTML = status;
                 tanggal_berlaku_str.innerHTML = berlaku_str;
                 var email = document.getElementById("email");
                 email.innerHTML = data.email;
@@ -203,6 +210,7 @@
                             <th>E-mail</th>
                             <th>Username</th>
                             <th>Password</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -262,6 +270,12 @@
                                 <p id="tanggal_berlaku_str"></p>
                             </div>
                         </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-5">
+                                <label for="status" style="font-weight: bold">Status</label>
+                                <p id="status"></p>
+                            </div>
+                        </div>
                         <div class="modal-footer">
                             <a type="button" name="update" id="update" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
                             <button type="button" name="delete" id="delete" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
@@ -299,7 +313,7 @@
                 type: "POST"
             },
             "columnDefs": [{
-                    "targets": [0, 11, 12],
+                    "targets": [0, 11, 13],
                     "orderable": false
                 },
                 {
@@ -371,8 +385,12 @@
                     "targets": 11
                 },
                 {
-                    "width": "80px",
+                    "width": "102px",
                     "targets": 12
+                },
+                {
+                    "width": "80px",
+                    "targets": 13
                 },
             ]
         });

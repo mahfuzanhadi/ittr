@@ -12,7 +12,7 @@ class Iobat_model extends CI_Model
     var $table = 'inventaris_obat';
     var $select_column = array('inventaris_obat.id_inventaris_obat as id_inventaris_obat', 'obat.nama as nama', 'obat.satuan as satuan', 'obat.ukuran as ukuran', 'obat.harga as harga', 'inventaris_obat.tgl_masuk as tgl_masuk', 'inventaris_obat.expired as expired', 'inventaris_obat.jumlah_masuk as jumlah_masuk');
     var $order_column = array(null, 'nama', 'satuan', 'ukuran', 'harga', 'tgl_masuk', 'expired', 'jumlah_masuk'); //set column field database for datatable orderable
-    var $order = array('id_inventaris_obat' => 'asc'); // default order 
+    var $order = array('tgl_masuk' => 'desc'); // default order 
 
     public function make_query()
     {
@@ -25,7 +25,7 @@ class Iobat_model extends CI_Model
         if (isset($_POST["order"])) {
             $this->db->order_by($this->order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } else {
-            $this->db->order_by("id_inventaris_obat", "ASC");
+            $this->db->order_by("tgl_masuk", "desc");
         }
     }
 

@@ -12,7 +12,7 @@ class Ibahan_model extends CI_Model
     var $table = 'inventaris_bahan';
     var $select_column = array('inventaris_bahan.id_inventaris_bahan as id_inventaris_bahan', 'bahan.nama as nama', 'bahan.satuan as satuan', 'inventaris_bahan.tgl_masuk as tgl_masuk', 'inventaris_bahan.expired as expired', 'inventaris_bahan.jumlah_masuk as jumlah_masuk');
     var $order_column = array(null, 'nama', 'satuan', 'tgl_masuk', 'expired', 'jumlah_masuk'); //set column field database for datatable orderable
-    var $order = array('id_inventaris_bahan' => 'asc'); // default order 
+    var $order = array('tgl_masuk' => 'desc'); // default order 
 
     public function make_query()
     {
@@ -28,7 +28,7 @@ class Ibahan_model extends CI_Model
         if (isset($_POST["order"])) {
             $this->db->order_by($this->order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } else {
-            $this->db->order_by("id_inventaris_bahan", "ASC");
+            $this->db->order_by("tgl_masuk", "desc");
         }
     }
 

@@ -84,6 +84,17 @@
                         <span id="error_password" class="text-danger"></span>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-3">
+                        <label for="status">Status <font color="red">*</font></label>
+                        <select class="custom-select custom-select-sm" id="status" name="status">
+                            <option value="" hidden>Pilih Status</option>
+                            <option value="1" <?= set_select('status', '1'); ?>>Aktif</option>
+                            <option value="0" <?= set_select('status', '0'); ?>>Tidak Aktif</option>
+                        </select>
+                        <span id="error_status" class="text-danger"></span>
+                    </div>
+                </div>
                 <button class="btn btn-primary active" aria-pressed="true" type="button" name="tambah" id="tambah">Save</button>
             </form>
 

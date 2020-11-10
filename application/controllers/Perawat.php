@@ -41,6 +41,13 @@ class Perawat extends CI_Controller
         foreach ($list as $perawat) {
             $row = array();
             $no++;
+
+            if ($perawat->status == 1) {
+                $status = "Aktif";
+            } else {
+                $status = "Tidak Aktif";
+            }
+
             $row[] = $no;
             $row[] = '<a style="cursor: pointer; color:#007bff;" onclick="detail_data(' . $perawat->id_perawat . ')" >' . $perawat->nama . '</a>';
             $row[] = $perawat->alamat;
@@ -63,6 +70,7 @@ class Perawat extends CI_Controller
             $row[] = $perawat->email;
             $row[] = $perawat->username;
             $row[] = $perawat->password;
+            $row[] = $status;
             $row[] = '<a href="perawat/edit/' . $perawat->id_perawat . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $perawat->id_perawat . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
             $data[] = $row;
         }
@@ -108,7 +116,8 @@ class Perawat extends CI_Controller
                 'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
                 'username' => $this->input->post('username'),
                 'password' => $password,
-                'email' => $this->input->post('email')
+                'email' => $this->input->post('email'),
+                'status' => $this->input->post('status')
             ];
 
             $tanggal_berlaku_str = $this->input->post('tanggal_berlaku_str');
@@ -165,7 +174,8 @@ class Perawat extends CI_Controller
             'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
             'username' => $this->input->post('username'),
             'password' => $password,
-            'email' => $this->input->post('email')
+            'email' => $this->input->post('email'),
+            'status' => $this->input->post('status')
         ];
 
         $this->Perawat_model->edit_data(array('id_perawat' => $this->input->post('id')), $data);

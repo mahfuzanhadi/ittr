@@ -437,7 +437,7 @@
                     "targets": 12
                 },
                 {
-                    "width": "102px",
+                    "width": "90px",
                     "targets": 13
                 },
                 {

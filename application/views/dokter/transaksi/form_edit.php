@@ -64,6 +64,9 @@
                                 <input type="hidden" name="id_transaksi" value="<?= $transaksi['id_transaksi']; ?>" />
                                 <input type="hidden" name="jam_selesai" value="<?= $transaksi['jam_selesai']; ?>" />
                                 <input type="hidden" name="old_image" value="<?= $transaksi['foto_rontgen']; ?>" />
+                                <input type="hidden" name="total_biaya_tindakan" value="<?= $transaksi['total_biaya_tindakan']; ?>">
+                                <input type="hidden" name="total_biaya_obat" value="<?= $transaksi['total_biaya_obat']; ?>">
+                                <input type="hidden" name="total_biaya_keseluruhan" value="<?= $transaksi['total_biaya_keseluruhan']; ?>">
                                 <input type="hidden" name="sisa" value="<?= $transaksi['sisa']; ?>">
                                 <input type="hidden" name="keterangan" id="keterangan" value="<?= $transaksi['keterangan']; ?>">
                                 <div class="form-row">

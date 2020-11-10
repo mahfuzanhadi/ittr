@@ -16,7 +16,9 @@ class Rekap extends CI_Controller
     public function index()
     {
         $this->load->helper('url');
+        $this->load->model('Transaksi_model');
         $data['title'] = 'Rekap Data';
+        $data['dokter'] = $this->Transaksi_model->get_dokter();
 
         if ($this->session->userdata('akses') == '1') {
             $this->load->view('templates/header', $data);
@@ -52,14 +54,19 @@ class Rekap extends CI_Controller
         $this->db->from('transaksi');
         $this->db->where('tanggal >= ', $start_date);
         $this->db->where('tanggal <= ', $end_date);
-        $this->db->like('dokter.nama', $dokter);
+        $this->db->where('transaksi.id_dokter', $dokter);
         $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
         $query = $this->db->get()->result();
         foreach ($query as $row) {
-            // $data1[] = $row->tanggal;
-            // $data2[] = $row->nama_dokter;
+            $rows = array();
             $data3[] = $row->Total;
-            $data[] = $row;
+            $format_rupiah = "Rp " . number_format($row->Total, 0, ',', '.');
+            setlocale(LC_ALL, 'id-ID', 'id_ID');
+            $tanggal = strftime("%d %B %Y", strtotime($row->Tanggal));
+            $rows[] = $tanggal;
+            $rows[] = $row->Dokter;
+            $rows[] = $format_rupiah;
+            $data[] = $rows;
         }
 
         // echo json_encode($data);

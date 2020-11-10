@@ -14,7 +14,14 @@
                     <input type="date" id="end_date" name="end_date" placeholder="End Date" class="form-control" />
                 </div>
                 <div class="col-md-3">
-                    <input type="text" id="dokter" name="dokter" placeholder="Dokter" class="form-control" />
+                    <select class="custom-select custom-select-sm" name="dokter" id="dokter">
+                        <option value="" hidden>Pilih Dokter</option>
+                        <?php
+                        foreach ($dokter as $row) {
+                            echo '<option value="' . $row->id_dokter . '" ' . set_select('dokter', $row->id_dokter) . '> ' . $row->nama . ' </option>';
+                        } ?>
+                    </select>
+                    <span id="error_dokter" class="text-danger"></span>
                 </div>
                 <div class="col-md-3">
                     <button type="submit" id="search" name="search" class="btn btn-primary active" aria-pressed="true">Search</button>
@@ -61,6 +68,9 @@
                     var row = table.insertRow();
                     for (var i = 0; i < keys.length; i++) {
                         var cell = row.insertCell();
+                        keys[0] = "Tanggal";
+                        keys[1] = "Dokter";
+                        keys[2] = "Total"
                         cell.appendChild(document.createTextNode(keys[i]));
                     }
                 }
@@ -71,6 +81,7 @@
                     var child = data_rekap[0][i];
                     if (i === 0) {
                         addHeaders(table, Object.keys(child));
+                        debugger;
                     }
                     var row = table.insertRow();
                     Object.keys(child).forEach(function(k) {
@@ -92,13 +103,6 @@
                 var total_data = document.getElementById("total");
                 var format_total = new Intl.NumberFormat(['ban', 'id']).format(total);
                 total_data.innerHTML = 'Total : Rp. ' + format_total;
-                // console.log(total);
-                // total_seluruh.forEach(myFunction);
-
-                // function myFunction(item, index) {
-                //     let total += parseInt(item);
-                //     // document.getElementById("total").innerHTML += item + ":" + item + "<br>";
-                // }
 
             }
         });

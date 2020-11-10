@@ -43,10 +43,10 @@ class Pembayaran_model extends CI_Model
         }
 
         $query1 = $this->db->query("SELECT id_pembayaran FROM pembayaran WHERE id_transaksi = " . $id_transaksi . " AND id_pembayaran < " . $id . " ORDER BY id_pembayaran LIMIT 1");
-        if ($query1->num_rows() > 0) {
-            $id_before = $query1->id_pembayaran;
-        } else {
+        if ($query1->num_rows() == null || $query1->num_rows() <= 0) {
             $id_before = null;
+        } else {
+            $id_before = $query1->id_pembayaran;
         }
 
         if ($id_before != '' || $id_before != null) {

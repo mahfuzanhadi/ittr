@@ -51,7 +51,7 @@ class Dashboard extends CI_Controller
     {
         $tahun = $this->input->post('year', TRUE);
         for ($i = 1; $i < 13; $i++) {
-            $query = $this->db->query("SELECT SUM(total_biaya_keseluruhan) AS total FROM transaksi WHERE MONTH(tanggal) = '" . $i . "' AND YEAR(tanggal) = '" . $tahun . "'");
+            $query = $this->db->query("SELECT SUM(total_biaya_keseluruhan) AS total FROM transaksi WHERE MONTH(tanggal) = '" . $i . "' AND YEAR(tanggal) = '" . $tahun . "' AND sisa='0'");
             foreach ($query->result() as $row) {
                 if ($row->total == null) {
                     $data[] = 0;

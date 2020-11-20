@@ -232,7 +232,7 @@
 
             var tanggal = $.trim($('#picker').val());
             var dateMax = (new Date()).toISOString().split('T')[0];
-            var dateMin = '1950-01-01';
+            var dateMin = '1940-01-01';
 
             if ($.trim($('#picker').val()).length == 0 || $.trim($('#picker').val()) == '____-__-__') {
                 error_picker = 'Tanggal Lahir wajib diisi';

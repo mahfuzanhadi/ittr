@@ -55,6 +55,7 @@ class Rekap extends CI_Controller
         $this->db->where('tanggal >= ', $start_date);
         $this->db->where('tanggal <= ', $end_date);
         $this->db->where('transaksi.id_dokter', $dokter);
+        $this->db->where('sisa', 0);
         $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
         $query = $this->db->get()->result();
         foreach ($query as $row) {

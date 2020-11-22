@@ -248,7 +248,8 @@ class Perawat extends CI_Controller
             'tanggal_berlaku_str' => $this->input->post('tanggal_berlaku_str'),
             'username' => $this->input->post('username'),
             'password' => $this->input->post('password'),
-            'email' => $this->input->post('email')
+            'email' => $this->input->post('email'),
+            'status' => $this->input->post('status')
         ];
         if (!empty($data['password'])) {
             $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);

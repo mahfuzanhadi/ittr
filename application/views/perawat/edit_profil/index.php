@@ -16,6 +16,7 @@
         <div class="card-body">
             <form action="<?= base_url('perawat/update_profil'); ?>" method="post" id="form_perawat">
                 <input type="hidden" name="id" value="<?= $perawat['id_perawat']; ?>">
+                <input type="hidden" name="status" value="<?= $perawat['status']; ?>">
                 <div class="form-row">
                     <div class="form-group col-sm-3">
                         <label for="name">Nama <font color="red">*</font></label>
@@ -86,12 +87,12 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-3">
-                        <label>Password <font color="red">*</font></label>
+                        <label>Password</label>
                         <input class="form-control" type="password" name="password" id="password" placeholder="Password" />
                         <span id="error_password" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label>Ulangi Password <font color="red">*</font></label>
+                        <label>Ulangi Password</label>
                         <input class="form-control" type="password" name="password2" id="password2" placeholder="Ulangi Password" />
                         <span id="error_password2" class="text-danger"></span>
                     </div>
@@ -287,23 +288,17 @@
                 }
             }
 
-            if ($.trim($('#password').val()).length == 0) {
-                error_password = 'Password wajib diisi';
+            if ($.trim($('#password').val()).length != 0 && !password_validation.test($('#password').val())) {
+                error_password = 'Password harus berisi minimal 6 karakter';
                 $('#error_password').text(error_password);
                 $('#password').addClass('has-error');
             } else {
-                if (!password_validation.test($('#password').val())) {
-                    error_password = 'Password harus berisi minimal 6 karakter';
-                    $('#error_password').text(error_password);
-                    $('#password').addClass('has-error');
-                } else {
-                    error_password = '';
-                    $('#error_password').text(error_password);
-                    $('#password').removeClass('has-error');
-                }
+                error_password = '';
+                $('#error_password').text(error_password);
+                $('#password').removeClass('has-error');
             }
 
-            if ($.trim($('#password2').val()).length == 0) {
+            if ($.trim($('#password').val()).length != 0 && $.trim($('#password2').val()).length == 0) {
                 error_password2 = 'Ulangi Password wajib diisi';
                 $('#error_password2').text(error_password2);
                 $('#password2').addClass('has-error');

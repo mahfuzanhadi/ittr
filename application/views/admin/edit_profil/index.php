@@ -27,12 +27,12 @@
                     <span id="error_username" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Password <font color="red">*</font></label>
+                    <label>Password</label>
                     <input type="password" name="password" id="password" class="form-control" placeholder="Password" />
                     <span id="error_password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>Ulangi Password <font color="red">*</font></label>
+                    <label>Ulangi Password</label>
                     <input class="form-control" type="password" name="password2" id="password2" placeholder="Ulangi Password" />
                     <span id="error_password2" class="text-danger"></span>
                 </div>
@@ -90,25 +90,6 @@
 </script>
 <script>
     $(document).ready(function() {
-        $('#password2').keyup(function() {
-            if ($.trim($('#password2').val()).length == 0) {
-                error_password2 = 'Ulangi Password wajib diisi';
-                $('#error_password2').text(error_password2);
-                $('#password2').addClass('has-error');
-            } else {
-                if ($.trim($('#password').val()) != $.trim($('#password2').val())) {
-                    error_password2 = 'Password tidak cocok';
-                    $('#error_password2').text(error_password2);
-                    $('#password2').addClass('has-error');
-                    $('#update').attr('disabled', true);
-                } else {
-                    error_password2 = '';
-                    $('#error_password2').text(error_password2);
-                    $('#password2').removeClass('has-error');
-                    $('#update').removeAttr('disabled');
-                }
-            }
-        });
         $('#update').click(function() {
             var error_nama = '';
             var error_email = '';
@@ -154,27 +135,37 @@
                 $('#username').removeClass('has-error');
             }
 
-            if ($.trim($('#password').val()).length == 0) {
-                error_password = 'Password wajib diisi';
+            if ($.trim($('#password').val()).length != 0 && !password_validation.test($('#password').val())) {
+                error_password = 'Password harus berisi minimal 6 karakter';
                 $('#error_password').text(error_password);
                 $('#password').addClass('has-error');
             } else {
-                if (!password_validation.test($('#password').val())) {
-                    error_password = 'Password harus berisi minimal 6 karakter';
-                    $('#error_password').text(error_password);
-                    $('#password').addClass('has-error');
-                } else {
-                    error_password = '';
-                    $('#error_password').text(error_password);
-                    $('#password').removeClass('has-error');
-
-                    error_password2 = '';
-                    $('#error_password2').text(error_password);
-                    $('#password2').removeClass('has-error');
-                }
+                error_password = '';
+                $('#error_password').text(error_password);
+                $('#password').removeClass('has-error');
             }
 
-            if (error_nama != '' || error_username != '' || error_email != '' || error_password != '') {
+            if ($.trim($('#password').val()).length != 0 && $.trim($('#password2').val()).length == 0) {
+                error_password2 = 'Ulangi Password wajib diisi';
+                $('#error_password2').text(error_password2);
+                $('#password2').addClass('has-error');
+            } else {
+                error_password2 = '';
+                $('#error_password2').text(error_password);
+                $('#password2').removeClass('has-error');
+            }
+
+            if ($.trim($('#password').val()) != $.trim($('#password2').val())) {
+                error_password2 = 'Password tidak cocok';
+                $('#error_password2').text(error_password2);
+                $('#password2').addClass('has-error');
+            } else {
+                error_password2 = '';
+                $('#error_password2').text(error_password2);
+                $('#password2').removeClass('has-error');
+            }
+
+            if (error_nama != '' || error_username != '' || error_email != '' || error_password != '' || error_password2 != '') {
                 return false;
             } else {
                 $('#form_admin').submit();

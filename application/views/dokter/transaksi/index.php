@@ -314,14 +314,20 @@
                 leftColumns: 1,
                 rightColumns: 1
             },
+            "dom": "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-9'<'custom-search'>>>" +
+                "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             "order": [],
             "lengthMenu": [20, 50, 100],
             "ajax": {
-                url: "<?= base_url('transaksi/fetch_data'); ?>",
-                type: "POST"
+                url: "<?= base_url('transaksi/fetch_data_dokter'); ?>",
+                type: "POST",
+                data: function(data) {
+                    data.no_rekam_medis = $('#no_rm').val();
+                    data.nama = $('#nama_pasien').val();
+                }
             },
             "columnDefs": [{
-                    "targets": [0, 6, 7, 12, 13],
+                    "targets": [0, 1, 6, 7, 12, 13],
                     "orderable": false
                 },
                 {
@@ -394,6 +400,15 @@
                     "targets": 13
                 },
             ]
+        });
+        $("div.custom-search").html('<form id="form-filter"><div class="form-row"><div class="col-sm-6"></div><div class="col-sm-1"><label style="padding-top: 0.5rem">Search:</label></div><div class="col-sm-1"><input type="text" class="form-control form-control-sm" id="no_rm" name="no_rm" placeholder="No. RM" style="padding-left: 0.25rem;"></div><div class="col-sm-2"><input type="text" class="form-control form-control-sm" id="nama_pasien" name="nama_pasien" placeholder="Nama"></div><button type="button" id="btn-filter" class="btn btn-info btn-sm active" aria-pressed="true">Search</button><button type="button" id="btn-reset" class="btn btn-default btn-sm active" aria-pressed="true">Reset</button></div></div></form>');
+
+        $('#btn-filter').click(function() { //button filter event click
+            dataTable.ajax.reload(); //just reload table
+        });
+        $('#btn-reset').click(function() { //button reset event click
+            $('#form-filter')[0].reset();
+            dataTable.ajax.reload(); //just reload table
         });
     });
 </script>

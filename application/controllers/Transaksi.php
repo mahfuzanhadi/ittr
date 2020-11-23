@@ -114,76 +114,6 @@ class Transaksi extends CI_Controller
                 $row[] = $transaksi->keterangan;
                 $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $transaksi->id_transaksi . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
                 $data[] = $row;
-            } else if ($this->session->userdata('akses') == '2') {
-                if ($transaksi->nama_dokter == $this->session->userdata('nama')) {
-                    if ($status_pembayaran == "BB" || $status_pembayaran == "BL") {
-                        $number++;
-                        $row[] = $number;
-                        $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $status_pembayaran . '</a>';
-                        $row[] = '<a href="transaksi/detail_transaksi/' . $transaksi->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
-                        $row[] = '<a href="transaksi/rekam_medis/' . $transaksi->no_rekam_medis . '" style="color:#007bff; cursor: pointer">' . $transaksi->no_rekam_medis . '</a>';
-                        $row[] = $transaksi->nama_pasien;
-                        $row[] = $transaksi->nama_dokter;
-                        foreach ($detail_tindakan as $dt) {
-                            if ($dt->diagnosa != '') {
-                                $diagnosa[] = ' ' . $dt->diagnosa;
-                            }
-                            foreach ($tindakan as $t) {
-                                if ($t->id_tindakan == $dt->id_tindakan) {
-                                    $nama_tindakan[] = ' ' . $t->nama;
-                                }
-                            }
-                        }
-                        foreach ($diagnosa as $key => $value) {
-                            if (empty($value)) {
-                                unset($diagnosa[$key]);
-                            }
-                        }
-                        $row[] = $diagnosa;
-                        $row[] = $nama_tindakan;
-                        $row[] = $transaksi->total_biaya_tindakan;
-                        $row[] = $transaksi->total_biaya_obat;
-                        $row[] = $transaksi->diskon;
-                        $row[] = $transaksi->total_biaya_keseluruhan;
-                        $row[] = $transaksi->keterangan;
-                        $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $transaksi->id_transaksi . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
-                        $data[] = $row;
-                    } else {
-                        $number++;
-                        $row[] = $number;
-                        $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $status_pembayaran . '</a>';
-                        $row[] = '<a href="transaksi/detail_transaksi/' . $transaksi->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
-                        $row[] = '<a href="transaksi/rekam_medis/' . $transaksi->no_rekam_medis . '" style="color:#007bff; cursor: pointer">' . $transaksi->no_rekam_medis . '</a>';
-                        $row[] = $transaksi->nama_pasien;
-                        $row[] = $transaksi->nama_dokter;
-                        foreach ($detail_tindakan as $dt) {
-                            if ($dt->diagnosa != '') {
-                                $diagnosa[] = ' ' . $dt->diagnosa;
-                            }
-                            foreach ($tindakan as $t) {
-                                if ($t->id_tindakan == $dt->id_tindakan) {
-                                    $nama_tindakan[] = ' ' . $t->nama;
-                                }
-                            }
-                        }
-                        foreach ($diagnosa as $key => $value) {
-                            if (empty($value)) {
-                                unset($diagnosa[$key]);
-                            }
-                        }
-                        $row[] = $diagnosa;
-                        $row[] = $nama_tindakan;
-                        $row[] = $transaksi->total_biaya_tindakan;
-                        $row[] = $transaksi->total_biaya_obat;
-                        $row[] = $transaksi->diskon;
-                        $row[] = $transaksi->total_biaya_keseluruhan;
-                        $row[] = $transaksi->keterangan;
-                        $row[] = '';
-                        $data[] = $row;
-                    }
-                } else {
-                    continue;
-                }
             } else { //IF USER == PERAWAT / STAF ADMINISTRASI
                 $row[] = $no;
                 $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $status_pembayaran . '</a>';
@@ -221,6 +151,116 @@ class Transaksi extends CI_Controller
             "draw" => $_POST["draw"],
             "recordsTotal" => $this->Transaksi_model->get_all_data(),
             "recordsFiltered" => $this->Transaksi_model->get_filtered_data(),
+            "data" => $data
+        );
+
+        //output to json format
+        echo json_encode($output);
+    }
+
+
+    // fetch transaksi/rekam medis data
+    public function fetch_data_dokter()
+    {
+        $id_dokter = $this->session->userdata('id');
+        $list = $this->Transaksi_model->make_datatables_dokter($id_dokter);
+        // print_r($this->db->last_query());
+        $data = array();
+        $no = $_POST['start'];
+
+        foreach ($list as $transaksi) {
+            $row = array();
+            $diagnosa = array();
+            $nama_tindakan = array();
+            $no++;
+            // $base = base_url('uploads/rontgen/' . $transaksi->foto_rontgen);
+
+            if ($transaksi->sisa > 0 && $transaksi->sisa < $transaksi->total_biaya_keseluruhan) {
+                $color = "#E0A800";
+                $status_pembayaran = "BL";
+            } else if ($transaksi->sisa == 0) {
+                $color = "#008000";
+                $status_pembayaran = "L";
+            } else {
+                $color = "#FF0000";
+                $status_pembayaran = "BB";
+            }
+
+            setlocale(LC_ALL, 'id-ID', 'id_ID');
+            $tanggal = strftime("%d %B %Y", strtotime($transaksi->tanggal));
+
+            $detail_tindakan = $this->Transaksi_model->get_transaksi_tindakan($transaksi->id_transaksi);
+            $tindakan = $this->Transaksi_model->get_tindakan();
+
+            if ($status_pembayaran == "BB" || $status_pembayaran == "BL") {
+                $row[] = $no;
+                $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $status_pembayaran . '</a>';
+                $row[] = '<a href="transaksi/detail_transaksi/' . $transaksi->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
+                $row[] = '<a href="transaksi/rekam_medis/' . $transaksi->no_rekam_medis . '" style="color:#007bff; cursor: pointer">' . $transaksi->no_rekam_medis . '</a>';
+                $row[] = $transaksi->nama_pasien;
+                $row[] = $transaksi->nama_dokter;
+                foreach ($detail_tindakan as $dt) {
+                    if ($dt->diagnosa != '') {
+                        $diagnosa[] = ' ' . $dt->diagnosa;
+                    }
+                    foreach ($tindakan as $t) {
+                        if ($t->id_tindakan == $dt->id_tindakan) {
+                            $nama_tindakan[] = ' ' . $t->nama;
+                        }
+                    }
+                }
+                foreach ($diagnosa as $key => $value) {
+                    if (empty($value)) {
+                        unset($diagnosa[$key]);
+                    }
+                }
+                $row[] = $diagnosa;
+                $row[] = $nama_tindakan;
+                $row[] = $transaksi->total_biaya_tindakan;
+                $row[] = $transaksi->total_biaya_obat;
+                $row[] = $transaksi->diskon;
+                $row[] = $transaksi->total_biaya_keseluruhan;
+                $row[] = $transaksi->keterangan;
+                $row[] = '<a href="transaksi/edit/' . $transaksi->id_transaksi . ' " class="btn btn-sm btn btn-success" ><i class="fas fa-edit"></i></a>&nbsp<button type="button" name="delete" onclick="delete_data(' . $transaksi->id_transaksi . ')" class="btn btn-sm btn btn-danger delete"><i class="fas fa-trash" style="width: 15px"></i></button>';
+                $data[] = $row;
+            } else {
+                $row[] = $no;
+                $row[] = '<a style="color:' . $color . '; cursor: pointer" onclick="detail_data(' . $transaksi->id_transaksi . ')" >' . $status_pembayaran . '</a>';
+                $row[] = '<a href="transaksi/detail_transaksi/' . $transaksi->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
+                $row[] = '<a href="transaksi/rekam_medis/' . $transaksi->no_rekam_medis . '" style="color:#007bff; cursor: pointer">' . $transaksi->no_rekam_medis . '</a>';
+                $row[] = $transaksi->nama_pasien;
+                $row[] = $transaksi->nama_dokter;
+                foreach ($detail_tindakan as $dt) {
+                    if ($dt->diagnosa != '') {
+                        $diagnosa[] = ' ' . $dt->diagnosa;
+                    }
+                    foreach ($tindakan as $t) {
+                        if ($t->id_tindakan == $dt->id_tindakan) {
+                            $nama_tindakan[] = ' ' . $t->nama;
+                        }
+                    }
+                }
+                foreach ($diagnosa as $key => $value) {
+                    if (empty($value)) {
+                        unset($diagnosa[$key]);
+                    }
+                }
+                $row[] = $diagnosa;
+                $row[] = $nama_tindakan;
+                $row[] = $transaksi->total_biaya_tindakan;
+                $row[] = $transaksi->total_biaya_obat;
+                $row[] = $transaksi->diskon;
+                $row[] = $transaksi->total_biaya_keseluruhan;
+                $row[] = $transaksi->keterangan;
+                $row[] = '';
+                $data[] = $row;
+            }
+        }
+
+        $output = array(
+            "draw" => $_POST["draw"],
+            "recordsTotal" => $this->Transaksi_model->get_all_data_dokter($id_dokter),
+            "recordsFiltered" => $this->Transaksi_model->get_filtered_data_dokter($id_dokter),
             "data" => $data
         );
 

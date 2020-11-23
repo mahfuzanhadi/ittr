@@ -32,6 +32,27 @@ class Transaksi_model extends CI_Model
         }
     }
 
+    //make query for user dokter
+    public function make_query_dokter($id_dokter)
+    {
+        $this->db->select('transaksi.id_transaksi as id_transaksi, transaksi.tanggal as tanggal, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.diskon as diskon, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan, transaksi.sisa as sisa, transaksi.keterangan as keterangan');
+        $this->db->from($this->table);
+        $this->db->join('pasien', 'pasien.id_pasien = transaksi.id_pasien', 'left');
+        $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
+        $this->db->where('transaksi.id_dokter', $id_dokter);
+        if ($this->input->post('no_rekam_medis')) {
+            $this->db->where('no_rekam_medis', $this->input->post('no_rekam_medis'));
+        }
+        if ($this->input->post('nama')) {
+            $this->db->like('pasien.nama', $this->input->post('nama'));
+        }
+        if (isset($_POST["order"])) {
+            $this->db->order_by($this->order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by("id_transaksi", "DESC");
+        }
+    }
+
     public function make_datatables()
     {
         $this->make_query();
@@ -42,9 +63,29 @@ class Transaksi_model extends CI_Model
         return $query->result();
     }
 
+    //make datatable for user dokter
+    public function make_datatables_dokter($id_dokter)
+    {
+        $this->make_query_dokter($id_dokter);
+        if ($_POST["length"] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
+        $query = $this->db->get();
+        // print_r($this->db->last_query());
+        return $query->result();
+    }
+
     public function get_filtered_data()
     {
         $this->make_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    //get filtered data transaksi for datatable, for user dokter
+    public function get_filtered_data_dokter($id_dokter)
+    {
+        $this->make_query_dokter($id_dokter);
         $query = $this->db->get();
         return $query->num_rows();
     }
@@ -55,7 +96,17 @@ class Transaksi_model extends CI_Model
         $this->db->from($this->table);
         $this->db->join('pasien', 'pasien.id_pasien = transaksi.id_pasien', 'left');
         $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
-        $this->db->join('detail_tindakan', 'detail_tindakan.id_transaksi = transaksi.id_transaksi', 'left');
+        return $this->db->count_all_results();
+    }
+
+    //get all data transaksi for datatable, for user dokter
+    public function get_all_data_dokter($id_dokter)
+    {
+        $this->db->select('transaksi.id_transaksi as id_transaksi, transaksi.tanggal as tanggal, pasien.no_rekam_medis as no_rekam_medis, pasien.nama as nama_pasien, dokter.nama as nama_dokter, transaksi.total_biaya_tindakan as total_biaya_tindakan, transaksi.total_biaya_obat as total_biaya_obat, transaksi.diskon as diskon, transaksi.total_biaya_keseluruhan as total_biaya_keseluruhan, transaksi.sisa as sisa, transaksi.keterangan as keterangan');
+        $this->db->from($this->table);
+        $this->db->join('pasien', 'pasien.id_pasien = transaksi.id_pasien', 'left');
+        $this->db->join('dokter', 'dokter.id_dokter = transaksi.id_dokter', 'left');
+        $this->db->where('transaksi.id_dokter', $id_dokter);
         return $this->db->count_all_results();
     }
 

@@ -98,6 +98,13 @@
                         <?php else : ?> -
                         <?php endif; ?></p>
                 </div>
+                <div class="col-sm-6">
+                    <?php
+                    $jam_mulai = strtotime($transaksi['jam_mulai']);
+                    $jam_selesai = strtotime($transaksi['jam_selesai']);
+                    $lama_pengerjaan = ($jam_selesai - $jam_mulai) / 60 ?>
+                    <p><strong>Lama Pengerjaan Pasien</strong> : <?= $lama_pengerjaan . " menit"; ?></p>
+                </div>
             </div>
             <div class="row">
                 <div class="col-sm-3">

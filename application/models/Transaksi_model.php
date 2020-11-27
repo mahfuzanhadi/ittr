@@ -180,7 +180,7 @@ class Transaksi_model extends CI_Model
 
     public function get_perawat()
     {
-        $query = $this->db->query('SELECT * FROM perawat');
+        $query = $this->db->query('SELECT * FROM perawat WHERE status = 1');
         return $query->result();
     }
 

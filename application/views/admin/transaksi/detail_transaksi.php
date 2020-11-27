@@ -102,8 +102,12 @@
                     <?php
                     $jam_mulai = strtotime($transaksi['jam_mulai']);
                     $jam_selesai = strtotime($transaksi['jam_selesai']);
-                    $lama_pengerjaan = ($jam_selesai - $jam_mulai) / 60 ?>
-                    <p><strong>Lama Pengerjaan Pasien</strong> : <?= $lama_pengerjaan . " menit"; ?></p>
+                    $lama_pengerjaan = ($jam_selesai - $jam_mulai) / 60;
+                    $diff = abs($jam_selesai - $jam_mulai);
+                    $mins = $diff / 60;
+                    $jam = floor($mins / 60);
+                    $menit = $mins % 60; ?>
+                    <p><strong>Lama Pengerjaan Pasien</strong> : <?= $jam . " jam " . $menit . " menit"; ?></p>
                 </div>
             </div>
             <div class="row">

@@ -401,7 +401,7 @@
                 },
             ]
         });
-        $("div.custom-search").html('<form id="form-filter"><div class="form-row"><div class="col-sm-6"></div><div class="col-sm-1"><label style="padding-top: 0.5rem">Search:</label></div><div class="col-sm-1"><input type="text" class="form-control form-control-sm" id="no_rm" name="no_rm" placeholder="No. RM" style="padding-left: 0.25rem;"></div><div class="col-sm-2"><input type="text" class="form-control form-control-sm" id="nama_pasien" name="nama_pasien" placeholder="Nama"></div><button type="button" id="btn-filter" class="btn btn-info btn-sm active" aria-pressed="true">Search</button><button type="button" id="btn-reset" class="btn btn-default btn-sm active" aria-pressed="true">Reset</button></div></div></form>');
+        $("div.custom-search").html('<form id="form-filter"><div class="form-row"><div class="col-sm-5"></div><div class="col-sm-1"><label style="padding-top: 0.5rem">Search:</label></div><div class="col-sm-1"><input type="text" class="form-control form-control-sm" id="no_rm" name="no_rm" placeholder="No. RM" style="padding-left: 0.25rem;"></div><div class="col-sm-2"><input type="text" class="form-control form-control-sm" id="nama_pasien" name="nama_pasien" placeholder="Nama"></div><button type="button" id="btn-filter" class="btn btn-info btn-sm active" aria-pressed="true">Search</button><button type="button" id="btn-reset" class="btn btn-default btn-sm active" aria-pressed="true">Reset</button></div></div></form>');
 
         $('#btn-filter').click(function() { //button filter event click
             dataTable.ajax.reload(); //just reload table

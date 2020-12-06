@@ -309,7 +309,7 @@
 
 <!-- SCRIPT TAMPILKAN ANGKA DALAM CURRENCY -->
 <script>
-    for (var i = 1; i < 7; i++) {
+    for (var i = 1; i < 11; i++) {
         var biaya = $('#biaya' + i).val();
         if (biaya != null) {
             var biaya_tindakan = new Intl.NumberFormat().format(biaya);
@@ -330,7 +330,7 @@
 <!-- SCRIPT FETCH DATA TINDAKAN KE SELECT -->
 <script>
     $(document).ready(function() {
-        for (var i = 1; i < 7; i++) {
+        for (var i = 1; i < 11; i++) {
             $('#tindakan' + i).select2({
                 placeholder: 'Pilih salah satu',
                 width: '100%',
@@ -468,6 +468,82 @@
                     var html = data;
                     hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
                     $('#biaya6').val(hasil);
+
+                }
+            });
+            return false;
+        });
+        $('#tindakan7').change(function() {
+            var id = $(this).val();
+            $.ajax({
+                url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                method: "POST",
+                data: {
+                    id: id
+                },
+                async: true,
+                dataType: 'JSON',
+                success: function(data) {
+                    var html = data;
+                    hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                    $('#biaya7').val(hasil);
+
+                }
+            });
+            return false;
+        });
+        $('#tindakan8').change(function() {
+            var id = $(this).val();
+            $.ajax({
+                url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                method: "POST",
+                data: {
+                    id: id
+                },
+                async: true,
+                dataType: 'JSON',
+                success: function(data) {
+                    var html = data;
+                    hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                    $('#biaya8').val(hasil);
+
+                }
+            });
+            return false;
+        });
+        $('#tindakan9').change(function() {
+            var id = $(this).val();
+            $.ajax({
+                url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                method: "POST",
+                data: {
+                    id: id
+                },
+                async: true,
+                dataType: 'JSON',
+                success: function(data) {
+                    var html = data;
+                    hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                    $('#biaya9').val(hasil);
+
+                }
+            });
+            return false;
+        });
+        $('#tindakan10').change(function() {
+            var id = $(this).val();
+            $.ajax({
+                url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                method: "POST",
+                data: {
+                    id: id
+                },
+                async: true,
+                dataType: 'JSON',
+                success: function(data) {
+                    var html = data;
+                    hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                    $('#biaya10').val(hasil);
 
                 }
             });

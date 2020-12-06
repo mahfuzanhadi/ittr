@@ -354,7 +354,7 @@ $(document).ready(function () {
 			$('#harga').val(hasil);
 		}
 
-		for (var i = 2; i < 7; i++) {
+		for (var i = 2; i < 11; i++) {
 			var biaya = $('#biaya' + i + '').val();
 			if (biaya != null) {
 				var hasil = parseFloat(biaya.replace(/[^0-9-.]/g, ''));

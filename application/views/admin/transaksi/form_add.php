@@ -458,7 +458,7 @@
 <!-- SCRIPT DYNAMIC FIELDS DETAIL TINDAKAN -->
 <script>
     $(document).ready(function() {
-        var max_fields = 6; //maximum input boxes allowed
+        var max_fields = 10; //maximum input boxes allowed
         var wrapper = $(".input_fields_wrap"); //Fields wrapper
         var add_button = $(".add_button"); //Add button ID
         var x = 1; //initlal text box count
@@ -712,6 +712,202 @@
                     f_number = formatNumber(s_number);
 
                     $('#biaya6').val(f_number);
+                });
+                return false;
+            });
+
+            $("#tindakan7").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#tindakan7').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                        document.getElementById('biaya7').value = hasil;
+                    }
+                });
+                $('#biaya7').on('input', function() {
+                    var number, s_number, f_number;
+
+                    number = $('#biaya7').val();
+                    s_number = number.replace(/,/g, '');
+                    f_number = formatNumber(s_number);
+
+                    $('#biaya7').val(f_number);
+                });
+                return false;
+            });
+
+            $("#tindakan8").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#tindakan8').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                        document.getElementById('biaya8').value = hasil;
+                    }
+                });
+                $('#biaya8').on('input', function() {
+                    var number, s_number, f_number;
+
+                    number = $('#biaya8').val();
+                    s_number = number.replace(/,/g, '');
+                    f_number = formatNumber(s_number);
+
+                    $('#biaya8').val(f_number);
+                });
+                return false;
+            });
+
+            $("#tindakan9").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#tindakan9').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                        document.getElementById('biaya9').value = hasil;
+                    }
+                });
+                $('#biaya9').on('input', function() {
+                    var number, s_number, f_number;
+
+                    number = $('#biaya9').val();
+                    s_number = number.replace(/,/g, '');
+                    f_number = formatNumber(s_number);
+
+                    $('#biaya9').val(f_number);
+                });
+                return false;
+            });
+
+            $("#tindakan10").select2({
+                placeholder: 'Pilih salah satu',
+                width: '100%',
+                ajax: {
+                    url: '<?= base_url() ?>transaksi/get_tindakan',
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('#tindakan10').change(function() {
+                var id = $(this).val();
+                $.ajax({
+                    url: "<?php echo site_url('transaksi/get_biaya'); ?>",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var html = data;
+                        hasil = parseInt(html).toLocaleString(); //mengubah jadi currency
+                        document.getElementById('biaya10').value = hasil;
+                    }
+                });
+                $('#biaya10').on('input', function() {
+                    var number, s_number, f_number;
+
+                    number = $('#biaya10').val();
+                    s_number = number.replace(/,/g, '');
+                    f_number = formatNumber(s_number);
+
+                    $('#biaya10').val(f_number);
                 });
                 return false;
             });

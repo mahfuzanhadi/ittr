@@ -88,7 +88,7 @@ $(document).ready(function () {
 			jumlah_biaya_obat = c_harga_obat * jumlah_obat;
 		}
 
-		for (var i = 2; i < 7; i++) {
+		for (var i = 2; i < 11; i++) {
 			var diag = $('#diagnosa' + i).val();
 			if (diag == undefined) {
 				continue;

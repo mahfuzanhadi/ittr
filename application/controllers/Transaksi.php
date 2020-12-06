@@ -598,7 +598,7 @@ class Transaksi extends CI_Controller
         $data['transaksi'] = $this->Transaksi_model->getById($id);
         $data['pasien'] = $this->Transaksi_model->get_pasien();
         $data['dokter'] = $this->Transaksi_model->get_all_dokter();
-        $data['perawat'] = $this->Transaksi_model->get_perawat();
+        $data['perawat'] = $this->Transaksi_model->get_all_perawat();
         $data['detail_tindakan'] = $this->Transaksi_model->get_detail_tindakan();
         $data['tindakan'] = $this->Transaksi_model->get_tindakan();
         $data['detail_obat'] = $this->Transaksi_model->get_detail_biaya_obat();
@@ -642,7 +642,7 @@ class Transaksi extends CI_Controller
         $data['pasien'] = $this->Pasien_model->getById($id);
         $data['transaksi'] = $this->Pasien_model->get_transaksi_by_id($id);
         $data['dokter'] = $this->Transaksi_model->get_all_dokter();
-        $data['perawat'] = $this->Transaksi_model->get_perawat();
+        $data['perawat'] = $this->Transaksi_model->get_all_perawat();
         $data['detail_tindakan'] = $this->Transaksi_model->get_detail_tindakan();
         $data['tindakan'] = $this->Transaksi_model->get_tindakan();
         $data['detail_obat'] = $this->Transaksi_model->get_detail_biaya_obat();

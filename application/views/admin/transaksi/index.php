@@ -312,6 +312,7 @@
             "scrollX": true,
             "scrollY": "400px",
             "scrollCollapse": true,
+            "stateSave": true,
             "language": {
                 "infoFiltered": ""
             },

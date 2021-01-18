@@ -121,8 +121,9 @@ class Perawat extends CI_Controller
             ];
 
             $tanggal_berlaku_str = $this->input->post('tanggal_berlaku_str');
-            if ($tanggal_berlaku_str == '' || $tanggal_berlaku_str == '__-__-____') {
-                unset($data['tanggal_berlaku_str']);
+            if ($tanggal_berlaku_str == '' || $tanggal_berlaku_str == '____-__-__') {
+                // unset($data['tanggal_berlaku_str']);
+                $data['tanggal_berlaku_str'] = '0000-00-00';
             }
             $this->Perawat_model->add_data($data);
             $this->session->set_flashdata('flash', 'ditambahkan');

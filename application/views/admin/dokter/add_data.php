@@ -94,7 +94,7 @@
                     </div>
                     <div class="form-group col-sm-3">
                         <label>Password</label>
-                        <input class="form-control" type="password" name="password" id="password" placeholder="Password" />
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Password" autocomplete="new-password" />
                         <span id="error_password" class="text-danger"></span>
                     </div>
                 </div>

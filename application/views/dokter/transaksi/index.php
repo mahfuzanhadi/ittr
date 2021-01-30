@@ -317,7 +317,7 @@
             "dom": "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-9'<'custom-search'>>>" +
                 "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             "order": [],
-            "lengthMenu": [20, 50, 100],
+            "lengthMenu": [100, 200, 500],
             "ajax": {
                 url: "<?= base_url('transaksi/fetch_data_dokter'); ?>",
                 type: "POST",

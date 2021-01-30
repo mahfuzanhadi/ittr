@@ -29,6 +29,7 @@
             </div>
         </div>
         <div class="card-body">
+            <p class="d-none" id="if_null" style="text-align: center">Data tidak ditemukan!</p>
             <div class="float-right mr-4">
                 <p id="total"></p>
             </div>
@@ -62,47 +63,75 @@
                 dokter: dokter
             },
             success: function(response) {
+                debugger;
                 let data_rekap = jQuery.parseJSON(response);
 
-                function addHeaders(table, keys) {
-                    var row = table.insertRow();
-                    for (var i = 0; i < keys.length; i++) {
-                        var cell = row.insertCell();
-                        keys[0] = "Tanggal";
-                        keys[1] = "Dokter";
-                        keys[2] = "Total"
-                        cell.appendChild(document.createTextNode(keys[i]));
+                if (data_rekap[1] != 0) {
+                    $("#if_null").removeClass('d-sm-inline-block');
+                    $("#if_null").addClass('d-none');
+                    $("#total").removeClass('d-none');
+                    $("#total").addClass('d-sm-inline-block');
+                    $("#container").removeClass('d-none');
+                    $("#container").addClass('d-sm-inline-block');
+
+                    function addHeaders(table, keys) {
+                        var row = table.insertRow();
+                        for (var i = 0; i < keys.length; i++) {
+                            var cell = row.insertCell();
+                            keys[0] = "No.";
+                            keys[1] = "Tanggal";
+                            keys[2] = "No. RM";
+                            keys[3] = "Pasien";
+                            keys[4] = "Dokter";
+                            keys[5] = "Tindakan";
+                            keys[6] = "Biaya Tindakan";
+                            keys[7] = "Biaya Obat";
+                            keys[8] = "Total"
+                            cell.appendChild(document.createTextNode(keys[i]));
+                        }
                     }
-                }
 
-                var table = document.createElement('table');
-                for (var i = 0; i < data_rekap[0].length; i++) {
-
-                    var child = data_rekap[0][i];
-                    if (i === 0) {
-                        addHeaders(table, Object.keys(child));
-                        debugger;
+                    var table = document.createElement('table');
+                    for (var i = 0; i < data_rekap[0].length; i++) {
+                        var child = data_rekap[0][i];
+                        if (i === 0) {
+                            addHeaders(table, Object.keys(child));
+                        }
+                        var row = table.insertRow();
+                        Object.keys(child).forEach(function(k) {
+                            // console.log(k);
+                            var cell = row.insertCell();
+                            cell.id = "cell" + k;
+                            cell.appendChild(document.createTextNode(child[k]));
+                        })
                     }
-                    var row = table.insertRow();
-                    Object.keys(child).forEach(function(k) {
-                        // console.log(k);
-                        var cell = row.insertCell();
-                        cell.appendChild(document.createTextNode(child[k]));
-                    })
-                }
-                $("#container").empty();
-                document.getElementById('container').appendChild(table);
-                table.className = 'table table-hover table-bordered';
+                    $("#container").empty();
+                    document.getElementById('container').appendChild(table);
+                    table.className = 'table table-hover table-bordered';
+                    table.setAttribute("id", "tableRekap");
 
-                let data_total = data_rekap[1];
-                let total = 0;
-                for (var i in data_total) {
-                    total += parseInt(data_total[i]);
-                }
+                    var tbodyRef = document.getElementById('tableRekap').getElementsByTagName('tbody')[0];
+                    tbodyRef.style.whiteSpace = "pre-wrap";
 
-                var total_data = document.getElementById("total");
-                var format_total = new Intl.NumberFormat(['ban', 'id']).format(total);
-                total_data.innerHTML = 'Total : Rp. ' + format_total;
+                    let data_total = data_rekap[1];
+                    let total = 0;
+                    for (var i in data_total) {
+                        total += parseInt(data_total[i]);
+                    }
+
+                    var total_data = document.getElementById("total");
+                    var format_total = new Intl.NumberFormat(['ban', 'id']).format(total);
+                    total_data.innerHTML = 'Total : Rp. ' + format_total;
+
+                } else {
+                    $("#if_null").removeClass('d-none');
+                    $("#if_null").addClass('d-sm-inline-block');
+                    $("#total").removeClass('d-sm-inline-block');
+                    $("#total").addClass('d-none');
+                    $("#container").removeClass('d-sm-inline-block');
+                    $("#container").addClass('d-none');
+
+                }
 
             }
         });

@@ -56,7 +56,7 @@ class Transaksi extends CI_Controller
         $list = $this->Transaksi_model->make_datatables();
         $data = array();
         $no = $_POST['start'];
-        $number = 0;
+        // $number = 0;
 
         foreach ($list as $transaksi) {
             $row = array();

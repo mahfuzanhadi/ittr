@@ -266,7 +266,7 @@
             "responsive": true,
             "processing": true,
             "serverSide": true,
-            "stateSave": true,
+            // "stateSave": true,
             "dom": "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-9'<'custom-search'>>>" +
                 "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             "scrollX": true,
@@ -277,7 +277,7 @@
             //     rightColumns: 1
             // },
             "order": [],
-            "lengthMenu": [20, 50, 100],
+            "lengthMenu": [100, 200, 500],
             "ajax": {
                 url: "<?= base_url('pasien/fetch_data'); ?>",
                 type: "POST",

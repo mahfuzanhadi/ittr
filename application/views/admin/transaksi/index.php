@@ -312,7 +312,7 @@
             "scrollX": true,
             "scrollY": "400px",
             "scrollCollapse": true,
-            "stateSave": true,
+            // "stateSave": true,
             "language": {
                 "infoFiltered": ""
             },
@@ -321,7 +321,7 @@
             //     rightColumns: 1
             // },
             "order": [],
-            "lengthMenu": [20, 50, 100],
+            "lengthMenu": [100, 200, 500],
             "ajax": {
                 url: "<?= base_url('transaksi/fetch_data'); ?>",
                 type: "POST"

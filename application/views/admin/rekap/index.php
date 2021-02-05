@@ -57,16 +57,14 @@
         $.ajax({
             type: 'POST',
             url: "<?php echo base_url('rekap/rangeDates'); ?>",
+            dataType: "JSON",
             data: {
                 start_date: start_date,
                 end_date: end_date,
                 dokter: dokter
             },
             success: function(response) {
-                debugger;
-                let data_rekap = jQuery.parseJSON(response);
-
-                if (data_rekap[1] != 0) {
+                if (response[1] != 0) {
                     $("#if_null").removeClass('d-sm-inline-block');
                     $("#if_null").addClass('d-none');
                     $("#total").removeClass('d-none');
@@ -78,7 +76,7 @@
                         var row = table.insertRow();
                         for (var i = 0; i < keys.length; i++) {
                             var cell = row.insertCell();
-                            keys[0] = "No.";
+                            keys[0] = "No";
                             keys[1] = "Tanggal";
                             keys[2] = "No. RM";
                             keys[3] = "Pasien";
@@ -92,17 +90,17 @@
                     }
 
                     var table = document.createElement('table');
-                    for (var i = 0; i < data_rekap[0].length; i++) {
-                        var child = data_rekap[0][i];
+                    for (var i = 0; i < response[0].length; i++) {
+                        var child = response[0][i];
                         if (i === 0) {
                             addHeaders(table, Object.keys(child));
                         }
                         var row = table.insertRow();
                         Object.keys(child).forEach(function(k) {
-                            // console.log(k);
                             var cell = row.insertCell();
                             cell.id = "cell" + k;
-                            cell.appendChild(document.createTextNode(child[k]));
+                            var tableCell = cell.appendChild(document.createTextNode(child[k]));
+                            tableCell.parentElement.innerHTML = child[k];
                         })
                     }
                     $("#container").empty();
@@ -113,7 +111,7 @@
                     var tbodyRef = document.getElementById('tableRekap').getElementsByTagName('tbody')[0];
                     tbodyRef.style.whiteSpace = "pre-wrap";
 
-                    let data_total = data_rekap[1];
+                    let data_total = response[1];
                     let total = 0;
                     for (var i in data_total) {
                         total += parseInt(data_total[i]);
@@ -132,7 +130,6 @@
                     $("#container").addClass('d-none');
 
                 }
-
             }
         });
     });

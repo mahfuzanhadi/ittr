@@ -81,10 +81,8 @@ class Rekap extends CI_Controller
             }
 
             $rows[] = $no;
-            // $rows[] = '<a href="transaksi/detail_transaksi/' . $row->id_transaksi . '"  style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
-            $rows[] = $tanggal;
-            // $rows[] = '<a href="transaksi/rekam_medis/' . $row->no_rm . '" style="color:#007bff; cursor: pointer">' . $row->no_rm . '</a>';
-            $rows[] = $row->no_rm;
+            $rows[] = '<a href="transaksi/detail_transaksi/' . $row->id_transaksi . '" style="color:#007bff; cursor: pointer">' . $tanggal . '</a>';
+            $rows[] = '<a href="transaksi/rekam_medis/' . $row->no_rm . '" style="color:#007bff; cursor: pointer">' . $row->no_rm . '</a>';
             $rows[] = $row->pasien;
             $rows[] = $row->dokter;
             foreach ($detail_tindakan as $dt) {
@@ -99,8 +97,8 @@ class Rekap extends CI_Controller
                     }
                 }
             }
-            $rows[] = join("\n", $arr_tindakan);
-            $rows[] = join("\n", $arr_biaya_tindakan);
+            $rows[] = join("<br>", $arr_tindakan);
+            $rows[] = join("<br>", $arr_biaya_tindakan);
             $rows[] = $total_biaya_obat;
             $rows[] = $total_keseluruhan;
             $data[] = $rows;
